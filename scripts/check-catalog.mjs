@@ -17,6 +17,7 @@ const additions = {
   "alert-dialog": ["AlertDialogFooter"],
   drawer: ["DrawerFooter"],
   popover: ["PopoverFooter"],
+  input: ["Textarea"],
 };
 let count = 0;
 for (const file of families) {

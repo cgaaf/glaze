@@ -103,6 +103,7 @@
 }
 :is(
   [data-glaze="input"],
+  [data-glaze="textarea"],
   [data-glaze="field-control"],
   [data-glaze="toolbar-input"],
   [data-glaze="select-trigger"],
@@ -117,6 +118,17 @@
 }
 /* The input owns the border, focus ring and popup anchor. Both trailing actions
    share its grid cell, so adding the clear button never changes the anchor. */
+/* Three lines tall when empty, growing with its content up to twelve where the browser can size a
+   field to its content, then scrolling. The width stays put so a long placeholder never resizes it. */
+[data-glaze="textarea"] {
+  @apply block w-full py-2;
+  min-block-size: calc(3lh + 1rem);
+  resize: vertical;
+  @supports (field-sizing: content) {
+    field-sizing: content;
+    max-block-size: calc(12lh + 1rem);
+  }
+}
 /* A filtering input is the same width with or without an InputGroup around it. */
 :is([data-glaze="combobox-input"], [data-glaze="autocomplete-input"]) {
   inline-size: 17rem;
@@ -161,6 +173,7 @@
 /* Text entry: a solid ring drawn over the border, so a focused field keeps its footprint. */
 :is(
   [data-glaze="input"],
+  [data-glaze="textarea"],
   [data-glaze="field-control"],
   [data-glaze="toolbar-input"],
   [data-glaze="autocomplete-input"],

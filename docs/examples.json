@@ -279,6 +279,11 @@
       "id": "controlled",
       "title": "Counting characters",
       "description": "Edit the short bio. Its character count and Clear button read and write the same value."
+    },
+    {
+      "id": "textarea",
+      "title": "Writing several lines",
+      "description": "Type a few lines. The field starts three lines tall and grows with the text, then scrolls."
     }
   ],
   "listbox": [

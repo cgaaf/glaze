@@ -1,7 +1,13 @@
 import {
   Input as BaseInput,
 } from "../bisque/input/input.rx"
+import { TextareaProps } from "../bisque/internal/types.rx"
 
 export component Input(props: Parameters<typeof BaseInput>[0]) {
   <BaseInput {...props} data-glaze="input">{props.children}</BaseInput>
+}
+
+// A Glaze addition with no Bisque part: a multi-line text field that grows with what is typed.
+export component Textarea({ children, ...rest }: TextareaProps) {
+  <textarea {...rest} data-glaze="textarea">{children}</textarea>
 }

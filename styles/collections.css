@@ -210,6 +210,19 @@
 :is([data-glaze="navigation-menu-trigger"], [data-glaze="navigation-menu-link"]) {
   @apply inline-flex min-h-9 items-center gap-2 rounded-control px-3 text-sm font-medium hover:bg-muted;
 }
+/* Inside a panel a link fills its row, and one with a title and a description stacks them. */
+[data-glaze="navigation-menu-content"] [data-glaze="navigation-menu-link"] {
+  @apply flex;
+  &:has(> :nth-child(2)) {
+    @apply flex-col items-start gap-1 py-2;
+  }
+  & > :first-child:not(:only-child) {
+    @apply font-medium;
+  }
+  & > :nth-child(n + 2) {
+    @apply text-xs font-normal text-muted-foreground;
+  }
+}
 [data-glaze="navigation-menu-link"][aria-current],
 [data-glaze="navigation-menu-trigger"][data-popup-open] {
   @apply bg-muted text-primary;

@@ -1,0 +1,8 @@
+import { Textarea } from "../../../src/glaze/input.rx"
+
+export default component InputTextarea() {
+  <label class="grid w-72 max-w-full gap-2 text-sm font-medium">
+    Release notes
+    <Textarea name="notes" placeholder="What changed in this version?" />
+  </label>
+}

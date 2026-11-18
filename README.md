@@ -49,7 +49,7 @@ For Combobox and Autocomplete, place the input and its optional trigger or clear
 
 ## Design rules
 
-Every part keeps its Bisque name, so `DialogTrigger` in Bisque is `DialogTrigger` in Glaze. Glaze adds only what a styled library needs: `Icon`, `InputGroup`, `SegmentedControl`, and the footer parts `DialogFooter`, `AlertDialogFooter`, `DrawerFooter` and `PopoverFooter`. The same few rules apply to every family.
+Every part keeps its Bisque name, so `DialogTrigger` in Bisque is `DialogTrigger` in Glaze. Glaze adds only what a styled library needs: `Icon`, `InputGroup`, `SegmentedControl`, `Textarea`, and the footer parts `DialogFooter`, `AlertDialogFooter`, `DrawerFooter` and `PopoverFooter`. The same few rules apply to every family.
 
 - **Actions.** `Button` and every part that renders a button (dialog, alert dialog, drawer and popover triggers and close buttons, `MenuTrigger`, `FileUploadTrigger`, `ToastAction`) take the same `variant` and `size`. Triggers and close buttons default to `outline`. Give a view one `default` action and put it last in the footer. Use `ghost` for Cancel and `destructive` to confirm a deletion. `MenuItem` and `ContextMenuItem` take `variant="destructive"` too.
 - **Size and shape.** Controls are 2.25rem tall, 1.75rem at `size="sm"`. Controls use `--radius` and surfaces use a slightly larger radius derived from it.

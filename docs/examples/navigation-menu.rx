@@ -16,27 +16,27 @@ export default component Example() {
             <NavigationMenuArrow />
             <ul class="grid gap-1 sm:w-lg sm:grid-cols-2">
               <li>
-                <NavigationMenuLink class="flex-col items-start gap-1 py-2" href="#getting-started">
-                  <span class="block font-medium">Getting started</span>
-                  <span class="block text-xs text-muted-foreground">Install the kit and plant your first seed tray.</span>
+                <NavigationMenuLink href="#getting-started">
+                  <span>Getting started</span>
+                  <span>Install the kit and plant your first seed tray.</span>
                 </NavigationMenuLink>
               </li>
               <li>
-                <NavigationMenuLink class="flex-col items-start gap-1 py-2" href="#soil">
-                  <span class="block font-medium">Soil and compost</span>
-                  <span class="block text-xs text-muted-foreground">Mix a bed that holds water without going sour.</span>
+                <NavigationMenuLink href="#soil">
+                  <span>Soil and compost</span>
+                  <span>Mix a bed that holds water without going sour.</span>
                 </NavigationMenuLink>
               </li>
               <li>
-                <NavigationMenuLink class="flex-col items-start gap-1 py-2" href="#watering">
-                  <span class="block font-medium">Watering</span>
-                  <span class="block text-xs text-muted-foreground">How often, how much, and what the leaves tell you.</span>
+                <NavigationMenuLink href="#watering">
+                  <span>Watering</span>
+                  <span>How often, how much, and what the leaves tell you.</span>
                 </NavigationMenuLink>
               </li>
               <li>
-                <NavigationMenuLink class="flex-col items-start gap-1 py-2" href="#pests">
-                  <span class="block font-medium">Pests</span>
-                  <span class="block text-xs text-muted-foreground">Keep slugs and aphids off without sprays.</span>
+                <NavigationMenuLink href="#pests">
+                  <span>Pests</span>
+                  <span>Keep slugs and aphids off without sprays.</span>
                 </NavigationMenuLink>
               </li>
             </ul>
