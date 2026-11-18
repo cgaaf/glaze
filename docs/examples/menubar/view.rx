@@ -1,0 +1,29 @@
+import { MenubarRoot } from "../../../src/glaze/menubar.rx"
+import { MenuRoot, MenuTrigger, MenuPopup, MenuItem, MenuCheckboxItem } from "../../../src/glaze/menu.rx"
+
+export default component EditorPanels() {
+  source outline := true
+  source documentName := "Meeting notes"
+  <div class="grid gap-3">
+    <MenubarRoot aria-label="Document">
+      <MenuRoot>
+        <MenuTrigger>Document</MenuTrigger>
+        <MenuPopup sideOffset={6}>
+          <MenuItem onClick={() => { documentName := "Untitled document" }}>New document</MenuItem>
+        </MenuPopup>
+      </MenuRoot>
+      <MenuRoot>
+        <MenuTrigger>View</MenuTrigger>
+        <MenuPopup sideOffset={6}>
+          <MenuCheckboxItem checked={outline} onCheckedChange={(next) => { outline := next }}>
+            Show outline
+          </MenuCheckboxItem>
+        </MenuPopup>
+      </MenuRoot>
+    </MenubarRoot>
+    <div class="grid gap-1 rounded-panel border border-border bg-card p-4 text-sm">
+      <strong>{documentName}</strong>
+      {if outline { <p class="text-muted-foreground">Outline · Introduction</p> }}
+    </div>
+  </div>
+}

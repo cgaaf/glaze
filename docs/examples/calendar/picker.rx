@@ -1,0 +1,29 @@
+import { CalendarRoot, CalendarPreviousMonth, CalendarMonthLabel, CalendarNextMonth, CalendarGrid, CalendarGridHeader, CalendarGridBody } from "../../../src/glaze/calendar.rx"
+import { PopoverRoot, PopoverTrigger, PopoverPopup } from "../../../src/glaze/popover.rx"
+import { formatDate } from "../../../src/bisque/internal/date.js"
+import { PlainDate } from "../../../src/bisque/internal/types.rx"
+
+// A date picker composed from a Popover and a calendar: opening moves focus to the chosen day (`autoFocus={open}`),
+// and choosing a day closes the popup (`onSelectionComplete`).
+export default component CalendarPicker() {
+  source open := false
+  source chosen: { date: PlainDate | undefined } := { date: undefined }
+  <div class="grid min-w-0 gap-3">
+    <PopoverRoot open={open} onOpenChange={(next) => { open := next }}>
+      <PopoverTrigger>{chosen.date == undefined ? "Choose a date" : formatDate(chosen.date, undefined, "medium")}</PopoverTrigger>
+      <PopoverPopup aria-label="Choose a date">
+        <CalendarRoot aria-label="Date" value={chosen.date ?? null} autoFocus={open} onValueChange={(date) => { chosen.date := date }} onSelectionComplete={(date) => { open := false }}>
+          <div class="mb-2 flex items-center justify-between gap-2">
+            <CalendarPreviousMonth />
+            <CalendarMonthLabel />
+            <CalendarNextMonth />
+          </div>
+          <CalendarGrid>
+            <CalendarGridHeader format="narrow" />
+            <CalendarGridBody />
+          </CalendarGrid>
+        </CalendarRoot>
+      </PopoverPopup>
+    </PopoverRoot>
+  </div>
+}

@@ -1,0 +1,54 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { NavigationMenuRoot, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "../../../src/glaze/navigation-menu.rx"
+import { loadArticles, dropNetwork } from "../../lib/articles.js"
+
+export default component NavigationMenuServer() {
+  // Each panel asks for its links the first time it opens: `onValueChange` sets the flag its question reads.
+  source wantGuides: boolean := false
+  source wantComponents: boolean := false
+  guides = wantGuides ? await loadArticles("guides") : []
+  components = wantComponents ? await loadArticles("components") : []
+  action opened(value: string | null) {
+    if (value == "guides") { wantGuides := true }
+    if (value == "components") { wantComponents := true }
+  }
+  <div class="grid min-w-0 justify-items-start gap-3">
+    <NavigationMenuRoot aria-label="Articles" onValueChange={opened}>
+      <NavigationMenuList>
+        <NavigationMenuItem value="guides">
+          <NavigationMenuTrigger>Guides</NavigationMenuTrigger>
+          <NavigationMenuContent sideOffset={8}>
+            {loading on(wantGuides) fallback { <p class="text-sm text-muted-foreground">Loading…</p> } {
+              {errored fallback(e) {
+                <div class="grid justify-items-start gap-2 text-sm text-destructive" role="alert">{e.message} <Button variant="outline" size="sm" type="button" onClick={() => { refresh guides }}>Retry</Button></div>
+              } {
+                <div class="grid gap-1">
+                  {for article in guides {
+                    <NavigationMenuLink href={article.href}>{article.title}</NavigationMenuLink>
+                  }}
+                </div>
+              }}
+            }}
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem value="components">
+          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuContent sideOffset={8}>
+            {loading on(wantComponents) fallback { <p class="text-sm text-muted-foreground">Loading…</p> } {
+              {errored fallback(e) {
+                <div class="grid justify-items-start gap-2 text-sm text-destructive" role="alert">{e.message} <Button variant="outline" size="sm" type="button" onClick={() => { refresh components }}>Retry</Button></div>
+              } {
+                <div class="grid gap-1">
+                  {for article in components {
+                    <NavigationMenuLink href={article.href}>{article.title}</NavigationMenuLink>
+                  }}
+                </div>
+              }}
+            }}
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenuRoot>
+    <Button variant="secondary" size="sm" type="button" onClick={() => { dropNetwork() }}>Drop the network for 2 seconds</Button>
+  </div>
+}

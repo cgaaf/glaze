@@ -1,0 +1,29 @@
+import { combobox } from "../../../src/bisque/combobox/combobox.rx"
+import { AutocompleteRoot, AutocompleteInput, AutocompletePopup, AutocompleteStatus, AutocompleteList, AutocompleteItem } from "../../../src/glaze/autocomplete.rx"
+
+// Autocomplete's parts share Combobox's context: `visibleCount` is how many suggestions pass the filter.
+component ResultCount() {
+  c = use combobox
+  <AutocompleteStatus>
+    {c.visibleCount == 0 ? "No results" : c.visibleCount == 1 ? "1 result" : `${c.visibleCount} results`}
+  </AutocompleteStatus>
+}
+
+export default component AutocompleteResultCount() {
+  <div class="grid min-w-0 gap-3">
+    <AutocompleteRoot openOnInputClick autoHighlight>
+      <AutocompleteInput aria-label="Command" placeholder="Run a command…" />
+      <AutocompletePopup sideOffset={6}>
+        <ResultCount />
+        <AutocompleteList>
+          <AutocompleteItem value="New file">New file</AutocompleteItem>
+          <AutocompleteItem value="New folder">New folder</AutocompleteItem>
+          <AutocompleteItem value="Open recent">Open recent</AutocompleteItem>
+          <AutocompleteItem value="Rename">Rename</AutocompleteItem>
+          <AutocompleteItem value="Duplicate">Duplicate</AutocompleteItem>
+          <AutocompleteItem value="Move to trash">Move to trash</AutocompleteItem>
+        </AutocompleteList>
+      </AutocompletePopup>
+    </AutocompleteRoot>
+  </div>
+}

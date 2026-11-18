@@ -1,0 +1,29 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { CheckboxRoot, CheckboxIndicator } from "../../../src/glaze/checkbox.rx"
+import { PopoverRoot, PopoverTrigger, PopoverPopup, PopoverTitle, PopoverClose, PopoverFooter } from "../../../src/glaze/popover.rx"
+
+export default component PopoverControlled() {
+  source open := false
+  <div class="grid min-w-0 justify-items-start gap-3">
+    <PopoverRoot open={open} onOpenChange={(next) => { open := next }}>
+      <PopoverTrigger>Filters</PopoverTrigger>
+      <PopoverPopup align="start" sideOffset={8}>
+        <PopoverTitle>Filters</PopoverTitle>
+        <label class="flex items-center gap-2 text-sm">
+          <CheckboxRoot>
+            <CheckboxIndicator>
+              <Icon name="check" />
+            </CheckboxIndicator>
+          </CheckboxRoot>
+          In stock only
+        </label>
+        <PopoverFooter>
+          <PopoverClose variant="default">Apply</PopoverClose>
+        </PopoverFooter>
+      </PopoverPopup>
+    </PopoverRoot>
+    <Button variant="outline" type="button" onClick={() => { open := true }}>Open from here</Button>
+    <output class="text-sm text-muted-foreground">{open ? "open" : "closed"}</output>
+  </div>
+}

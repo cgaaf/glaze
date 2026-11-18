@@ -7,6 +7,7 @@ import {
   FileUploadItemRemove as BaseFileUploadItemRemove,
   FileUploadItemPreview as BaseFileUploadItemPreview,
 } from "../bisque/file-upload/file-upload.rx"
+import { ButtonStyle } from "./button.rx"
 
 export component FileUploadRoot(props: Parameters<typeof BaseFileUploadRoot>[0]) {
   <BaseFileUploadRoot {...props} data-glaze="file-upload-root">{props.children}</BaseFileUploadRoot>
@@ -16,8 +17,8 @@ export component FileUploadInput(props: Parameters<typeof BaseFileUploadInput>[0
   <BaseFileUploadInput {...props} data-glaze="file-upload-input" />
 }
 
-export component FileUploadTrigger(props: Parameters<typeof BaseFileUploadTrigger>[0]) {
-  <BaseFileUploadTrigger {...props} data-glaze="file-upload-trigger">{props.children}</BaseFileUploadTrigger>
+export component FileUploadTrigger({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseFileUploadTrigger>[0] & ButtonStyle) {
+  <BaseFileUploadTrigger {...rest} data-glaze="file-upload-trigger" data-variant={variant} data-size={size}>{children}</BaseFileUploadTrigger>
 }
 
 export component FileUploadDropZone(props: Parameters<typeof BaseFileUploadDropZone>[0]) {

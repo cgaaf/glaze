@@ -1,4 +1,18 @@
-import { DrawerRoot, DrawerTrigger, DrawerPopup, DrawerContent, DrawerTitle, DrawerDescription, DrawerClose } from "../../src/glaze/drawer.rx"
+import { Icon } from "../../src/glaze/icon.rx"
+import { DrawerRoot, DrawerTrigger, DrawerPopup, DrawerContent, DrawerTitle, DrawerDescription, DrawerClose, DrawerFooter } from "../../src/glaze/drawer.rx"
+import { FieldsetRoot, FieldsetLegend } from "../../src/glaze/fieldset.rx"
+import { CheckboxRoot, CheckboxIndicator } from "../../src/glaze/checkbox.rx"
+
+component Option(props: { label: string; checked?: boolean }) {
+  <label class="flex items-center gap-2 text-sm">
+    <CheckboxRoot defaultChecked={props.checked}>
+      <CheckboxIndicator>
+        <Icon name="check" />
+      </CheckboxIndicator>
+    </CheckboxRoot>
+    {props.label}
+  </label>
+}
 
 export default component Example() {
   <div class="grid max-w-full gap-2">
@@ -9,13 +23,17 @@ export default component Example() {
         <DrawerContent>
           <DrawerTitle>Filters</DrawerTitle>
           <DrawerDescription>Swipe down, press outside or press Done to close.</DrawerDescription>
-          <fieldset class="mb-4 grid gap-2">
-            <legend class="mb-1 text-sm font-medium">Availability</legend>
-            <label class="flex items-center gap-2 text-sm"><input type="checkbox" checked /> In stock</label>
-            <label class="flex items-center gap-2 text-sm"><input type="checkbox" /> Ships this week</label>
-            <label class="flex items-center gap-2 text-sm"><input type="checkbox" /> Pick up in store</label>
-          </fieldset>
-          <DrawerClose>Done</DrawerClose>
+          <FieldsetRoot>
+            <FieldsetLegend>Availability</FieldsetLegend>
+            <div class="grid gap-2">
+              <Option label="In stock" checked />
+              <Option label="Ships this week" />
+              <Option label="Pick up in store" />
+            </div>
+          </FieldsetRoot>
+          <DrawerFooter>
+            <DrawerClose variant="default">Done</DrawerClose>
+          </DrawerFooter>
         </DrawerContent>
       </DrawerPopup>
     </DrawerRoot>

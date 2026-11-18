@@ -1,0 +1,33 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { SwitchRoot, SwitchThumb } from "../../../src/glaze/switch.rx"
+import { loadSetting, saveSetting, dropNetwork, messageOf } from "../../lib/settings-server.js"
+
+export default component SwitchSaving() {
+  // What the server holds. `-> false` is shown until the first answer.
+  alerts = await loadSetting("alerts", false) -> false
+  source failure := ""
+  <div class="grid min-w-0 gap-3">
+    {errored fallback(e) { <p class="text-sm text-destructive">{messageOf(e)}</p> } {
+      <label class="flex flex-wrap items-center gap-2 text-sm">
+        <SwitchRoot checked={alerts} onCheckedChange={(next) => {
+          // Shows at once; goes back by itself if the save fails.
+          guess alerts := next
+          onFlush(() => { failure := "" })
+          affects alerts
+          try {
+            await saveSetting("alerts", next)
+            // Ask the server again: with saves crossing, what it holds is what shows.
+            refresh alerts
+          } catch (error) {
+            failure := messageOf(error)
+          }
+        }}>
+          <SwitchThumb />
+        </SwitchRoot>
+        Email alerts
+        <span class="text-sm text-muted-foreground" aria-live="polite">{pending? alerts ? "Saving…" : failure}</span>
+      </label>
+    }}
+    <Button class="justify-self-start" variant="outline" type="button" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+  </div>
+}

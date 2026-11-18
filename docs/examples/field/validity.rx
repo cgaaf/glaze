@@ -1,0 +1,16 @@
+import { FieldRoot, FieldLabel, FieldValidity } from "../../../src/glaze/field.rx"
+import { Input } from "../../../src/glaze/input.rx"
+import { fieldValidity } from "../../../src/bisque/field/field.rx"
+
+component ValidationStatus() {
+  state = use fieldValidity
+  <output class="text-sm text-muted-foreground">{state.validity.valid == null ? "Not checked yet" : state.validity.valid ? "Ready to submit" : state.error}</output>
+}
+
+export default component WebsiteField() {
+  <FieldRoot validationMode="onChange">
+    <FieldLabel>Website</FieldLabel>
+    <Input type="url" required placeholder="https://example.com" />
+    <FieldValidity><ValidationStatus /></FieldValidity>
+  </FieldRoot>
+}

@@ -1,0 +1,12 @@
+import { PreviewCardRoot, PreviewCardTrigger, PreviewCardPopup, PreviewCardArrow } from "../../../src/glaze/preview-card.rx"
+
+export default component GuidePreview() {
+  <PreviewCardRoot>
+    <p class="text-sm">To change the palette, see the <PreviewCardTrigger href="?page=theming" delay={400}>theming guide</PreviewCardTrigger>.</p>
+    <PreviewCardPopup sideOffset={8}>
+      <PreviewCardArrow />
+      <strong class="mb-1 block text-sm font-semibold">Customize a theme</strong>
+      <p class="text-sm text-muted-foreground">Choose a palette or define colors, border radii and focus rings for your app.</p>
+    </PreviewCardPopup>
+  </PreviewCardRoot>
+}

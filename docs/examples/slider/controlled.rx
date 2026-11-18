@@ -1,0 +1,20 @@
+import { SliderRoot, SliderControl, SliderTrack, SliderIndicator, SliderThumb } from "../../../src/glaze/slider.rx"
+
+export default component SliderControlled() {
+  source value: number | number[] := 25
+  source committed: number | number[] := 25
+  <div class="grid min-w-0 gap-4">
+    <SliderRoot value={value} onValueChange={(next) => { value := next }} onValueCommitted={(next) => { committed := next }}>
+      <SliderControl>
+        <SliderTrack>
+          <SliderIndicator />
+          <SliderThumb aria-label="Brightness" />
+        </SliderTrack>
+      </SliderControl>
+    </SliderRoot>
+    <dl class="grid gap-1 text-sm">
+      <div class="flex justify-between gap-4"><dt class="text-muted-foreground">onValueChange</dt><dd class="tabular-nums">{value}</dd></div>
+      <div class="flex justify-between gap-4"><dt class="text-muted-foreground">onValueCommitted</dt><dd class="tabular-nums">{committed}</dd></div>
+    </dl>
+  </div>
+}

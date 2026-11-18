@@ -1,0 +1,22 @@
+import { MeterRoot, MeterLabel, MeterTrack, MeterIndicator } from "../../../src/glaze/meter.rx"
+import { meter, meterValue } from "../../../src/bisque/meter/meter.rx"
+
+// Text of your own in place of MeterValue: the context has the clamped value, its share of the range and the
+// formatted value.
+component UsedOfTotal() {
+  c = use meter
+  own = meterValue()
+  <span class="text-xs text-muted-foreground tabular-nums" {...own}>{c.formatted} of 64 GB</span>
+}
+
+export default component MeterFormat() {
+  <div class="grid min-w-0 gap-3">
+    <MeterRoot value={41.5} max={64} format={{ style: "unit", unit: "gigabyte", maximumFractionDigits: 1 }} getAriaValueText={(formatted, value) => `${formatted} of 64 GB used`}>
+      <MeterLabel>Disk</MeterLabel>
+      <UsedOfTotal />
+      <MeterTrack>
+        <MeterIndicator />
+      </MeterTrack>
+    </MeterRoot>
+  </div>
+}

@@ -1,0 +1,20 @@
+import { AccordionRoot, AccordionItem, AccordionTrigger, AccordionPanel } from "../../../src/glaze/accordion.rx"
+
+export default component AccordionMultiple() {
+  <div class="grid min-w-0 gap-4">
+    <AccordionRoot multiple defaultValue={["account", "alerts"]}>
+      <AccordionItem value="account">
+        <AccordionTrigger>Account</AccordionTrigger>
+        <AccordionPanel><p>Name, email address and the time zone used for reports.</p></AccordionPanel>
+      </AccordionItem>
+      <AccordionItem value="alerts">
+        <AccordionTrigger>Alerts</AccordionTrigger>
+        <AccordionPanel><p>A summary every Monday, and an email when a build fails.</p></AccordionPanel>
+      </AccordionItem>
+      <AccordionItem value="billing" disabled>
+        <AccordionTrigger><span class="flex flex-wrap items-baseline gap-2">Billing <span class="text-sm font-normal text-muted-foreground">Owners only</span></span></AccordionTrigger>
+        <AccordionPanel><p>Invoices and payment details.</p></AccordionPanel>
+      </AccordionItem>
+    </AccordionRoot>
+  </div>
+}

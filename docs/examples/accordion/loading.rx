@@ -1,0 +1,37 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { AccordionRoot, AccordionItem, AccordionTrigger, AccordionPanel } from "../../../src/glaze/accordion.rx"
+import { loadText, failNextLoad } from "../../lib/panel-server.js"
+
+export default component AccordionLoading() {
+  // The open item is what the question reads. `onValueChange` is called after the item has opened, so opening
+  // never waits for the answer.
+  source topic := ""
+  text = topic == "" ? "" : await loadText(topic)
+  questions = [{ value: "shipping", label: "How long does shipping take?" }, { value: "returns", label: "Can I return an order?" }, { value: "warranty", label: "Is there a warranty?" }]
+  <div class="grid min-w-0 gap-4">
+    <AccordionRoot onValueChange={(next) => { topic := next.length > 0 ? next[0] : "" }}>
+      {for question in questions {
+        <AccordionItem value={question.value}>
+          <AccordionTrigger>
+            <h3 class="font-semibold">{question.label}</h3>
+          </AccordionTrigger>
+          <AccordionPanel>
+            <div class="grid justify-items-start gap-2">
+              {loading on(topic) fallback { <p class="text-sm text-muted-foreground">Loading…</p> } {
+                {errored fallback(e) {
+                  <p class="text-sm text-destructive">{e.message}</p>
+                  <Button variant="outline" size="sm" onClick={() => { refresh text }}>Try again</Button>
+                } {
+                  <p class="text-sm">{text}</p>
+                }}
+              }}
+            </div>
+          </AccordionPanel>
+        </AccordionItem>
+      }}
+    </AccordionRoot>
+    <div>
+      <Button variant="outline" size="sm" onClick={() => { failNextLoad() }}>Fail the next load</Button>
+    </div>
+  </div>
+}

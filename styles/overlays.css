@@ -10,18 +10,73 @@
 ) {
   @apply overflow-auto rounded-panel border border-border bg-card p-5 text-foreground;
   max-height: 85dvh;
+  overscroll-behavior: contain;
   box-shadow: var(--glaze-shadow);
 }
 :is([data-glaze="dialog-popup"], [data-glaze="alert-dialog-popup"]) {
   margin: auto;
   width: min(26rem, calc(100vw - 2rem));
 }
+/* A modal comes into focus like a camera pulling it forward: the popup eases toward the viewer and
+   sharpens while the page behind it softens. The blur does the separating, so the dim stays light.
+   Bisque keeps the popup open under [data-ending-style] until the exit has played. */
+:is([data-glaze="dialog-popup"], [data-glaze="alert-dialog-popup"]) {
+  opacity: 0;
+  transition-property: opacity, scale, filter, display, overlay;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in;
+  transition-behavior: allow-discrete;
+  @media (prefers-reduced-motion: no-preference) {
+    scale: 0.96;
+    filter: blur(4px);
+  }
+}
+:is([data-glaze="dialog-popup"], [data-glaze="alert-dialog-popup"])[open]:not([data-ending-style]) {
+  opacity: 1;
+  transition-duration: 260ms;
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  @starting-style {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    scale: 1;
+    filter: none;
+    @starting-style {
+      scale: 0.96;
+      filter: blur(4px);
+    }
+  }
+}
 :is(
   [data-glaze="dialog-popup"],
   [data-glaze="alert-dialog-popup"],
   [data-glaze="drawer-popup"]
 )::backdrop {
-  background: color-mix(in oklab, black 40%, transparent);
+  background-color: transparent;
+  backdrop-filter: blur(0);
+  transition-property: background-color, backdrop-filter, display, overlay;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in;
+  transition-behavior: allow-discrete;
+}
+:is(
+    [data-glaze="dialog-popup"],
+    [data-glaze="alert-dialog-popup"],
+    [data-glaze="drawer-popup"]
+  )[open]:not([data-ending-style])::backdrop {
+  background-color: color-mix(in oklab, black 22%, transparent);
+  backdrop-filter: blur(6px);
+  transition-duration: 260ms;
+  transition-timing-function: ease-out;
+  @starting-style {
+    background-color: transparent;
+    backdrop-filter: blur(0);
+  }
+}
+@media (forced-colors: active) {
+  :is([data-glaze="dialog-popup"], [data-glaze="alert-dialog-popup"]) {
+    filter: none;
+  }
 }
 :is(
   [data-glaze="dialog-title"],
@@ -31,6 +86,10 @@
   [data-glaze="toast-title"]
 ) {
   @apply text-base font-semibold tracking-tight;
+  /* A description sets its own distance from the title. Anything else that follows needs room. */
+  &:not(:last-child, :has(+ [data-glaze$="-description"])) {
+    @apply mb-3;
+  }
 }
 :is(
   [data-glaze="dialog-description"],
@@ -39,13 +98,27 @@
   [data-glaze="popover-description"],
   [data-glaze="toast-description"]
 ) {
-  @apply mt-1 mb-4 text-sm text-muted-foreground;
+  @apply mt-1 text-sm text-muted-foreground;
+  /* Space only before content that follows: a popup that ends with its description keeps even padding. */
+  &:not(:last-child) {
+    @apply mb-4;
+  }
+}
+:is(
+  [data-glaze="dialog-footer"],
+  [data-glaze="alert-dialog-footer"],
+  [data-glaze="drawer-footer"],
+  [data-glaze="popover-footer"]
+) {
+  @apply mt-5 flex flex-wrap items-center justify-end gap-2;
 }
 [data-glaze="drawer-popup"] {
+  padding: max(1.25rem, env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right))
+    max(1.25rem, env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left));
   width: min(100%, 34rem);
   max-width: 100%;
   margin: auto auto 0;
-  border-radius: var(--radius) var(--radius) 0 0;
+  border-radius: calc(var(--radius) + 0.3rem) calc(var(--radius) + 0.3rem) 0 0;
   transform: translate(var(--drawer-swipe-movement-x), var(--drawer-swipe-movement-y));
   transition: transform 220ms ease;
   &[data-swipe-direction="left"],
@@ -61,10 +134,31 @@
   }
   &[data-swipe-direction="up"] {
     margin: 0 auto auto;
-    border-radius: 0 0 var(--radius) var(--radius);
+    border-radius: 0 0 calc(var(--radius) + 0.3rem) calc(var(--radius) + 0.3rem);
   }
   &[data-swiping] {
     transition: none;
+  }
+  /* Slide in from the edge the drawer leaves by. */
+  &[open] {
+    @starting-style {
+      transform: translateY(100%);
+    }
+  }
+  &[open][data-swipe-direction="left"] {
+    @starting-style {
+      transform: translateX(-100%);
+    }
+  }
+  &[open][data-swipe-direction="right"] {
+    @starting-style {
+      transform: translateX(100%);
+    }
+  }
+  &[open][data-swipe-direction="up"] {
+    @starting-style {
+      transform: translateY(-100%);
+    }
   }
   &[data-ending-style] {
     transform: translateY(100%);
@@ -83,7 +177,8 @@
   }
 }
 :is([data-glaze="popover-popup"], [data-glaze="preview-card-popup"]) {
-  width: min(18rem, calc(100vw - 2rem));
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 2rem));
   overflow: visible;
 }
 [data-glaze="preview-card-trigger"] {
@@ -173,8 +268,7 @@
   height: var(--toast-frontmost-height, var(--toast-height));
   transition:
     transform 180ms ease,
-    opacity 160ms,
-    height 180ms;
+    opacity 160ms;
   transform: translate(
       var(--toast-swipe-movement-x),
       calc(var(--toast-swipe-movement-y) - 0.45rem * var(--toast-index))
@@ -201,6 +295,6 @@
 [data-glaze="toast-content"][data-behind]:not([data-expanded]) {
   opacity: 0;
 }
-[data-glaze="toast-description"] {
+[data-glaze="toast-description"]:not(:last-child) {
   @apply mb-0;
 }

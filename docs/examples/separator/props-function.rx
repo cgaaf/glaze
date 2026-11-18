@@ -1,0 +1,23 @@
+import { Toggle } from "../../../src/glaze/toggle.rx"
+import { ToggleGroup } from "../../../src/glaze/toggle-group.rx"
+import { separator } from "../../../src/bisque/separator/separator.rx"
+
+// A <div> that is a separator: the props function gives it the role and both orientation attributes.
+component ToolbarDivider() {
+  own = separator("vertical")
+  <div data-glaze="separator" {...own} />
+}
+
+export default component SeparatorPropsFunction() {
+  <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Text formatting">
+    <ToggleGroup multiple aria-label="Style">
+      <Toggle value="bold">Bold</Toggle>
+      <Toggle value="italic">Italic</Toggle>
+    </ToggleGroup>
+    <ToolbarDivider />
+    <ToggleGroup defaultValue={["left"]} aria-label="Alignment">
+      <Toggle value="left">Left</Toggle>
+      <Toggle value="center">Center</Toggle>
+    </ToggleGroup>
+  </div>
+}

@@ -1,0 +1,29 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { ToastProvider, ToastViewport, ToastRoot, ToastContent, ToastTitle } from "../../../src/glaze/toast.rx"
+import { toast } from "../../../src/bisque/toast/toast.rx"
+
+component Toasts() {
+  c = use toast
+  for t in c.toasts {
+    // At the top of the screen, a toast is swiped away upwards.
+    <ToastRoot class="inset-x-0 top-0 bottom-auto" toast={t} swipeDirection="up">
+      <ToastContent><ToastTitle /></ToastContent>
+    </ToastRoot>
+  }
+}
+
+component ConnectButton() {
+  c = use toast
+  <Button variant="outline" type="button" onClick={() => { c.manager.add({ id: "online", title: "You're back online" }) }}>Reconnect</Button>
+}
+
+export default component ToastPosition() {
+  <div class="grid min-w-0 gap-3">
+    <ToastProvider timeout={3000}>
+      <ConnectButton />
+      <ToastViewport class="inset-x-0 top-4 bottom-auto mx-auto" aria-label="Position example notifications">
+        <Toasts />
+      </ToastViewport>
+    </ToastProvider>
+  </div>
+}

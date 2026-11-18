@@ -1,0 +1,4 @@
+export fn dropNetwork(): void
+export pure fn loadSetting(key: string, fallback: any): Promise<any>
+export fn saveSetting(key: string, value: any): Promise<any>
+export pure fn messageOf(error: unknown): string

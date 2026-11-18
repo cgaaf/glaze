@@ -1,0 +1,36 @@
+import { SliderRoot, SliderValue, SliderControl, SliderTrack, SliderIndicator, SliderThumb } from "../../../src/glaze/slider.rx"
+
+export default component SliderVertical() {
+  <div class="flex items-end gap-3">
+    <SliderRoot class="grid min-w-0 justify-items-center gap-2" orientation="vertical" defaultValue={4} min={-12} max={12}>
+      <SliderValue />
+      <SliderControl>
+        <SliderTrack>
+          <SliderIndicator />
+          <SliderThumb aria-label="Bass" />
+        </SliderTrack>
+      </SliderControl>
+      <span class="text-sm font-medium" aria-hidden="true">Bass</span>
+    </SliderRoot>
+    <SliderRoot class="grid min-w-0 justify-items-center gap-2" orientation="vertical" defaultValue={-2} min={-12} max={12}>
+      <SliderValue />
+      <SliderControl>
+        <SliderTrack>
+          <SliderIndicator />
+          <SliderThumb aria-label="Mid" />
+        </SliderTrack>
+      </SliderControl>
+      <span class="text-sm font-medium" aria-hidden="true">Mid</span>
+    </SliderRoot>
+    <SliderRoot class="grid min-w-0 justify-items-center gap-2" orientation="vertical" defaultValue={6} min={-12} max={12}>
+      <SliderValue />
+      <SliderControl>
+        <SliderTrack>
+          <SliderIndicator />
+          <SliderThumb aria-label="Treble" />
+        </SliderTrack>
+      </SliderControl>
+      <span class="text-sm font-medium" aria-hidden="true">Treble</span>
+    </SliderRoot>
+  </div>
+}

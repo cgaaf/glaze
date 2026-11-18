@@ -1,0 +1,20 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { button, gateButtonHandlers } from "../../../src/bisque/button/button.rx"
+import { mergeProps } from "../../../src/bisque/internal/props.js"
+
+component CardAction(props: { disabled: boolean; onClick: () => void }) {
+  own = button({ native: false, disabled: latest props.disabled })
+  handlers = gateButtonHandlers({ onClick: props.onClick }, latest props.disabled)
+  merged = latest mergeProps(own, handlers)
+  <div {...merged} data-glaze="button" data-variant="secondary">Add to reading list</div>
+}
+
+export default component ReadingList() {
+  source locked := false
+  source additions := 0
+  <div class="flex flex-wrap items-center gap-2">
+    <CardAction disabled={locked} onClick={() => { additions := additions + 1 }} />
+    <Button variant="outline" onClick={() => { locked := !locked }}>{locked ? "Unlock list" : "Lock list"}</Button>
+    <output class="text-sm text-muted-foreground">Items added: {additions}</output>
+  </div>
+}

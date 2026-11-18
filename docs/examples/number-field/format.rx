@@ -1,0 +1,27 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { NumberFieldRoot, NumberFieldGroup, NumberFieldInput, NumberFieldIncrement, NumberFieldDecrement } from "../../../src/glaze/number-field.rx"
+
+export default component NumberFieldFormat() {
+  source price: number | null := 1249.5
+  source discount: number | null := 0.15
+  <div class="grid min-w-0 gap-4">
+    <NumberFieldRoot value={price} onValueChange={(next) => { price := next }} min={0} step={0.5} locale="de-DE" format={{ style: "currency", currency: "EUR" }}>
+      <label class="text-sm font-medium" for="number-field-price">Price</label>
+      <NumberFieldGroup>
+        <NumberFieldDecrement><Icon name="minus" /></NumberFieldDecrement>
+        <NumberFieldInput id="number-field-price" />
+        <NumberFieldIncrement><Icon name="plus" /></NumberFieldIncrement>
+      </NumberFieldGroup>
+      <output class="text-sm text-muted-foreground">value: {price == null ? "null" : `${price}`}</output>
+    </NumberFieldRoot>
+    <NumberFieldRoot value={discount} onValueChange={(next) => { discount := next }} min={0} max={1} step={0.05} snapOnStep format={{ style: "percent" }}>
+      <label class="text-sm font-medium" for="number-field-discount">Discount</label>
+      <NumberFieldGroup>
+        <NumberFieldDecrement><Icon name="minus" /></NumberFieldDecrement>
+        <NumberFieldInput id="number-field-discount" />
+        <NumberFieldIncrement><Icon name="plus" /></NumberFieldIncrement>
+      </NumberFieldGroup>
+      <output class="text-sm text-muted-foreground">value: {discount == null ? "null" : `${discount}`}</output>
+    </NumberFieldRoot>
+  </div>
+}

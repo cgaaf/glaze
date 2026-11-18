@@ -1,0 +1,21 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { ToggleGroup } from "../../../src/glaze/toggle-group.rx"
+import { Toggle } from "../../../src/glaze/toggle.rx"
+
+export default component ToggleGroupMultiple() {
+  source styles: string[] := ["bold"]
+  <div class="grid min-w-0 gap-3">
+    <ToggleGroup aria-label="Text style" multiple value={styles} onValueChange={(next) => { styles := next }}>
+      <Toggle value="bold" aria-label="Bold">
+        <Icon name="bold" />
+      </Toggle>
+      <Toggle value="italic" aria-label="Italic">
+        <Icon name="italic" />
+      </Toggle>
+      <Toggle value="underline" aria-label="Underline">
+        <Icon name="underline" />
+      </Toggle>
+    </ToggleGroup>
+    <output class="text-sm text-muted-foreground">{styles.length == 0 ? "none" : styles.join(", ")}</output>
+  </div>
+}

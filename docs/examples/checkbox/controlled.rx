@@ -1,0 +1,21 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { CheckboxRoot, CheckboxIndicator } from "../../../src/glaze/checkbox.rx"
+
+export default component CheckboxControlled() {
+  source subscribed := false
+  <div class="grid min-w-0 gap-4">
+    <label class="flex flex-wrap items-center gap-2 text-sm">
+      <CheckboxRoot checked={subscribed} onCheckedChange={(next) => { subscribed := next }}>
+        <CheckboxIndicator>
+          <Icon name="check" />
+        </CheckboxIndicator>
+      </CheckboxRoot>
+      Weekly digest
+    </label>
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <Button variant="outline" size="sm" type="button" onClick={() => { subscribed := !subscribed }}>Toggle from here</Button>
+      <output class="text-sm text-muted-foreground">{subscribed ? "subscribed" : "not subscribed"}</output>
+    </div>
+  </div>
+}

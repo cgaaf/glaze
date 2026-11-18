@@ -1,0 +1,28 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { SelectRoot, SelectTrigger, SelectValue, SelectIcon, SelectPopup, SelectItem, SelectItemText, SelectItemIndicator } from "../../../src/glaze/select.rx"
+
+export default component SelectControlled() {
+  source size: string | null := "m"
+  sizes = [{ value: "s", label: "Small" }, { value: "m", label: "Medium" }, { value: "l", label: "Large" }]
+  <div class="grid min-w-0 justify-items-start gap-3">
+    <SelectRoot value={size} onValueChange={(next) => { size := next }} items={sizes}>
+      <SelectTrigger aria-label="Size">
+        <SelectValue placeholder="Choose a size" />
+        <SelectIcon>
+          <Icon name="chevrons-up-down" />
+        </SelectIcon>
+      </SelectTrigger>
+      <SelectPopup sideOffset={6}>
+        {for entry in sizes {
+          <SelectItem value={entry.value}>
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>{entry.label}</SelectItemText>
+          </SelectItem>
+        }}
+      </SelectPopup>
+    </SelectRoot>
+    <Button variant="outline" type="button" onClick={() => { size := null }}>Clear</Button>
+    <output class="text-sm text-muted-foreground">{size ?? "null"}</output>
+  </div>
+}

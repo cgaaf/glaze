@@ -1,0 +1,30 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { TimePickerRoot, TimePickerField, TimePickerTrigger, TimePickerPopup, TimePickerOptions } from "../../../src/glaze/time-picker.rx"
+import { TimeFieldInput, TimeFieldSegment } from "../../../src/glaze/time-field.rx"
+import { timeField } from "../../../src/bisque/time-field/time-field.rx"
+import { parseTime } from "../../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use timeField
+  {for segment in c.segments {
+    <TimeFieldSegment segment={segment} />
+  }}
+}
+
+// The one-list variant: whole times every 30 minutes, as scheduling UIs show them. A choice closes the popup.
+export default component TimePickerList() {
+  <div class="grid min-w-0 gap-2">
+    <span class="text-sm font-medium" id="time-picker-list-label">Meeting</span>
+    <TimePickerRoot locale="en-US" min={parseTime("08:00")} max={parseTime("18:00")} defaultValue={parseTime("10:00")}>
+      <TimePickerField aria-labelledby="time-picker-list-label">
+        <TimeFieldInput><Segments /></TimeFieldInput>
+        <TimePickerTrigger>
+          <Icon name="clock" />
+        </TimePickerTrigger>
+      </TimePickerField>
+      <TimePickerPopup sideOffset={6}>
+        <TimePickerOptions interval={30} />
+      </TimePickerPopup>
+    </TimePickerRoot>
+  </div>
+}

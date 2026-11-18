@@ -1,11 +1,14 @@
+/* Any part that scrolls shows a thin, themed scrollbar. Parts that draw their own scrollbar or
+   scroll by keyboard hide the native one instead (see layout.css and date-time.css). */
 [data-glaze] {
   font-family: var(--glaze-font);
   accent-color: var(--primary);
+  scrollbar-width: thin;
 }
 [data-glaze]:focus-visible,
 [data-glaze="slider-thumb"]:has(:focus-visible) {
   outline: 2px solid var(--ring);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 [data-glaze]:is(:disabled, [data-disabled], [aria-disabled="true"]) {
   opacity: 0.55;
@@ -33,6 +36,7 @@
   [data-glaze="alert-dialog-trigger"],
   [data-glaze="drawer-trigger"],
   [data-glaze="popover-trigger"],
+  [data-glaze="context-menu-button"],
   [data-glaze="menu-trigger"],
   [data-glaze="file-upload-trigger"],
   [data-glaze="dialog-close"],
@@ -56,7 +60,8 @@
     @apply bg-muted;
   }
 }
-[data-glaze="button"] {
+/* One emphasis scale for Button and every part that renders a button. Outline is the base recipe above. */
+[data-glaze][data-variant]:not([role^="menuitem"], [role="option"]) {
   &[data-variant="default"] {
     @apply border-transparent bg-primary text-primary-foreground;
   }
@@ -69,10 +74,13 @@
   }
   &[data-variant="link"] {
     @apply text-primary underline-offset-4 hover:underline;
+    &:hover:not(:disabled, [data-disabled]) {
+      @apply bg-transparent;
+    }
   }
   &[data-variant="destructive"] {
     @apply border-transparent bg-destructive;
-    color: light-dark(white, #2b1010);
+    color: var(--destructive-foreground);
   }
   &:is([data-variant="default"], [data-variant="destructive"]):hover:not(
       :disabled,
@@ -109,6 +117,15 @@
 }
 /* The input owns the border, focus ring and popup anchor. Both trailing actions
    share its grid cell, so adding the clear button never changes the anchor. */
+/* A filtering input is the same width with or without an InputGroup around it. */
+:is([data-glaze="combobox-input"], [data-glaze="autocomplete-input"]) {
+  inline-size: 17rem;
+  max-inline-size: 100%;
+}
+[data-glaze="combobox-chips"] > [data-glaze="combobox-input"] {
+  @apply min-h-7 min-w-20 flex-1 border-0 bg-transparent px-2 py-0;
+  inline-size: auto;
+}
 [data-glaze="input-group"] {
   display: grid;
   grid-template: "control" auto / minmax(0, 1fr);
@@ -116,11 +133,11 @@
   max-inline-size: 100%;
   align-items: center;
   --action-size: 1.75rem;
-  --action-inset: 0.3rem;
+  --action-inset: 0.25rem;
 
   > :is([data-glaze="combobox-input"], [data-glaze="autocomplete-input"]) {
     grid-area: control;
-    @apply h-10 w-full;
+    @apply w-full;
   }
   &:has(> button:not([hidden])) > input {
     padding-inline-end: calc(var(--action-inset) + var(--action-size) + 0.25rem);
@@ -140,14 +157,36 @@
   > button:has(~ button:not([hidden])) {
     margin-inline-end: calc(var(--action-inset) + var(--action-size));
   }
-  > input:focus-visible {
-    border-color: var(--ring);
-    outline: 2px solid color-mix(in oklab, var(--ring) 42%, transparent);
-    outline-offset: 0;
-  }
-  > input[aria-invalid="true"]:focus-visible {
+}
+/* Text entry: a solid ring drawn over the border, so a focused field keeps its footprint. */
+:is(
+  [data-glaze="input"],
+  [data-glaze="field-control"],
+  [data-glaze="toolbar-input"],
+  [data-glaze="autocomplete-input"],
+  [data-glaze="combobox-input"],
+  [data-glaze="otp-field-input"]
+):focus-visible,
+:is(
+  [data-glaze="number-field-group"],
+  [data-glaze="tags-input-control"],
+  [data-glaze="combobox-chips"]
+):has(input:focus-visible) {
+  border-color: var(--ring);
+  outline: 2px solid var(--ring);
+  outline-offset: -1px;
+  &:is([aria-invalid="true"], [data-invalid]) {
     border-color: var(--destructive);
+    outline-color: var(--destructive);
   }
+}
+:is(
+    [data-glaze="number-field-group"],
+    [data-glaze="tags-input-control"],
+    [data-glaze="combobox-chips"]
+  )
+  input:focus-visible {
+  outline: none;
 }
 :is([data-glaze="combobox-trigger"], [data-glaze="autocomplete-trigger"]) {
   &::after,
@@ -160,8 +199,43 @@
   }
 }
 @media (forced-colors: active) {
-  [data-glaze="input-group"] > input:focus-visible {
+  [data-glaze]:is(input, [role="group"]):focus-visible,
+  [data-glaze]:has(> input:focus-visible) {
     outline-color: Highlight;
+  }
+}
+
+/* Segmented control: equal segments on a muted track, the chosen one raised like the active tab. */
+[data-glaze="segmented-control-root"] {
+  @apply inline-grid max-w-full auto-cols-fr grid-flow-col gap-0.5 rounded-panel bg-muted p-1;
+}
+[data-glaze="segmented-control-item"] {
+  @apply relative flex min-w-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-control px-3 py-1 text-sm font-medium text-muted-foreground transition-colors;
+  &:hover:not(:has(:checked, :disabled)) {
+    @apply text-foreground;
+  }
+  &:has(:checked) {
+    @apply bg-card text-foreground shadow-xs;
+  }
+  &:has(:focus-visible) {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  &:has(:disabled) {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+/* The radio covers its segment, transparent: a press lands on the radio itself. */
+[data-glaze="segmented-control-input"] {
+  @apply absolute inset-0 m-0 size-full appearance-none rounded-control opacity-0;
+  cursor: inherit;
+}
+@media (forced-colors: active) {
+  [data-glaze="segmented-control-item"]:has(:checked) {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
   }
 }
 
@@ -186,7 +260,16 @@
   @apply text-sm font-medium text-foreground;
 }
 [data-glaze="fieldset-legend"] {
-  @apply mb-3;
+  @apply mb-3 text-base font-semibold;
+}
+/* A disabled fieldset dims once. Its disabled descendants don't dim again on top of it. */
+[data-glaze="fieldset-root"]:disabled
+  [data-glaze]:is(:disabled, [data-disabled], [aria-disabled="true"]) {
+  opacity: 1;
+}
+/* A form's submit button keeps its own width instead of stretching across the form. */
+[data-glaze="form"] > [data-glaze="button"] {
+  justify-self: start;
 }
 :is([data-glaze="field-description"], [data-glaze="field-error"]) {
   @apply text-sm text-muted-foreground;
@@ -262,6 +345,12 @@
 [data-glaze="radio-root"] {
   @apply rounded-full;
 }
+/* The text of a label follows its disabled control. */
+label:has(
+  :is([data-glaze="checkbox-root"], [data-glaze="radio-root"], [data-glaze="switch-root"]):disabled
+) {
+  @apply cursor-not-allowed text-muted-foreground;
+}
 [data-glaze="radio-root"]:checked::before {
   content: "";
   @apply size-1.5 rounded-full bg-primary-foreground;
@@ -269,8 +358,18 @@
 [data-glaze="number-field-group"] {
   @apply inline-flex w-fit items-center overflow-clip rounded-control border border-input bg-card;
 }
+[data-glaze="number-field-group"] button:focus-visible {
+  outline-offset: -2px;
+}
 [data-glaze="number-field-input"] {
-  @apply w-16 border-0 text-center tabular-nums;
+  @apply w-24 border-0 text-center tabular-nums;
+  /* Grow with a formatted value such as a price, where the browser can size a field to its content. */
+  @supports (field-sizing: content) {
+    field-sizing: content;
+    inline-size: auto;
+    min-inline-size: 4rem;
+    max-inline-size: 100%;
+  }
 }
 :is(
   [data-glaze="number-field-increment"],
@@ -287,6 +386,13 @@
 ) {
   @apply inline-grid size-8 shrink-0 cursor-pointer place-items-center rounded-control text-muted-foreground hover:bg-muted hover:text-foreground;
 }
+/* A close button with a text label grows to fit it instead of staying an icon square. */
+:is([data-glaze="toast-close"], [data-glaze="file-upload-item-remove"]):not(
+  :empty,
+  :has(> [data-glaze="icon"], > svg)
+) {
+  @apply w-auto px-2 text-sm;
+}
 [data-glaze="number-field-scrub-area"] {
   cursor: ew-resize;
 }
@@ -295,7 +401,7 @@
 }
 
 :is([data-glaze="tags-input-control"], [data-glaze="combobox-chips"]) {
-  @apply flex min-h-10 flex-wrap items-center gap-1 rounded-control border border-input bg-card p-1;
+  @apply flex min-h-9 flex-wrap items-center gap-1 rounded-control border border-input bg-card p-1;
 }
 :is([data-glaze="tags-input-tag"], [data-glaze="combobox-chip"]) {
   @apply inline-flex items-center gap-1 rounded-control bg-muted ps-2 pe-1 text-xs font-medium;
@@ -325,12 +431,28 @@
 [data-glaze="file-upload-item"] {
   @apply flex items-center gap-2 rounded-control border border-border p-2 text-sm;
 }
+[data-glaze="file-upload-item"] progress {
+  @apply h-1.5 appearance-none overflow-hidden rounded-full border-0 bg-muted;
+  &::-webkit-progress-bar {
+    background: var(--muted);
+  }
+  &::-webkit-progress-value {
+    background: var(--primary);
+  }
+  &::-moz-progress-bar {
+    background: var(--primary);
+  }
+}
 [data-glaze="file-upload-item-preview"] {
   @apply size-9 rounded-control object-cover;
 }
 [data-glaze="toggle"][aria-pressed="true"],
 [data-glaze="pagination-item"][aria-current] {
   @apply border-transparent bg-primary text-primary-foreground;
+  &:hover:not(:disabled, [data-disabled]) {
+    background: color-mix(in oklab, var(--primary) 92%, var(--foreground));
+    color: var(--primary-foreground);
+  }
 }
 :is(
   [data-glaze="toggle-group"],
@@ -348,6 +470,10 @@
 :is([data-glaze="toggle-group"], [data-glaze="toolbar-root"], [data-glaze="menubar-root"])
   :is(button, a) {
   @apply border-transparent;
+}
+/* A group inside a toolbar shares the toolbar's frame instead of drawing a second one. */
+[data-glaze="toolbar-root"] [data-glaze="toggle-group"] {
+  @apply border-0 bg-transparent p-0;
 }
 :is([data-glaze="toggle-group"], [data-glaze="toolbar-root"])[data-orientation="vertical"] {
   @apply flex-col;

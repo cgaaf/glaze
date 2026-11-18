@@ -1,0 +1,30 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { DialogRoot, DialogTrigger, DialogPopup, DialogTitle, DialogClose } from "../../../src/glaze/dialog.rx"
+
+export default component DialogNonModal() {
+  <div class="grid min-w-0 gap-3">
+    <DialogRoot modal={false}>
+      <div class="flex min-w-0 items-center justify-between gap-3">
+        <span class="text-sm font-medium">draft.md</span>
+        <DialogTrigger>Shortcuts</DialogTrigger>
+      </div>
+      <textarea class="min-h-24 rounded-control border border-input bg-card px-3 py-2 text-sm" aria-label="Draft">The page stays usable while the panel is open: keep typing here.</textarea>
+      <DialogPopup class="fixed inset-auto right-4 bottom-4 m-0 max-w-full">
+        <div class="mb-3 flex items-center justify-between gap-2">
+          <DialogTitle>Shortcuts</DialogTitle>
+          <DialogClose variant="ghost" size="icon" aria-label="Close">
+            <Icon name="x" />
+          </DialogClose>
+        </div>
+        <dl class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+          <dt><kbd>Ctrl</kbd> <kbd>B</kbd></dt>
+          <dd class="text-muted-foreground">Bold</dd>
+          <dt><kbd>Ctrl</kbd> <kbd>I</kbd></dt>
+          <dd class="text-muted-foreground">Italic</dd>
+          <dt><kbd>Esc</kbd></dt>
+          <dd class="text-muted-foreground">Close this panel</dd>
+        </dl>
+      </DialogPopup>
+    </DialogRoot>
+  </div>
+}

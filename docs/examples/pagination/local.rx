@@ -1,0 +1,16 @@
+import { PaginationRoot, PaginationItem, PaginationPrevious, PaginationNext } from "../../../src/glaze/pagination.rx"
+import { Icon } from "../../../src/glaze/icon.rx"
+
+export default component Results() {
+  source page := 1
+  titles = ["Kiln notes", "Clay bodies", "Glaze tests", "Studio tools", "Firing schedule", "Slip recipes"]
+  visible = titles.slice((page - 1) * 2, page * 2)
+  <div class="grid gap-4">
+    <ul class="grid gap-1 text-sm" aria-live="polite">{for title in visible { <li>{title}</li> }}</ul>
+    <PaginationRoot aria-label="Studio results" count={titles.length} pageSize={2} page={page} onPageChange={(next) => { page := next }}>
+      <PaginationPrevious aria-label="Previous page"><Icon name="chevron-left" /></PaginationPrevious>
+      {for number in [1, 2, 3] { <PaginationItem value={number}>{number}</PaginationItem> }}
+      <PaginationNext aria-label="Next page"><Icon name="chevron-right" /></PaginationNext>
+    </PaginationRoot>
+  </div>
+}

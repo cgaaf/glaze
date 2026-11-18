@@ -1,0 +1,33 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { RadioGroup, RadioRoot, RadioIndicator } from "../../../src/glaze/radio.rx"
+import { loadSetting, saveSetting, dropNetwork, messageOf } from "../../lib/settings-server.js"
+
+export default component RadioSaving() {
+  // What the server holds. `-> "comfortable"` is shown until the first answer.
+  density = await loadSetting("density", "comfortable") -> "comfortable"
+  source failure := ""
+  <div class="grid min-w-0 justify-items-start gap-3">
+    {errored fallback(e) { <p class="text-sm text-destructive">{messageOf(e)}</p> } {
+      <div class="text-sm font-medium" id="radio-saving-caption">Density</div>
+      <RadioGroup aria-labelledby="radio-saving-caption" value={density} onValueChange={(next) => {
+        // Shows at once; goes back by itself if the save fails.
+        guess density := next
+        onFlush(() => { failure := "" })
+        affects density
+        try {
+          await saveSetting("density", next)
+          // Ask the server again: with saves crossing, what it holds is what shows.
+          refresh density
+        } catch (error) {
+          failure := messageOf(error)
+        }
+      }}>
+        <label class="flex flex-wrap items-center gap-2 text-sm"><RadioRoot value="compact"><RadioIndicator /></RadioRoot>Compact</label>
+        <label class="flex flex-wrap items-center gap-2 text-sm"><RadioRoot value="comfortable"><RadioIndicator /></RadioRoot>Comfortable</label>
+        <label class="flex flex-wrap items-center gap-2 text-sm"><RadioRoot value="spacious"><RadioIndicator /></RadioRoot>Spacious</label>
+      </RadioGroup>
+      <span class="text-sm text-muted-foreground" aria-live="polite">{pending? density ? "Saving…" : failure}</span>
+    }}
+    <Button variant="outline" type="button" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+  </div>
+}

@@ -4,7 +4,7 @@ export default component Example() {
   <div class="grid max-w-full gap-2">
     <ScrollAreaRoot>
       <ScrollAreaViewport>
-        <ScrollAreaContent>
+        <ScrollAreaContent class="grid gap-3">
           <p>Warm the pot first. A cold pot takes the heat out of the water before the leaves have had a chance to open.</p>
           <p>Green teas want water well below boiling, around 75 to 80 degrees. Hotter water draws out bitterness quickly.</p>
           <p>Black teas take water just off the boil and three to five minutes. Taste at three, then decide.</p>

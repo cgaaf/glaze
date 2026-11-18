@@ -1,0 +1,19 @@
+import { SliderRoot, SliderValue, SliderControl, SliderTrack, SliderIndicator, SliderThumb } from "../../../src/glaze/slider.rx"
+
+export default component SliderRange() {
+  <div class="grid min-w-0 gap-3">
+    <SliderRoot aria-labelledby="price-range-label" defaultValue={[40, 160]} min={0} max={250} step={5} largeStep={25} minStepsBetweenValues={4} format={{ style: "currency", currency: "USD", maximumFractionDigits: 0 }} locale="en-US">
+      <div class="mb-2 flex items-center justify-between gap-2">
+        <span class="text-sm font-medium" id="price-range-label">Price</span>
+        <SliderValue />
+      </div>
+      <SliderControl>
+        <SliderTrack>
+          <SliderIndicator />
+          <SliderThumb index={0} getAriaLabel={(i) => i == 0 ? "Minimum price" : "Maximum price"} />
+          <SliderThumb index={1} getAriaLabel={(i) => i == 0 ? "Minimum price" : "Maximum price"} />
+        </SliderTrack>
+      </SliderControl>
+    </SliderRoot>
+  </div>
+}

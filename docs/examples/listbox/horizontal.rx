@@ -1,0 +1,15 @@
+import { ListboxRoot, ListboxItem } from "../../../src/glaze/listbox.rx"
+
+export default component ListboxHorizontal() {
+  source size: string | null := "m"
+  <div class="grid min-w-0 gap-3">
+    <ListboxRoot aria-label="Size" orientation="horizontal" loop selectionFollowsFocus value={size} onValueChange={(next) => { size := next }}>
+      <ListboxItem value="xs">XS</ListboxItem>
+      <ListboxItem value="s">S</ListboxItem>
+      <ListboxItem value="m">M</ListboxItem>
+      <ListboxItem value="l">L</ListboxItem>
+      <ListboxItem value="xl" disabled>XL</ListboxItem>
+    </ListboxRoot>
+    <p class="text-sm text-muted-foreground">Size: {size ?? "none"}</p>
+  </div>
+}

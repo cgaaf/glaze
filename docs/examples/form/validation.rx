@@ -1,0 +1,18 @@
+import { Form } from "../../../src/glaze/form.rx"
+import { FieldRoot, FieldLabel, FieldError } from "../../../src/glaze/field.rx"
+import { Input } from "../../../src/glaze/input.rx"
+import { Button } from "../../../src/glaze/button.rx"
+
+export default component Newsletter() {
+  source subscribed := ""
+  <Form validationMode="onBlur" onFormSubmit={(values) => { subscribed := `${values.email}` }}>
+    <FieldRoot name="email">
+      <FieldLabel>Newsletter email</FieldLabel>
+      <Input type="email" autocomplete="email" required />
+      <FieldError match="valueMissing">Enter your email address.</FieldError>
+      <FieldError match="typeMismatch">Include the domain, as in name@example.com.</FieldError>
+    </FieldRoot>
+    <Button type="submit">Subscribe</Button>
+    <output class="text-sm text-muted-foreground">{subscribed == "" ? "" : "Subscribed " + subscribed}</output>
+  </Form>
+}

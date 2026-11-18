@@ -1,0 +1,35 @@
+import { RangeCalendarRoot, CalendarPreviousMonth, CalendarMonthLabel, CalendarNextMonth, CalendarGrid, CalendarGridHeader, CalendarGridBody } from "../../../src/glaze/calendar.rx"
+import { calendar } from "../../../src/bisque/calendar/calendar.rx"
+import { DateRange } from "../../../src/bisque/internal/types.rx"
+
+// Two months, one above the other, from the root's `months`.
+component Months() {
+  c = use calendar
+  months key key = c.months
+  <div class="grid gap-4">
+    {for month in months {
+      <div class="grid min-w-0 gap-2">
+        <CalendarMonthLabel offset={month.offset} />
+        <CalendarGrid offset={month.offset}>
+          <CalendarGridHeader format="narrow" />
+          <CalendarGridBody />
+        </CalendarGrid>
+      </div>
+    }}
+  </div>
+}
+
+export default component CalendarRange() {
+  // Temporal values are held in a box: a source seeded with one breaks its methods.
+  source stay: { range: DateRange | undefined } := { range: undefined }
+  <div class="grid min-w-0 gap-2">
+    <RangeCalendarRoot aria-label="Stay" numberOfMonths={2} onValueChange={(range) => { stay.range := range }}>
+      <div class="mb-2 flex items-center justify-between gap-2">
+        <CalendarPreviousMonth />
+        <CalendarNextMonth />
+      </div>
+      <Months />
+    </RangeCalendarRoot>
+    <p class="text-sm text-muted-foreground">{stay.range == undefined ? "Pick the first night, then the last." : `${stay.range.start.toString()} to ${stay.range.end.toString()}`}</p>
+  </div>
+}

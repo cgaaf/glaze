@@ -1,0 +1,40 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { NumberFieldRoot, NumberFieldGroup, NumberFieldInput, NumberFieldIncrement, NumberFieldDecrement } from "../../../src/glaze/number-field.rx"
+import { loadSetting, saveSetting, dropNetwork, messageOf } from "../../lib/settings-server.js"
+
+export default component NumberFieldSaving() {
+  // What the server holds. `-> 2` is shown until the first answer.
+  seats = await loadSetting("seats", 2) -> 2
+  source failure := ""
+  <div class="grid min-w-0 justify-items-start gap-4">
+    {errored fallback(e) { <p class="text-sm text-destructive">{messageOf(e)}</p> } {
+      <NumberFieldRoot value={seats} min={1} max={50} onValueCommitted={(next) => {
+        // Only what is committed is saved: a blur after typing, a key, a stepper click.
+        guess seats := next
+        onFlush(() => { failure := "" })
+        affects seats
+        try {
+          await saveSetting("seats", next)
+          // Ask the server again: with saves crossing, what it holds is what shows.
+          refresh seats
+        } catch (error) {
+          failure := messageOf(error)
+        }
+      }}>
+        <label class="text-sm font-medium" for="number-field-saving">Seats</label>
+        <NumberFieldGroup>
+          <NumberFieldDecrement aria-label="Fewer seats">
+            <Icon name="minus" />
+          </NumberFieldDecrement>
+          <NumberFieldInput id="number-field-saving" />
+          <NumberFieldIncrement aria-label="More seats">
+            <Icon name="plus" />
+          </NumberFieldIncrement>
+        </NumberFieldGroup>
+      </NumberFieldRoot>
+      <p class="text-sm text-muted-foreground" aria-live="polite">{pending? seats ? "Saving…" : failure}</p>
+    }}
+    <Button variant="outline" type="button" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+  </div>
+}

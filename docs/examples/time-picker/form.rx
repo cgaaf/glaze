@@ -1,0 +1,50 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { TimePickerRoot, TimePickerField, TimePickerTrigger, TimePickerPopup, TimePickerHours, TimePickerMinutes, TimePickerSeconds, TimePickerDayPeriod } from "../../../src/glaze/time-picker.rx"
+import { TimeFieldInput, TimeFieldSegment } from "../../../src/glaze/time-field.rx"
+import { timeField } from "../../../src/bisque/time-field/time-field.rx"
+import { FieldRoot, FieldLabel, FieldDescription, FieldError } from "../../../src/glaze/field.rx"
+import { Form } from "../../../src/glaze/form.rx"
+import { parseTime } from "../../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use timeField
+  {for segment in c.segments {
+    <TimeFieldSegment segment={segment} />
+  }}
+}
+
+// In a FieldRoot: labelled by FieldLabel, validated by Field (required, min), submitted once under the field's name
+// as `13:45`.
+export default component TimePickerForm() {
+  source sent := ""
+  <div class="grid min-w-0 gap-3">
+    <Form onFormSubmit={(values) => { sent := `${values.arrival}` }}>
+      <FieldRoot name="arrival">
+        <FieldLabel>Arrival</FieldLabel>
+        <TimePickerRoot locale="en-US" minuteStep={15} required min={parseTime("07:00")}>
+          <TimePickerField>
+            <TimeFieldInput><Segments /></TimeFieldInput>
+            <TimePickerTrigger>
+              <Icon name="clock" />
+            </TimePickerTrigger>
+          </TimePickerField>
+          <TimePickerPopup sideOffset={6}>
+            <div class="flex items-start gap-1">
+              <TimePickerHours />
+              <TimePickerMinutes />
+              <TimePickerSeconds />
+              <TimePickerDayPeriod />
+            </div>
+          </TimePickerPopup>
+        </TimePickerRoot>
+        <FieldDescription>From 7:00 AM.</FieldDescription>
+        <FieldError />
+      </FieldRoot>
+      <div class="mt-1 flex justify-end">
+        <Button type="submit">Book</Button>
+      </div>
+    </Form>
+    <output class="text-sm text-muted-foreground">{sent == "" ? "" : `Submitted ${sent}`}</output>
+  </div>
+}

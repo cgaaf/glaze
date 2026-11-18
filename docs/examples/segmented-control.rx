@@ -1,0 +1,11 @@
+import { SegmentedControlRoot, SegmentedControlItem } from "../../src/glaze/segmented-control.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <SegmentedControlRoot aria-label="Billing period" defaultValue="monthly">
+      <SegmentedControlItem value="weekly">Weekly</SegmentedControlItem>
+      <SegmentedControlItem value="monthly">Monthly</SegmentedControlItem>
+      <SegmentedControlItem value="yearly">Yearly</SegmentedControlItem>
+    </SegmentedControlRoot>
+  </div>
+}

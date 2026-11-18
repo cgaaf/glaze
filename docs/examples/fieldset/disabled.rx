@@ -1,0 +1,30 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { FieldsetRoot, FieldsetLegend } from "../../../src/glaze/fieldset.rx"
+import { FieldRoot, FieldLabel } from "../../../src/glaze/field.rx"
+import { Input } from "../../../src/glaze/input.rx"
+import { CheckboxRoot, CheckboxIndicator } from "../../../src/glaze/checkbox.rx"
+
+export default component FieldsetDisabled() {
+  source sameAsBilling: boolean := true
+  <div class="grid min-w-0 gap-4">
+    <label class="flex flex-wrap items-center gap-2 text-sm">
+      <CheckboxRoot checked={sameAsBilling} onCheckedChange={(next) => { sameAsBilling := next }}>
+        <CheckboxIndicator>
+          <Icon name="check" />
+        </CheckboxIndicator>
+      </CheckboxRoot>
+      Ship to the billing address
+    </label>
+    <FieldsetRoot disabled={sameAsBilling}>
+      <FieldsetLegend>Shipping address</FieldsetLegend>
+      <FieldRoot name="street">
+        <FieldLabel>Street</FieldLabel>
+        <Input />
+      </FieldRoot>
+      <FieldRoot name="city">
+        <FieldLabel>City</FieldLabel>
+        <Input />
+      </FieldRoot>
+    </FieldsetRoot>
+  </div>
+}

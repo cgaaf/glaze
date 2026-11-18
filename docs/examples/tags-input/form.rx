@@ -1,0 +1,43 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { TagsInputRoot, TagsInputControl, TagsInputTag, TagsInputTagText, TagsInputTagRemove, TagsInputInput } from "../../../src/glaze/tags-input.rx"
+import { tagsInput } from "../../../src/bisque/tags-input/tags-input.rx"
+import { FieldRoot, FieldLabel, FieldError } from "../../../src/glaze/field.rx"
+import { Form } from "../../../src/glaze/form.rx"
+
+component Tags() {
+  c = use tagsInput
+  {for tag in c.tags {
+    <TagsInputTag index={tag.index}>
+      <TagsInputTagText />
+      <TagsInputTagRemove>
+        <Icon name="x" />
+      </TagsInputTagRemove>
+    </TagsInputTag>
+  }}
+}
+
+fn listed(values: unknown): string => `${values}`
+
+export default component TagsInputForm() {
+  source sent := ""
+  <div class="grid min-w-0 gap-3">
+    <Form onFormSubmit={(values) => { sent := listed(values.ingredients) }}>
+      <FieldRoot name="ingredients">
+        <FieldLabel>Ingredients</FieldLabel>
+        <TagsInputRoot required>
+          <TagsInputControl>
+            <Tags />
+            <TagsInputInput placeholder="flour, water, salt" />
+          </TagsInputControl>
+        </TagsInputRoot>
+        <FieldError match="valueMissing">Add at least one ingredient.</FieldError>
+      </FieldRoot>
+      <div class="mt-1 flex flex-wrap justify-end gap-2">
+        <Button variant="ghost" type="reset">Reset</Button>
+        <Button type="submit">Save</Button>
+      </div>
+      <output class="text-sm text-muted-foreground">{sent == "" ? "" : `Sent: ${sent}`}</output>
+    </Form>
+  </div>
+}

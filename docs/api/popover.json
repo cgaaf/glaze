@@ -37,6 +37,20 @@
       "description": "The button that opens and closes the popover. The browser's `popovertarget` does both on a press.",
       "props": [
         {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "outline",
+          "required": false,
+          "description": "The visual emphasis of the action, on the same scale as Button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "default",
+          "required": false,
+          "description": "The height and padding of the button, on the same scale as Button."
+        },
+        {
           "name": "openOnHover",
           "type": "boolean",
           "default": "false",
@@ -128,7 +142,22 @@
       "name": "PopoverClose",
       "element": "button",
       "description": "A button that closes the popover.",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "outline",
+          "required": false,
+          "description": "The visual emphasis of the action, on the same scale as Button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "default",
+          "required": false,
+          "description": "The height and padding of the button, on the same scale as Button."
+        }
+      ],
       "dataAttributes": [],
       "cssVariables": []
     },
@@ -143,6 +172,14 @@
           "description": "Which side of the trigger the popup is on. Absent until the popup first opens; a close keeps the last side."
         }
       ],
+      "cssVariables": []
+    },
+    {
+      "name": "PopoverFooter",
+      "element": "div",
+      "description": "A Glaze layout part: the row of actions that ends the popup. Put the primary action last.",
+      "props": [],
+      "dataAttributes": [],
       "cssVariables": []
     }
   ]

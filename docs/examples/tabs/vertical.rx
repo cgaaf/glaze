@@ -1,0 +1,28 @@
+import { TabsRoot, TabsList, TabsTab, TabsPanel, TabsIndicator } from "../../../src/glaze/tabs.rx"
+
+export default component TabsVertical() {
+  source section := "profile"
+  <div class="grid min-w-0 gap-3">
+    <TabsRoot class="flex items-start gap-3" orientation="vertical" value={section} onValueChange={(next) => { section := next }}>
+      <TabsList aria-label="Settings" activateOnFocus>
+        <TabsTab value="profile">Profile</TabsTab>
+        <TabsTab value="notifications">Notifications</TabsTab>
+        <TabsTab value="security">Security</TabsTab>
+        <TabsIndicator />
+      </TabsList>
+      <TabsPanel value="profile">
+        <h3 class="font-semibold">Profile</h3>
+        <p class="text-sm">Your display name and the picture other members see.</p>
+      </TabsPanel>
+      <TabsPanel value="notifications">
+        <h3 class="font-semibold">Notifications</h3>
+        <p class="text-sm">Choose which updates reach you by email and which stay in the app.</p>
+      </TabsPanel>
+      <TabsPanel value="security">
+        <h3 class="font-semibold">Security</h3>
+        <p class="text-sm">Sign-in methods, recovery codes and active sessions.</p>
+      </TabsPanel>
+    </TabsRoot>
+    <output class="text-sm text-muted-foreground">value: {section}</output>
+  </div>
+}

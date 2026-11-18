@@ -1,0 +1,40 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { SelectRoot, SelectTrigger, SelectValue, SelectIcon, SelectPopup, SelectItem, SelectItemText, SelectItemIndicator } from "../../../src/glaze/select.rx"
+import { loadCountries, dropNetwork } from "../../lib/countries.js"
+
+export default component SelectServer() {
+  // Asked once the select is first opened: `onOpenChange` sets what the question reads.
+  source wanted: boolean := false
+  countries = wanted ? await loadCountries() : null
+  // `pending?` reads ahead: true as soon as the question is asked. A plain read of `wanted` would wait for the
+  // answer, since setting it is held until then.
+  busy = pending? countries
+  <div class="grid min-w-0 justify-items-start gap-3">
+    <SelectRoot loading={busy} onOpenChange={(open) => { if (open) { wanted := true } }}>
+      <SelectTrigger aria-label="Country">
+        <SelectValue placeholder="Choose a country" />
+        <SelectIcon>
+          <Icon name="chevrons-up-down" />
+        </SelectIcon>
+      </SelectTrigger>
+      <SelectPopup sideOffset={6}>
+        {if busy { <div class="px-2 py-1.5 text-sm text-muted-foreground">Loading…</div> }}
+        {errored fallback(e) {
+          <div class="grid justify-items-start gap-2 p-2 text-sm text-destructive" role="alert">
+            <span>{e.message}</span>
+            <Button variant="outline" size="sm" type="button" onClick={() => { refresh countries }}>Retry</Button>
+          </div>
+        } {
+          {for country in countries ?? [] {
+            <SelectItem value={country.code}>
+              <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+              <SelectItemText>{country.name}</SelectItemText>
+            </SelectItem>
+          }}
+        }}
+      </SelectPopup>
+    </SelectRoot>
+    <Button variant="outline" type="button" onClick={() => { dropNetwork() }}>Drop the network for 2 seconds</Button>
+  </div>
+}

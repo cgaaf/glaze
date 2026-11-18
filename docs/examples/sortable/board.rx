@@ -1,0 +1,36 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { SortableGroup, SortableRoot, SortableItem, SortableHandle } from "../../../src/glaze/sortable.rx"
+import { SortableLists } from "../../../src/bisque/sortable/sortable.rx"
+
+component Card(props: { id: string }) {
+  <SortableItem id={props.id}>
+    <SortableHandle aria-label={`Move ${props.id}`}><Icon name="grip-vertical" /></SortableHandle>
+    {props.id}
+  </SortableItem>
+}
+
+export default component SortableBoard() {
+  source lists: SortableLists := { todo: ["Draft the brief", "Pick a palette", "Write the copy"], doing: ["Sketch the logo"], done: [] }
+  <div class="grid min-w-0 gap-3">
+    <SortableGroup class="grid min-w-0 gap-3 lg:grid-cols-3" value={lists} onValueChange={(next) => { lists := next }}>
+      <section class="grid content-start gap-2">
+        <h3 class="text-sm font-semibold" id="board-todo">To do</h3>
+        <SortableRoot class="min-h-20 content-start rounded-control bg-muted p-2" listId="todo" aria-labelledby="board-todo">
+          {for id in lists.todo { <Card id={id} /> }}
+        </SortableRoot>
+      </section>
+      <section class="grid content-start gap-2">
+        <h3 class="text-sm font-semibold" id="board-doing">Doing</h3>
+        <SortableRoot class="min-h-20 content-start rounded-control bg-muted p-2" listId="doing" aria-labelledby="board-doing">
+          {for id in lists.doing { <Card id={id} /> }}
+        </SortableRoot>
+      </section>
+      <section class="grid content-start gap-2">
+        <h3 class="text-sm font-semibold" id="board-done">Done</h3>
+        <SortableRoot class="min-h-20 content-start rounded-control bg-muted p-2" listId="done" aria-labelledby="board-done">
+          {for id in lists.done { <Card id={id} /> }}
+        </SortableRoot>
+      </section>
+    </SortableGroup>
+  </div>
+}

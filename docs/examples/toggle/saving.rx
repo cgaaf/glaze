@@ -1,0 +1,34 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { Toggle } from "../../../src/glaze/toggle.rx"
+import { loadSetting, saveSetting, dropNetwork, messageOf } from "../../lib/settings-server.js"
+
+export default component ToggleSaving() {
+  // What the server holds. `-> false` is shown until the first answer.
+  starred = await loadSetting("starred", false) -> false
+  source failure := ""
+  <div class="grid min-w-0 gap-3">
+    {errored fallback(e) { <p class="text-sm text-destructive">{messageOf(e)}</p> } {
+      <div class="flex flex-wrap items-center gap-3">
+        <Toggle aria-label="Star this project" pressed={starred} onPressedChange={(next) => {
+          // Shows at once; goes back by itself if the save fails.
+          guess starred := next
+          onFlush(() => { failure := "" })
+          affects starred
+          try {
+            await saveSetting("starred", next)
+            // Ask the server again: with saves crossing, what it holds is what shows.
+            refresh starred
+          } catch (error) {
+            failure := messageOf(error)
+          }
+        }}>
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 1.75l1.9 3.85 4.25.62-3.08 3 .73 4.23L8 11.45l-3.8 2 .73-4.23-3.08-3 4.25-.62L8 1.75Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+          </svg>
+        </Toggle>
+        <span class="text-sm text-muted-foreground" aria-live="polite">{pending? starred ? "Saving…" : failure != "" ? failure : starred ? "Starred" : "Not starred"}</span>
+      </div>
+    }}
+    <Button class="justify-self-start" variant="outline" type="button" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+  </div>
+}

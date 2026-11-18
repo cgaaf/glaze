@@ -1,0 +1,28 @@
+import { SplitterRoot, SplitterPanel, SplitterHandle } from "../../../src/glaze/splitter.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { dropNetwork, saveSetting, messageOf } from "../../lib/settings-server.js"
+
+export default component SplitterSaving() {
+  // The last layout sent to the server. `pending? saved` is true while its save is out.
+  source saved: number[] := [40, 60]
+  source failure := ""
+  action saveLayout(sizes: number[]) {
+    affects saved
+    onFlush(() => { failure := "" })
+    try {
+      await saveSetting("layout", sizes)
+      saved := sizes
+    } catch (error) {
+      failure := messageOf(error)
+    }
+  }
+  <div class="grid min-w-0 gap-3">
+    <SplitterRoot defaultSizes={[40, 60]} onSizesCommit={saveLayout}>
+      <SplitterPanel id="list">Inbox</SplitterPanel>
+      <SplitterHandle aria-label="Resize inbox" />
+      <SplitterPanel id="reader">Message</SplitterPanel>
+    </SplitterRoot>
+    <Button class="justify-self-start" variant="outline" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+    <p role="status" class="text-sm text-muted-foreground">{failure != "" ? failure : pending? saved ? "Saving the layout…" : `Saved: ${saved.map((size) => size.toFixed(0)).join(" / ")}`}</p>
+  </div>
+}

@@ -132,7 +132,22 @@
       "name": "FileUploadTrigger",
       "element": "button",
       "description": "A `<button type=\"button\">` that opens the picker by clicking the input during its own press. Natively disabled with the root; disabled while it had focus, it takes focus back when enabled again.",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "outline",
+          "required": false,
+          "description": "The visual emphasis of the action, on the same scale as Button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "default",
+          "required": false,
+          "description": "The height and padding of the button, on the same scale as Button."
+        }
+      ],
       "dataAttributes": [],
       "cssVariables": []
     },

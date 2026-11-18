@@ -1,4 +1,5 @@
 import {
+  ContextMenuButton as BaseContextMenuButton,
   ContextMenuRoot as BaseContextMenuRoot,
   ContextMenuTrigger as BaseContextMenuTrigger,
   ContextMenuPopup as BaseContextMenuPopup,
@@ -22,12 +23,17 @@ export component ContextMenuTrigger(props: Parameters<typeof BaseContextMenuTrig
   <BaseContextMenuTrigger {...props} data-glaze="context-menu-trigger">{props.children}</BaseContextMenuTrigger>
 }
 
+export component ContextMenuButton(props: Parameters<typeof BaseContextMenuButton>[0]) {
+  <BaseContextMenuButton {...props} data-glaze="context-menu-button">{props.children}</BaseContextMenuButton>
+}
+
 export component ContextMenuPopup(props: Parameters<typeof BaseContextMenuPopup>[0]) {
   <BaseContextMenuPopup {...props} data-glaze="context-menu-popup">{props.children}</BaseContextMenuPopup>
 }
 
-export component ContextMenuItem(props: Parameters<typeof BaseContextMenuItem>[0]) {
-  <BaseContextMenuItem {...props} data-glaze="context-menu-item">{props.children}</BaseContextMenuItem>
+// `variant="destructive"` marks an item that deletes or discards something.
+export component ContextMenuItem({ variant, children, ...rest }: Parameters<typeof BaseContextMenuItem>[0] & { variant?: "default" | "destructive" }) {
+  <BaseContextMenuItem {...rest} data-glaze="context-menu-item" data-variant={variant}>{children}</BaseContextMenuItem>
 }
 
 export component ContextMenuLinkItem(props: Parameters<typeof BaseContextMenuLinkItem>[0]) {

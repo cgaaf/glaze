@@ -1,0 +1,19 @@
+import {
+  RadioGroup as BaseRadioGroup,
+  RadioRoot as BaseRadioRoot,
+} from "../bisque/radio/radio.rx"
+
+// A row of segments of which one is always chosen: a radio group drawn as a segmented track. It picks a value; to
+// switch between panels of content, use Tabs. The arrow keys move and select, and it submits its value with a form.
+export component SegmentedControlRoot(props: Parameters<typeof BaseRadioGroup>[0]) {
+  // Keep fallible controlled values separate from the spread of element attributes.
+  attributes = props catch (error) => ({})
+  <BaseRadioGroup {...attributes} value={props.value} disabled={props.disabled} data-glaze="segmented-control-root">{props.children}</BaseRadioGroup>
+}
+
+// One segment. Its children are the visible label and name the radio, which is hidden inside it.
+export component SegmentedControlItem(props: Parameters<typeof BaseRadioRoot>[0]) {
+  <label data-glaze="segmented-control-item">
+    <BaseRadioRoot {...props} data-glaze="segmented-control-input">{props.children}</BaseRadioRoot>
+  </label>
+}

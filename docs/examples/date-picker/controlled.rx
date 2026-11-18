@@ -1,0 +1,53 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { DatePickerRoot, DatePickerGroup, DatePickerTrigger, DatePickerPopup, DatePickerCalendar } from "../../../src/glaze/date-picker.rx"
+import { DateFieldInput, DateFieldSegment } from "../../../src/glaze/date-field.rx"
+import { dateField } from "../../../src/bisque/date-field/date-field.rx"
+import { CalendarPreviousMonth, CalendarMonthLabel, CalendarNextMonth, CalendarGrid, CalendarGridHeader, CalendarGridBody } from "../../../src/glaze/calendar.rx"
+import { today } from "../../../src/bisque/internal/date.js"
+import { PlainDate } from "../../../src/bisque/internal/types.rx"
+
+// The segments come from the field's context, so they are rendered by a component inside the field.
+component Segments() {
+  c = use dateField
+  {for segment in c.segments {
+    <DateFieldSegment segment={segment} />
+  }}
+}
+
+// The calendar's header and grid, inside the picker's calendar.
+component Month() {
+  <div class="mb-2 flex items-center justify-between gap-2">
+    <CalendarPreviousMonth />
+    <CalendarMonthLabel />
+    <CalendarNextMonth />
+  </div>
+  <CalendarGrid>
+    <CalendarGridHeader format="narrow" />
+    <CalendarGridBody />
+  </CalendarGrid>
+}
+
+export default component DatePickerControlled() {
+  // Boxed: a source seeded with a Temporal value breaks its methods.
+  source chosen: { date: PlainDate | null } := { date: null }
+  source open := false
+  <div class="grid min-w-0 gap-2">
+    <span class="text-sm font-medium" id="date-picker-controlled-label">Reminder</span>
+    <DatePickerRoot value={chosen.date} onValueChange={(date) => { chosen := { date: date ?? null } }} open={open} onOpenChange={(next) => { open := next }}>
+      <DatePickerGroup aria-labelledby="date-picker-controlled-label">
+        <DateFieldInput><Segments /></DateFieldInput>
+        <DatePickerTrigger><Icon name="calendar" /></DatePickerTrigger>
+      </DatePickerGroup>
+      <DatePickerPopup>
+        <DatePickerCalendar><Month /></DatePickerCalendar>
+      </DatePickerPopup>
+    </DatePickerRoot>
+    <div class="mt-2 flex flex-wrap items-center gap-2">
+      <Button variant="outline" size="sm" onClick={() => { chosen := { date: today(undefined, undefined).add({ days: 7 }) } }}>In a week</Button>
+      <Button variant="outline" size="sm" onClick={() => { chosen := { date: null } }}>Clear</Button>
+      <Button variant="outline" size="sm" onClick={() => { open := true }}>Open the calendar</Button>
+    </div>
+    <output class="text-sm text-muted-foreground">{chosen.date == null ? "No date" : chosen.date.toString()}{open ? " (open)" : ""}</output>
+  </div>
+}

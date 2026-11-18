@@ -1,0 +1,4 @@
+export type Project = { name: string; edited: string }
+export fn failNextSave(): void
+export pure fn loadProject(): Promise<Project>
+export fn saveProject(next: string): Promise<string>

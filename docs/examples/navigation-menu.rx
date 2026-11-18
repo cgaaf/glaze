@@ -14,27 +14,27 @@ export default component Example() {
           </NavigationMenuTrigger>
           <NavigationMenuContent sideOffset={10}>
             <NavigationMenuArrow />
-            <ul class="grid gap-2 sm:grid-cols-2">
+            <ul class="grid gap-1 sm:w-lg sm:grid-cols-2">
               <li>
-                <NavigationMenuLink href="#getting-started">
+                <NavigationMenuLink class="flex-col items-start gap-1 py-2" href="#getting-started">
                   <span class="block font-medium">Getting started</span>
                   <span class="block text-xs text-muted-foreground">Install the kit and plant your first seed tray.</span>
                 </NavigationMenuLink>
               </li>
               <li>
-                <NavigationMenuLink href="#soil">
+                <NavigationMenuLink class="flex-col items-start gap-1 py-2" href="#soil">
                   <span class="block font-medium">Soil and compost</span>
                   <span class="block text-xs text-muted-foreground">Mix a bed that holds water without going sour.</span>
                 </NavigationMenuLink>
               </li>
               <li>
-                <NavigationMenuLink href="#watering">
+                <NavigationMenuLink class="flex-col items-start gap-1 py-2" href="#watering">
                   <span class="block font-medium">Watering</span>
                   <span class="block text-xs text-muted-foreground">How often, how much, and what the leaves tell you.</span>
                 </NavigationMenuLink>
               </li>
               <li>
-                <NavigationMenuLink href="#pests">
+                <NavigationMenuLink class="flex-col items-start gap-1 py-2" href="#pests">
                   <span class="block font-medium">Pests</span>
                   <span class="block text-xs text-muted-foreground">Keep slugs and aphids off without sprays.</span>
                 </NavigationMenuLink>

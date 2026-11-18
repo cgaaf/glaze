@@ -1,0 +1,32 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { ToastProvider, ToastViewport, ToastRoot, ToastContent, ToastTitle, ToastDescription, ToastClose } from "../../../src/glaze/toast.rx"
+import { toast } from "../../../src/bisque/toast/toast.rx"
+import { createToastManager } from "../../../src/bisque/internal/toast.js"
+
+component Toasts() {
+  c = use toast
+  for t in c.toasts {
+    <ToastRoot toast={t}>
+      <ToastContent>
+        <div class="text-sm">
+          <ToastTitle />
+          <ToastDescription />
+        </div>
+        <ToastClose>Dismiss</ToastClose>
+      </ToastContent>
+    </ToastRoot>
+  }
+}
+
+export default component ToastManagerDemo() {
+  // In an app this lives in a module of its own, so any code can import it.
+  manager = createToastManager()
+  <div class="grid min-w-0 gap-3">
+    <Button variant="outline" type="button" onClick={() => { manager.add({ title: "Report ready", description: "Your scheduled report is ready to read." }) }}>Notify about report</Button>
+    <ToastProvider toastManager={manager}>
+      <ToastViewport aria-label="Shared manager notifications">
+        <Toasts />
+      </ToastViewport>
+    </ToastProvider>
+  </div>
+}

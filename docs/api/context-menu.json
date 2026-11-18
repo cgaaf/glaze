@@ -39,9 +39,17 @@
       "cssVariables": []
     },
     {
+      "name": "ContextMenuButton",
+      "element": "button",
+      "description": "A button inside ContextMenuTrigger that opens the same menu by click, tap or keyboard.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
       "name": "ContextMenuTrigger",
       "element": "div",
-      "description": "The area that opens the menu: on a right-click at the pointer, on a long press at the finger, and on the context-menu key or Shift+F10 below the focused element inside it. It holds the empty, fixed-position element the popup is anchored to. The area isn't focusable itself.",
+      "description": "The area that opens the menu: on a right-click at the pointer, on a long press at the finger, and on the context-menu key or Shift+F10 below the focused element inside it. It holds the empty, fixed-position element the popup is anchored to. The area is keyboard focusable.",
       "props": [],
       "dataAttributes": [
         {
@@ -102,6 +110,13 @@
       "element": "div",
       "description": "An action in the menu: a `MenuItem`. Choosing it runs its `onClick` and, by default, closes the menu.",
       "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"destructive\"",
+          "default": "default",
+          "required": false,
+          "description": "Use `destructive` for an item that deletes or discards something."
+        },
         {
           "name": "disabled",
           "type": "boolean",

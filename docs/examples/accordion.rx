@@ -6,28 +6,25 @@ export default component Example() {
       <AccordionItem value="shipping">
         <AccordionTrigger>
           <h3 class="font-semibold">How long does shipping take?</h3>
-          
         </AccordionTrigger>
         <AccordionPanel>
-          <p class="pb-3 text-sm">Orders leave the warehouse within two working days and arrive three to five days later.</p>
+          <p class="text-sm">Orders leave the warehouse within two working days and arrive three to five days later.</p>
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem value="returns">
         <AccordionTrigger>
           <h3 class="font-semibold">Can I return an order?</h3>
-          
         </AccordionTrigger>
         <AccordionPanel>
-          <p class="pb-3 text-sm">Anything unused can be sent back within 30 days, with the restocking fee waived.</p>
+          <p class="text-sm">Anything unused can be sent back within 30 days, with the restocking fee waived.</p>
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem value="gift">
         <AccordionTrigger>
           <h3 class="font-semibold">Do you offer gift wrapping?</h3>
-          
         </AccordionTrigger>
         <AccordionPanel>
-          <p class="pb-3 text-sm">Yes: choose it at checkout and add a note of up to 200 characters.</p>
+          <p class="text-sm">Yes: choose it at checkout and add a note of up to 200 characters.</p>
         </AccordionPanel>
       </AccordionItem>
     </AccordionRoot>

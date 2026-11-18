@@ -1,0 +1,34 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { TagsInputRoot, TagsInputControl, TagsInputTag, TagsInputTagText, TagsInputTagRemove, TagsInputInput } from "../../../src/glaze/tags-input.rx"
+import { tagsInput, TagsInputInvalidDetails } from "../../../src/bisque/tags-input/tags-input.rx"
+
+component Tags() {
+  c = use tagsInput
+  {for tag in c.tags {
+    <TagsInputTag index={tag.index}>
+      <TagsInputTagText />
+      <TagsInputTagRemove>
+        <Icon name="x" />
+      </TagsInputTagRemove>
+    </TagsInputTag>
+  }}
+}
+
+// A rough check: something, an @, something with a dot after it, and no spaces.
+fn looksLikeEmail(value: string): boolean => !value.includes(" ") && value.indexOf("@") > 0 && value.lastIndexOf(".") > value.indexOf("@") + 1
+
+fn explain(details: TagsInputInvalidDetails): string => details.reason == "duplicate" ? `${details.value} is already on the list.` : details.reason == "max" ? "Five recipients at most." : `${details.value} doesn't look like an email address.`
+
+export default component TagsInputRules() {
+  source message := ""
+  <div class="grid min-w-0 gap-2">
+    <label class="text-sm font-medium" for="recipients">Invite</label>
+    <TagsInputRoot max={5} validate={looksLikeEmail} addOnPaste addOnBlur delimiter=" " onValueInvalid={(details) => { message := explain(details) }} onValueChange={() => { message := "" }}>
+      <TagsInputControl>
+        <Tags />
+        <TagsInputInput id="recipients" placeholder="name@example.com" />
+      </TagsInputControl>
+    </TagsInputRoot>
+    <p class="text-sm text-muted-foreground" aria-live="polite">{message}</p>
+  </div>
+}

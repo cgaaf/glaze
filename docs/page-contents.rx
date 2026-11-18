@@ -1,0 +1,15 @@
+import { TableOfContentsRoot, TableOfContentsLink, TableOfContentsIndicator } from "../src/glaze/table-of-contents.rx"
+import { pageSections, headingOffset } from "./lib/page-sections.js"
+
+export default component PageContents() {
+  sections = pageSections()
+  <TableOfContentsRoot aria-label="Component sections" offset={headingOffset()}>
+    <p class="contents-title">On this page</p>
+    <ul>
+      {for section in sections {
+        <li><TableOfContentsLink href={"#" + section.id}>{section.title}</TableOfContentsLink></li>
+      }}
+    </ul>
+    <TableOfContentsIndicator />
+  </TableOfContentsRoot>
+}

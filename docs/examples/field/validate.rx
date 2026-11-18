@@ -1,0 +1,13 @@
+import { FieldRoot, FieldLabel, FieldDescription, FieldError } from "../../../src/glaze/field.rx"
+import { Input } from "../../../src/glaze/input.rx"
+
+export default component FieldValidate() {
+  <div class="grid min-w-0 gap-3">
+    <FieldRoot name="username" validationMode="onChange" validate={(value) => value == "admin" || value == "root" ? "That name is taken" : null}>
+      <FieldLabel>Username</FieldLabel>
+      <Input required minlength={3} />
+      <FieldDescription>At least three characters. Try “admin”.</FieldDescription>
+      <FieldError />
+    </FieldRoot>
+  </div>
+}

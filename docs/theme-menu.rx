@@ -1,0 +1,91 @@
+import { Icon } from "../src/glaze/icon.rx"
+import { Button } from "../src/glaze/button.rx"
+import { PopoverRoot, PopoverTrigger, PopoverPopup, PopoverTitle } from "../src/glaze/popover.rx"
+import { ToggleGroup } from "../src/glaze/toggle-group.rx"
+import { Toggle } from "../src/glaze/toggle.rx"
+import { SegmentedControlRoot, SegmentedControlItem } from "../src/glaze/segmented-control.rx"
+import { SliderRoot, SliderControl, SliderTrack, SliderIndicator, SliderThumb } from "../src/glaze/slider.rx"
+import { createThemeChoices, setTheme, setRadius, resetTokens, paletteOptions, modeOptions, tokenOptions } from "./lib/theme-state.js"
+
+// The header's theme menu: the same choices as the overview's theme studio, saved the same way.
+export default component ThemeMenu() {
+  // Follows the theme live, whichever control changes it.
+  choices = createThemeChoices()
+  palettes = paletteOptions()
+  modes = modeOptions()
+  fonts = tokenOptions("Font")
+  shadows = tokenOptions("Shadow")
+  densities = tokenOptions("Density")
+  <PopoverRoot>
+    <PopoverTrigger class="theme-trigger">
+      <Icon name="sliders-horizontal" />Theme
+    </PopoverTrigger>
+    <PopoverPopup class="theme-menu" align="end" sideOffset={8}>
+      <div class="theme-menu-head">
+        <PopoverTitle>Appearance</PopoverTitle>
+        <a href="?#studio">Theme studio <Icon name="arrow-up-right" /></a>
+      </div>
+      <section class="theme-menu-group">
+        <div class="theme-menu-row">
+          <span class="theme-menu-label" id="theme-menu-palette">Palette</span>
+          <span class="theme-menu-value">{palettes.find((entry) => entry.value == choices.theme)?.label ?? ""}</span>
+        </div>
+        <ToggleGroup class="theme-palettes" aria-labelledby="theme-menu-palette" value={[choices.theme]} onValueChange={(next) => {
+          if (next.length > 0) { setTheme("Theme", next[0]) }
+        }}>
+          {for entry in palettes {
+            <Toggle value={entry.value} aria-label={entry.label} title={entry.label}>
+              <span class="theme-swatch" style={{ "background-color": entry.color }}></span>
+            </Toggle>
+          }}
+        </ToggleGroup>
+      </section>
+      <section class="theme-menu-group">
+        <span class="theme-menu-label" id="theme-menu-mode">Color mode</span>
+        <SegmentedControlRoot aria-labelledby="theme-menu-mode" value={choices.mode} onValueChange={(next) => { setTheme("Mode", next) }}>
+          {for entry in modes {
+            <SegmentedControlItem value={entry.value}>
+              {if entry.value == "light" { <Icon name="sun" /> } else if entry.value == "dark" { <Icon name="moon" /> } else { <Icon name="monitor" /> }}
+              {entry.label}
+            </SegmentedControlItem>
+          }}
+        </SegmentedControlRoot>
+      </section>
+      <section class="theme-menu-group">
+        <div class="theme-menu-row">
+          <span class="theme-menu-label" id="theme-menu-radius">Radius</span>
+          <output class="theme-menu-value">{choices.radius}rem</output>
+        </div>
+        <SliderRoot value={choices.radius} min={0} max={1} step={0.05} onValueChange={(next) => { setRadius(next) }}>
+          <SliderControl>
+            <SliderTrack>
+              <SliderIndicator />
+              <SliderThumb aria-labelledby="theme-menu-radius" />
+            </SliderTrack>
+          </SliderControl>
+        </SliderRoot>
+      </section>
+      <section class="theme-menu-group">
+        <span class="theme-menu-label" id="theme-menu-font">Font</span>
+        <SegmentedControlRoot aria-labelledby="theme-menu-font" value={choices.font} onValueChange={(next) => { setTheme("Font", next) }}>
+          {for entry in fonts { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
+        </SegmentedControlRoot>
+      </section>
+      <section class="theme-menu-group">
+        <span class="theme-menu-label" id="theme-menu-shadow">Elevation</span>
+        <SegmentedControlRoot aria-labelledby="theme-menu-shadow" value={choices.shadow} onValueChange={(next) => { setTheme("Shadow", next) }}>
+          {for entry in shadows { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
+        </SegmentedControlRoot>
+      </section>
+      <section class="theme-menu-group">
+        <span class="theme-menu-label" id="theme-menu-density">Density</span>
+        <SegmentedControlRoot aria-labelledby="theme-menu-density" value={choices.density} onValueChange={(next) => { setTheme("Density", next) }}>
+          {for entry in densities { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
+        </SegmentedControlRoot>
+      </section>
+      <div class="theme-menu-foot">
+        <Button variant="ghost" size="sm" type="button" onClick={() => { resetTokens() }}>Reset tokens</Button>
+      </div>
+    </PopoverPopup>
+  </PopoverRoot>
+}

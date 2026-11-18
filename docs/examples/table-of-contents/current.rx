@@ -1,0 +1,37 @@
+import { TableOfContentsRoot, TableOfContentsLink } from "../../../src/glaze/table-of-contents.rx"
+
+type Section = { id: string; title: string }
+
+export default component TableOfContentsCurrent() {
+  sections: Section[] = [
+    { id: "toc-current-route", title: "Route" },
+    { id: "toc-current-packing", title: "Packing" },
+    { id: "toc-current-weather", title: "Weather" },
+    { id: "toc-current-return", title: "Getting back" },
+  ]
+  source article: HTMLElement | undefined := undefined
+  source reading: string | undefined := undefined
+  action setArticle(element: HTMLElement) { article := element }
+  action follow(id: string | undefined) { reading := id }
+  current = sections.find((s) => s.id == reading)
+  <div class="grid min-w-0 gap-3">
+    <TableOfContentsRoot aria-label="Sections" container={article} offset={8} onActiveChange={follow}>
+      {for s in sections {
+        <TableOfContentsLink href={"#" + s.id}>{s.title}</TableOfContentsLink>
+      }}
+    </TableOfContentsRoot>
+    <p class="text-sm text-muted-foreground">Reading: <strong>{current ? current.title : "the introduction"}</strong></p>
+    <div class="h-44 space-y-3 overflow-auto rounded-control border border-border p-3 text-sm" tabindex="0" ref={setArticle}>
+      <p>Notes for a day on the ridge path, from the car park and back again before dark.</p>
+      <h3 class="font-semibold" id="toc-current-route">Route</h3>
+      <p>Follow the stream up through the woods, then take the left fork where the path leaves the trees.</p>
+      <p>The ridge itself is broad and easy. Allow four hours for the round trip with a stop at the top.</p>
+      <h3 class="font-semibold" id="toc-current-packing">Packing</h3>
+      <p>Water, a warm layer, a map and something to eat. The café at the start closes at four.</p>
+      <h3 class="font-semibold" id="toc-current-weather">Weather</h3>
+      <p>Cloud often sits on the ridge until midday. If the top is hidden, the stream path is a fine walk on its own.</p>
+      <h3 class="font-semibold" id="toc-current-return">Getting back</h3>
+      <p>Come down the same way, or take the farm track for a gentler descent.</p>
+    </div>
+  </div>
+}

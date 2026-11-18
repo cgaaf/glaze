@@ -1,0 +1,41 @@
+import { TimeFieldRoot, TimeFieldInput, TimeFieldSegment } from "../../../src/glaze/time-field.rx"
+import { timeField } from "../../../src/bisque/time-field/time-field.rx"
+import { parseTime } from "../../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use timeField
+  {for segment in c.segments {
+    <TimeFieldSegment segment={segment} />
+  }}
+}
+
+export default component TimeFieldOptions() {
+  <div class="grid min-w-0 gap-3">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <span class="text-sm font-medium">en-US, seconds</span>
+      <TimeFieldRoot aria-label="Lap time" locale="en-US" granularity="second" defaultValue={parseTime("14:05:30")}>
+        <TimeFieldInput><Segments /></TimeFieldInput>
+      </TimeFieldRoot>
+    </div>
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <span class="text-sm font-medium">en-US, 24-hour</span>
+      <TimeFieldRoot aria-label="Departure" locale="en-US" hourCycle={24} defaultValue={parseTime("14:05")}>
+        <TimeFieldInput><Segments /></TimeFieldInput>
+      </TimeFieldRoot>
+    </div>
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <span class="text-sm font-medium">ko-KR</span>
+      <TimeFieldRoot aria-label="시간" locale="ko-KR" defaultValue={parseTime("14:05")}>
+        <TimeFieldInput><Segments /></TimeFieldInput>
+      </TimeFieldRoot>
+    </div>
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <span class="text-sm font-medium">ar-EG</span>
+      <div dir="rtl">
+        <TimeFieldRoot aria-label="الوقت" locale="ar-EG" defaultValue={parseTime("14:05")}>
+          <TimeFieldInput><Segments /></TimeFieldInput>
+        </TimeFieldRoot>
+      </div>
+    </div>
+  </div>
+}

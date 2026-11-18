@@ -1,0 +1,54 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { ToastProvider, ToastViewport, ToastRoot, ToastContent, ToastTitle, ToastAction, ToastClose } from "../../../src/glaze/toast.rx"
+import { toast } from "../../../src/bisque/toast/toast.rx"
+
+component Toasts() {
+  c = use toast
+  for t in c.toasts {
+    <ToastRoot toast={t}>
+      <ToastContent class="items-center">
+        <ToastTitle />
+        <div class="flex items-center gap-1">
+          <ToastAction size="sm" />
+          <ToastClose aria-label="Close">
+            <Icon name="x" />
+          </ToastClose>
+        </div>
+      </ToastContent>
+    </ToastRoot>
+  }
+}
+
+component Inbox() {
+  c = use toast
+  source archived := false
+  action undo() {
+    archived := false
+    c.manager.close("archived")
+  }
+  action archive() {
+    archived := true
+    // The same id again replaces the toast that is showing instead of adding another.
+    c.manager.add({ id: "archived", title: "Conversation archived", timeout: 8000, actionProps: { children: "Undo", onClick: undo } })
+  }
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    {if archived {
+      <span class="text-sm text-muted-foreground">Nothing left in the inbox.</span>
+    } else {
+      <span class="text-sm text-muted-foreground">Planning notes for the spring offsite</span>
+      <Button variant="outline" type="button" onClick={archive}>Archive</Button>
+    }}
+  </div>
+}
+
+export default component ToastUndo() {
+  <div class="grid min-w-0 gap-3">
+    <ToastProvider>
+      <Inbox />
+      <ToastViewport aria-label="Undo notifications">
+        <Toasts />
+      </ToastViewport>
+    </ToastProvider>
+  </div>
+}

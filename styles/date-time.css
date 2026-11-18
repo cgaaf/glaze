@@ -1,6 +1,13 @@
 :is([data-glaze="calendar-root"], [data-glaze="range-calendar-root"]) {
   @apply w-fit max-w-full rounded-panel border border-border bg-card p-3 text-foreground;
 }
+/* Inside a popup the calendar is the popup's content, not a second card. */
+[data-glaze][popover] :is([data-glaze="calendar-root"], [data-glaze="range-calendar-root"]) {
+  @apply border-0 bg-transparent p-0;
+}
+:is([data-glaze="calendar-month-select"], [data-glaze="calendar-year-select"]) {
+  @apply border border-input bg-card px-2 font-medium;
+}
 [data-glaze="calendar-month-label"] {
   @apply text-sm font-semibold;
 }
@@ -29,6 +36,11 @@
 [data-glaze="calendar-day"] {
   @apply size-8 cursor-pointer rounded-control hover:bg-muted;
 }
+@media (max-width: 24rem) {
+  [data-glaze="calendar-grid"]:has([data-week-number]) button {
+    inline-size: 1.75rem;
+  }
+}
 [data-glaze="calendar-grid"] button[data-outside-month] {
   @apply text-muted-foreground;
 }
@@ -41,8 +53,9 @@
 [data-glaze="calendar-grid"] button:is([data-selected], [data-range-start], [data-range-end]) {
   @apply bg-primary text-primary-foreground;
 }
-[data-glaze="calendar-grid"] button:disabled {
-  @apply opacity-45;
+/* Only the two ends of a range are filled. The days between them form a quieter band. */
+[data-glaze="calendar-grid"] button[data-range-middle]:not([data-range-start], [data-range-end]) {
+  @apply bg-muted text-foreground;
 }
 :is(
   [data-glaze="date-field-input"],
@@ -96,7 +109,18 @@
   [data-glaze="time-picker-options"],
   [data-glaze="time-picker-day-period"]
 ) {
-  @apply grid max-h-56 gap-0.5 overflow-auto text-sm tabular-nums;
+  @apply grid max-h-56 content-start gap-0.5 overflow-auto text-sm tabular-nums;
+}
+/* A column of the time picker is a listbox the arrow keys move through, clipped mid-option to show
+   there is more. Side by side, their scrollbars would crowd the popup, so they stay hidden. */
+:is(
+  [data-glaze="time-picker-hours"],
+  [data-glaze="time-picker-minutes"],
+  [data-glaze="time-picker-seconds"],
+  [data-glaze="time-picker-day-period"]
+) {
+  scrollbar-width: none;
+  overscroll-behavior: contain;
 }
 [data-glaze][data-time-grid-columns] {
   grid-template-columns: repeat(attr(data-time-grid-columns type(<integer>), 1), minmax(0, 1fr));

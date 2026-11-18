@@ -1,0 +1,17 @@
+import { CalendarRoot, CalendarMonthSelect, CalendarYearSelect, CalendarGrid, CalendarGridHeader, CalendarGridBody } from "../../../src/glaze/calendar.rx"
+import { parseDate } from "../../../src/bisque/internal/date.js"
+
+export default component CalendarSelects() {
+  <div class="grid min-w-0 gap-3">
+    <CalendarRoot aria-label="Date of birth" min={parseDate("1920-01-01", undefined)} max={parseDate("2010-12-31", undefined)} defaultMonth={parseDate("1990-06-01", undefined)?.toPlainYearMonth()} fixedWeeks>
+      <div class="mb-2 flex items-center justify-between gap-2">
+        <CalendarMonthSelect />
+        <CalendarYearSelect />
+      </div>
+      <CalendarGrid>
+        <CalendarGridHeader format="narrow" />
+        <CalendarGridBody />
+      </CalendarGrid>
+    </CalendarRoot>
+  </div>
+}

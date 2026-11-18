@@ -1,0 +1,2 @@
+export fn failNextLoad(): void
+export pure fn loadText(topic: string): Promise<string>

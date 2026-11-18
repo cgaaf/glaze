@@ -1,0 +1,48 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { DateFieldRoot, DateFieldInput, DateFieldSegment } from "../../../src/glaze/date-field.rx"
+import { dateField } from "../../../src/bisque/date-field/date-field.rx"
+import { FieldRoot, FieldLabel, FieldDescription, FieldError } from "../../../src/glaze/field.rx"
+import { Form } from "../../../src/glaze/form.rx"
+import { saveSetting, dropNetwork, messageOf } from "../../lib/settings-server.js"
+import { today } from "../../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use dateField
+  {for segment in c.segments {
+    <DateFieldSegment segment={segment} />
+  }}
+}
+
+export default component DateFieldForm() {
+  start = today(undefined, undefined)
+  source sent := ""
+  source failure := ""
+  <div class="grid min-w-0 gap-4">
+    <Form onFormSubmit={(values) => {
+      affects sent
+      onFlush(() => { failure := "" })
+      try {
+        await saveSetting("check-in", values.checkIn)
+        sent := `${values.checkIn}`
+      } catch (error) {
+        failure := messageOf(error)
+      }
+    }}>
+      <FieldRoot name="checkIn">
+        <FieldLabel>Check-in</FieldLabel>
+        <DateFieldRoot readOnly={pending? sent} required min={start} max={start.add({ years: 1 })}>
+          <DateFieldInput><Segments /></DateFieldInput>
+        </DateFieldRoot>
+        <FieldDescription>Within the next year.</FieldDescription>
+        <FieldError />
+      </FieldRoot>
+      <div class="mt-1">
+        <Button type="submit" disabled={pending? sent} focusableWhenDisabled>{pending? sent ? "Booking…" : "Book"}</Button>
+      </div>
+    </Form>
+    <output class="text-sm text-muted-foreground">{failure != "" ? failure : sent == "" ? "" : `Booked ${sent}`}</output>
+    <div>
+      <Button variant="outline" size="sm" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+    </div>
+  </div>
+}

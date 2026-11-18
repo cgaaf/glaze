@@ -1,0 +1,14 @@
+import { Separator } from "../../../src/glaze/separator.rx"
+import { MenuRoot, MenuTrigger, MenuPopup, MenuLinkItem } from "../../../src/glaze/menu.rx"
+
+export default component Resources() {
+  <MenuRoot>
+    <MenuTrigger>Documentation links</MenuTrigger>
+    <MenuPopup>
+      <MenuLinkItem href="?page=installation">Install Glaze</MenuLinkItem>
+      <MenuLinkItem href="?page=theming">Configure a theme</MenuLinkItem>
+      <Separator />
+      <MenuLinkItem href="?component=menu">Menu reference</MenuLinkItem>
+    </MenuPopup>
+  </MenuRoot>
+}

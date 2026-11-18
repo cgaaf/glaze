@@ -1,0 +1,37 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { SortableRoot, SortableItem, SortableHandle } from "../../../src/glaze/sortable.rx"
+import { loadSetting, saveSetting, dropNetwork, messageOf } from "../../lib/settings-server.js"
+
+fn ids(value: string[]): string[] => value
+
+export default component SortableSaving() {
+  // What the server holds. `-> […]` is shown until the first answer.
+  order = await loadSetting("sortable-order", ids(["Inbox", "Projects", "Archive", "Trash"])) -> ["Inbox", "Projects", "Archive", "Trash"]
+  source failure := ""
+  <div class="grid min-w-0 gap-3">
+    {errored fallback(e) { <p class="text-sm text-destructive">{messageOf(e)}</p> } {
+      <SortableRoot aria-label="Folders" value={order} onValueChange={(next) => {
+        // Show the new order at once; it goes back by itself if the save fails.
+        guess order := next
+        onFlush(() => { failure := "" })
+        affects order
+        try {
+          await saveSetting("sortable-order", next)
+          refresh order
+        } catch (error) {
+          failure := messageOf(error)
+        }
+      }}>
+        {for folder in order {
+          <SortableItem id={folder}>
+            <SortableHandle aria-label={`Move ${folder}`}><Icon name="grip-vertical" /></SortableHandle>
+            {folder}
+          </SortableItem>
+        }}
+      </SortableRoot>
+      <p class="text-sm text-muted-foreground" aria-live="polite">{pending? order ? "Saving…" : failure}</p>
+      <Button variant="outline" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+    }}
+  </div>
+}

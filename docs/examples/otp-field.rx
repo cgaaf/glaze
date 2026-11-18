@@ -16,6 +16,6 @@ export default component Example() {
         <OTPFieldInput aria-label="Digit 6 of 6" />
       </div>
     </OTPFieldRoot>
-    <p class="text-xs text-muted-foreground">Enter the 6-digit code we sent you.</p>
+    <p class="text-sm text-muted-foreground">Enter the 6-digit code we sent you.</p>
   </div>
 }

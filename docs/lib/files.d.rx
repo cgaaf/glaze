@@ -1,0 +1,3 @@
+export fn dropNetwork(): void
+export pure fn loadRecent(): Promise<string[]>
+export fn openFile(name: string): Promise<string>

@@ -1,0 +1,35 @@
+import { DateFieldRoot, DateFieldInput, DateFieldSegment } from "../../../src/glaze/date-field.rx"
+import { dateField } from "../../../src/bisque/date-field/date-field.rx"
+import { parseDate } from "../../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use dateField
+  {for segment in c.segments {
+    <DateFieldSegment segment={segment} />
+  }}
+}
+
+export default component DateFieldLocales() {
+  <div class="grid min-w-0 gap-4">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <span class="text-sm font-medium">en-US</span>
+      <DateFieldRoot aria-label="Date, United States" locale="en-US" defaultValue={parseDate("2026-03-09", undefined)}>
+        <DateFieldInput><Segments /></DateFieldInput>
+      </DateFieldRoot>
+    </div>
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <span class="text-sm font-medium">de-DE</span>
+      <DateFieldRoot aria-label="Datum" locale="de-DE" defaultValue={parseDate("2026-03-09", undefined)}>
+        <DateFieldInput><Segments /></DateFieldInput>
+      </DateFieldRoot>
+    </div>
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <span class="text-sm font-medium">ar-EG</span>
+      <div dir="rtl">
+        <DateFieldRoot aria-label="التاريخ" locale="ar-EG" defaultValue={parseDate("2026-03-09", undefined)}>
+          <DateFieldInput><Segments /></DateFieldInput>
+        </DateFieldRoot>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,29 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { MenuRoot, MenuTrigger, MenuPopup, MenuItem, MenuSeparator, MenuSubmenuRoot, MenuSubmenuTrigger } from "../../../src/glaze/menu.rx"
+
+export default component MenuSubmenu() {
+  source inserted := ""
+  <div class="grid min-w-0 gap-3">
+    <MenuRoot>
+      <MenuTrigger>Insert</MenuTrigger>
+      <MenuPopup sideOffset={6}>
+        <MenuItem onClick={() => { inserted := "Image" }}>Image</MenuItem>
+        <MenuItem onClick={() => { inserted := "Table" }}>Table</MenuItem>
+        <MenuSubmenuRoot>
+          <MenuSubmenuTrigger>
+            Chart
+            <Icon name="chevron-right" class="ms-auto" />
+          </MenuSubmenuTrigger>
+          <MenuPopup alignOffset={-5}>
+            <MenuItem onClick={() => { inserted := "Bar" }}>Bar</MenuItem>
+            <MenuItem onClick={() => { inserted := "Line" }}>Line</MenuItem>
+            <MenuItem onClick={() => { inserted := "Pie" }}>Pie</MenuItem>
+          </MenuPopup>
+        </MenuSubmenuRoot>
+        <MenuSeparator />
+        <MenuItem onClick={() => { inserted := "Page break" }}>Page break</MenuItem>
+      </MenuPopup>
+    </MenuRoot>
+    <output class="text-sm text-muted-foreground">{inserted == "" ? "Nothing inserted" : "Inserted " + inserted}</output>
+  </div>
+}

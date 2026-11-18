@@ -63,7 +63,22 @@
       "name": "DialogTrigger",
       "element": "button",
       "description": "The button that opens the dialog. It carries `aria-haspopup`, `aria-expanded` and `aria-controls`.",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "outline",
+          "required": false,
+          "description": "The visual emphasis of the action, on the same scale as Button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "default",
+          "required": false,
+          "description": "The height and padding of the button, on the same scale as Button."
+        }
+      ],
       "dataAttributes": [
         {
           "name": "data-popup-open",
@@ -105,6 +120,29 @@
       "name": "DialogClose",
       "element": "button",
       "description": "A button that closes the dialog. In a controlled dialog it asks through `onOpenChange`.",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "outline",
+          "required": false,
+          "description": "The visual emphasis of the action, on the same scale as Button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "default",
+          "required": false,
+          "description": "The height and padding of the button, on the same scale as Button."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "DialogFooter",
+      "element": "div",
+      "description": "A Glaze layout part: the row of actions that ends the popup. Put the primary action last.",
       "props": [],
       "dataAttributes": [],
       "cssVariables": []

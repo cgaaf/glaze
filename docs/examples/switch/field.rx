@@ -1,0 +1,21 @@
+import { SwitchRoot, SwitchThumb } from "../../../src/glaze/switch.rx"
+import { FieldRoot, FieldLabel, FieldDescription } from "../../../src/glaze/field.rx"
+
+export default component SwitchField() {
+  <div class="grid min-w-0 gap-4">
+    <FieldRoot class="flex items-start justify-between gap-4" name="backups">
+      <div class="grid gap-1">
+        <FieldLabel>Automatic backups</FieldLabel>
+        <FieldDescription>Copy your files to the cloud every night.</FieldDescription>
+      </div>
+      <SwitchRoot defaultChecked><SwitchThumb /></SwitchRoot>
+    </FieldRoot>
+    <FieldRoot class="flex items-start justify-between gap-4" name="sync" disabled>
+      <div class="grid gap-1">
+        <FieldLabel>Sync over mobile data</FieldLabel>
+        <FieldDescription>Available on the Team plan.</FieldDescription>
+      </div>
+      <SwitchRoot><SwitchThumb /></SwitchRoot>
+    </FieldRoot>
+  </div>
+}

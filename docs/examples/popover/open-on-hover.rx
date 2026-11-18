@@ -1,0 +1,13 @@
+import { PopoverRoot, PopoverTrigger, PopoverPopup, PopoverTitle, PopoverDescription } from "../../../src/glaze/popover.rx"
+
+export default component PopoverOpenOnHover() {
+  <div class="grid min-w-0 gap-3">
+    <PopoverRoot>
+      <PopoverTrigger openOnHover delay={200}>Shipping</PopoverTrigger>
+      <PopoverPopup sideOffset={8}>
+        <PopoverTitle>Free over $50</PopoverTitle>
+        <PopoverDescription>Orders leave the warehouse within two working days.</PopoverDescription>
+      </PopoverPopup>
+    </PopoverRoot>
+  </div>
+}

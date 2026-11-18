@@ -172,7 +172,22 @@
       "name": "ToastAction",
       "element": "button",
       "description": "A button for the toast's action. It takes the toast's `actionProps`, with their `children` as its label, and then its own props. Renders nothing without a label.",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "outline",
+          "required": false,
+          "description": "The visual emphasis of the action, on the same scale as Button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "default",
+          "required": false,
+          "description": "The height and padding of the button, on the same scale as Button."
+        }
+      ],
       "dataAttributes": [
         {
           "name": "data-type",

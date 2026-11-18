@@ -1,0 +1,16 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { Input } from "../../../src/glaze/input.rx"
+
+export default component InputControlled() {
+  source bio := "Makes furniture from reclaimed oak."
+  <div class="grid min-w-0 gap-3">
+    <label class="grid gap-2 text-sm font-medium">
+      Short bio
+      <Input value={bio} maxlength={60} onValueChange={(next) => { bio := next }} />
+    </label>
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <output class="text-sm text-muted-foreground">{bio.length} / 60</output>
+      <Button variant="ghost" size="sm" type="button" onClick={() => { bio := "" }}>Clear</Button>
+    </div>
+  </div>
+}

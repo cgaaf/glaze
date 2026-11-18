@@ -1,0 +1,57 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { ToastProvider, ToastViewport, ToastRoot, ToastContent, ToastTitle, ToastDescription, ToastAction } from "../../../src/glaze/toast.rx"
+import { toast } from "../../../src/bisque/toast/toast.rx"
+import { publishPost } from "../../lib/publish.js"
+
+component Toasts() {
+  c = use toast
+  for t in c.toasts {
+    <ToastRoot toast={t}>
+      <ToastContent>
+        <div>
+          <ToastTitle />
+          <ToastDescription />
+        </div>
+        <ToastAction size="sm" />
+      </ToastContent>
+    </ToastRoot>
+  }
+}
+
+component PublishButton() {
+  c = use toast
+  source address := ""
+  // A "loading" toast until the promise settles, then the same toast turns into "success" or "error". Awaiting it
+  // in the action is fine: the toast shows at once, and the action carries on with the answer.
+  action publish() {
+    // `pending? address` is true until the action ends: the button is disabled meanwhile.
+    affects address
+    try {
+      let url = await c.manager.promise(publishPost(), {
+        // With an id, the retry below turns the failed toast back to loading instead of adding another.
+        loading: { id: "publish", title: "Publishing…", description: "Sending the post to the server.", actionProps: undefined },
+        success: { title: "Post published", description: "It is live on the blog now." },
+        error: { title: "Couldn't publish", description: "The server didn't answer.", actionProps: { children: "Try again", onClick: publish } },
+      })
+      address := url
+    } catch (e) {
+      // The promise still rejects after the toast has shown the error; the toast is all this page shows of it.
+      address := ""
+    }
+  }
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <Button variant="outline" type="button" disabled={pending? address} onClick={publish}>Publish post</Button>
+    {if address != "" { <span class="text-sm text-muted-foreground">Live at {address}</span> }}
+  </div>
+}
+
+export default component ToastPromise() {
+  <div class="grid min-w-0 gap-3">
+    <ToastProvider>
+      <PublishButton />
+      <ToastViewport aria-label="Request notifications">
+        <Toasts />
+      </ToastViewport>
+    </ToastProvider>
+  </div>
+}

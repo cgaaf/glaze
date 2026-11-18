@@ -1,0 +1,12 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { SegmentedControlRoot, SegmentedControlItem } from "../../../src/glaze/segmented-control.rx"
+
+export default component SegmentedControlIcons() {
+  <div class="grid min-w-0 gap-3">
+    <SegmentedControlRoot aria-label="Alignment" defaultValue="left">
+      <SegmentedControlItem value="left"><Icon name="align-left" />Left</SegmentedControlItem>
+      <SegmentedControlItem value="center"><Icon name="align-center" />Center</SegmentedControlItem>
+      <SegmentedControlItem value="right" disabled><Icon name="align-right" />Right</SegmentedControlItem>
+    </SegmentedControlRoot>
+  </div>
+}

@@ -9,7 +9,7 @@ export default component Example() {
         Recovery keys
       </CollapsibleTrigger>
       <CollapsiblePanel>
-        <ul class="pb-3 text-sm">
+        <ul class="grid gap-1 pt-3 font-mono text-sm">
           <li>alder-7341-quartz</li>
           <li>birch-0926-slate</li>
           <li>cedar-5518-amber</li>

@@ -1,0 +1,27 @@
+import { MenuRoot, MenuTrigger, MenuPopup, MenuCheckboxItem, MenuRadioGroup, MenuRadioItem, MenuGroup, MenuGroupLabel, MenuSeparator } from "../../../src/glaze/menu.rx"
+
+export default component MenuOptions() {
+  source sort := "modified"
+  <div class="grid min-w-0 gap-3">
+    <MenuRoot>
+      <MenuTrigger>View</MenuTrigger>
+      <MenuPopup sideOffset={6}>
+        <MenuCheckboxItem defaultChecked>
+          Show hidden files
+        </MenuCheckboxItem>
+        <MenuCheckboxItem>
+          Show file extensions
+        </MenuCheckboxItem>
+        <MenuSeparator />
+        <MenuGroup>
+          <MenuGroupLabel>Sort by</MenuGroupLabel>
+          <MenuRadioGroup value={sort} onValueChange={(next) => { sort := next }}>
+            <MenuRadioItem value="name">Name</MenuRadioItem>
+            <MenuRadioItem value="modified">Date modified</MenuRadioItem>
+            <MenuRadioItem value="size">Size</MenuRadioItem>
+          </MenuRadioGroup>
+        </MenuGroup>
+      </MenuPopup>
+    </MenuRoot>
+  </div>
+}

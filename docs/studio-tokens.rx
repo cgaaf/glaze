@@ -1,0 +1,43 @@
+import { SegmentedControlRoot, SegmentedControlItem } from "../src/glaze/segmented-control.rx"
+import { SliderRoot, SliderControl, SliderTrack, SliderIndicator, SliderThumb } from "../src/glaze/slider.rx"
+import { createThemeChoices, setTheme, setRadius, tokenOptions } from "./lib/theme-state.js"
+
+// The theme studio's token controls. They follow the theme live, so the header's theme menu and these stay in step.
+export default component StudioTokens() {
+  choices = createThemeChoices()
+  fonts = tokenOptions("Font")
+  shadows = tokenOptions("Shadow")
+  densities = tokenOptions("Density")
+  <div class="tokens-panel" role="group" aria-label="Design tokens">
+    <div class="token-control">
+      <span id="studio-radius">Radius</span>
+      <output>{choices.radius}rem</output>
+      <SliderRoot value={choices.radius} min={0} max={1} step={0.05} onValueChange={(next) => { setRadius(next) }}>
+        <SliderControl>
+          <SliderTrack>
+            <SliderIndicator />
+            <SliderThumb aria-labelledby="studio-radius" />
+          </SliderTrack>
+        </SliderControl>
+      </SliderRoot>
+    </div>
+    <div class="token-control">
+      <span id="studio-font">Font</span>
+      <SegmentedControlRoot aria-labelledby="studio-font" value={choices.font} onValueChange={(next) => { setTheme("Font", next) }}>
+        {for entry in fonts { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
+      </SegmentedControlRoot>
+    </div>
+    <div class="token-control">
+      <span id="studio-shadow">Elevation</span>
+      <SegmentedControlRoot aria-labelledby="studio-shadow" value={choices.shadow} onValueChange={(next) => { setTheme("Shadow", next) }}>
+        {for entry in shadows { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
+      </SegmentedControlRoot>
+    </div>
+    <div class="token-control">
+      <span id="studio-density">Density</span>
+      <SegmentedControlRoot aria-labelledby="studio-density" value={choices.density} onValueChange={(next) => { setTheme("Density", next) }}>
+        {for entry in densities { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
+      </SegmentedControlRoot>
+    </div>
+  </div>
+}

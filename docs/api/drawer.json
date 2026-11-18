@@ -70,7 +70,22 @@
       "name": "DrawerTrigger",
       "element": "button",
       "description": "The button that opens the drawer.",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "outline",
+          "required": false,
+          "description": "The visual emphasis of the action, on the same scale as Button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "default",
+          "required": false,
+          "description": "The height and padding of the button, on the same scale as Button."
+        }
+      ],
       "dataAttributes": [
         {
           "name": "data-popup-open",
@@ -150,6 +165,29 @@
       "name": "DrawerClose",
       "element": "button",
       "description": "A button that closes the drawer.",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "outline",
+          "required": false,
+          "description": "The visual emphasis of the action, on the same scale as Button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "default",
+          "required": false,
+          "description": "The height and padding of the button, on the same scale as Button."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "DrawerFooter",
+      "element": "div",
+      "description": "A Glaze layout part: the row of actions that ends the popup. Put the primary action last.",
       "props": [],
       "dataAttributes": [],
       "cssVariables": []

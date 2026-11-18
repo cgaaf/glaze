@@ -1,0 +1,20 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { ProgressRoot, ProgressLabel, ProgressValue, ProgressTrack, ProgressIndicator } from "../../../src/glaze/progress.rx"
+
+export default component ProgressStatus() {
+  source done: number | null := 40
+  <div class="grid min-w-0 gap-3">
+    <ProgressRoot value={done}>
+      <ProgressLabel>Export</ProgressLabel>
+      <ProgressValue />
+      <ProgressTrack>
+        <ProgressIndicator />
+      </ProgressTrack>
+    </ProgressRoot>
+    <div class="flex flex-wrap gap-2">
+      <Button variant="outline" type="button" onClick={() => { done := null }}>Unknown</Button>
+      <Button variant="outline" type="button" onClick={() => { done := 0 }}>Restart</Button>
+      <Button variant="outline" type="button" onClick={() => { done := done == null ? 20 : done + 20 > 100 ? 100 : done + 20 }}>Add 20%</Button>
+    </div>
+  </div>
+}

@@ -1,0 +1,2 @@
+export pure fn pageSections(): { id: string; title: string }[]
+export pure fn headingOffset(): number

@@ -1,0 +1,58 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { DateRangePickerRoot, DateRangePickerGroup, DateRangePickerStart, DateRangePickerSeparator, DateRangePickerEnd, DateRangePickerTrigger, DateRangePickerPopup, DateRangePickerCalendar } from "../../../src/glaze/date-range-picker.rx"
+import { DateFieldInput, DateFieldSegment } from "../../../src/glaze/date-field.rx"
+import { dateField } from "../../../src/bisque/date-field/date-field.rx"
+import { CalendarPreviousMonth, CalendarMonthLabel, CalendarNextMonth, CalendarGrid, CalendarGridHeader, CalendarGridBody } from "../../../src/glaze/calendar.rx"
+import { FieldRoot, FieldLabel, FieldDescription, FieldError } from "../../../src/glaze/field.rx"
+import { Form } from "../../../src/glaze/form.rx"
+
+// The segments come from the field's context, so they are rendered by a component inside the field.
+component Segments() {
+  c = use dateField
+  {for segment in c.segments {
+    <DateFieldSegment segment={segment} />
+  }}
+}
+
+// The calendar's header and grid, inside the picker's calendar.
+component Month() {
+  <div class="mb-2 flex items-center justify-between gap-2">
+    <CalendarPreviousMonth />
+    <CalendarMonthLabel />
+    <CalendarNextMonth />
+  </div>
+  <CalendarGrid>
+    <CalendarGridHeader format="narrow" />
+    <CalendarGridBody />
+  </CalendarGrid>
+}
+
+// The Field's value for a range: `{ start, end }` ISO strings, or null.
+fn describe(trip: any): string => trip == null ? "" : `${trip.start} to ${trip.end}`
+
+export default component DateRangePickerForm() {
+  source sent := ""
+  <div class="grid min-w-0 gap-3">
+    <Form onFormSubmit={(values) => { sent := describe(values.trip) }}>
+      <FieldRoot name="trip">
+        <FieldLabel>Trip dates</FieldLabel>
+        <DateRangePickerRoot required>
+          <DateRangePickerGroup>
+            <DateRangePickerStart><DateFieldInput><Segments /></DateFieldInput></DateRangePickerStart>
+            <DateRangePickerSeparator>–</DateRangePickerSeparator>
+            <DateRangePickerEnd><DateFieldInput><Segments /></DateFieldInput></DateRangePickerEnd>
+            <DateRangePickerTrigger><Icon name="calendar" /></DateRangePickerTrigger>
+          </DateRangePickerGroup>
+          <DateRangePickerPopup>
+            <DateRangePickerCalendar><Month /></DateRangePickerCalendar>
+          </DateRangePickerPopup>
+        </DateRangePickerRoot>
+        <FieldDescription>Both dates; the trip ends on or after it starts.</FieldDescription>
+        <FieldError />
+      </FieldRoot>
+      <Button type="submit">Book</Button>
+    </Form>
+    <output class="text-sm text-muted-foreground">{sent == "" ? "" : `Submitted ${sent}`}</output>
+  </div>
+}

@@ -6,7 +6,7 @@ export default component Example() {
   <div class="grid max-w-full gap-2">
     <FieldRoot>
       <FieldLabel>Delivery</FieldLabel>
-      <ListboxRoot defaultValue="standard">
+      <ListboxRoot class="w-64 max-w-full" defaultValue="standard">
         <ListboxItem value="standard">
           <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
           <ListboxItemText>Standard</ListboxItemText>

@@ -14,21 +14,23 @@ import {
   MenuSubmenuTrigger as BaseMenuSubmenuTrigger,
   MenuArrow as BaseMenuArrow,
 } from "../bisque/menu/menu.rx"
+import { ButtonStyle } from "./button.rx"
 
 export component MenuRoot(props: Parameters<typeof BaseMenuRoot>[0]) {
   <BaseMenuRoot {...props}>{props.children}</BaseMenuRoot>
 }
 
-export component MenuTrigger(props: Parameters<typeof BaseMenuTrigger>[0]) {
-  <BaseMenuTrigger {...props} data-glaze="menu-trigger">{props.children}</BaseMenuTrigger>
+export component MenuTrigger({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseMenuTrigger>[0] & ButtonStyle) {
+  <BaseMenuTrigger {...rest} data-glaze="menu-trigger" data-variant={variant} data-size={size}>{children}</BaseMenuTrigger>
 }
 
 export component MenuPopup(props: Parameters<typeof BaseMenuPopup>[0]) {
   <BaseMenuPopup {...props} data-glaze="menu-popup">{props.children}</BaseMenuPopup>
 }
 
-export component MenuItem(props: Parameters<typeof BaseMenuItem>[0]) {
-  <BaseMenuItem {...props} data-glaze="menu-item">{props.children}</BaseMenuItem>
+// `variant="destructive"` marks an item that deletes or discards something.
+export component MenuItem({ variant, children, ...rest }: Parameters<typeof BaseMenuItem>[0] & { variant?: "default" | "destructive" }) {
+  <BaseMenuItem {...rest} data-glaze="menu-item" data-variant={variant}>{children}</BaseMenuItem>
 }
 
 export component MenuLinkItem(props: Parameters<typeof BaseMenuLinkItem>[0]) {

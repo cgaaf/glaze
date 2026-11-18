@@ -1,0 +1,36 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { TabsRoot, TabsList, TabsTab, TabsPanel, TabsIndicator } from "../../../src/glaze/tabs.rx"
+import { loadText, failNextLoad } from "../../lib/panel-server.js"
+
+export default component TabsLoading() {
+  // The selected tab is what the question reads: choosing a tab asks again, and an answer for a tab that is no
+  // longer selected is dropped. `onValueChange` is called after the tab has switched, so the switch never waits.
+  source tab := "activity"
+  text = await loadText(tab)
+  topics = [{ value: "activity", label: "Activity" }, { value: "members", label: "Members" }, { value: "files", label: "Files" }]
+  <div class="grid min-w-0 gap-3">
+    <TabsRoot defaultValue="activity" onValueChange={(next) => { tab := next }}>
+      <TabsList aria-label="Project">
+        {for topic in topics {
+          <TabsTab value={topic.value}>{topic.label}</TabsTab>
+        }}
+        <TabsIndicator />
+      </TabsList>
+      {for topic in topics {
+        <TabsPanel value={topic.value}>
+          {loading on(tab) fallback { <p class="text-sm text-muted-foreground">Loading…</p> } {
+            {errored fallback(e) {
+              <div class="grid justify-items-start gap-2">
+                <p class="text-sm text-destructive">{e.message}</p>
+                <Button variant="outline" size="sm" onClick={() => { refresh text }}>Try again</Button>
+              </div>
+            } {
+              <p class="text-sm">{text}</p>
+            }}
+          }}
+        </TabsPanel>
+      }}
+    </TabsRoot>
+    <Button class="justify-self-start" variant="outline" onClick={() => { failNextLoad() }}>Fail the next load</Button>
+  </div>
+}

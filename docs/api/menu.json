@@ -42,7 +42,22 @@
       "name": "MenuTrigger",
       "element": "button",
       "description": "The button that opens and closes the menu. Its `popovertarget` keeps a press on it from counting as a press outside the open menu; the press itself is handled by the menu. Enter, Space and ArrowDown open the menu on its first item, ArrowUp on its last.",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "outline",
+          "required": false,
+          "description": "The visual emphasis of the action, on the same scale as Button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "default",
+          "required": false,
+          "description": "The height and padding of the button, on the same scale as Button."
+        }
+      ],
       "dataAttributes": [
         {
           "name": "data-disabled",
@@ -102,6 +117,13 @@
       "element": "div",
       "description": "An action in the menu. Choosing it with a press, Enter or Space runs its `onClick` and, by default, closes the menu.",
       "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"destructive\"",
+          "default": "default",
+          "required": false,
+          "description": "Use `destructive` for an item that deletes or discards something."
+        },
         {
           "name": "disabled",
           "type": "boolean",

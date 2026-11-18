@@ -1,0 +1,48 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { SelectRoot, SelectTrigger, SelectValue, SelectIcon, SelectPopup, SelectItem, SelectItemText, SelectItemIndicator, SelectGroup, SelectGroupLabel, SelectSeparator } from "../../../src/glaze/select.rx"
+
+export default component SelectGrouped() {
+  <div class="grid min-w-0 gap-3">
+    <SelectRoot>
+      <SelectTrigger aria-label="Produce">
+        <SelectValue placeholder="Choose produce" />
+        <SelectIcon>
+          <Icon name="chevrons-up-down" />
+        </SelectIcon>
+      </SelectTrigger>
+      <SelectPopup sideOffset={6}>
+        <SelectGroup>
+          <SelectGroupLabel>Fruit</SelectGroupLabel>
+          <SelectItem value="apple">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Apple</SelectItemText>
+          </SelectItem>
+          <SelectItem value="banana">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Banana</SelectItemText>
+          </SelectItem>
+          <SelectItem value="orange">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Orange</SelectItemText>
+          </SelectItem>
+        </SelectGroup>
+        <SelectSeparator />
+        <SelectGroup>
+          <SelectGroupLabel>Vegetables</SelectGroupLabel>
+          <SelectItem value="carrot">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Carrot</SelectItemText>
+          </SelectItem>
+          <SelectItem value="lettuce">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Lettuce</SelectItemText>
+          </SelectItem>
+          <SelectItem value="spinach">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Spinach</SelectItemText>
+          </SelectItem>
+        </SelectGroup>
+      </SelectPopup>
+    </SelectRoot>
+  </div>
+}

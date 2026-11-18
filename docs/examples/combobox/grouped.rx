@@ -1,0 +1,27 @@
+import { ComboboxRoot, ComboboxInput, ComboboxPopup, ComboboxEmpty, ComboboxList, ComboboxItem, ComboboxGroup, ComboboxGroupLabel, ComboboxSeparator } from "../../../src/glaze/combobox.rx"
+
+export default component ComboboxGrouped() {
+  <div class="grid min-w-0 gap-3">
+    <ComboboxRoot>
+      <ComboboxInput aria-label="Produce" placeholder="Search produce" />
+      <ComboboxPopup sideOffset={6}>
+        <ComboboxEmpty>Nothing matches.</ComboboxEmpty>
+        <ComboboxList>
+          <ComboboxGroup>
+            <ComboboxGroupLabel>Fruit</ComboboxGroupLabel>
+            <ComboboxItem value="apple" label="Apple">Apple</ComboboxItem>
+            <ComboboxItem value="banana" label="Banana">Banana</ComboboxItem>
+            <ComboboxItem value="orange" label="Orange">Orange</ComboboxItem>
+          </ComboboxGroup>
+          <ComboboxSeparator />
+          <ComboboxGroup>
+            <ComboboxGroupLabel>Vegetables</ComboboxGroupLabel>
+            <ComboboxItem value="carrot" label="Carrot">Carrot</ComboboxItem>
+            <ComboboxItem value="leek" label="Leek">Leek</ComboboxItem>
+            <ComboboxItem value="spinach" label="Spinach">Spinach</ComboboxItem>
+          </ComboboxGroup>
+        </ComboboxList>
+      </ComboboxPopup>
+    </ComboboxRoot>
+  </div>
+}

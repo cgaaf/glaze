@@ -1,0 +1,10 @@
+export type ThemeChoices = { theme: string; mode: string; radius: number; font: string; shadow: string; density: string }
+export type ThemeOption = { value: string; label: string }
+export pure fn createThemeChoices(): ref ThemeChoices
+export fn setTheme(key: "Theme" | "Mode" | "Font" | "Shadow" | "Density", value: string): void
+export fn setRadius(value: number | number[]): void
+export fn resetTokens(): void
+export type PaletteOption = { value: string; label: string; color: string }
+export pure fn paletteOptions(): PaletteOption[]
+export pure fn modeOptions(): ThemeOption[]
+export pure fn tokenOptions(key: "Font" | "Shadow" | "Density"): ThemeOption[]

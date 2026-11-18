@@ -49,9 +49,11 @@
   @apply relative max-w-full overflow-hidden rounded-panel border border-border bg-card;
   height: 13rem;
 }
+/* The scroll area draws its own scrollbar, so the native one is hidden rather than doubled. */
 [data-glaze="scroll-area-viewport"] {
   @apply size-full;
   border-radius: inherit;
+  scrollbar-width: none;
 }
 [data-glaze="scroll-area-content"] {
   @apply p-4 text-sm;
@@ -89,6 +91,13 @@
 [data-glaze="splitter-panel"] {
   @apply min-w-0 overflow-auto p-3 text-sm;
 }
+/* A splitter nested in a panel fills it: one frame, not a box inside a box. */
+[data-glaze="splitter-panel"]:has(> [data-glaze="splitter-root"]) {
+  @apply p-0;
+}
+[data-glaze="splitter-panel"] > [data-glaze="splitter-root"] {
+  @apply size-full rounded-none border-0;
+}
 [data-glaze="splitter-handle"] {
   @apply relative z-1 w-2 shrink-0 cursor-col-resize;
   background: linear-gradient(var(--border), var(--border)) center/1px 100% no-repeat;
@@ -100,14 +109,34 @@
 [data-glaze="splitter-handle"]:is(:hover, [data-dragging]) {
   background-color: var(--muted);
 }
+/* The splitter clips its overflow, which would cut the usual outline down to two slivers. A focused
+   handle thickens its own line in the ring color instead. */
+[data-glaze="splitter-handle"]:focus-visible {
+  outline: none;
+  background:
+    linear-gradient(var(--ring), var(--ring)) center / 3px 100% no-repeat,
+    var(--muted);
+}
+[data-glaze="splitter-handle"][data-orientation="vertical"]:focus-visible {
+  background-size:
+    100% 3px,
+    auto;
+}
+@media (forced-colors: active) {
+  [data-glaze="splitter-handle"]:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
 [data-glaze="table-of-contents-root"] {
   @apply relative self-start;
 }
 [data-glaze="table-of-contents-link"] {
   @apply block rounded-control px-3 py-1 text-sm text-muted-foreground hover:text-foreground;
 }
+/* Color only: a heavier weight would rewrap long links as the current section changes. */
 [data-glaze="table-of-contents-link"][aria-current] {
-  @apply font-medium text-primary;
+  @apply text-primary;
 }
 [data-glaze="table-of-contents-indicator"] {
   @apply pointer-events-none absolute top-0 left-0 w-0.5 bg-primary;

@@ -1,0 +1,26 @@
+import { ListboxRoot, ListboxItem, ListboxGroup, ListboxGroupLabel } from "../../../src/glaze/listbox.rx"
+
+export default component ListboxGrouped() {
+  <div class="grid min-w-0 gap-3">
+    <ListboxRoot aria-label="Time zone" defaultValue="europe-paris">
+      <ListboxGroup>
+        <ListboxGroupLabel>Europe</ListboxGroupLabel>
+        <ListboxItem value="europe-lisbon">Lisbon</ListboxItem>
+        <ListboxItem value="europe-paris">Paris</ListboxItem>
+        <ListboxItem value="europe-helsinki">Helsinki</ListboxItem>
+      </ListboxGroup>
+      <ListboxGroup>
+        <ListboxGroupLabel>Asia</ListboxGroupLabel>
+        <ListboxItem value="asia-dubai">Dubai</ListboxItem>
+        <ListboxItem value="asia-kolkata">Kolkata</ListboxItem>
+        <ListboxItem value="asia-tokyo">Tokyo</ListboxItem>
+      </ListboxGroup>
+      <ListboxGroup>
+        <ListboxGroupLabel>Americas</ListboxGroupLabel>
+        <ListboxItem value="america-sao-paulo">São Paulo</ListboxItem>
+        <ListboxItem value="america-chicago">Chicago</ListboxItem>
+        <ListboxItem value="america-vancouver">Vancouver</ListboxItem>
+      </ListboxGroup>
+    </ListboxRoot>
+  </div>
+}

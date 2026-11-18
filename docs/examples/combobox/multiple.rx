@@ -1,0 +1,54 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { ComboboxRoot, ComboboxInput, ComboboxChips, ComboboxChip, ComboboxChipRemove, ComboboxPopup, ComboboxEmpty, ComboboxList, ComboboxItem, ComboboxItemIndicator } from "../../../src/glaze/combobox.rx"
+import { combobox } from "../../../src/bisque/combobox/combobox.rx"
+
+// One selected value. The context's `labels` names it.
+component Chip(props: { value: string }) {
+  c = use combobox
+  label = c.labels.find((entry) => entry.value == props.value)?.label ?? props.value
+  <ComboboxChip value={props.value}>
+    {label}
+    <ComboboxChipRemove aria-label={`Remove ${label}`}>
+      <Icon name="x" />
+    </ComboboxChipRemove>
+  </ComboboxChip>
+}
+
+// A chip per selected value, read from the `combobox` context.
+component Chips() {
+  c = use combobox
+  {for value in c.selected {
+    <Chip value={value} />
+  }}
+}
+
+component Label(props: { value: string; label: string }) {
+  <ComboboxItem value={props.value} label={props.label}>
+    <ComboboxItemIndicator>
+      <Icon name="check" />
+    </ComboboxItemIndicator>
+    <span>{props.label}</span>
+  </ComboboxItem>
+}
+
+export default component ComboboxMultiple() {
+  <div class="grid min-w-0 gap-3">
+    <ComboboxRoot multiple name="labels" defaultValues={["bug", "docs"]}>
+      <ComboboxChips>
+        <Chips />
+        <ComboboxInput aria-label="Labels" placeholder="Add a label" />
+      </ComboboxChips>
+      <ComboboxPopup sideOffset={6}>
+        <ComboboxEmpty>No such label.</ComboboxEmpty>
+        <ComboboxList>
+          <Label value="bug" label="Bug" />
+          <Label value="docs" label="Documentation" />
+          <Label value="feature" label="Feature" />
+          <Label value="question" label="Question" />
+          <Label value="security" label="Security" />
+          <Label value="wontfix" label="Won't fix" />
+        </ComboboxList>
+      </ComboboxPopup>
+    </ComboboxRoot>
+  </div>
+}

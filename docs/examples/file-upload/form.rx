@@ -1,0 +1,40 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { FileUploadRoot, FileUploadInput, FileUploadTrigger, FileUploadItem, FileUploadItemRemove } from "../../../src/glaze/file-upload.rx"
+import { fileUpload } from "../../../src/bisque/file-upload/file-upload.rx"
+import { FieldRoot, FieldLabel, FieldDescription, FieldError } from "../../../src/glaze/field.rx"
+import { Form } from "../../../src/glaze/form.rx"
+import { fileNames } from "../../lib/upload.js"
+
+component Chosen() {
+  c = use fileUpload
+  {if c.files.length > 0 {
+    <ul class="grid gap-2">
+      {for file in c.files {
+        <FileUploadItem file={file}>
+          <span class="min-w-0 break-all">{file.name}</span>
+          <FileUploadItemRemove>Remove</FileUploadItemRemove>
+        </FileUploadItem>
+      }}
+    </ul>
+  }}
+}
+
+export default component FileUploadForm() {
+  source sent := ""
+  <div class="grid min-w-0 gap-3">
+    <Form onFormSubmit={(values) => { sent := `Would send: ${fileNames(values.receipts)}` }}>
+      <FieldRoot name="receipts">
+        <FieldLabel>Receipts</FieldLabel>
+        <FileUploadRoot multiple required accept="image/*,.pdf">
+          <FileUploadInput class="sr-only" tabindex="-1" />
+          <FileUploadTrigger>Add receipts</FileUploadTrigger>
+          <Chosen />
+        </FileUploadRoot>
+        <FieldDescription>Photos or PDFs of each receipt.</FieldDescription>
+        <FieldError />
+      </FieldRoot>
+      <Button type="submit">Submit claim</Button>
+    </Form>
+    <output class="text-sm text-muted-foreground">{sent}</output>
+  </div>
+}

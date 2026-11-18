@@ -1,0 +1,35 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { TimePickerRoot, TimePickerField, TimePickerTrigger, TimePickerPopup, TimePickerHours, TimePickerMinutes, TimePickerSeconds, TimePickerDayPeriod } from "../../../src/glaze/time-picker.rx"
+import { TimeFieldInput, TimeFieldSegment } from "../../../src/glaze/time-field.rx"
+import { timeField } from "../../../src/bisque/time-field/time-field.rx"
+import { parseTime } from "../../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use timeField
+  {for segment in c.segments {
+    <TimeFieldSegment segment={segment} />
+  }}
+}
+
+// 24-hour with seconds: `hourCycle` overrides the locale's, `granularity="second"` adds the seconds column.
+export default component TimePickerHourCycle() {
+  <div class="grid min-w-0 gap-2">
+    <span class="text-sm font-medium" id="time-picker-hour-cycle-label">Lap time</span>
+    <TimePickerRoot locale="en-GB" hourCycle={24} granularity="second" secondStep={5} defaultValue={parseTime("14:05:30")}>
+      <TimePickerField aria-labelledby="time-picker-hour-cycle-label">
+        <TimeFieldInput><Segments /></TimeFieldInput>
+        <TimePickerTrigger>
+          <Icon name="clock" />
+        </TimePickerTrigger>
+      </TimePickerField>
+      <TimePickerPopup sideOffset={6}>
+        <div class="flex items-start gap-1">
+          <TimePickerHours />
+          <TimePickerMinutes />
+          <TimePickerSeconds />
+          <TimePickerDayPeriod />
+        </div>
+      </TimePickerPopup>
+    </TimePickerRoot>
+  </div>
+}

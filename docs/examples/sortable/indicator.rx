@@ -1,0 +1,16 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { SortableRoot, SortableItem, SortableHandle } from "../../../src/glaze/sortable.rx"
+
+export default component SortableIndicator() {
+  source order: string[] := ["Introduction", "Getting started", "Configuration", "Deployment"]
+  <div class="grid min-w-0 gap-3">
+    <SortableRoot aria-label="Chapters" value={order} onValueChange={(next) => { order := next }}>
+      {for chapter in order {
+        <SortableItem class="relative translate-none data-dragging:opacity-50 data-[drop-target=before]:border-t-primary data-[drop-target=after]:border-b-primary" id={chapter}>
+          <SortableHandle aria-label={`Move ${chapter}`}><Icon name="grip-vertical" /></SortableHandle>
+          {chapter}
+        </SortableItem>
+      }}
+    </SortableRoot>
+  </div>
+}

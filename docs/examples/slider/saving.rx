@@ -1,0 +1,39 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { SliderRoot, SliderValue, SliderControl, SliderTrack, SliderIndicator, SliderThumb } from "../../../src/glaze/slider.rx"
+import { loadSetting, saveSetting, dropNetwork, messageOf } from "../../lib/settings-server.js"
+
+export default component SliderSaving() {
+  // What the server holds. `-> 40` is shown until the first answer.
+  volume = await loadSetting("volume", 40) -> 40
+  source failure := ""
+  <div class="grid min-w-0 justify-items-start gap-3">
+    {errored fallback(e) { <p class="text-sm text-destructive">{messageOf(e)}</p> } {
+      <SliderRoot value={volume} onValueCommitted={(next) => {
+        // Only what is committed is saved: a release, or a key. The thumb follows the drag on its own.
+        guess volume := next
+        onFlush(() => { failure := "" })
+        affects volume
+        try {
+          await saveSetting("volume", next)
+          // Ask the server again: with saves crossing, what it holds is what shows.
+          refresh volume
+        } catch (error) {
+          failure := messageOf(error)
+        }
+      }}>
+        <div class="mb-2 flex items-center justify-between gap-2">
+          <span class="text-sm font-medium">Volume</span>
+          <SliderValue />
+        </div>
+        <SliderControl>
+          <SliderTrack>
+            <SliderIndicator />
+            <SliderThumb aria-label="Volume" />
+          </SliderTrack>
+        </SliderControl>
+      </SliderRoot>
+      <p class="text-sm text-muted-foreground" aria-live="polite">{pending? volume ? "Saving…" : failure}</p>
+    }}
+    <Button variant="outline" type="button" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+  </div>
+}

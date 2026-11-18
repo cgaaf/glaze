@@ -1,0 +1,41 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { FieldRoot, FieldLabel } from "../../../src/glaze/field.rx"
+import { SelectRoot, SelectTrigger, SelectValue, SelectIcon, SelectPopup, SelectItem, SelectItemText, SelectItemIndicator } from "../../../src/glaze/select.rx"
+
+export default component SelectMultiple() {
+  <div class="grid min-w-0 gap-3">
+    <FieldRoot>
+      <FieldLabel>Toppings</FieldLabel>
+      <SelectRoot multiple defaultValues={["mushrooms", "olives"]}>
+        <SelectTrigger>
+          <SelectValue placeholder="No toppings" />
+          <SelectIcon>
+            <Icon name="chevrons-up-down" />
+          </SelectIcon>
+        </SelectTrigger>
+        <SelectPopup sideOffset={6}>
+          <SelectItem value="basil">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Basil</SelectItemText>
+          </SelectItem>
+          <SelectItem value="mushrooms">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Mushrooms</SelectItemText>
+          </SelectItem>
+          <SelectItem value="olives">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Olives</SelectItemText>
+          </SelectItem>
+          <SelectItem value="peppers">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Peppers</SelectItemText>
+          </SelectItem>
+          <SelectItem value="pineapple">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Pineapple</SelectItemText>
+          </SelectItem>
+        </SelectPopup>
+      </SelectRoot>
+    </FieldRoot>
+  </div>
+}

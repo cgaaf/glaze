@@ -25,16 +25,21 @@
 }
 :is([data-glaze="accordion-panel"], [data-glaze="collapsible-panel"]) {
   @apply overflow-hidden text-sm text-muted-foreground;
-  transition: height 180ms ease;
+  transition: opacity 180ms ease;
 }
 [data-glaze="accordion-panel"] {
   height: var(--accordion-panel-height);
+  /* Room below the content that folds away with the panel, which padding would not. */
+  &::after {
+    content: "";
+    @apply block h-3;
+  }
 }
 [data-glaze="collapsible-panel"] {
   height: var(--collapsible-panel-height);
 }
 :is([data-glaze="accordion-panel"], [data-glaze="collapsible-panel"])[data-ending-style] {
-  height: 0;
+  opacity: 0;
 }
 
 [data-glaze="select-trigger"] {
@@ -62,8 +67,6 @@
   max-block-size: min(24rem, 55dvh);
   overscroll-behavior: contain;
   scroll-padding-block: 0.25rem;
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklab, var(--muted-foreground) 60%, transparent) transparent;
 }
 :is(
   [data-glaze="select-popup"],
@@ -98,12 +101,66 @@
     outline: 2px solid var(--ring);
     outline-offset: -2px;
   }
+  /* Selection changes color only. A heavier weight widens the label and resizes
+     shrink-to-fit lists (listbox, select, combobox popups) as the value changes. */
   &[aria-selected="true"] {
-    @apply font-medium text-primary;
+    @apply text-primary;
   }
 }
 :is([data-glaze="select-item"], [data-glaze="combobox-item"], [data-glaze="listbox-item"]) {
-  @apply pe-8;
+  @apply pe-10;
+}
+/* Menu items that delete or discard something: variant="destructive". */
+:is([data-glaze="menu-item"], [data-glaze="context-menu-item"])[data-variant="destructive"] {
+  @apply text-destructive;
+  &:is(:hover, :focus-visible, [data-highlighted]):not([data-disabled]) {
+    background-color: color-mix(in oklab, var(--destructive) 12%, transparent);
+  }
+}
+/* Checkbox and radio items reserve a leading column and draw their own mark, so labels line up
+   and never shift when an item is checked. */
+:is(
+  [data-glaze="menu-checkbox-item"],
+  [data-glaze="menu-radio-item"],
+  [data-glaze="context-menu-checkbox-item"],
+  [data-glaze="context-menu-radio-item"]
+)::before {
+  content: "";
+  @apply size-4 shrink-0 bg-current;
+  mask: url("./icons/check.svg") center/contain no-repeat;
+  visibility: hidden;
+}
+:is([data-glaze="menu-radio-item"], [data-glaze="context-menu-radio-item"])::before {
+  mask: radial-gradient(circle, black 27%, transparent 30%);
+}
+:is(
+    [data-glaze="menu-checkbox-item"],
+    [data-glaze="menu-radio-item"],
+    [data-glaze="context-menu-checkbox-item"],
+    [data-glaze="context-menu-radio-item"]
+  )[aria-checked="true"]::before {
+  visibility: visible;
+}
+/* A submenu trigger is a button: stretch it to the row like the items around it. */
+:is([data-glaze="menu-submenu-trigger"], [data-glaze="context-menu-submenu-trigger"]) {
+  inline-size: 100%;
+}
+/* The submenu chevron sits at the end of its row. */
+:is([data-glaze="menu-submenu-trigger"], [data-glaze="context-menu-submenu-trigger"])
+  > [data-glaze="icon"]:last-child {
+  margin-inline-start: auto;
+}
+/* A horizontal listbox is a row of segments. It has no trailing check, so its items
+   drop the reserved end padding and center their labels. */
+[data-glaze="listbox-root"][data-orientation="horizontal"] {
+  @apply flex w-fit min-w-0 max-w-full flex-wrap gap-1;
+  & > [data-glaze="listbox-item"] {
+    @apply min-w-10 justify-center px-3;
+    /* Without a check, the selected segment needs a fill that hover and focus don't override. */
+    &[aria-selected="true"] {
+      background-color: color-mix(in oklab, var(--primary) 12%, transparent);
+    }
+  }
 }
 /* Pin the check to the trailing edge. Selection never moves the option label. */
 :is(
@@ -158,14 +215,18 @@
   @apply bg-muted text-primary;
 }
 [data-glaze="navigation-menu-content"] {
-  @apply max-w-full rounded-panel border border-border bg-card p-4 text-foreground;
+  @apply rounded-panel border border-border bg-card p-4 text-foreground;
+  max-inline-size: min(36rem, calc(100vw - 2rem));
   box-shadow: var(--glaze-shadow);
 }
 [data-glaze="tabs-list"] {
-  @apply relative inline-flex max-w-full items-center gap-1 rounded-panel bg-muted p-1;
+  @apply relative inline-flex max-w-full flex-wrap items-center gap-1 rounded-panel bg-muted p-1;
 }
 [data-glaze="tabs-tab"] {
   @apply relative z-1 cursor-pointer rounded-control px-3 py-1 text-sm font-medium text-muted-foreground;
+}
+[data-glaze="tabs-tab"]:hover:not([data-active], :disabled, [data-disabled]) {
+  @apply bg-card text-foreground;
 }
 [data-glaze="tabs-tab"][data-active] {
   @apply bg-card text-foreground shadow-xs;
@@ -176,8 +237,10 @@
 [data-glaze="tabs-list"][data-orientation="vertical"] {
   @apply flex-col items-stretch;
 }
+/* The indicator is the raised pill itself, sliding between tabs. With one present the active tab
+   drops its own fill so the tab is marked once. */
 [data-glaze="tabs-indicator"] {
-  @apply pointer-events-none absolute bottom-0 left-0 h-0.5 bg-primary;
+  @apply pointer-events-none absolute inset-y-1 left-0 rounded-control bg-card shadow-xs;
   width: var(--active-tab-width);
   translate: var(--active-tab-left) 0;
   transition:
@@ -185,10 +248,13 @@
     width 160ms;
 }
 [data-glaze="tabs-list"][data-orientation="vertical"] [data-glaze="tabs-indicator"] {
-  inset: 0 auto auto 0;
-  width: 2px;
+  inset: 0 0.25rem auto;
+  width: auto;
   height: var(--active-tab-height);
   translate: 0 var(--active-tab-top);
+}
+[data-glaze="tabs-list"]:has([data-glaze="tabs-indicator"]) [data-glaze="tabs-tab"][data-active] {
+  @apply bg-transparent shadow-none;
 }
 
 [data-glaze="pagination-ellipsis"] {

@@ -13,7 +13,7 @@ export default component Example() {
           <MenuSubmenuRoot>
             <MenuSubmenuTrigger>
               Open recent
-              <Icon name="chevron-right" />
+              <Icon name="chevron-right" class="ms-auto" />
             </MenuSubmenuTrigger>
             <MenuPopup alignOffset={-5}>
               <MenuItem>field-notes.md</MenuItem>
@@ -40,13 +40,11 @@ export default component Example() {
       <MenuRoot>
         <MenuTrigger>View</MenuTrigger>
         <MenuPopup sideOffset={6}>
-          <MenuCheckboxItem class="group" defaultChecked>
+          <MenuCheckboxItem defaultChecked>
             Sidebar
-            <Icon name="check" class="ms-auto invisible group-aria-checked:visible" />
           </MenuCheckboxItem>
-          <MenuCheckboxItem class="group">
+          <MenuCheckboxItem>
             Status bar
-            <Icon name="check" class="ms-auto invisible group-aria-checked:visible" />
           </MenuCheckboxItem>
           <MenuSeparator />
           <MenuItem>Zoom in</MenuItem>

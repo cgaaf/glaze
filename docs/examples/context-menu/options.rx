@@ -1,0 +1,19 @@
+import { ContextMenuRoot, ContextMenuTrigger, ContextMenuButton, ContextMenuPopup, ContextMenuCheckboxItem } from "../../../src/glaze/context-menu.rx"
+
+export default component FileList() {
+  source hiddenFiles := false
+  <ContextMenuRoot>
+    <ContextMenuTrigger>
+      <ul aria-label="Project files" class="text-sm">
+        <li>README.md</li>
+        {if hiddenFiles { <li>.gitignore</li> }}
+      </ul>
+      <ContextMenuButton>File list options</ContextMenuButton>
+    </ContextMenuTrigger>
+    <ContextMenuPopup>
+      <ContextMenuCheckboxItem checked={hiddenFiles} onCheckedChange={(next) => { hiddenFiles := next }}>
+        Show hidden files
+      </ContextMenuCheckboxItem>
+    </ContextMenuPopup>
+  </ContextMenuRoot>
+}

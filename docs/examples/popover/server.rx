@@ -1,0 +1,32 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { PopoverRoot, PopoverTrigger, PopoverPopup, PopoverTitle } from "../../../src/glaze/popover.rx"
+import { loadNotifications, failNextLoad } from "../../lib/inbox.js"
+
+export default component PopoverServer() {
+  // Asked again each time the popover opens: `onOpenChange` moves `visit`, which the question reads.
+  source visit := 0
+  notifications = visit == 0 ? [] : await loadNotifications()
+  <div class="grid min-w-0 justify-items-start gap-3">
+    <PopoverRoot onOpenChange={(open) => { if (open) { visit := visit + 1 } }}>
+      <PopoverTrigger>Notifications</PopoverTrigger>
+      <PopoverPopup sideOffset={8}>
+        <PopoverTitle>Notifications</PopoverTitle>
+        {loading on(visit) fallback { <p class="mt-3 text-sm text-muted-foreground">Loading…</p> } {
+          {errored fallback(e) {
+            <div class="mt-3 grid justify-items-start gap-3">
+              <p class="text-sm text-destructive" role="alert">{e.message}</p>
+              <Button variant="outline" size="sm" type="button" onClick={() => { refresh notifications }}>Retry</Button>
+            </div>
+          } {
+            <ul class="mt-3 grid gap-2 text-sm">
+              {for message in notifications {
+                <li>{message}</li>
+              }}
+            </ul>
+          }}
+        }}
+      </PopoverPopup>
+    </PopoverRoot>
+    <Button variant="outline" type="button" onClick={() => { failNextLoad() }}>Make the next load fail</Button>
+  </div>
+}

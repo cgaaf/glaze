@@ -1,0 +1,28 @@
+import { FileUploadRoot, FileUploadInput, FileUploadItem, FileUploadItemRemove } from "../../../src/glaze/file-upload.rx"
+import { fileUpload, fileSize } from "../../../src/bisque/file-upload/file-upload.rx"
+
+component Chosen() {
+  c = use fileUpload
+  {if c.files.length > 0 {
+    <ul class="grid gap-2">
+      {for file in c.files {
+        <FileUploadItem file={file}>
+          <span class="min-w-0 break-all">{file.name}, {fileSize(file.size)}</span>
+          <FileUploadItemRemove>Remove</FileUploadItemRemove>
+        </FileUploadItem>
+      }}
+    </ul>
+  }}
+}
+
+export default component FileUploadNative() {
+  <div class="grid min-w-0 gap-3">
+    <FileUploadRoot name="attachment" accept=".pdf,.txt,.md">
+      <label class="grid min-w-0 gap-2 text-sm font-medium">
+        Attachment
+        <FileUploadInput class="not-sr-only w-full min-w-0 max-w-full text-sm font-normal text-muted-foreground file:me-3 file:min-h-9 file:cursor-pointer file:rounded-control file:border file:border-border file:bg-card file:px-3 file:text-sm file:font-medium file:text-foreground" />
+      </label>
+      <Chosen />
+    </FileUploadRoot>
+  </div>
+}

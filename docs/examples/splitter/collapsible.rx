@@ -1,0 +1,21 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { SplitterRoot, SplitterPanel, SplitterHandle } from "../../../src/glaze/splitter.rx"
+
+export default component SplitterCollapsible() {
+  source collapsed := false
+  <div class="grid min-w-0 gap-3">
+    <SplitterRoot>
+      <SplitterPanel id="library-sidebar" defaultSize={30} minSize={20} maxSize={45} collapsible collapsedSize={6} onCollapse={() => { collapsed := true }} onExpand={() => { collapsed := false }}>
+        <div class="flex items-center gap-2">
+          <Icon name="panel-left" />
+          {if !collapsed { <span class="text-sm font-medium">Library</span> }}
+        </div>
+      </SplitterPanel>
+      <SplitterHandle aria-label="Resize library" />
+      <SplitterPanel id="library-content">
+        <p class="text-sm">Drag the bar to the left past the library's minimum, or focus it and press Enter.</p>
+        <p class="text-sm text-muted-foreground">The library is {collapsed ? "collapsed" : "open"}.</p>
+      </SplitterPanel>
+    </SplitterRoot>
+  </div>
+}

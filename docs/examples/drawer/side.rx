@@ -1,0 +1,26 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { DrawerRoot, DrawerTrigger, DrawerPopup, DrawerContent, DrawerTitle, DrawerClose } from "../../../src/glaze/drawer.rx"
+
+export default component DrawerSide() {
+  <div class="grid min-w-0 gap-3">
+    <DrawerRoot swipeDirection="right" swipeThreshold={80}>
+      <DrawerTrigger>Open cart</DrawerTrigger>
+      <DrawerPopup>
+        <div class="mb-4 flex items-center justify-between gap-2">
+          <DrawerTitle>Cart</DrawerTitle>
+          <DrawerClose variant="ghost" size="icon" aria-label="Close">
+            <Icon name="x" />
+          </DrawerClose>
+        </div>
+        <DrawerContent>
+          <ul class="grid gap-2 text-sm">
+            <li class="flex justify-between gap-3"><span>Ceramic mug</span><span>$14.00</span></li>
+            <li class="flex justify-between gap-3"><span>Linen tea towel</span><span>$9.50</span></li>
+            <li class="flex justify-between gap-3"><span>Walnut coaster set</span><span>$22.00</span></li>
+          </ul>
+          <p class="mt-4 flex justify-between border-t border-border pt-3 text-sm font-semibold"><span>Total</span><span>$45.50</span></p>
+        </DrawerContent>
+      </DrawerPopup>
+    </DrawerRoot>
+  </div>
+}

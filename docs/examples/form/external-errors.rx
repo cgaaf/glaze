@@ -1,0 +1,23 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { Form } from "../../../src/glaze/form.rx"
+import { FieldRoot, FieldLabel, FieldError } from "../../../src/glaze/field.rx"
+import { Input } from "../../../src/glaze/input.rx"
+
+export default component ProfileForm() {
+  source saved := ""
+  <Form errors={{ handle: "This handle is already in use." }} onReset={() => { saved := "" }} onFormSubmit={(values) => {
+    if (values.handle == "studio") { return { handle: "This handle is already in use." } }
+    saved := `${values.handle}`
+  }}>
+    <FieldRoot name="handle">
+      <FieldLabel>Profile handle</FieldLabel>
+      <Input defaultValue="studio" required />
+      <FieldError />
+    </FieldRoot>
+    <div class="flex flex-wrap gap-2">
+      <Button type="reset" variant="ghost">Reset</Button>
+      <Button type="submit">Save profile</Button>
+    </div>
+    <output class="text-sm text-muted-foreground">{saved == "" ? "" : "Saved @" + saved}</output>
+  </Form>
+}

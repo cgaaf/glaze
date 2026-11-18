@@ -1,0 +1,29 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { AlertDialogRoot, AlertDialogPopup, AlertDialogTitle, AlertDialogDescription, AlertDialogClose, AlertDialogFooter } from "../../../src/glaze/alert-dialog.rx"
+
+export default component AlertDialogControlled() {
+  source files: string[] := ["quarterly-report.pdf", "site-photos.zip", "notes.txt"]
+  source pending := ""
+  source open := false
+  <div class="grid min-w-0 gap-4">
+    <ul class="grid gap-2">
+      {for file in files {
+        <li class="flex flex-wrap items-center justify-between gap-4">
+          <span class="text-sm">{file}</span>
+          <Button variant="outline" size="sm" type="button" onClick={() => { pending := file; open := true }}>Delete</Button>
+        </li>
+      }}
+    </ul>
+    {if files.length == 0 { <p class="text-sm text-muted-foreground">No files left.</p> }}
+    <AlertDialogRoot open={open} onOpenChange={(next) => { open := next }}>
+      <AlertDialogPopup>
+        <AlertDialogTitle>Delete {pending}?</AlertDialogTitle>
+        <AlertDialogDescription>It is removed for everyone who has access to it.</AlertDialogDescription>
+        <AlertDialogFooter>
+          <AlertDialogClose variant="ghost">Keep it</AlertDialogClose>
+          <AlertDialogClose variant="destructive" onClick={() => { files := files.filter((name) => name != pending) }}>Delete</AlertDialogClose>
+        </AlertDialogFooter>
+      </AlertDialogPopup>
+    </AlertDialogRoot>
+  </div>
+}

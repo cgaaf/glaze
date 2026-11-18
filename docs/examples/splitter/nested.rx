@@ -1,0 +1,17 @@
+import { SplitterRoot, SplitterPanel, SplitterHandle } from "../../../src/glaze/splitter.rx"
+
+export default component SplitterNested() {
+  <div class="grid min-w-0 gap-3">
+    <SplitterRoot>
+      <SplitterPanel id="outline" defaultSize={30}>Outline</SplitterPanel>
+      <SplitterHandle aria-label="Resize outline" />
+      <SplitterPanel id="work">
+        <SplitterRoot orientation="vertical">
+          <SplitterPanel id="editor" minSize={25}>Editor</SplitterPanel>
+          <SplitterHandle aria-label="Resize console" />
+          <SplitterPanel id="console" defaultSize={35} minSize={20}>Console</SplitterPanel>
+        </SplitterRoot>
+      </SplitterPanel>
+    </SplitterRoot>
+  </div>
+}

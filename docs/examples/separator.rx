@@ -2,7 +2,7 @@ import { Separator } from "../../src/glaze/separator.rx"
 
 export default component Example() {
   <div class="grid gap-2">
-    <nav class="flex items-center gap-2" aria-label="Account">
+    <nav class="flex items-center gap-2 text-sm" aria-label="Account">
       <a class="underline underline-offset-4" href="#profile">Profile</a>
       <Separator orientation="vertical" />
       <a class="underline underline-offset-4" href="#billing">Billing</a>

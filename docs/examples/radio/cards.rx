@@ -1,0 +1,31 @@
+import { RadioGroup, RadioRoot } from "../../../src/glaze/radio.rx"
+
+export default component RadioCards() {
+  source plan := "team"
+  <div class="grid min-w-0 gap-3">
+    <RadioGroup aria-label="Plan" name="plan" value={plan} onValueChange={(next) => { plan := next }}>
+      <label class="flex cursor-pointer items-center gap-3 rounded-control border border-border p-3 text-sm has-checked:border-primary has-checked:bg-muted">
+        <RadioRoot value="solo" />
+        <span class="grid gap-0.5">
+          <span class="font-medium">Solo</span>
+          <span class="text-muted-foreground">One seat, 5 projects</span>
+        </span>
+      </label>
+      <label class="flex cursor-pointer items-center gap-3 rounded-control border border-border p-3 text-sm has-checked:border-primary has-checked:bg-muted">
+        <RadioRoot value="team" />
+        <span class="grid gap-0.5">
+          <span class="font-medium">Team</span>
+          <span class="text-muted-foreground">Up to 10 seats, unlimited projects</span>
+        </span>
+      </label>
+      <label class="flex cursor-pointer items-center gap-3 rounded-control border border-border p-3 text-sm has-checked:border-primary has-checked:bg-muted">
+        <RadioRoot value="company" />
+        <span class="grid gap-0.5">
+          <span class="font-medium">Company</span>
+          <span class="text-muted-foreground">Unlimited seats, single sign-on</span>
+        </span>
+      </label>
+    </RadioGroup>
+    <output class="text-sm text-muted-foreground">plan: {plan}</output>
+  </div>
+}

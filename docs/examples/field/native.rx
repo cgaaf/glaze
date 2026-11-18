@@ -1,0 +1,23 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { FieldRoot, FieldLabel, FieldError } from "../../../src/glaze/field.rx"
+import { Input } from "../../../src/glaze/input.rx"
+
+export default component FieldNative() {
+  source handle := ""
+  source sent := ""
+  // A plain <form>, no Form: the browser checks the constraints when it is submitted.
+  <form onSubmit={(event) => {
+    event.preventDefault()
+    sent := handle
+  }}>
+    <FieldRoot name="handle" validate={(value) => value == "studio" ? "That handle is taken" : null}>
+      <FieldLabel>Handle</FieldLabel>
+      <div class="flex flex-wrap items-center gap-2">
+        <Input class="flex-1" required pattern="[a-z0-9]+" value={handle} onValueChange={(next) => { handle := next }} />
+        <Button type="submit">Save</Button>
+      </div>
+      <FieldError />
+    </FieldRoot>
+    <p class="mt-2 text-sm text-muted-foreground" hidden={sent == ""}>Saved @{sent}</p>
+  </form>
+}

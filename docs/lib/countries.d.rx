@@ -1,0 +1,4 @@
+export type Country = { code: string; name: string }
+export fn dropNetwork(): void
+export pure fn searchCountries(query: string): Promise<Country[]>
+export pure fn loadCountries(): Promise<Country[]>

@@ -1,0 +1,13 @@
+import { FieldRoot, FieldLabel, FieldError } from "../../../src/glaze/field.rx"
+import { Input } from "../../../src/glaze/input.rx"
+
+export default component FieldMatch() {
+  <div class="grid min-w-0 gap-3">
+    <FieldRoot name="code" validationMode="onChange">
+      <FieldLabel>Verification code</FieldLabel>
+      <Input required pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" />
+      <FieldError match="valueMissing">Enter the code we sent you.</FieldError>
+      <FieldError match="patternMismatch">The code is six digits.</FieldError>
+    </FieldRoot>
+  </div>
+}

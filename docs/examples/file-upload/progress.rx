@@ -1,0 +1,60 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { FileUploadRoot, FileUploadDropZone, FileUploadInput, FileUploadTrigger, FileUploadItem, FileUploadItemRemove } from "../../../src/glaze/file-upload.rx"
+import { fileUpload } from "../../../src/bisque/file-upload/file-upload.rx"
+import { sendFile } from "../../lib/upload.js"
+
+// What the app tracks about each upload. The family knows nothing of it: it hands over File objects.
+type Upload = { file: File; percent: number; state: "uploading" | "done" | "failed" }
+
+fn stateText(upload: Upload | undefined): string => upload == undefined ? "" : upload.state == "uploading" ? `${upload.percent}%` : upload.state == "done" ? "Uploaded" : "Failed"
+
+component Rows(props: { uploads: Upload[] }) {
+  c = use fileUpload
+  {for file in c.files {
+    upload = props.uploads.find((u) => u.file == file)
+    <FileUploadItem file={file} data-state={upload?.state}>
+      <span class="min-w-0 truncate">{file.name}</span>
+      <span class="text-xs text-muted-foreground tabular-nums">{stateText(upload)}</span>
+      <progress class="ms-auto w-20" max="100" value={upload?.percent ?? 0} aria-label={`${file.name} uploaded`} />
+      <FileUploadItemRemove>
+        <Icon name="x" />
+      </FileUploadItemRemove>
+    </FileUploadItem>
+  }}
+}
+
+export default component FileUploadProgress() {
+  source uploads: Upload[] := []
+  uploading = uploads.filter((u) => u.state == "uploading").length
+  action report(file: File, percent: number) {
+    uploads := old => old.map((u) => u.file == file ? { ...u, percent: percent } : u)
+  }
+  action finish(file: File, state: "done" | "failed") {
+    uploads := old => old.map((u) => u.file == file ? { ...u, state: state } : u)
+  }
+  action upload(file: File) {
+    // Shown at once, in a change of its own: a write before `await` would wait for the upload to end.
+    onFlush(() => { uploads := old => [...old, { file: file, percent: 0, state: "uploading" }] })
+    try {
+      await sendFile(file, (percent) => report(file, percent))
+      finish(file, "done")
+    } catch (e) {
+      finish(file, "failed")
+    }
+  }
+  <div class="grid min-w-0 gap-3">
+    <FileUploadRoot multiple onFilesChange={(next) => {
+      let started = uploads.map((u) => u.file)
+      // Each new file's upload starts in a change of its own, so each one finishes on its own.
+      next.filter((file) => !started.includes(file)).forEach((file) => onFlush(() => { upload(file) }))
+    }}>
+      <FileUploadDropZone>
+        <span>Drop files to upload, or</span>
+        <FileUploadTrigger>Choose files</FileUploadTrigger>
+        <FileUploadInput class="sr-only" aria-label="Files to upload" tabindex="-1" />
+      </FileUploadDropZone>
+      <ul class="grid gap-2 empty:hidden" aria-busy={pending? uploads ? "true" : undefined}><Rows uploads={uploads} /></ul>
+    </FileUploadRoot>
+    <p class="text-sm text-muted-foreground" role="status">{uploading > 0 ? `Uploading ${uploading} of ${uploads.length}` : ""}</p>
+  </div>
+}

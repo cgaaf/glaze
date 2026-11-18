@@ -1,0 +1,21 @@
+import { setInputValue } from "../../../src/bisque/internal/field.js"
+import { ToolbarRoot, ToolbarButton, ToolbarInput, ToolbarSeparator } from "../../../src/glaze/toolbar.rx"
+import { Icon } from "../../../src/glaze/icon.rx"
+
+export default component Zoom() {
+  source zoom := 100
+  <div class="grid gap-3">
+    <ToolbarRoot aria-label="Document zoom">
+      <ToolbarButton aria-label="Zoom out" disabled={zoom <= 75} onClick={() => { zoom := zoom - 25 }}><Icon name="minus" /></ToolbarButton>
+      <ToolbarInput class="w-16" type="number" min={75} max={200} step={25} aria-label="Zoom percentage" value={zoom} onChange={(event) => {
+        let input = event.currentTarget
+        if (input.value != "" && input.validity.valid) { zoom := input.valueAsNumber }
+        else { setInputValue(input, `${zoom}`) }
+      }} />
+      <ToolbarButton aria-label="Zoom in" disabled={zoom >= 200} onClick={() => { zoom := zoom + 25 }}><Icon name="plus" /></ToolbarButton>
+      <ToolbarSeparator />
+      <ToolbarButton onClick={() => { zoom := 100 }}>Reset zoom</ToolbarButton>
+    </ToolbarRoot>
+    <p style={{ "font-size": zoom + "%" }}>Document preview</p>
+  </div>
+}

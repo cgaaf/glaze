@@ -135,6 +135,10 @@
     "name": "Scroll Area",
     "description": "A native scroll container with scrollbars you draw yourself."
   },
+  "segmented-control": {
+    "name": "Segmented Control",
+    "description": "A row of segments of which one is always chosen."
+  },
   "select": {
     "name": "Select",
     "description": "A button that opens a list of options to choose a value from."

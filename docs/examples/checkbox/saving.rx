@@ -1,0 +1,38 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { CheckboxRoot, CheckboxIndicator } from "../../../src/glaze/checkbox.rx"
+import { loadSetting, saveSetting, dropNetwork, messageOf } from "../../lib/settings-server.js"
+
+export default component CheckboxSaving() {
+  // What the server holds. `-> false` is shown until the first answer.
+  digest = await loadSetting("digest", false) -> false
+  source failure := ""
+  <div class="grid min-w-0 gap-4">
+    {errored fallback(e) { <p class="text-sm text-destructive">{messageOf(e)}</p> } {
+      <label class="flex flex-wrap items-center gap-2 text-sm">
+        <CheckboxRoot checked={digest} onCheckedChange={(next) => {
+          // Shows at once; goes back by itself if the save fails.
+          guess digest := next
+          onFlush(() => { failure := "" })
+          affects digest
+          try {
+            await saveSetting("digest", next)
+            // Ask the server again: with saves crossing, what it holds is what shows.
+            refresh digest
+          } catch (error) {
+            failure := messageOf(error)
+          }
+        }}>
+          <CheckboxIndicator>
+            <Icon name="check" />
+          </CheckboxIndicator>
+        </CheckboxRoot>
+        Weekly digest
+        <span class="text-sm text-muted-foreground" aria-live="polite">{pending? digest ? "Saving…" : failure}</span>
+      </label>
+    }}
+    <div>
+      <Button variant="outline" size="sm" type="button" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+    </div>
+  </div>
+}

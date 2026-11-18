@@ -1,0 +1,42 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { InputGroup } from "../../../src/glaze/input-group.rx"
+import { AutocompleteRoot, AutocompleteInput, AutocompleteClear, AutocompletePopup, AutocompleteStatus, AutocompleteEmpty, AutocompleteList, AutocompleteItem } from "../../../src/glaze/autocomplete.rx"
+import { searchCountries, dropNetwork } from "../../lib/countries.js"
+
+export default component AutocompleteServer() {
+  // The input's text is the value, and the question reads it: every keystroke asks again, and an answer to older
+  // text is dropped. `-> null`: no answer yet.
+  source text := ""
+  results = await searchCountries(text) -> null
+  searching = results == null || pending? results
+  <div class="grid min-w-0 gap-4">
+    <AutocompleteRoot value={text} onValueChange={(next) => { text := next }} loading={searching}>
+      <InputGroup>
+        <AutocompleteInput placeholder="Search countries" aria-label="Destination" />
+        <AutocompleteClear aria-label="Clear">
+          <Icon name="x" />
+        </AutocompleteClear>
+      </InputGroup>
+      <AutocompletePopup sideOffset={6}>
+        {errored fallback(e) {
+          <div class="flex flex-wrap items-center justify-between gap-2 p-2 text-sm text-destructive" role="alert">
+            <span>{e.message}</span>
+            <Button variant="outline" size="sm" type="button" onClick={() => { refresh results }}>Retry</Button>
+          </div>
+        } {
+          <AutocompleteStatus>{searching ? "Searching…" : ""}</AutocompleteStatus>
+          <AutocompleteEmpty>No suggestions.</AutocompleteEmpty>
+          <AutocompleteList>
+            {for country in results ?? [] {
+              <AutocompleteItem value={country.code} label={country.name}>{country.name}</AutocompleteItem>
+            }}
+          </AutocompleteList>
+        }}
+      </AutocompletePopup>
+    </AutocompleteRoot>
+    <div>
+      <Button variant="outline" size="sm" type="button" onClick={() => { dropNetwork() }}>Drop the network for 2 seconds</Button>
+    </div>
+  </div>
+}

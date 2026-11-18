@@ -11,6 +11,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --radius-control: var(--radius);
   --radius-panel: calc(var(--radius) + 0.3rem);
 }
@@ -30,9 +31,26 @@
     --input: light-dark(#b5bbb6, #676e69);
     --ring: var(--primary);
     --destructive: light-dark(#ad332e, #ff9690);
+    --destructive-foreground: light-dark(white, #2b1010);
     --radius: 0.45rem;
     --glaze-shadow: 0 6px 24px -8px light-dark(#292e2930, #0009);
+    /* The thumb keeps 3:1 against card and background in both modes. Never transition scrollbar-color. */
+    --scrollbar-thumb: color-mix(in oklab, var(--muted-foreground) 80%, transparent);
+    --scrollbar-track: transparent;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
     color-scheme: light dark;
+  }
+  @media (prefers-contrast: more) {
+    :root,
+    [data-glaze-theme] {
+      --scrollbar-thumb: var(--foreground);
+    }
+  }
+  @media (forced-colors: active) {
+    :root,
+    [data-glaze-theme] {
+      scrollbar-color: auto;
+    }
   }
   [data-glaze-theme="celadon"] {
     --primary: light-dark(#27654d, #94d2ab);
@@ -55,4 +73,13 @@
   [data-glaze-mode="light"] {
     color-scheme: light;
   }
+}
+
+/* The two scrollbar tiers, for your own scroll containers: thin where a scrollbar helps, none where
+   something else already shows the content scrolls. */
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+@utility scrollbar-none {
+  scrollbar-width: none;
 }

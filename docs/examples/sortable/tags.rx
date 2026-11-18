@@ -1,0 +1,18 @@
+import { SortableRoot, SortableItem } from "../../../src/glaze/sortable.rx"
+import { sortable } from "../../../src/bisque/sortable/sortable.rx"
+
+// An uncontrolled list renders its items from its own order, read from the context.
+component Tags() {
+  c = use sortable
+  {for tag in c.value {
+    <SortableItem id={tag}>{tag}</SortableItem>
+  }}
+}
+
+export default component SortableTags() {
+  <div class="grid min-w-0 gap-3">
+    <SortableRoot class="flex-wrap" aria-label="Tags" orientation="horizontal" defaultValue={["design", "research", "writing", "review"]}>
+      <Tags />
+    </SortableRoot>
+  </div>
+}

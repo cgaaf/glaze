@@ -1,0 +1,31 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { ListboxRoot, ListboxItem, ListboxItemText, ListboxItemIndicator } from "../../../src/glaze/listbox.rx"
+
+export default component ListboxMultiple() {
+  source chosen: string[] := ["email"]
+  <div class="grid min-w-0 gap-3">
+    <ListboxRoot aria-label="Notifications" multiple value={chosen} onValueChange={(next) => { chosen := next }}>
+      <ListboxItem value="email">
+        <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
+        <ListboxItemText>Email</ListboxItemText>
+      </ListboxItem>
+      <ListboxItem value="sms">
+        <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
+        <ListboxItemText>Text message</ListboxItemText>
+      </ListboxItem>
+      <ListboxItem value="push">
+        <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
+        <ListboxItemText>Push notification</ListboxItemText>
+      </ListboxItem>
+      <ListboxItem value="digest">
+        <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
+        <ListboxItemText>Weekly digest</ListboxItemText>
+      </ListboxItem>
+      <ListboxItem value="post">
+        <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
+        <ListboxItemText>Letter</ListboxItemText>
+      </ListboxItem>
+    </ListboxRoot>
+    <p class="text-sm text-muted-foreground">{chosen.length == 0 ? "Nothing selected" : `${chosen.length} selected`}</p>
+  </div>
+}

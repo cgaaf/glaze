@@ -1,0 +1,50 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { DateRangePickerRoot, DateRangePickerGroup, DateRangePickerStart, DateRangePickerSeparator, DateRangePickerEnd, DateRangePickerTrigger, DateRangePickerPopup, DateRangePickerCalendar } from "../../../src/glaze/date-range-picker.rx"
+import { DateFieldInput, DateFieldSegment } from "../../../src/glaze/date-field.rx"
+import { dateField } from "../../../src/bisque/date-field/date-field.rx"
+import { CalendarPreviousMonth, CalendarMonthLabel, CalendarNextMonth, CalendarGrid, CalendarGridHeader, CalendarGridBody } from "../../../src/glaze/calendar.rx"
+import { today } from "../../../src/bisque/internal/date.js"
+import { PlainDate } from "../../../src/bisque/internal/types.rx"
+
+// The segments come from the field's context, so they are rendered by a component inside the field.
+component Segments() {
+  c = use dateField
+  {for segment in c.segments {
+    <DateFieldSegment segment={segment} />
+  }}
+}
+
+// The calendar's header and grid, inside the picker's calendar.
+component Month() {
+  <div class="mb-2 flex items-center justify-between gap-2">
+    <CalendarPreviousMonth />
+    <CalendarMonthLabel />
+    <CalendarNextMonth />
+  </div>
+  <CalendarGrid>
+    <CalendarGridHeader format="narrow" />
+    <CalendarGridBody />
+  </CalendarGrid>
+}
+
+// Fully booked on the 10th and the 20th of every month.
+fn booked(date: PlainDate): boolean => date.day == 10 || date.day == 20
+
+export default component DateRangePickerConstraints() {
+  // From today, for the next six months.
+  start = today(undefined, undefined)
+  <div class="grid min-w-0 gap-2">
+    <span class="text-sm font-medium" id="date-range-picker-constraints-label">Booking</span>
+    <DateRangePickerRoot min={start} max={start.add({ months: 6 })} isDateUnavailable={booked}>
+      <DateRangePickerGroup aria-labelledby="date-range-picker-constraints-label">
+        <DateRangePickerStart><DateFieldInput><Segments /></DateFieldInput></DateRangePickerStart>
+        <DateRangePickerSeparator>–</DateRangePickerSeparator>
+        <DateRangePickerEnd><DateFieldInput><Segments /></DateFieldInput></DateRangePickerEnd>
+        <DateRangePickerTrigger><Icon name="calendar" /></DateRangePickerTrigger>
+      </DateRangePickerGroup>
+      <DateRangePickerPopup>
+        <DateRangePickerCalendar><Month /></DateRangePickerCalendar>
+      </DateRangePickerPopup>
+    </DateRangePickerRoot>
+  </div>
+}

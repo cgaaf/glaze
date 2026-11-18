@@ -1,0 +1,27 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { AccordionRoot, AccordionItem, AccordionTrigger, AccordionPanel } from "../../../src/glaze/accordion.rx"
+
+export default component AccordionControlled() {
+  source open: string[] := ["step-1"]
+  <div class="grid min-w-0 gap-4">
+    <div class="flex flex-wrap items-center gap-2">
+      <Button variant="outline" size="sm" type="button" onClick={() => { open := ["step-1", "step-2", "step-3"] }}>Expand all</Button>
+      <Button variant="outline" size="sm" type="button" onClick={() => { open := [] }}>Collapse all</Button>
+      <output class="text-sm text-muted-foreground">{open.length == 0 ? "none open" : open.join(", ")}</output>
+    </div>
+    <AccordionRoot multiple value={open} onValueChange={(next) => { open := next }}>
+      <AccordionItem value="step-1">
+        <AccordionTrigger>1. Install</AccordionTrigger>
+        <AccordionPanel><p>Copy the library's folder into your project.</p></AccordionPanel>
+      </AccordionItem>
+      <AccordionItem value="step-2">
+        <AccordionTrigger>2. Import</AccordionTrigger>
+        <AccordionPanel><p>Import the parts by relative path.</p></AccordionPanel>
+      </AccordionItem>
+      <AccordionItem value="step-3">
+        <AccordionTrigger>3. Style</AccordionTrigger>
+        <AccordionPanel><p>Write CSS against the native hooks and data attributes.</p></AccordionPanel>
+      </AccordionItem>
+    </AccordionRoot>
+  </div>
+}

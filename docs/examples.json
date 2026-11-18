@@ -1,0 +1,681 @@
+{
+  "accordion": [
+    {
+      "id": "multiple",
+      "title": "Opening several panels",
+      "description": "Open Account and Alerts together. Billing shows how a disabled item behaves in the same group."
+    },
+    {
+      "id": "loading",
+      "title": "Loading panel content",
+      "description": "Open a question to load its answer. Choose “Fail the next load” before opening another question, then retry inside the panel."
+    },
+    {
+      "id": "controlled",
+      "title": "Expanding all sections",
+      "description": "Use the buttons to expand or collapse every step, then open a single step. Both paths update the same list of open items."
+    }
+  ],
+  "alert-dialog": [
+    {
+      "id": "controlled",
+      "title": "Confirming a file deletion",
+      "description": "Each row opens the same dialog with a different filename. Keep the file or confirm to remove just that row."
+    }
+  ],
+  "autocomplete": [
+    {
+      "id": "server",
+      "title": "Searching a remote catalog",
+      "description": "Type part of a country name. The latest query wins as you type. Drop the simulated connection to try the error and retry states."
+    },
+    {
+      "id": "inline",
+      "title": "Completing a city inline",
+      "description": "Type “Li” and press Arrow Down to preview a completion in the input. Press Enter to accept it and check the committed value below."
+    },
+    {
+      "id": "result-count",
+      "title": "Announcing filtered results",
+      "description": "Click the command field and type “new”. The status reads the filtered count from the combobox context, including when the list is empty."
+    }
+  ],
+  "avatar": [
+    {
+      "id": "group",
+      "title": "Showing a project team",
+      "description": "Stack the visible members, use initials when a photo is missing, and show how many other people have access."
+    },
+    {
+      "id": "status",
+      "title": "Recovering from an image failure",
+      "description": "Switch to a broken image to see the delayed initials and the loading status. Restore the source to display the portrait again."
+    }
+  ],
+  "button": [
+    {
+      "id": "loading",
+      "title": "Keeping focus while saving",
+      "description": "Activate Save draft with the keyboard. The button keeps focus and ignores additional presses until the save finishes."
+    },
+    {
+      "id": "request",
+      "title": "Sending a request",
+      "description": "Send a reminder, then drop the simulated network and send another. The pending state prevents duplicate sends. After three seconds, try again and check the confirmed count."
+    },
+    {
+      "id": "other-element",
+      "title": "Giving a custom element button behavior",
+      "description": "Focus Add to reading list and press Enter or Space. Lock the list to disable the custom action and remove it from the tab order."
+    }
+  ],
+  "calendar": [
+    {
+      "id": "constraints",
+      "title": "Choosing a pickup day",
+      "description": "Navigate the next eight weeks of pickup dates. Weekends and the first of each month are unavailable."
+    },
+    {
+      "id": "range",
+      "title": "Selecting a stay across months",
+      "description": "Choose the first and last nights in the two-month calendar. The output shows both endpoints."
+    },
+    {
+      "id": "selects",
+      "title": "Jumping to a month and year",
+      "description": "Use the month and year selects to find a birthday without stepping through each intervening month."
+    },
+    {
+      "id": "picker",
+      "title": "Closing a calendar after selection",
+      "description": "Open the popover with the keyboard and choose a day. The trigger displays the chosen date and the popup closes."
+    }
+  ],
+  "checkbox-group": [
+    {
+      "id": "parent",
+      "title": "Selecting all notifications",
+      "description": "The parent checkbox summarizes the group. Select individual channels to see its mixed state, or select them all at once."
+    }
+  ],
+  "checkbox": [
+    {
+      "id": "saving",
+      "title": "Saving a subscription",
+      "description": "Toggle the weekly digest while the connection is down. An optimistic check appears immediately and rolls back if the save fails."
+    },
+    {
+      "id": "controlled",
+      "title": "Changing a checkbox from another control",
+      "description": "Toggle the subscription from either control. Both the checkbox and its text summary follow the same value."
+    },
+    {
+      "id": "states",
+      "title": "Mixed, read-only and disabled boxes",
+      "description": "Activate the mixed checkbox to resolve it, then restore its mixed state. Compare its keyboard behavior with the read-only and disabled boxes."
+    }
+  ],
+  "collapsible": [
+    {
+      "id": "controlled",
+      "title": "Closing from inside the panel",
+      "description": "Open Advanced options, edit the settings, then choose Done. The trigger and the action inside the panel share one open state."
+    }
+  ],
+  "combobox": [
+    {
+      "id": "server",
+      "title": "Searching for a country",
+      "description": "Type to search the simulated server and select a result. Drop the connection before typing to try the retry action."
+    },
+    {
+      "id": "multiple",
+      "title": "Selecting labels as chips",
+      "description": "Add several labels from the suggestions, then remove one using its chip. The list and chips share the selection."
+    },
+    {
+      "id": "grouped",
+      "title": "Filtering grouped options",
+      "description": "Search across fruit and vegetable groups. Try “leek” to narrow the list to one group, then try a term with no matches."
+    }
+  ],
+  "context-menu": [
+    {
+      "id": "options",
+      "title": "Toggling a view option",
+      "description": "Open the menu by pointer or keyboard. Its checkbox controls whether the file list includes hidden files."
+    }
+  ],
+  "date-field": [
+    {
+      "id": "locales",
+      "title": "Editing localized dates",
+      "description": "Edit the same date in different locales. The segment order, separators and numerals follow each locale."
+    },
+    {
+      "id": "form",
+      "title": "Submitting a bounded date",
+      "description": "Enter a check-in date within the next year and book it. The field stays read-only while the request is pending. Drop the simulated connection to try a failed save and retry."
+    },
+    {
+      "id": "native",
+      "title": "Using the browser’s date picker",
+      "description": "Use a styled date input when the browser can supply the picker, locale and segment order."
+    }
+  ],
+  "date-picker": [
+    {
+      "id": "constraints",
+      "title": "Restricting collection dates",
+      "description": "Choose a weekday between tomorrow and eight weeks from today. The field and the calendar share the booking restrictions."
+    },
+    {
+      "id": "controlled",
+      "title": "Setting a date from outside the picker",
+      "description": "Choose “In a week”, clear the date, or open the calendar from a second button. The field reflects each change."
+    },
+    {
+      "id": "form",
+      "title": "Validating a renewal date",
+      "description": "Book a renewal between today and one year from now. Field validation and form submission use the same date."
+    }
+  ],
+  "date-range-picker": [
+    {
+      "id": "presets",
+      "title": "Applying report presets",
+      "description": "Select a preset to update both ends of the range, then fine-tune the dates in the calendar."
+    },
+    {
+      "id": "constraints",
+      "title": "Blocking a range across booked nights",
+      "description": "Pick dates within the next six months. Try a stay that crosses the tenth or twentieth of a month to see how unavailable nights constrain the range."
+    },
+    {
+      "id": "form",
+      "title": "Submitting both ends of a trip",
+      "description": "Submit an incomplete range to see the error, then choose both endpoints. A named field returns the trip’s start and end dates together."
+    }
+  ],
+  "dialog": [
+    {
+      "id": "server",
+      "title": "Saving an edit to the server",
+      "description": "Make the next save fail, then rename the project. The dialog keeps your draft so you can retry and closes once the save succeeds."
+    },
+    {
+      "id": "non-modal",
+      "title": "Keeping an editor usable",
+      "description": "Open the shortcut reference and return to the draft. You can keep typing while the reference stays open."
+    }
+  ],
+  "drawer": [
+    {
+      "id": "side",
+      "title": "A swipeable shopping cart",
+      "description": "Open the cart at the right edge. Swipe right to dismiss it, or use the Close button."
+    }
+  ],
+  "field": [
+    {
+      "id": "match",
+      "title": "Matching validation messages",
+      "description": "Enter a partial verification code, then clear it. The field chooses a message for the specific validity error."
+    },
+    {
+      "id": "native",
+      "title": "Validating a plain HTML form",
+      "description": "Try a reserved handle or an invalid character. The field’s custom rule and the native input constraints both participate in form submission."
+    },
+    {
+      "id": "validate",
+      "title": "Checking a reserved username",
+      "description": "Type “admin” or “root” to see a custom error, then choose a name of at least three characters to clear it."
+    },
+    {
+      "id": "validity",
+      "title": "Reading validity in a custom status",
+      "description": "Enter a URL. A child of FieldValidity reads the field’s validation state and displays the message alongside the input."
+    }
+  ],
+  "fieldset": [
+    {
+      "id": "disabled",
+      "title": "Reusing a billing address",
+      "description": "Clear “Ship to the billing address” to enable the shipping fields together."
+    }
+  ],
+  "file-upload": [
+    {
+      "id": "progress",
+      "title": "Tracking individual uploads",
+      "description": "Choose several files and follow each upload separately. The simulated endpoint rejects files over 2 MB halfway through."
+    },
+    {
+      "id": "native",
+      "title": "Using the native file chooser",
+      "description": "Choose a document through the visible file input. Its name, size and remove action follow the selection."
+    },
+    {
+      "id": "form",
+      "title": "Submitting receipts with a form",
+      "description": "Submit the claim empty, then attach a photo or PDF. The form receives the selected files under the receipts field."
+    }
+  ],
+  "form": [
+    {
+      "id": "validation",
+      "title": "Validating on blur",
+      "description": "Leave the email field with an incomplete address to see its validation message. Correct it and submit the form."
+    },
+    {
+      "id": "external-errors",
+      "title": "Reopening a form with server errors",
+      "description": "Edit the handle to dismiss the initial error and save a different name. Reset restores the original input and clears validation."
+    }
+  ],
+  "input": [
+    {
+      "id": "controlled",
+      "title": "Counting characters",
+      "description": "Edit the short bio. Its character count and Clear button read and write the same value."
+    }
+  ],
+  "listbox": [
+    {
+      "id": "multiple",
+      "title": "Choosing notification channels",
+      "description": "Select several delivery methods. The summary reflects the number of selected options."
+    },
+    {
+      "id": "grouped",
+      "title": "Organizing time zones by region",
+      "description": "Move through the list with the arrow keys. Regions label related cities while only the cities can be selected."
+    },
+    {
+      "id": "horizontal",
+      "title": "Selecting a size with arrow keys",
+      "description": "Focus the size selector and use Left and Right. Selection follows focus, wraps at the ends and skips the unavailable size."
+    }
+  ],
+  "menu": [
+    {
+      "id": "server",
+      "title": "Opening a recent file",
+      "description": "Open the menu to load recent files, then choose one. Drop the connection before opening the menu or a file to try either failure."
+    },
+    {
+      "id": "options",
+      "title": "Checkbox and radio menu items",
+      "description": "Toggle file display options independently. Choose one sort order from the radio group."
+    },
+    {
+      "id": "submenu",
+      "title": "Opening a nested menu",
+      "description": "Open Insert, focus Chart and press Right to choose a chart type. Press Left to return to the parent menu."
+    }
+  ],
+  "menubar": [
+    {
+      "id": "view",
+      "title": "Changing the editor view",
+      "description": "Move between menus with the arrow keys. Use the View menu to change which panels appear in the editor."
+    }
+  ],
+  "meter": [
+    {
+      "id": "format",
+      "title": "Reporting storage in gigabytes",
+      "description": "Format disk usage in gigabytes and supply an accessible value that includes the total capacity."
+    }
+  ],
+  "navigation-menu": [
+    {
+      "id": "server",
+      "title": "Loading navigation on demand",
+      "description": "Each menu loads its links the first time it opens. Drop the connection before opening a new menu to retry a failed load."
+    }
+  ],
+  "number-field": [
+    {
+      "id": "format",
+      "title": "Editing prices and percentages",
+      "description": "Edit the localized price or discount. The output beneath each field shows its underlying numeric value."
+    },
+    {
+      "id": "saving",
+      "title": "Saving committed values",
+      "description": "Change the seat count with a stepper or by typing and leaving the field. A failed save restores the confirmed count."
+    }
+  ],
+  "otp-field": [
+    {
+      "id": "verify",
+      "title": "Verifying a sign-in code",
+      "description": "Complete all four digits to start verification. The slots become read-only while checking and clear after an incorrect code."
+    },
+    {
+      "id": "letters",
+      "title": "Normalizing an alphanumeric key",
+      "description": "Type or paste a five-character recovery key. The slots accept letters and digits and convert letters to uppercase."
+    }
+  ],
+  "pagination": [
+    {
+      "id": "local",
+      "title": "Paging through local results",
+      "description": "Use the page buttons to change the visible results and keep your place on this documentation page."
+    }
+  ],
+  "popover": [
+    {
+      "id": "server",
+      "title": "Loading notifications on open",
+      "description": "Open the inbox to load its messages. Make the next load fail, reopen the inbox, and retry inside the popover."
+    },
+    {
+      "id": "open-on-hover",
+      "title": "Opening with hover or a press",
+      "description": "Rest the pointer on Shipping to preview the delivery terms. The trigger also works with a click or the keyboard."
+    },
+    {
+      "id": "controlled",
+      "title": "Opening filters from another control",
+      "description": "Open the filters from either button. Apply the filter to close the popup and watch the shared open state."
+    }
+  ],
+  "preview-card": [
+    {
+      "id": "delay",
+      "title": "Previewing a documentation link",
+      "description": "Hover or focus the link to preview its destination after a short delay. Follow the link to read the full guide."
+    }
+  ],
+  "progress": [
+    {
+      "id": "status",
+      "title": "Reporting an export",
+      "description": "Use Unknown while the total is unavailable, then report progress in increments until the export finishes."
+    }
+  ],
+  "radio": [
+    {
+      "id": "saving",
+      "title": "Saving a density preference",
+      "description": "Change the selected density while a save is pending. A failed request restores the last confirmed choice."
+    },
+    {
+      "id": "cards",
+      "title": "Choosing a plan from cards",
+      "description": "Select a plan by pressing anywhere on its card. The group retains radio-button keyboard navigation."
+    }
+  ],
+  "scroll-area": [
+    {
+      "id": "both",
+      "title": "Scrolling a wide grid",
+      "description": "Scroll across the columns and down the rows. Focus the viewport to explore the grid with the keyboard."
+    },
+    {
+      "id": "fade",
+      "title": "Fading the edges of a long list",
+      "description": "Scroll through the folders. Each edge fades only while more content lies beyond it."
+    }
+  ],
+  "segmented-control": [
+    {
+      "id": "controlled",
+      "title": "Choosing a text size",
+      "description": "Control the chosen value and show it beside the control. The arrow keys move between the segments and choose as they go."
+    },
+    {
+      "id": "icons",
+      "title": "Segments with icons",
+      "description": "Put an icon beside each label. A disabled segment is skipped by the arrow keys."
+    }
+  ],
+  "select": [
+    {
+      "id": "server",
+      "title": "Loading options on first open",
+      "description": "Open the select to request countries. Drop the connection before the first open to try the loading, error and retry states."
+    },
+    {
+      "id": "grouped",
+      "title": "Grouping produce options",
+      "description": "Open the picker to browse related options under their group labels and separators."
+    },
+    {
+      "id": "multiple",
+      "title": "Selecting several toppings",
+      "description": "Choose more than one topping, then select one again to remove it. The trigger summarizes the current selection."
+    },
+    {
+      "id": "controlled",
+      "title": "Clearing a controlled selection",
+      "description": "Choose a size, then clear it from outside the popup. The trigger returns to its placeholder."
+    }
+  ],
+  "separator": [
+    {
+      "id": "sections",
+      "title": "Separating groups in a menu",
+      "description": "Use a horizontal separator to distinguish setup guides from component references in the same menu."
+    },
+    {
+      "id": "props-function",
+      "title": "Building a custom divider",
+      "description": "Apply the separator props to a div between two groups of controls to expose a vertical separator to assistive technology."
+    }
+  ],
+  "slider": [
+    {
+      "id": "range",
+      "title": "Setting a price range",
+      "description": "Move either thumb in five-dollar steps. The minimum distance keeps the lower and upper prices apart."
+    },
+    {
+      "id": "saving",
+      "title": "Saving volume on release",
+      "description": "Drag to preview a volume, then release to save it. Drop the connection to see the last confirmed volume return."
+    },
+    {
+      "id": "vertical",
+      "title": "Adjusting a vertical equalizer",
+      "description": "Adjust the three frequency bands independently with the pointer or arrow keys."
+    },
+    {
+      "id": "controlled",
+      "title": "Reading live and committed values",
+      "description": "Drag the brightness thumb and pause before releasing it. The first output follows the drag and the second records the committed value."
+    }
+  ],
+  "sortable": [
+    {
+      "id": "saving",
+      "title": "Saving a folder order",
+      "description": "Drag a folder or reorder it with the keyboard. The list shows the new order immediately and restores it if the request fails."
+    },
+    {
+      "id": "board",
+      "title": "Moving cards between lists",
+      "description": "Move a task from To do to Doing or into the empty Done column. A single group keeps all three lists in sync."
+    },
+    {
+      "id": "tags",
+      "title": "Reordering by the whole item",
+      "description": "Drag a tag directly or focus it and press Space to lift it. Move it with Left or Right and press Enter to drop it."
+    },
+    {
+      "id": "indicator",
+      "title": "Showing the insertion point",
+      "description": "Drag a chapter over another one. A line marks the drop position while the chapters stay in place."
+    }
+  ],
+  "splitter": [
+    {
+      "id": "collapsible",
+      "title": "Collapsing a sidebar",
+      "description": "Drag the handle past the sidebar’s minimum size, or focus it and press Enter to collapse and expand it."
+    },
+    {
+      "id": "nested",
+      "title": "Resizing nested panels",
+      "description": "Resize the outline horizontally, then move the divider between the editor and console vertically. Each handle belongs to its own splitter."
+    },
+    {
+      "id": "controlled",
+      "title": "Applying a layout preset",
+      "description": "Switch between the two presets, then drag the divider. The readouts distinguish changes during the drag from the final sizes."
+    },
+    {
+      "id": "saving",
+      "title": "Saving a layout on release",
+      "description": "Drag the divider and release it to save the proportions. Simulate an outage before resizing to see the failure and try again."
+    }
+  ],
+  "switch": [
+    {
+      "id": "saving",
+      "title": "Saving an alert preference",
+      "description": "Flip the switch, then try it with the simulated connection down. The thumb moves immediately and rolls back when the save fails."
+    },
+    {
+      "id": "field",
+      "title": "Labelling related settings",
+      "description": "Activate the backup switch by its label. Each setting has a description, and the second field disables its switch."
+    }
+  ],
+  "table-of-contents": [
+    {
+      "id": "current",
+      "title": "Reporting the current section",
+      "description": "Scroll the article or follow one of its links. The reading label follows the active section in this scroll container."
+    }
+  ],
+  "tabs": [
+    {
+      "id": "loading",
+      "title": "Loading the selected panel",
+      "description": "Switch tabs while an answer is loading. Only the selected tab’s answer appears. Fail the next load to try the inline retry."
+    },
+    {
+      "id": "animated",
+      "title": "Animating panel changes",
+      "description": "Switch between reporting periods. The outgoing and incoming panels share a grid cell while they fade."
+    },
+    {
+      "id": "vertical",
+      "title": "Navigating vertical tabs",
+      "description": "Use Up and Down to browse settings. Each panel opens as its tab receives focus."
+    }
+  ],
+  "tags-input": [
+    {
+      "id": "rules",
+      "title": "Validating a recipient list",
+      "description": "Enter email addresses separated by spaces. Duplicate entries, invalid addresses and a sixth recipient each get a specific message."
+    },
+    {
+      "id": "form",
+      "title": "Submitting and resetting tags",
+      "description": "Try saving an empty ingredient list, then add tags and submit. Reset restores the field to its initial state."
+    }
+  ],
+  "time-field": [
+    {
+      "id": "options",
+      "title": "Editing time across locales",
+      "description": "Compare second-level precision, a 24-hour clock and localized segments, including right-to-left entry."
+    },
+    {
+      "id": "native",
+      "title": "Using a native time input",
+      "description": "Edit the time with the browser’s own control. The browser chooses the segment layout and input method."
+    }
+  ],
+  "time-picker": [
+    {
+      "id": "bounds",
+      "title": "Choosing an opening-hours slot",
+      "description": "Choose a time within the posted opening hours. The bounds apply to both the field and the popup."
+    },
+    {
+      "id": "hour-cycle",
+      "title": "Picking seconds on a 24-hour clock",
+      "description": "Set a lap time using hours, minutes and five-second increments."
+    },
+    {
+      "id": "list",
+      "title": "Picking from appointment slots",
+      "description": "Choose a half-hour slot between opening and closing time from a single list."
+    },
+    {
+      "id": "form",
+      "title": "Submitting an arrival time",
+      "description": "Submit before choosing a time to see the required error. Book an arrival from 7 AM onward to see its submitted value."
+    }
+  ],
+  "time-range-picker": [
+    {
+      "id": "overnight",
+      "title": "Scheduling a night shift",
+      "description": "Set the end time earlier than the start to represent a shift that crosses midnight."
+    },
+    {
+      "id": "form",
+      "title": "Validating office hours",
+      "description": "Submit with a missing time or a closing time before opening. Correct the range to see both submitted values, or reset both fields together."
+    }
+  ],
+  "toast": [
+    {
+      "id": "undo",
+      "title": "Undoing an archive",
+      "description": "Archive the conversation, then choose Undo in its notification to return it to the inbox."
+    },
+    {
+      "id": "promise",
+      "title": "Following a publish request",
+      "description": "Publish twice to see both outcomes from the simulated server. A single toast follows each request from pending to success or retry."
+    },
+    {
+      "id": "manager",
+      "title": "Sending a toast from outside the provider",
+      "description": "Trigger a notification from a button outside the provider. The shared manager delivers it to the viewport."
+    },
+    {
+      "id": "position",
+      "title": "Dismissing a top-edge notification",
+      "description": "Reconnect to show a notification at the top of the page. Swipe up to dismiss it or wait for its timeout."
+    }
+  ],
+  "toggle-group": [
+    {
+      "id": "multiple",
+      "title": "Combining text styles",
+      "description": "Toggle any combination of styles. The output lists the values selected in the group."
+    }
+  ],
+  "toggle": [
+    {
+      "id": "saving",
+      "title": "Saving a starred project",
+      "description": "Star the project, then change your mind while the save is pending. Drop the connection to see the optimistic change roll back."
+    }
+  ],
+  "toolbar": [
+    {
+      "id": "zoom",
+      "title": "Adjusting document zoom",
+      "description": "Use the toolbar buttons or enter a percentage from 75 to 200 in steps of 25. Reset restores the original scale."
+    }
+  ],
+  "tooltip": [
+    {
+      "id": "delay",
+      "title": "Explaining an unavailable action",
+      "description": "Focus or hover the export control to see why it is unavailable. The explanation is also visible beside the control."
+    }
+  ]
+}

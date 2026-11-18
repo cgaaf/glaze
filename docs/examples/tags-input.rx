@@ -23,7 +23,7 @@ export default component Example() {
       <TagsInputRoot defaultValue={["gardening", "bread"]}>
         <TagsInputControl>
           <Tags />
-          <TagsInputInput placeholder="Add a topic" />
+          <TagsInputInput placeholder="Gardening…" />
           <TagsInputClear aria-label="Remove all topics">
             <Icon name="x" />
           </TagsInputClear>

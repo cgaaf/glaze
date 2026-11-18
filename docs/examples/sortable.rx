@@ -1,6 +1,9 @@
 import { Icon } from "../../src/glaze/icon.rx"
 import { SortableRoot, SortableItem, SortableHandle } from "../../src/glaze/sortable.rx"
 
+import { Button } from "../../src/glaze/button.rx"
+import { moveInOrder } from "../../src/bisque/internal/sortable.js"
+
 export default component Example() {
   source order: string[] := ["Water the plants", "Book the venue", "Reply to the survey", "Order paper", "Back up the laptop"]
   <div class="grid max-w-full gap-2">
@@ -10,7 +13,9 @@ export default component Example() {
           <SortableHandle aria-label={`Move ${task}`}>
             <Icon name="grip-vertical" />
           </SortableHandle>
-          <span class="text-sm text-muted-foreground">{task}</span>
+          <span class="min-w-0 flex-1 text-sm">{task}</span>
+          <Button variant="ghost" size="sm" disabled={task == order[0]} aria-label={`Move ${task} up`} onClick={() => { order := moveInOrder(order, task, order.indexOf(task) - 1) }}>Up</Button>
+          <Button variant="ghost" size="sm" disabled={task == order[order.length - 1]} aria-label={`Move ${task} down`} onClick={() => { order := moveInOrder(order, task, order.indexOf(task) + 1) }}>Down</Button>
         </SortableItem>
       }}
     </SortableRoot>

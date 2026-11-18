@@ -1,0 +1,41 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { InputGroup } from "../../../src/glaze/input-group.rx"
+import { ComboboxRoot, ComboboxInput, ComboboxClear, ComboboxPopup, ComboboxStatus, ComboboxEmpty, ComboboxList, ComboboxItem } from "../../../src/glaze/combobox.rx"
+import { searchCountries, dropNetwork } from "../../lib/countries.js"
+
+export default component ComboboxServer() {
+  source query := ""
+  // Asked again whenever `query` changes; an answer to an older query is dropped. `-> null`: no answer yet.
+  results = await searchCountries(query) -> null
+  searching = results == null || pending? results
+  <div class="grid min-w-0 gap-4">
+    <ComboboxRoot loading={searching} onInputValueChange={(text) => { query := text }}>
+      <InputGroup>
+        <ComboboxInput placeholder="Search countries" aria-label="Country" />
+        <ComboboxClear aria-label="Clear">
+          <Icon name="x" />
+        </ComboboxClear>
+      </InputGroup>
+      <ComboboxPopup sideOffset={6}>
+        {errored fallback(e) {
+          <div class="flex flex-wrap items-center justify-between gap-2 p-2 text-sm text-destructive" role="alert">
+            <span>{e.message}</span>
+            <Button variant="outline" size="sm" type="button" onClick={() => { refresh results }}>Retry</Button>
+          </div>
+        } {
+          <ComboboxStatus>{searching ? "Searching…" : ""}</ComboboxStatus>
+          <ComboboxEmpty>No country found.</ComboboxEmpty>
+          <ComboboxList>
+            {for country in results ?? [] {
+              <ComboboxItem value={country.code} label={country.name}>{country.name}</ComboboxItem>
+            }}
+          </ComboboxList>
+        }}
+      </ComboboxPopup>
+    </ComboboxRoot>
+    <div>
+      <Button variant="outline" size="sm" type="button" onClick={() => { dropNetwork() }}>Drop the network for 2 seconds</Button>
+    </div>
+  </div>
+}

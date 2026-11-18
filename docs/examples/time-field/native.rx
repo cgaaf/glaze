@@ -1,0 +1,8 @@
+import { Input } from "../../../src/glaze/input.rx"
+
+export default component TimeFieldNative() {
+  <div class="grid min-w-0 gap-2">
+    <label class="text-sm font-medium" for="time-field-native">Start time</label>
+    <Input id="time-field-native" type="time" value="09:30" />
+  </div>
+}

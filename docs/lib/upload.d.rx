@@ -1,0 +1,2 @@
+export fn sendFile(file: File, onProgress: (percent: number) => void): Promise<void>
+export pure fn fileNames(files: unknown): string

@@ -1,0 +1,14 @@
+import { SegmentedControlRoot, SegmentedControlItem } from "../../../src/glaze/segmented-control.rx"
+
+export default component SegmentedControlControlled() {
+  source size := "m"
+  sizes = [{ value: "s", label: "Small" }, { value: "m", label: "Medium" }, { value: "l", label: "Large" }]
+  <div class="grid min-w-0 gap-3">
+    <SegmentedControlRoot aria-label="Text size" value={size} onValueChange={(next) => { size := next }}>
+      {for entry in sizes {
+        <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem>
+      }}
+    </SegmentedControlRoot>
+    <output class="text-sm text-muted-foreground">{size}</output>
+  </div>
+}

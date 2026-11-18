@@ -1,0 +1,30 @@
+import { ScrollAreaRoot, ScrollAreaViewport, ScrollAreaContent, ScrollAreaScrollbar, ScrollAreaThumb } from "../../../src/glaze/scroll-area.rx"
+
+export default component ScrollAreaFade() {
+  <div class="grid min-w-0 gap-3">
+    <ScrollAreaRoot>
+      <ScrollAreaViewport style={{ "mask-image": "linear-gradient(to bottom, transparent, black min(2rem, var(--scroll-area-overflow-y-start)), black calc(100% - min(2rem, var(--scroll-area-overflow-y-end))), transparent)" }}>
+        <ScrollAreaContent>
+          <ul class="grid gap-3">
+            <li>Inbox</li>
+            <li>Drafts</li>
+            <li>Sent</li>
+            <li>Scheduled</li>
+            <li>Archive</li>
+            <li>Spam</li>
+            <li>Trash</li>
+            <li>Receipts</li>
+            <li>Travel</li>
+            <li>Newsletters</li>
+            <li>Projects</li>
+            <li>Family</li>
+            <li>Later</li>
+          </ul>
+        </ScrollAreaContent>
+      </ScrollAreaViewport>
+      <ScrollAreaScrollbar>
+        <ScrollAreaThumb />
+      </ScrollAreaScrollbar>
+    </ScrollAreaRoot>
+  </div>
+}

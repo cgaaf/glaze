@@ -1,0 +1,31 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { loadSetting, saveSetting, dropNetwork, messageOf } from "../../lib/settings-server.js"
+
+export default component ButtonRequest() {
+  // How many reminders the server has sent. `-> 0` is shown until the first answer.
+  sent = await loadSetting("reminders", 0) -> 0
+  source failure := ""
+  <div class="grid min-w-0 justify-items-start gap-2">
+    {errored fallback(e) { <p class="text-sm text-destructive">{messageOf(e)}</p> } {
+      // `pending? sent` is true from the press until the request ends (`affects sent`): the button is disabled
+      // for exactly that long, and a second press can't send twice.
+      <Button disabled={pending? sent} focusableWhenDisabled aria-busy={pending? sent ? "true" : undefined} onClick={() => {
+        onFlush(() => { failure := "" })
+        affects sent
+        try {
+          await saveSetting("reminders", sent + 1)
+          refresh sent
+        } catch (error) {
+          failure := messageOf(error)
+        }
+      }}>
+        {if pending? sent { <span class="size-4 rounded-full border-2 border-current border-e-transparent motion-safe:animate-spin" aria-hidden="true" /> }}
+        {pending? sent ? "Sending" : "Send reminder"}
+      </Button>
+      <span class="text-sm text-muted-foreground" aria-live="polite">{failure != "" ? failure : sent == 0 ? "None sent yet" : `${sent} sent`}</span>
+    }}
+    <div class="mt-2">
+      <Button variant="outline" size="sm" type="button" onClick={() => { dropNetwork() }}>Drop the network for 3 seconds</Button>
+    </div>
+  </div>
+}

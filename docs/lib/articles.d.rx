@@ -1,0 +1,2 @@
+export fn dropNetwork(): void
+export pure fn loadArticles(topic: string): Promise<{ title: string; href: string }[]>

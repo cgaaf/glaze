@@ -6,13 +6,15 @@ import {
   AlertDialogDescription as BaseAlertDialogDescription,
   AlertDialogClose as BaseAlertDialogClose,
 } from "../bisque/alert-dialog/alert-dialog.rx"
+import { DivProps } from "../bisque/internal/types.rx"
+import { ButtonStyle } from "./button.rx"
 
 export component AlertDialogRoot(props: Parameters<typeof BaseAlertDialogRoot>[0]) {
   <BaseAlertDialogRoot {...props}>{props.children}</BaseAlertDialogRoot>
 }
 
-export component AlertDialogTrigger(props: Parameters<typeof BaseAlertDialogTrigger>[0]) {
-  <BaseAlertDialogTrigger {...props} data-glaze="alert-dialog-trigger">{props.children}</BaseAlertDialogTrigger>
+export component AlertDialogTrigger({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseAlertDialogTrigger>[0] & ButtonStyle) {
+  <BaseAlertDialogTrigger {...rest} data-glaze="alert-dialog-trigger" data-variant={variant} data-size={size}>{children}</BaseAlertDialogTrigger>
 }
 
 export component AlertDialogPopup(props: Parameters<typeof BaseAlertDialogPopup>[0]) {
@@ -27,6 +29,11 @@ export component AlertDialogDescription(props: Parameters<typeof BaseAlertDialog
   <BaseAlertDialogDescription {...props} data-glaze="alert-dialog-description">{props.children}</BaseAlertDialogDescription>
 }
 
-export component AlertDialogClose(props: Parameters<typeof BaseAlertDialogClose>[0]) {
-  <BaseAlertDialogClose {...props} data-glaze="alert-dialog-close">{props.children}</BaseAlertDialogClose>
+export component AlertDialogClose({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseAlertDialogClose>[0] & ButtonStyle) {
+  <BaseAlertDialogClose {...rest} data-glaze="alert-dialog-close" data-variant={variant} data-size={size}>{children}</BaseAlertDialogClose>
+}
+
+// A Glaze addition with no Bisque part: the row of actions that ends the popup. Put the primary action last.
+export component AlertDialogFooter({ children, ...rest }: DivProps) {
+  <div {...rest} data-glaze="alert-dialog-footer">{children}</div>
 }

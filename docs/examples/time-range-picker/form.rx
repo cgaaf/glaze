@@ -1,0 +1,42 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { FieldRoot, FieldLabel, FieldError } from "../../../src/glaze/field.rx"
+import { Form } from "../../../src/glaze/form.rx"
+import { TimeRangePickerRoot, TimeRangePickerStart, TimeRangePickerEnd, TimeRangePickerSeparator } from "../../../src/glaze/time-range-picker.rx"
+import { TimePickerField, TimePickerTrigger, TimePickerPopup, TimePickerOptions } from "../../../src/glaze/time-picker.rx"
+import { TimeFieldInput, TimeFieldSegment } from "../../../src/glaze/time-field.rx"
+import { timeField } from "../../../src/bisque/time-field/time-field.rx"
+
+component TimeSegments() {
+  c = use timeField
+  {for segment in c.segments { <TimeFieldSegment segment={segment} /> }}
+}
+
+component Endpoint(props: { label: string }) {
+  <TimePickerField aria-label={props.label}>
+    <TimeFieldInput><TimeSegments /></TimeFieldInput>
+    <TimePickerTrigger aria-label={"Choose " + props.label} />
+  </TimePickerField>
+  <TimePickerPopup sideOffset={6}><TimePickerOptions interval={30} /></TimePickerPopup>
+}
+
+fn describe(range: any): string => range == null ? "" : `${range.start} to ${range.end}`
+
+export default component OfficeHours() {
+  source saved := ""
+  <Form onFormSubmit={(values) => { saved := describe(values.hours) }} onReset={() => { saved := "" }}>
+    <FieldRoot name="hours">
+      <FieldLabel>Office hours</FieldLabel>
+      <TimeRangePickerRoot locale="en-GB" required rangeOrderMessage="Closing time must follow opening time.">
+        <TimeRangePickerStart><Endpoint label="opening time" /></TimeRangePickerStart>
+        <TimeRangePickerSeparator>to</TimeRangePickerSeparator>
+        <TimeRangePickerEnd><Endpoint label="closing time" /></TimeRangePickerEnd>
+      </TimeRangePickerRoot>
+      <FieldError />
+    </FieldRoot>
+    <div class="mt-1 flex flex-wrap justify-end gap-2">
+      <Button type="reset" variant="ghost">Reset hours</Button>
+      <Button type="submit">Save hours</Button>
+    </div>
+    <output class="text-sm text-muted-foreground">{saved == "" ? "" : "Office hours: " + saved}</output>
+  </Form>
+}

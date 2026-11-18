@@ -7,13 +7,15 @@ import {
   PopoverClose as BasePopoverClose,
   PopoverArrow as BasePopoverArrow,
 } from "../bisque/popover/popover.rx"
+import { DivProps } from "../bisque/internal/types.rx"
+import { ButtonStyle } from "./button.rx"
 
 export component PopoverRoot(props: Parameters<typeof BasePopoverRoot>[0]) {
   <BasePopoverRoot {...props}>{props.children}</BasePopoverRoot>
 }
 
-export component PopoverTrigger(props: Parameters<typeof BasePopoverTrigger>[0]) {
-  <BasePopoverTrigger {...props} data-glaze="popover-trigger">{props.children}</BasePopoverTrigger>
+export component PopoverTrigger({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BasePopoverTrigger>[0] & ButtonStyle) {
+  <BasePopoverTrigger {...rest} data-glaze="popover-trigger" data-variant={variant} data-size={size}>{children}</BasePopoverTrigger>
 }
 
 export component PopoverPopup(props: Parameters<typeof BasePopoverPopup>[0]) {
@@ -28,10 +30,15 @@ export component PopoverDescription(props: Parameters<typeof BasePopoverDescript
   <BasePopoverDescription {...props} data-glaze="popover-description">{props.children}</BasePopoverDescription>
 }
 
-export component PopoverClose(props: Parameters<typeof BasePopoverClose>[0]) {
-  <BasePopoverClose {...props} data-glaze="popover-close">{props.children}</BasePopoverClose>
+export component PopoverClose({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BasePopoverClose>[0] & ButtonStyle) {
+  <BasePopoverClose {...rest} data-glaze="popover-close" data-variant={variant} data-size={size}>{children}</BasePopoverClose>
 }
 
 export component PopoverArrow(props: Parameters<typeof BasePopoverArrow>[0]) {
   <BasePopoverArrow {...props} data-glaze="popover-arrow">{props.children}</BasePopoverArrow>
+}
+
+// A Glaze addition with no Bisque part: the row of actions that ends the popup. Put the primary action last.
+export component PopoverFooter({ children, ...rest }: DivProps) {
+  <div {...rest} data-glaze="popover-footer">{children}</div>
 }

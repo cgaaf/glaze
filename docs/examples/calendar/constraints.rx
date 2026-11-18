@@ -1,0 +1,24 @@
+import { CalendarRoot, CalendarPreviousMonth, CalendarMonthLabel, CalendarNextMonth, CalendarGrid, CalendarGridHeader, CalendarGridBody } from "../../../src/glaze/calendar.rx"
+import { today } from "../../../src/bisque/internal/date.js"
+import { PlainDate } from "../../../src/bisque/internal/types.rx"
+
+// Closed at weekends, and on the 1st of each month for stocktaking.
+fn closed(date: PlainDate): boolean => date.dayOfWeek >= 6 || date.day == 1
+
+export default component CalendarConstraints() {
+  // Bookable from tomorrow, for the next eight weeks.
+  start = today(undefined, undefined)
+  <div class="grid min-w-0 gap-3">
+    <CalendarRoot aria-label="Collection day" locale="en-GB" min={start.add({ days: 1 })} max={start.add({ weeks: 8 })} isDateUnavailable={closed} showWeekNumbers weekNumberLabel="Week">
+      <div class="mb-2 flex items-center justify-between gap-2">
+        <CalendarPreviousMonth />
+        <CalendarMonthLabel />
+        <CalendarNextMonth />
+      </div>
+      <CalendarGrid>
+        <CalendarGridHeader format="narrow" />
+        <CalendarGridBody />
+      </CalendarGrid>
+    </CalendarRoot>
+  </div>
+}

@@ -1,0 +1,35 @@
+import { OTPFieldRoot, OTPFieldInput } from "../../../src/glaze/otp-field.rx"
+import { saveSetting, messageOf } from "../../lib/settings-server.js"
+
+export default component OTPFieldVerify() {
+  source code := ""
+  source checked := ""
+  source message := ""
+  <div class="grid min-w-0 gap-2">
+    <label class="text-sm font-medium" for="otp-field-verify">Sign-in code</label>
+    <OTPFieldRoot id="otp-field-verify" length={4} value={code} readOnly={pending? checked} onValueChange={(next) => { code := next }} onValueComplete={(next) => {
+      // Checked by the server once all four digits are in; read-only while the check is out.
+      onFlush(() => { message := "" })
+      affects checked
+      try {
+        await saveSetting("otp-check", next)
+        if (next == "2468") {
+          checked := next
+          message := "Signed in."
+        } else {
+          message := "That code isn't right. Try again."
+          code := ""
+        }
+      } catch (error) {
+        message := messageOf(error)
+        code := ""
+      }
+    }}>
+      <OTPFieldInput />
+      <OTPFieldInput aria-label="Digit 2 of 4" />
+      <OTPFieldInput aria-label="Digit 3 of 4" />
+      <OTPFieldInput aria-label="Digit 4 of 4" />
+    </OTPFieldRoot>
+    <p class="text-sm text-muted-foreground" aria-live="polite">{pending? checked ? "Checking…" : message == "" ? "The code is 2468." : message}</p>
+  </div>
+}

@@ -1,0 +1,18 @@
+import { OTPFieldRoot, OTPFieldInput } from "../../../src/glaze/otp-field.rx"
+
+fn upperCase(value: string): string => value.toUpperCase()
+
+export default component OTPFieldLetters() {
+  source code := ""
+  <div class="grid min-w-0 gap-2">
+    <label class="text-sm font-medium" for="otp-field-letters">Recovery key</label>
+    <OTPFieldRoot id="otp-field-letters" length={5} validationType="alphanumeric" normalizeValue={upperCase} value={code} onValueChange={(next) => { code := next }}>
+      <OTPFieldInput />
+      <OTPFieldInput aria-label="Character 2 of 5" />
+      <OTPFieldInput aria-label="Character 3 of 5" />
+      <OTPFieldInput aria-label="Character 4 of 5" />
+      <OTPFieldInput aria-label="Character 5 of 5" />
+    </OTPFieldRoot>
+    <p class="text-sm text-muted-foreground">Value: <code>{code == "" ? "(empty)" : code}</code></p>
+  </div>
+}

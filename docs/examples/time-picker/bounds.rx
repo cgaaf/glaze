@@ -1,0 +1,37 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { TimePickerRoot, TimePickerField, TimePickerTrigger, TimePickerPopup, TimePickerHours, TimePickerMinutes, TimePickerSeconds, TimePickerDayPeriod } from "../../../src/glaze/time-picker.rx"
+import { TimeFieldInput, TimeFieldSegment } from "../../../src/glaze/time-field.rx"
+import { timeField } from "../../../src/bisque/time-field/time-field.rx"
+import { parseTime } from "../../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use timeField
+  {for segment in c.segments {
+    <TimeFieldSegment segment={segment} />
+  }}
+}
+
+// Opening hours: options before 08:30 or after 18:00 are disabled. A time typed outside them is kept and marks the
+// field invalid.
+export default component TimePickerBounds() {
+  <div class="grid min-w-0 gap-2">
+    <span class="text-sm font-medium" id="time-picker-bounds-label">Pickup</span>
+    <TimePickerRoot locale="en-US" minuteStep={15} min={parseTime("08:30")} max={parseTime("18:00")} defaultValue={parseTime("12:00")}>
+      <TimePickerField aria-labelledby="time-picker-bounds-label">
+        <TimeFieldInput><Segments /></TimeFieldInput>
+        <TimePickerTrigger>
+          <Icon name="clock" />
+        </TimePickerTrigger>
+      </TimePickerField>
+      <TimePickerPopup sideOffset={6}>
+        <div class="flex items-start gap-1">
+          <TimePickerHours />
+          <TimePickerMinutes />
+          <TimePickerSeconds />
+          <TimePickerDayPeriod />
+        </div>
+      </TimePickerPopup>
+    </TimePickerRoot>
+    <span class="text-sm text-muted-foreground">Open 8:30 AM to 6:00 PM.</span>
+  </div>
+}

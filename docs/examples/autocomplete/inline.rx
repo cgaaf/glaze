@@ -1,0 +1,22 @@
+import { AutocompleteRoot, AutocompleteInput, AutocompletePopup, AutocompleteList, AutocompleteItem } from "../../../src/glaze/autocomplete.rx"
+
+export default component AutocompleteInline() {
+  source city := ""
+  <div class="grid min-w-0 gap-3">
+    <AutocompleteRoot mode="both" value={city} onValueChange={(next) => { city := next }}>
+      <AutocompleteInput aria-label="City" placeholder="Type, then press ↓" />
+      <AutocompletePopup sideOffset={6}>
+        <AutocompleteList>
+          <AutocompleteItem value="Lisbon">Lisbon</AutocompleteItem>
+          <AutocompleteItem value="Lima">Lima</AutocompleteItem>
+          <AutocompleteItem value="Lyon">Lyon</AutocompleteItem>
+          <AutocompleteItem value="Madrid">Madrid</AutocompleteItem>
+          <AutocompleteItem value="Malmö">Malmö</AutocompleteItem>
+          <AutocompleteItem value="Oslo">Oslo</AutocompleteItem>
+          <AutocompleteItem value="Osaka">Osaka</AutocompleteItem>
+        </AutocompleteList>
+      </AutocompletePopup>
+    </AutocompleteRoot>
+    <p class="text-sm text-muted-foreground">value: <output>{city == "" ? "(empty)" : city}</output></p>
+  </div>
+}

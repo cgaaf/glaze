@@ -1,0 +1,24 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { CheckboxRoot } from "../../../src/glaze/checkbox.rx"
+import { CollapsibleRoot, CollapsibleTrigger, CollapsiblePanel } from "../../../src/glaze/collapsible.rx"
+
+export default component CollapsibleControlled() {
+  source open := false
+  <div class="grid min-w-0 gap-4">
+    <CollapsibleRoot open={open} onOpenChange={(next) => { open := next }}>
+      <CollapsibleTrigger>
+        Advanced options
+        <span class="text-sm font-normal text-muted-foreground">{open ? "Shown" : "Hidden"}</span>
+      </CollapsibleTrigger>
+      <CollapsiblePanel>
+        <div class="grid justify-items-start gap-2 pt-3">
+          <label class="flex flex-wrap items-center gap-2 text-sm text-foreground"><CheckboxRoot defaultChecked /> Keep a backup copy</label>
+          <label class="flex flex-wrap items-center gap-2 text-sm text-foreground"><CheckboxRoot /> Compress large files</label>
+          <div class="mt-2">
+            <Button size="sm" type="button" onClick={() => { open := false }}>Done</Button>
+          </div>
+        </div>
+      </CollapsiblePanel>
+    </CollapsibleRoot>
+  </div>
+}

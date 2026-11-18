@@ -17,7 +17,7 @@ export default component Example() {
         <MenuItem>Download</MenuItem>
         <MenuItem disabled>Publish to web</MenuItem>
         <MenuSeparator />
-        <MenuItem>Move to trash</MenuItem>
+        <MenuItem variant="destructive">Move to trash</MenuItem>
       </MenuPopup>
     </MenuRoot>
   </div>

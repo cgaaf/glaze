@@ -9,7 +9,7 @@ pnpm install
 pnpm docs
 ```
 
-The docs include a live example, its ReactiveScript source, and an API reference for each family. Select a swatch on the overview page or use **Theme** in the header to change the entire site. The docs remember the palette and color mode between visits.
+Every component page includes live examples with copyable ReactiveScript source and an API reference. Use the table of contents to jump to an example. On the Button page, try “Sending a request” to see pending, failure and retry states. Select a swatch on the overview page or use **Theme** in the header to change the entire site. The docs remember the palette and color mode between visits.
 
 ## Use Glaze in an app
 
@@ -46,6 +46,18 @@ export default component App() {
 Exclude `**/*.d.rx` in the tsconfig read by `rx-tsc`. Use the Glaze family module for component parts. For headless contexts, types, and behavior functions, import from the adjacent Bisque tree. Date and time families use `Temporal`. The docs conditionally load `temporal-polyfill/full/global` on browsers that need it.
 
 For Combobox and Autocomplete, place the input and its optional trigger or clear button directly inside `InputGroup` from `./ui/glaze/input-group.rx`. It reserves space for the actions inside the field and keeps the popup aligned with the field. The docs include a complete example for each.
+
+## Design rules
+
+Every part keeps its Bisque name, so `DialogTrigger` in Bisque is `DialogTrigger` in Glaze. Glaze adds only what a styled library needs: `Icon`, `InputGroup`, `SegmentedControl`, and the footer parts `DialogFooter`, `AlertDialogFooter`, `DrawerFooter` and `PopoverFooter`. The same few rules apply to every family.
+
+- **Actions.** `Button` and every part that renders a button (dialog, alert dialog, drawer and popover triggers and close buttons, `MenuTrigger`, `FileUploadTrigger`, `ToastAction`) take the same `variant` and `size`. Triggers and close buttons default to `outline`. Give a view one `default` action and put it last in the footer. Use `ghost` for Cancel and `destructive` to confirm a deletion. `MenuItem` and `ContextMenuItem` take `variant="destructive"` too.
+- **Size and shape.** Controls are 2.25rem tall, 1.75rem at `size="sm"`. Controls use `--radius` and surfaces use a slightly larger radius derived from it.
+- **Spacing.** Leave 0.5rem between a label and its control, 1rem between fields, and 1.25rem above a footer.
+- **Focus.** Text fields draw a solid 2px `--ring` outline over their border, so they keep their footprint. Everything else gets a 2px `--ring` outline, 2px away.
+- **Motion.** A dialog scales up slightly and sharpens as it opens while the page behind blurs and dims lightly. A drawer slides in from its edge. Anchored popups move a few pixels from their anchor. Under `prefers-reduced-motion` nothing moves.
+- **Disabled.** 55% opacity and a not-allowed cursor.
+- **Scrollbars.** Any part that scrolls shows a thin scrollbar colored by `--scrollbar-thumb` and `--scrollbar-track`. Parts that show scrolling another way hide it: the scroll area draws its own, and time picker columns move with the arrow keys. Use the `scrollbar-thin` and `scrollbar-none` utilities on your own containers. The thumb gets stronger under `prefers-contrast: more`.
 
 ## Themes
 

@@ -6,6 +6,6 @@ export default component Example() {
     <Button onClick={() => { count := count + 1 }}>Like</Button>
     <Button variant="outline" onClick={() => { count := 0 }}>Reset</Button>
     <Button variant="secondary" disabled>Archived</Button>
-    <output class="text-xs text-muted-foreground">{count} {count == 1 ? "like" : "likes"}</output>
+    <output class="text-sm text-muted-foreground">{count} {count == 1 ? "like" : "likes"}</output>
   </div>
 }

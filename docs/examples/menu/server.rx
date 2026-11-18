@@ -1,0 +1,40 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { MenuRoot, MenuTrigger, MenuPopup, MenuItem } from "../../../src/glaze/menu.rx"
+import { loadRecent, openFile, dropNetwork } from "../../lib/files.js"
+
+export default component MenuServer() {
+  // Asked the first time the menu opens: `onOpenChange` sets `wanted`, which the question reads.
+  source wanted: boolean := false
+  recent = wanted ? await loadRecent() : []
+  source opened := ""
+  source failure := ""
+  action open(name: string) {
+    affects opened
+    onFlush(() => { failure := "" })
+    try {
+      let answer = await openFile(name)
+      opened := answer
+    } catch (e) {
+      failure := e.message
+    }
+  }
+  <div class="grid min-w-0 justify-items-start gap-3">
+    <MenuRoot onOpenChange={(next) => { if (next) { wanted := true } }}>
+      <MenuTrigger>Open recent</MenuTrigger>
+      <MenuPopup sideOffset={6}>
+        {loading on(wanted) fallback { <div class="px-2 py-1.5 text-sm text-muted-foreground">Loading…</div> } {
+          {errored fallback(e) {
+            <div class="px-2 py-1.5 text-sm text-destructive" role="alert">{e.message}</div>
+            <MenuItem closeOnClick={false} onClick={() => { refresh recent }}>Retry</MenuItem>
+          } {
+            {for name in recent {
+              <MenuItem onClick={() => { open(name) }}>{name}</MenuItem>
+            }}
+          }}
+        }}
+      </MenuPopup>
+    </MenuRoot>
+    <p class="text-sm text-muted-foreground" role="status">{pending? opened ? "Opening…" : failure != "" ? failure : opened == "" ? "No file open" : "Opened " + opened}</p>
+    <Button variant="secondary" size="sm" type="button" onClick={() => { dropNetwork() }}>Drop the network for 2 seconds</Button>
+  </div>
+}

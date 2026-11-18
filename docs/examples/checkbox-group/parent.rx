@@ -1,0 +1,21 @@
+import { CheckboxGroup } from "../../../src/glaze/checkbox-group.rx"
+import { CheckboxRoot, CheckboxIndicator } from "../../../src/glaze/checkbox.rx"
+
+component Marks() {
+  <CheckboxIndicator />
+}
+
+export default component CheckboxGroupParent() {
+  source selected: string[] := ["email"]
+  <div class="grid min-w-0 gap-4">
+    <CheckboxGroup aria-label="Notifications" allValues={["email", "sms", "push"]} value={selected} onValueChange={(next) => { selected := next }}>
+      <label class="flex flex-wrap items-center gap-2 text-sm"><CheckboxRoot parent><Marks /></CheckboxRoot>All notifications</label>
+      <div class="ms-6 grid gap-2">
+        <label class="flex flex-wrap items-center gap-2 text-sm"><CheckboxRoot name="notify" value="email"><Marks /></CheckboxRoot>Email</label>
+        <label class="flex flex-wrap items-center gap-2 text-sm"><CheckboxRoot name="notify" value="sms"><Marks /></CheckboxRoot>Text message</label>
+        <label class="flex flex-wrap items-center gap-2 text-sm"><CheckboxRoot name="notify" value="push"><Marks /></CheckboxRoot>Push</label>
+      </div>
+    </CheckboxGroup>
+    <output class="text-sm text-muted-foreground">{selected.length > 0 ? selected.join(", ") : "none"}</output>
+  </div>
+}

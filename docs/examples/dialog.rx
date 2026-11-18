@@ -1,4 +1,5 @@
-import { DialogRoot, DialogTrigger, DialogPopup, DialogTitle, DialogDescription, DialogClose } from "../../src/glaze/dialog.rx"
+import { DialogRoot, DialogTrigger, DialogPopup, DialogTitle, DialogDescription, DialogClose, DialogFooter } from "../../src/glaze/dialog.rx"
+import { FieldRoot, FieldLabel, FieldControl } from "../../src/glaze/field.rx"
 
 export default component Example() {
   <div class="grid max-w-full gap-2">
@@ -7,14 +8,14 @@ export default component Example() {
       <DialogPopup>
         <DialogTitle>Rename project</DialogTitle>
         <DialogDescription>The new name shows everywhere the project is listed.</DialogDescription>
-        <label class="grid gap-2 text-sm font-medium">
-          Name
-          <input class="w-full rounded-control border border-input px-3 py-2 text-sm" value="Northwind roadmap" />
-        </label>
-        <div class="flex items-center justify-end gap-2">
-          <DialogClose>Cancel</DialogClose>
-          <DialogClose>Save</DialogClose>
-        </div>
+        <FieldRoot>
+          <FieldLabel>Name</FieldLabel>
+          <FieldControl value="Northwind roadmap" />
+        </FieldRoot>
+        <DialogFooter>
+          <DialogClose variant="ghost">Cancel</DialogClose>
+          <DialogClose variant="default">Save</DialogClose>
+        </DialogFooter>
       </DialogPopup>
     </DialogRoot>
   </div>

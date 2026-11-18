@@ -1,0 +1,22 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { SplitterRoot, SplitterPanel, SplitterHandle } from "../../../src/glaze/splitter.rx"
+
+export default component SplitterControlled() {
+  source sizes: number[] := [50, 50]
+  source committed: number[] := [50, 50]
+  <div class="grid min-w-0 gap-3">
+    <SplitterRoot sizes={sizes} onSizesChange={(next) => { sizes := next }} onSizesCommit={(next) => { committed := next }}>
+      <SplitterPanel id="left">Left</SplitterPanel>
+      <SplitterHandle aria-label="Resize" />
+      <SplitterPanel id="right">Right</SplitterPanel>
+    </SplitterRoot>
+    <div class="flex flex-wrap gap-2">
+      <Button variant="outline" size="sm" onClick={() => { sizes := [25, 75] }}>25 / 75</Button>
+      <Button variant="outline" size="sm" onClick={() => { sizes := [50, 50] }}>50 / 50</Button>
+    </div>
+    <dl class="grid gap-1 text-sm">
+      <div class="flex gap-2"><dt class="text-muted-foreground">onSizesChange</dt><dd class="tabular-nums">{sizes.map((size) => size.toFixed(1)).join(" / ")}</dd></div>
+      <div class="flex gap-2"><dt class="text-muted-foreground">onSizesCommit</dt><dd class="tabular-nums">{committed.map((size) => size.toFixed(1)).join(" / ")}</dd></div>
+    </dl>
+  </div>
+}

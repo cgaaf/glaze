@@ -1,33 +1,37 @@
 import { Icon } from "../../src/glaze/icon.rx"
-import { PaginationRoot, PaginationItem, PaginationEllipsis, PaginationPrevious, PaginationNext } from "../../src/glaze/pagination.rx"
-import { pagination } from "../../src/bisque/pagination/pagination.rx"
+import { PaginationRoot, PaginationEllipsis } from "../../src/glaze/pagination.rx"
+import { pagination, paginationItem, paginationPrevious, paginationNext } from "../../src/bisque/pagination/pagination.rx"
+import { currentPage, pageHref } from "../lib/pagination-location.js"
 
-// The pages and ellipses, rendered from inside the root.
-component Pages() {
+component PageLink(props: { value: number }) {
   c = use pagination
+  link = paginationItem(c, { value: props.value, href: pageHref(props.value) })
+  <a {...link} data-glaze="pagination-item">{props.value}</a>
+}
+
+component PageLinks() {
+  c = use pagination
+  previous = paginationPrevious(c, { href: pageHref(c.page - 1) })
+  next = paginationNext(c, { href: pageHref(c.page + 1) })
+  <a {...previous} data-glaze="pagination-previous" aria-label="Previous page"><Icon name="chevron-left" /></a>
   <ul class="flex flex-wrap items-center gap-1">
     {for item in c.items {
       <li>
         {if item.type == "page" {
-          <PaginationItem value={item.value}>{item.value}</PaginationItem>
+          <PageLink value={item.value} />
         } else {
           <PaginationEllipsis>…</PaginationEllipsis>
         }}
       </li>
     }}
   </ul>
+  <a {...next} data-glaze="pagination-next" aria-label="Next page"><Icon name="chevron-right" /></a>
 }
 
 export default component Example() {
   <div class="grid max-w-full gap-2">
-    <PaginationRoot count={240} pageSize={10} defaultPage={6}>
-      <PaginationPrevious aria-label="Previous page">
-        <Icon name="chevron-left" />
-      </PaginationPrevious>
-      <Pages />
-      <PaginationNext aria-label="Next page">
-        <Icon name="chevron-right" />
-      </PaginationNext>
+    <PaginationRoot count={240} pageSize={10} page={currentPage()}>
+      <PageLinks />
     </PaginationRoot>
   </div>
 }

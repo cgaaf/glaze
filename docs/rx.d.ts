@@ -4,3 +4,8 @@ declare module "*.rx" {
   ) => () => unknown;
   export default program;
 }
+
+declare module "*.rx?source" {
+  const source: string;
+  export default source;
+}

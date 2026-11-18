@@ -1,0 +1,2 @@
+export pure fn currentPage(): number
+export pure fn pageHref(page: number): string

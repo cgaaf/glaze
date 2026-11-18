@@ -1,0 +1,54 @@
+import { Icon } from "../../../src/glaze/icon.rx"
+import { TimeRangePickerRoot, TimeRangePickerStart, TimeRangePickerEnd, TimeRangePickerSeparator } from "../../../src/glaze/time-range-picker.rx"
+import { TimePickerField, TimePickerTrigger, TimePickerPopup, TimePickerHours, TimePickerMinutes, TimePickerDayPeriod } from "../../../src/glaze/time-picker.rx"
+import { TimeFieldInput, TimeFieldSegment } from "../../../src/glaze/time-field.rx"
+import { timeField } from "../../../src/bisque/time-field/time-field.rx"
+import { parseTime } from "../../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use timeField
+  {for segment in c.segments {
+    <TimeFieldSegment segment={segment} />
+  }}
+}
+
+// A night shift: `allowOvernight` lets the end come before the start, a range across midnight.
+export default component TimeRangePickerOvernight() {
+  <div class="grid min-w-0 gap-2">
+    <span class="text-sm font-medium" id="time-range-picker-overnight-label">Night shift</span>
+    <TimeRangePickerRoot aria-labelledby="time-range-picker-overnight-label" locale="en-GB" allowOvernight minuteStep={30} name="shift" defaultValue={{ start: parseTime("22:00"), end: parseTime("06:00") }}>
+      <TimeRangePickerStart>
+        <TimePickerField aria-label="Starts">
+          <TimeFieldInput><Segments /></TimeFieldInput>
+          <TimePickerTrigger aria-label="Choose start time">
+            <Icon name="clock" />
+          </TimePickerTrigger>
+        </TimePickerField>
+        <TimePickerPopup sideOffset={6}>
+          <div class="flex items-start gap-1">
+            <TimePickerHours />
+            <TimePickerMinutes />
+            <TimePickerDayPeriod />
+          </div>
+        </TimePickerPopup>
+      </TimeRangePickerStart>
+      <TimeRangePickerSeparator>to</TimeRangePickerSeparator>
+      <TimeRangePickerEnd>
+        <TimePickerField aria-label="Ends">
+          <TimeFieldInput><Segments /></TimeFieldInput>
+          <TimePickerTrigger aria-label="Choose end time">
+            <Icon name="clock" />
+          </TimePickerTrigger>
+        </TimePickerField>
+        <TimePickerPopup sideOffset={6}>
+          <div class="flex items-start gap-1">
+            <TimePickerHours />
+            <TimePickerMinutes />
+            <TimePickerDayPeriod />
+          </div>
+        </TimePickerPopup>
+      </TimeRangePickerEnd>
+    </TimeRangePickerRoot>
+    <span class="text-sm text-muted-foreground">Submits shift-start and shift-end.</span>
+  </div>
+}

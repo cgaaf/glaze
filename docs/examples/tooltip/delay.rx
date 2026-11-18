@@ -1,0 +1,13 @@
+import { TooltipProvider, TooltipRoot, TooltipTrigger, TooltipPopup, TooltipArrow } from "../../../src/glaze/tooltip.rx"
+
+export default component ExportHint() {
+  <div class="grid gap-2">
+    <TooltipProvider>
+      <TooltipRoot>
+        <TooltipTrigger aria-disabled="true" delay={400}>Export</TooltipTrigger>
+        <TooltipPopup sideOffset={8}><TooltipArrow />Select at least one row first.</TooltipPopup>
+      </TooltipRoot>
+    </TooltipProvider>
+    <p class="text-sm text-muted-foreground">No rows selected.</p>
+  </div>
+}

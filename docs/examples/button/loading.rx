@@ -1,0 +1,18 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { after } from "../../lib/wait.js"
+
+export default component ButtonLoading() {
+  source saving := false
+  source saved := 0
+  action finish() {
+    saving := false
+    saved := saved + 1
+  }
+  <div class="grid min-w-0 justify-items-center gap-2">
+    <Button disabled={saving} focusableWhenDisabled onClick={() => { saving := true; after(1500, finish) }}>
+      {if saving { <span class="size-4 rounded-full border-2 border-current border-e-transparent motion-safe:animate-spin" aria-hidden="true" /> }}
+      {saving ? "Saving" : "Save draft"}
+    </Button>
+    <span role="status" class="text-sm text-muted-foreground">{saved == 0 ? "Not saved yet" : "Saved " + saved + (saved == 1 ? " time" : " times")}</span>
+  </div>
+}

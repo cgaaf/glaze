@@ -1,0 +1,62 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { Input } from "../../../src/glaze/input.rx"
+import { DialogRoot, DialogTrigger, DialogPopup, DialogTitle, DialogClose, DialogFooter } from "../../../src/glaze/dialog.rx"
+import { loadProject, saveProject, failNextSave } from "../../lib/projects.js"
+
+export default component DialogServer() {
+  source open: boolean := false
+  // Asked each time the dialog opens: `onOpenChange` moves `visit`, which the question reads.
+  source visit := 0
+  project = visit == 0 ? null : await loadProject()
+  source draft := ""
+  source saved := ""
+  source failure := ""
+  action save() {
+    affects saved
+    onFlush(() => { failure := "" })
+    try {
+      let answer = await saveProject(draft)
+      saved := answer
+      // Closed once the server has the new name; the dialog waits with the rest of the action.
+      open := false
+    } catch (e) {
+      failure := e.message
+    }
+  }
+  action change(next: boolean) {
+    open := next
+    if (next) {
+      visit := visit + 1
+      draft := ""
+      failure := ""
+    }
+  }
+  <div class="grid min-w-0 justify-items-start gap-3">
+    <DialogRoot open={open} onOpenChange={change}>
+      <DialogTrigger>Rename project</DialogTrigger>
+      <DialogPopup>
+        <DialogTitle>Rename project</DialogTitle>
+        {loading on(visit) fallback { <p class="mt-1 text-sm text-muted-foreground">Loading the project…</p> } {
+          {errored fallback(e) {
+            <p class="mt-1 text-sm text-destructive" role="alert">{e.message}</p>
+            <DialogFooter>
+              <Button variant="outline" type="button" onClick={() => { refresh project }}>Retry</Button>
+            </DialogFooter>
+          } {
+            <p class="mt-1 mb-4 text-sm text-muted-foreground">{project?.edited ?? ""}</p>
+            <form onSubmit={(event) => { event.preventDefault(); save() }}>
+              <Input class="w-full" aria-label="Name" required placeholder={project?.name ?? "" catch (error) => ""} value={draft} onValueChange={(next) => { draft := next }} />
+              <p class="mt-2 text-sm text-destructive" role="alert">{failure}</p>
+              <DialogFooter>
+                <DialogClose variant="ghost">Cancel</DialogClose>
+                <Button type="submit" disabled={pending? saved}>{pending? saved ? "Saving…" : "Save"}</Button>
+              </DialogFooter>
+            </form>
+          }}
+        }}
+      </DialogPopup>
+    </DialogRoot>
+    <p class="text-sm text-muted-foreground" role="status">{saved == "" ? "Not renamed yet." : "Renamed to " + saved + "."}</p>
+    <Button variant="secondary" size="sm" type="button" onClick={() => { failNextSave() }}>Make the next save fail</Button>
+  </div>
+}
