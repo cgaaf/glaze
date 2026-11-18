@@ -1,0 +1,19 @@
+import {
+  RadioGroup as BaseRadioGroup,
+  RadioRoot as BaseRadioRoot,
+  RadioIndicator as BaseRadioIndicator,
+} from "../bisque/radio/radio.rx"
+
+export component RadioGroup(props: Parameters<typeof BaseRadioGroup>[0]) {
+  <BaseRadioGroup {...props} data-glaze="radio-group">{props.children}</BaseRadioGroup>
+}
+
+export component RadioRoot(props: Parameters<typeof BaseRadioRoot>[0]) {
+  <span data-glaze="radio-shell">
+    <BaseRadioRoot {...props} data-glaze="radio-root">{props.children}</BaseRadioRoot>
+  </span>
+}
+
+export component RadioIndicator(props: Parameters<typeof BaseRadioIndicator>[0]) {
+  <BaseRadioIndicator {...props} data-glaze="radio-indicator">{props.children}</BaseRadioIndicator>
+}

@@ -1,0 +1,17 @@
+import {
+  CollapsibleRoot as BaseCollapsibleRoot,
+  CollapsibleTrigger as BaseCollapsibleTrigger,
+  CollapsiblePanel as BaseCollapsiblePanel,
+} from "../bisque/collapsible/collapsible.rx"
+
+export component CollapsibleRoot(props: Parameters<typeof BaseCollapsibleRoot>[0]) {
+  <BaseCollapsibleRoot {...props} data-glaze="collapsible-root">{props.children}</BaseCollapsibleRoot>
+}
+
+export component CollapsibleTrigger(props: Parameters<typeof BaseCollapsibleTrigger>[0]) {
+  <BaseCollapsibleTrigger {...props} data-glaze="collapsible-trigger">{props.children}</BaseCollapsibleTrigger>
+}
+
+export component CollapsiblePanel(props: Parameters<typeof BaseCollapsiblePanel>[0]) {
+  <BaseCollapsiblePanel {...props} data-glaze="collapsible-panel">{props.children}</BaseCollapsiblePanel>
+}

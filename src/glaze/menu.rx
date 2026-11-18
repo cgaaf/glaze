@@ -1,0 +1,72 @@
+import {
+  MenuRoot as BaseMenuRoot,
+  MenuTrigger as BaseMenuTrigger,
+  MenuPopup as BaseMenuPopup,
+  MenuItem as BaseMenuItem,
+  MenuLinkItem as BaseMenuLinkItem,
+  MenuCheckboxItem as BaseMenuCheckboxItem,
+  MenuRadioGroup as BaseMenuRadioGroup,
+  MenuRadioItem as BaseMenuRadioItem,
+  MenuGroup as BaseMenuGroup,
+  MenuGroupLabel as BaseMenuGroupLabel,
+  MenuSeparator as BaseMenuSeparator,
+  MenuSubmenuRoot as BaseMenuSubmenuRoot,
+  MenuSubmenuTrigger as BaseMenuSubmenuTrigger,
+  MenuArrow as BaseMenuArrow,
+} from "../bisque/menu/menu.rx"
+
+export component MenuRoot(props: Parameters<typeof BaseMenuRoot>[0]) {
+  <BaseMenuRoot {...props}>{props.children}</BaseMenuRoot>
+}
+
+export component MenuTrigger(props: Parameters<typeof BaseMenuTrigger>[0]) {
+  <BaseMenuTrigger {...props} data-glaze="menu-trigger">{props.children}</BaseMenuTrigger>
+}
+
+export component MenuPopup(props: Parameters<typeof BaseMenuPopup>[0]) {
+  <BaseMenuPopup {...props} data-glaze="menu-popup">{props.children}</BaseMenuPopup>
+}
+
+export component MenuItem(props: Parameters<typeof BaseMenuItem>[0]) {
+  <BaseMenuItem {...props} data-glaze="menu-item">{props.children}</BaseMenuItem>
+}
+
+export component MenuLinkItem(props: Parameters<typeof BaseMenuLinkItem>[0]) {
+  <BaseMenuLinkItem {...props} data-glaze="menu-link-item">{props.children}</BaseMenuLinkItem>
+}
+
+export component MenuCheckboxItem(props: Parameters<typeof BaseMenuCheckboxItem>[0]) {
+  <BaseMenuCheckboxItem {...props} data-glaze="menu-checkbox-item">{props.children}</BaseMenuCheckboxItem>
+}
+
+export component MenuRadioGroup(props: Parameters<typeof BaseMenuRadioGroup>[0]) {
+  <BaseMenuRadioGroup {...props} data-glaze="menu-radio-group">{props.children}</BaseMenuRadioGroup>
+}
+
+export component MenuRadioItem(props: Parameters<typeof BaseMenuRadioItem>[0]) {
+  <BaseMenuRadioItem {...props} data-glaze="menu-radio-item">{props.children}</BaseMenuRadioItem>
+}
+
+export component MenuGroup(props: Parameters<typeof BaseMenuGroup>[0]) {
+  <BaseMenuGroup {...props} data-glaze="menu-group">{props.children}</BaseMenuGroup>
+}
+
+export component MenuGroupLabel(props: Parameters<typeof BaseMenuGroupLabel>[0]) {
+  <BaseMenuGroupLabel {...props} data-glaze="menu-group-label">{props.children}</BaseMenuGroupLabel>
+}
+
+export component MenuSeparator(props: Parameters<typeof BaseMenuSeparator>[0]) {
+  <BaseMenuSeparator {...props} data-glaze="menu-separator" />
+}
+
+export component MenuSubmenuRoot(props: Parameters<typeof BaseMenuSubmenuRoot>[0]) {
+  <BaseMenuSubmenuRoot {...props}>{props.children}</BaseMenuSubmenuRoot>
+}
+
+export component MenuSubmenuTrigger(props: Parameters<typeof BaseMenuSubmenuTrigger>[0]) {
+  <BaseMenuSubmenuTrigger {...props} data-glaze="menu-submenu-trigger">{props.children}</BaseMenuSubmenuTrigger>
+}
+
+export component MenuArrow(props: Parameters<typeof BaseMenuArrow>[0]) {
+  <BaseMenuArrow {...props} data-glaze="menu-arrow">{props.children}</BaseMenuArrow>
+}

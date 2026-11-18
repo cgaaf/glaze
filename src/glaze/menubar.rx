@@ -1,0 +1,7 @@
+import {
+  MenubarRoot as BaseMenubarRoot,
+} from "../bisque/menubar/menubar.rx"
+
+export component MenubarRoot(props: Parameters<typeof BaseMenubarRoot>[0]) {
+  <BaseMenubarRoot {...props} data-glaze="menubar-root">{props.children}</BaseMenubarRoot>
+}

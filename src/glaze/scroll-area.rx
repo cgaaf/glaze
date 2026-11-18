@@ -1,0 +1,32 @@
+import {
+  ScrollAreaRoot as BaseScrollAreaRoot,
+  ScrollAreaViewport as BaseScrollAreaViewport,
+  ScrollAreaContent as BaseScrollAreaContent,
+  ScrollAreaScrollbar as BaseScrollAreaScrollbar,
+  ScrollAreaThumb as BaseScrollAreaThumb,
+  ScrollAreaCorner as BaseScrollAreaCorner,
+} from "../bisque/scroll-area/scroll-area.rx"
+
+export component ScrollAreaRoot(props: Parameters<typeof BaseScrollAreaRoot>[0]) {
+  <BaseScrollAreaRoot {...props} data-glaze="scroll-area-root">{props.children}</BaseScrollAreaRoot>
+}
+
+export component ScrollAreaViewport(props: Parameters<typeof BaseScrollAreaViewport>[0]) {
+  <BaseScrollAreaViewport {...props} data-glaze="scroll-area-viewport">{props.children}</BaseScrollAreaViewport>
+}
+
+export component ScrollAreaContent(props: Parameters<typeof BaseScrollAreaContent>[0]) {
+  <BaseScrollAreaContent {...props} data-glaze="scroll-area-content">{props.children}</BaseScrollAreaContent>
+}
+
+export component ScrollAreaScrollbar(props: Parameters<typeof BaseScrollAreaScrollbar>[0]) {
+  <BaseScrollAreaScrollbar {...props} data-glaze="scroll-area-scrollbar">{props.children}</BaseScrollAreaScrollbar>
+}
+
+export component ScrollAreaThumb(props: Parameters<typeof BaseScrollAreaThumb>[0]) {
+  <BaseScrollAreaThumb {...props} data-glaze="scroll-area-thumb" />
+}
+
+export component ScrollAreaCorner(props: Parameters<typeof BaseScrollAreaCorner>[0]) {
+  <BaseScrollAreaCorner {...props} data-glaze="scroll-area-corner" />
+}

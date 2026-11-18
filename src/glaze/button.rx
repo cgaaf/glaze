@@ -5,6 +5,6 @@ export type ButtonProps = Parameters<typeof BaseButton>[0] & {
   size?: "default" | "sm" | "lg" | "icon"
 }
 
-export component Button({ variant = "default", size = "default", ...rest }: ButtonProps) {
-  <BaseButton {...rest} data-slot="button" data-variant={variant} data-size={size} />
+export component Button({ variant = "default", size = "default", children, ...rest }: ButtonProps) {
+  <BaseButton {...rest} data-glaze="button" data-variant={variant} data-size={size}>{children}</BaseButton>
 }

@@ -1,0 +1,32 @@
+import {
+  SliderRoot as BaseSliderRoot,
+  SliderControl as BaseSliderControl,
+  SliderTrack as BaseSliderTrack,
+  SliderIndicator as BaseSliderIndicator,
+  SliderValue as BaseSliderValue,
+  SliderThumb as BaseSliderThumb,
+} from "../bisque/slider/slider.rx"
+
+export component SliderRoot(props: Parameters<typeof BaseSliderRoot>[0]) {
+  <BaseSliderRoot {...props} data-glaze="slider-root">{props.children}</BaseSliderRoot>
+}
+
+export component SliderControl(props: Parameters<typeof BaseSliderControl>[0]) {
+  <BaseSliderControl {...props} data-glaze="slider-control">{props.children}</BaseSliderControl>
+}
+
+export component SliderTrack(props: Parameters<typeof BaseSliderTrack>[0]) {
+  <BaseSliderTrack {...props} data-glaze="slider-track">{props.children}</BaseSliderTrack>
+}
+
+export component SliderIndicator(props: Parameters<typeof BaseSliderIndicator>[0]) {
+  <BaseSliderIndicator {...props} data-glaze="slider-indicator">{props.children}</BaseSliderIndicator>
+}
+
+export component SliderValue(props: Parameters<typeof BaseSliderValue>[0]) {
+  <BaseSliderValue {...props} data-glaze="slider-value" />
+}
+
+export component SliderThumb(props: Parameters<typeof BaseSliderThumb>[0]) {
+  <BaseSliderThumb {...props} data-glaze="slider-thumb">{props.children}</BaseSliderThumb>
+}

@@ -1,0 +1,7 @@
+import {
+  Separator as BaseSeparator,
+} from "../bisque/separator/separator.rx"
+
+export component Separator(props: Parameters<typeof BaseSeparator>[0]) {
+  <BaseSeparator {...props} data-glaze="separator" />
+}

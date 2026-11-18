@@ -1,0 +1,7 @@
+import {
+  ToggleGroup as BaseToggleGroup,
+} from "../bisque/toggle-group/toggle-group.rx"
+
+export component ToggleGroup(props: Parameters<typeof BaseToggleGroup>[0]) {
+  <BaseToggleGroup {...props} data-glaze="toggle-group">{props.children}</BaseToggleGroup>
+}

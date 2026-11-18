@@ -1,0 +1,67 @@
+import {
+  ContextMenuRoot as BaseContextMenuRoot,
+  ContextMenuTrigger as BaseContextMenuTrigger,
+  ContextMenuPopup as BaseContextMenuPopup,
+  ContextMenuItem as BaseContextMenuItem,
+  ContextMenuLinkItem as BaseContextMenuLinkItem,
+  ContextMenuCheckboxItem as BaseContextMenuCheckboxItem,
+  ContextMenuRadioGroup as BaseContextMenuRadioGroup,
+  ContextMenuRadioItem as BaseContextMenuRadioItem,
+  ContextMenuGroup as BaseContextMenuGroup,
+  ContextMenuGroupLabel as BaseContextMenuGroupLabel,
+  ContextMenuSeparator as BaseContextMenuSeparator,
+  ContextMenuSubmenuRoot as BaseContextMenuSubmenuRoot,
+  ContextMenuSubmenuTrigger as BaseContextMenuSubmenuTrigger,
+} from "../bisque/context-menu/context-menu.rx"
+
+export component ContextMenuRoot(props: Parameters<typeof BaseContextMenuRoot>[0]) {
+  <BaseContextMenuRoot {...props}>{props.children}</BaseContextMenuRoot>
+}
+
+export component ContextMenuTrigger(props: Parameters<typeof BaseContextMenuTrigger>[0]) {
+  <BaseContextMenuTrigger {...props} data-glaze="context-menu-trigger">{props.children}</BaseContextMenuTrigger>
+}
+
+export component ContextMenuPopup(props: Parameters<typeof BaseContextMenuPopup>[0]) {
+  <BaseContextMenuPopup {...props} data-glaze="context-menu-popup">{props.children}</BaseContextMenuPopup>
+}
+
+export component ContextMenuItem(props: Parameters<typeof BaseContextMenuItem>[0]) {
+  <BaseContextMenuItem {...props} data-glaze="context-menu-item">{props.children}</BaseContextMenuItem>
+}
+
+export component ContextMenuLinkItem(props: Parameters<typeof BaseContextMenuLinkItem>[0]) {
+  <BaseContextMenuLinkItem {...props} data-glaze="context-menu-link-item">{props.children}</BaseContextMenuLinkItem>
+}
+
+export component ContextMenuCheckboxItem(props: Parameters<typeof BaseContextMenuCheckboxItem>[0]) {
+  <BaseContextMenuCheckboxItem {...props} data-glaze="context-menu-checkbox-item">{props.children}</BaseContextMenuCheckboxItem>
+}
+
+export component ContextMenuRadioGroup(props: Parameters<typeof BaseContextMenuRadioGroup>[0]) {
+  <BaseContextMenuRadioGroup {...props} data-glaze="context-menu-radio-group">{props.children}</BaseContextMenuRadioGroup>
+}
+
+export component ContextMenuRadioItem(props: Parameters<typeof BaseContextMenuRadioItem>[0]) {
+  <BaseContextMenuRadioItem {...props} data-glaze="context-menu-radio-item">{props.children}</BaseContextMenuRadioItem>
+}
+
+export component ContextMenuGroup(props: Parameters<typeof BaseContextMenuGroup>[0]) {
+  <BaseContextMenuGroup {...props} data-glaze="context-menu-group">{props.children}</BaseContextMenuGroup>
+}
+
+export component ContextMenuGroupLabel(props: Parameters<typeof BaseContextMenuGroupLabel>[0]) {
+  <BaseContextMenuGroupLabel {...props} data-glaze="context-menu-group-label">{props.children}</BaseContextMenuGroupLabel>
+}
+
+export component ContextMenuSeparator(props: Parameters<typeof BaseContextMenuSeparator>[0]) {
+  <BaseContextMenuSeparator {...props} data-glaze="context-menu-separator">{props.children}</BaseContextMenuSeparator>
+}
+
+export component ContextMenuSubmenuRoot(props: Parameters<typeof BaseContextMenuSubmenuRoot>[0]) {
+  <BaseContextMenuSubmenuRoot {...props}>{props.children}</BaseContextMenuSubmenuRoot>
+}
+
+export component ContextMenuSubmenuTrigger(props: Parameters<typeof BaseContextMenuSubmenuTrigger>[0]) {
+  <BaseContextMenuSubmenuTrigger {...props} data-glaze="context-menu-submenu-trigger">{props.children}</BaseContextMenuSubmenuTrigger>
+}

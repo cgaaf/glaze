@@ -1,0 +1,32 @@
+import {
+  DialogRoot as BaseDialogRoot,
+  DialogTrigger as BaseDialogTrigger,
+  DialogPopup as BaseDialogPopup,
+  DialogTitle as BaseDialogTitle,
+  DialogDescription as BaseDialogDescription,
+  DialogClose as BaseDialogClose,
+} from "../bisque/dialog/dialog.rx"
+
+export component DialogRoot(props: Parameters<typeof BaseDialogRoot>[0]) {
+  <BaseDialogRoot {...props}>{props.children}</BaseDialogRoot>
+}
+
+export component DialogTrigger(props: Parameters<typeof BaseDialogTrigger>[0]) {
+  <BaseDialogTrigger {...props} data-glaze="dialog-trigger">{props.children}</BaseDialogTrigger>
+}
+
+export component DialogPopup(props: Parameters<typeof BaseDialogPopup>[0]) {
+  <BaseDialogPopup {...props} data-glaze="dialog-popup">{props.children}</BaseDialogPopup>
+}
+
+export component DialogTitle(props: Parameters<typeof BaseDialogTitle>[0]) {
+  <BaseDialogTitle {...props} data-glaze="dialog-title">{props.children}</BaseDialogTitle>
+}
+
+export component DialogDescription(props: Parameters<typeof BaseDialogDescription>[0]) {
+  <BaseDialogDescription {...props} data-glaze="dialog-description">{props.children}</BaseDialogDescription>
+}
+
+export component DialogClose(props: Parameters<typeof BaseDialogClose>[0]) {
+  <BaseDialogClose {...props} data-glaze="dialog-close">{props.children}</BaseDialogClose>
+}

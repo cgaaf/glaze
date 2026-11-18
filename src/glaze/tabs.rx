@@ -1,0 +1,27 @@
+import {
+  TabsRoot as BaseTabsRoot,
+  TabsList as BaseTabsList,
+  TabsTab as BaseTabsTab,
+  TabsPanel as BaseTabsPanel,
+  TabsIndicator as BaseTabsIndicator,
+} from "../bisque/tabs/tabs.rx"
+
+export component TabsRoot(props: Parameters<typeof BaseTabsRoot>[0]) {
+  <BaseTabsRoot {...props} data-glaze="tabs-root">{props.children}</BaseTabsRoot>
+}
+
+export component TabsList(props: Parameters<typeof BaseTabsList>[0]) {
+  <BaseTabsList {...props} data-glaze="tabs-list">{props.children}</BaseTabsList>
+}
+
+export component TabsTab(props: Parameters<typeof BaseTabsTab>[0]) {
+  <BaseTabsTab {...props} data-glaze="tabs-tab">{props.children}</BaseTabsTab>
+}
+
+export component TabsPanel(props: Parameters<typeof BaseTabsPanel>[0]) {
+  <BaseTabsPanel {...props} data-glaze="tabs-panel">{props.children}</BaseTabsPanel>
+}
+
+export component TabsIndicator(props: Parameters<typeof BaseTabsIndicator>[0]) {
+  <BaseTabsIndicator {...props} data-glaze="tabs-indicator" />
+}

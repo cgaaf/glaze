@@ -1,0 +1,17 @@
+import {
+  TimeFieldRoot as BaseTimeFieldRoot,
+  TimeFieldInput as BaseTimeFieldInput,
+  TimeFieldSegment as BaseTimeFieldSegment,
+} from "../bisque/time-field/time-field.rx"
+
+export component TimeFieldRoot(props: Parameters<typeof BaseTimeFieldRoot>[0]) {
+  <BaseTimeFieldRoot {...props} data-glaze="time-field-root">{props.children}</BaseTimeFieldRoot>
+}
+
+export component TimeFieldInput(props: Parameters<typeof BaseTimeFieldInput>[0]) {
+  <BaseTimeFieldInput {...props} data-glaze="time-field-input">{props.children}</BaseTimeFieldInput>
+}
+
+export component TimeFieldSegment(props: Parameters<typeof BaseTimeFieldSegment>[0]) {
+  <BaseTimeFieldSegment {...props} data-glaze="time-field-segment" />
+}

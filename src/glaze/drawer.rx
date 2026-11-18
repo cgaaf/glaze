@@ -1,0 +1,37 @@
+import {
+  DrawerRoot as BaseDrawerRoot,
+  DrawerTrigger as BaseDrawerTrigger,
+  DrawerPopup as BaseDrawerPopup,
+  DrawerContent as BaseDrawerContent,
+  DrawerTitle as BaseDrawerTitle,
+  DrawerDescription as BaseDrawerDescription,
+  DrawerClose as BaseDrawerClose,
+} from "../bisque/drawer/drawer.rx"
+
+export component DrawerRoot(props: Parameters<typeof BaseDrawerRoot>[0]) {
+  <BaseDrawerRoot {...props}>{props.children}</BaseDrawerRoot>
+}
+
+export component DrawerTrigger(props: Parameters<typeof BaseDrawerTrigger>[0]) {
+  <BaseDrawerTrigger {...props} data-glaze="drawer-trigger">{props.children}</BaseDrawerTrigger>
+}
+
+export component DrawerPopup(props: Parameters<typeof BaseDrawerPopup>[0]) {
+  <BaseDrawerPopup {...props} data-glaze="drawer-popup">{props.children}</BaseDrawerPopup>
+}
+
+export component DrawerContent(props: Parameters<typeof BaseDrawerContent>[0]) {
+  <BaseDrawerContent {...props} data-glaze="drawer-content">{props.children}</BaseDrawerContent>
+}
+
+export component DrawerTitle(props: Parameters<typeof BaseDrawerTitle>[0]) {
+  <BaseDrawerTitle {...props} data-glaze="drawer-title">{props.children}</BaseDrawerTitle>
+}
+
+export component DrawerDescription(props: Parameters<typeof BaseDrawerDescription>[0]) {
+  <BaseDrawerDescription {...props} data-glaze="drawer-description">{props.children}</BaseDrawerDescription>
+}
+
+export component DrawerClose(props: Parameters<typeof BaseDrawerClose>[0]) {
+  <BaseDrawerClose {...props} data-glaze="drawer-close">{props.children}</BaseDrawerClose>
+}

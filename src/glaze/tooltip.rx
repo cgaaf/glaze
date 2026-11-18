@@ -1,0 +1,27 @@
+import {
+  TooltipProvider as BaseTooltipProvider,
+  TooltipRoot as BaseTooltipRoot,
+  TooltipTrigger as BaseTooltipTrigger,
+  TooltipPopup as BaseTooltipPopup,
+  TooltipArrow as BaseTooltipArrow,
+} from "../bisque/tooltip/tooltip.rx"
+
+export component TooltipProvider(props: Parameters<typeof BaseTooltipProvider>[0]) {
+  <BaseTooltipProvider {...props}>{props.children}</BaseTooltipProvider>
+}
+
+export component TooltipRoot(props: Parameters<typeof BaseTooltipRoot>[0]) {
+  <BaseTooltipRoot {...props}>{props.children}</BaseTooltipRoot>
+}
+
+export component TooltipTrigger(props: Parameters<typeof BaseTooltipTrigger>[0]) {
+  <BaseTooltipTrigger {...props} data-glaze="tooltip-trigger">{props.children}</BaseTooltipTrigger>
+}
+
+export component TooltipPopup(props: Parameters<typeof BaseTooltipPopup>[0]) {
+  <BaseTooltipPopup {...props} data-glaze="tooltip-popup">{props.children}</BaseTooltipPopup>
+}
+
+export component TooltipArrow(props: Parameters<typeof BaseTooltipArrow>[0]) {
+  <BaseTooltipArrow {...props} data-glaze="tooltip-arrow">{props.children}</BaseTooltipArrow>
+}

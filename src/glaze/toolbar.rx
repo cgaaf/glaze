@@ -1,0 +1,32 @@
+import {
+  ToolbarRoot as BaseToolbarRoot,
+  ToolbarButton as BaseToolbarButton,
+  ToolbarLink as BaseToolbarLink,
+  ToolbarInput as BaseToolbarInput,
+  ToolbarGroup as BaseToolbarGroup,
+  ToolbarSeparator as BaseToolbarSeparator,
+} from "../bisque/toolbar/toolbar.rx"
+
+export component ToolbarRoot(props: Parameters<typeof BaseToolbarRoot>[0]) {
+  <BaseToolbarRoot {...props} data-glaze="toolbar-root">{props.children}</BaseToolbarRoot>
+}
+
+export component ToolbarButton(props: Parameters<typeof BaseToolbarButton>[0]) {
+  <BaseToolbarButton {...props} data-glaze="toolbar-button">{props.children}</BaseToolbarButton>
+}
+
+export component ToolbarLink(props: Parameters<typeof BaseToolbarLink>[0]) {
+  <BaseToolbarLink {...props} data-glaze="toolbar-link">{props.children}</BaseToolbarLink>
+}
+
+export component ToolbarInput(props: Parameters<typeof BaseToolbarInput>[0]) {
+  <BaseToolbarInput {...props} data-glaze="toolbar-input" />
+}
+
+export component ToolbarGroup(props: Parameters<typeof BaseToolbarGroup>[0]) {
+  <BaseToolbarGroup {...props} data-glaze="toolbar-group">{props.children}</BaseToolbarGroup>
+}
+
+export component ToolbarSeparator(props: Parameters<typeof BaseToolbarSeparator>[0]) {
+  <BaseToolbarSeparator {...props} data-glaze="toolbar-separator" />
+}

@@ -1,0 +1,7 @@
+import {
+  Toggle as BaseToggle,
+} from "../bisque/toggle/toggle.rx"
+
+export component Toggle(props: Parameters<typeof BaseToggle>[0]) {
+  <BaseToggle {...props} data-glaze="toggle">{props.children}</BaseToggle>
+}

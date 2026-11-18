@@ -1,0 +1,43 @@
+// Use the renderless TimePickerRoot from ../bisque/time-picker/time-picker.rx.
+import {
+  TimePickerField as BaseTimePickerField,
+  TimePickerTrigger as BaseTimePickerTrigger,
+  TimePickerPopup as BaseTimePickerPopup,
+  TimePickerHours as BaseTimePickerHours,
+  TimePickerMinutes as BaseTimePickerMinutes,
+  TimePickerSeconds as BaseTimePickerSeconds,
+  TimePickerDayPeriod as BaseTimePickerDayPeriod,
+  TimePickerOptions as BaseTimePickerOptions,
+} from "../bisque/time-picker/time-picker.rx"
+
+export component TimePickerField(props: Parameters<typeof BaseTimePickerField>[0]) {
+  <BaseTimePickerField {...props} data-glaze="time-picker-field">{props.children}</BaseTimePickerField>
+}
+
+export component TimePickerTrigger(props: Parameters<typeof BaseTimePickerTrigger>[0]) {
+  <BaseTimePickerTrigger {...props} data-glaze="time-picker-trigger">{props.children}</BaseTimePickerTrigger>
+}
+
+export component TimePickerPopup(props: Parameters<typeof BaseTimePickerPopup>[0]) {
+  <BaseTimePickerPopup {...props} data-glaze="time-picker-popup">{props.children}</BaseTimePickerPopup>
+}
+
+export component TimePickerHours(props: Parameters<typeof BaseTimePickerHours>[0]) {
+  <BaseTimePickerHours {...props} data-glaze="time-picker-hours" />
+}
+
+export component TimePickerMinutes(props: Parameters<typeof BaseTimePickerMinutes>[0]) {
+  <BaseTimePickerMinutes {...props} data-glaze="time-picker-minutes" />
+}
+
+export component TimePickerSeconds(props: Parameters<typeof BaseTimePickerSeconds>[0]) {
+  <BaseTimePickerSeconds {...props} data-glaze="time-picker-seconds" />
+}
+
+export component TimePickerDayPeriod(props: Parameters<typeof BaseTimePickerDayPeriod>[0]) {
+  <BaseTimePickerDayPeriod {...props} data-glaze="time-picker-day-period" />
+}
+
+export component TimePickerOptions(props: Parameters<typeof BaseTimePickerOptions>[0]) {
+  <BaseTimePickerOptions {...props} data-glaze="time-picker-options" />
+}

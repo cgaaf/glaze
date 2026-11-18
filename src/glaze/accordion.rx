@@ -1,0 +1,22 @@
+import {
+  AccordionRoot as BaseAccordionRoot,
+  AccordionItem as BaseAccordionItem,
+  AccordionTrigger as BaseAccordionTrigger,
+  AccordionPanel as BaseAccordionPanel,
+} from "../bisque/accordion/accordion.rx"
+
+export component AccordionRoot(props: Parameters<typeof BaseAccordionRoot>[0]) {
+  <BaseAccordionRoot {...props} data-glaze="accordion-root">{props.children}</BaseAccordionRoot>
+}
+
+export component AccordionItem(props: Parameters<typeof BaseAccordionItem>[0]) {
+  <BaseAccordionItem {...props} data-glaze="accordion-item">{props.children}</BaseAccordionItem>
+}
+
+export component AccordionTrigger(props: Parameters<typeof BaseAccordionTrigger>[0]) {
+  <BaseAccordionTrigger {...props} data-glaze="accordion-trigger">{props.children}</BaseAccordionTrigger>
+}
+
+export component AccordionPanel(props: Parameters<typeof BaseAccordionPanel>[0]) {
+  <BaseAccordionPanel {...props} data-glaze="accordion-panel">{props.children}</BaseAccordionPanel>
+}

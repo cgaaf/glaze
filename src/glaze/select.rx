@@ -1,0 +1,62 @@
+import {
+  SelectRoot as BaseSelectRoot,
+  SelectTrigger as BaseSelectTrigger,
+  SelectValue as BaseSelectValue,
+  SelectIcon as BaseSelectIcon,
+  SelectPopup as BaseSelectPopup,
+  SelectItem as BaseSelectItem,
+  SelectItemText as BaseSelectItemText,
+  SelectItemIndicator as BaseSelectItemIndicator,
+  SelectGroup as BaseSelectGroup,
+  SelectGroupLabel as BaseSelectGroupLabel,
+  SelectSeparator as BaseSelectSeparator,
+  SelectArrow as BaseSelectArrow,
+} from "../bisque/select/select.rx"
+
+export component SelectRoot(props: Parameters<typeof BaseSelectRoot>[0]) {
+  <BaseSelectRoot {...props}>{props.children}</BaseSelectRoot>
+}
+
+export component SelectTrigger(props: Parameters<typeof BaseSelectTrigger>[0]) {
+  <BaseSelectTrigger {...props} data-glaze="select-trigger">{props.children}</BaseSelectTrigger>
+}
+
+export component SelectValue(props: Parameters<typeof BaseSelectValue>[0]) {
+  <BaseSelectValue {...props} data-glaze="select-value">{props.children}</BaseSelectValue>
+}
+
+export component SelectIcon(props: Parameters<typeof BaseSelectIcon>[0]) {
+  <BaseSelectIcon {...props} data-glaze="select-icon">{props.children}</BaseSelectIcon>
+}
+
+export component SelectPopup(props: Parameters<typeof BaseSelectPopup>[0]) {
+  <BaseSelectPopup {...props} data-glaze="select-popup">{props.children}</BaseSelectPopup>
+}
+
+export component SelectItem(props: Parameters<typeof BaseSelectItem>[0]) {
+  <BaseSelectItem {...props} data-glaze="select-item">{props.children}</BaseSelectItem>
+}
+
+export component SelectItemText(props: Parameters<typeof BaseSelectItemText>[0]) {
+  <BaseSelectItemText {...props} data-glaze="select-item-text">{props.children}</BaseSelectItemText>
+}
+
+export component SelectItemIndicator(props: Parameters<typeof BaseSelectItemIndicator>[0]) {
+  <BaseSelectItemIndicator {...props} data-glaze="select-item-indicator">{props.children}</BaseSelectItemIndicator>
+}
+
+export component SelectGroup(props: Parameters<typeof BaseSelectGroup>[0]) {
+  <BaseSelectGroup {...props} data-glaze="select-group">{props.children}</BaseSelectGroup>
+}
+
+export component SelectGroupLabel(props: Parameters<typeof BaseSelectGroupLabel>[0]) {
+  <BaseSelectGroupLabel {...props} data-glaze="select-group-label">{props.children}</BaseSelectGroupLabel>
+}
+
+export component SelectSeparator(props: Parameters<typeof BaseSelectSeparator>[0]) {
+  <BaseSelectSeparator {...props} data-glaze="select-separator" />
+}
+
+export component SelectArrow(props: Parameters<typeof BaseSelectArrow>[0]) {
+  <BaseSelectArrow {...props} data-glaze="select-arrow">{props.children}</BaseSelectArrow>
+}

@@ -1,0 +1,37 @@
+import {
+  PopoverRoot as BasePopoverRoot,
+  PopoverTrigger as BasePopoverTrigger,
+  PopoverPopup as BasePopoverPopup,
+  PopoverTitle as BasePopoverTitle,
+  PopoverDescription as BasePopoverDescription,
+  PopoverClose as BasePopoverClose,
+  PopoverArrow as BasePopoverArrow,
+} from "../bisque/popover/popover.rx"
+
+export component PopoverRoot(props: Parameters<typeof BasePopoverRoot>[0]) {
+  <BasePopoverRoot {...props}>{props.children}</BasePopoverRoot>
+}
+
+export component PopoverTrigger(props: Parameters<typeof BasePopoverTrigger>[0]) {
+  <BasePopoverTrigger {...props} data-glaze="popover-trigger">{props.children}</BasePopoverTrigger>
+}
+
+export component PopoverPopup(props: Parameters<typeof BasePopoverPopup>[0]) {
+  <BasePopoverPopup {...props} data-glaze="popover-popup">{props.children}</BasePopoverPopup>
+}
+
+export component PopoverTitle(props: Parameters<typeof BasePopoverTitle>[0]) {
+  <BasePopoverTitle {...props} data-glaze="popover-title">{props.children}</BasePopoverTitle>
+}
+
+export component PopoverDescription(props: Parameters<typeof BasePopoverDescription>[0]) {
+  <BasePopoverDescription {...props} data-glaze="popover-description">{props.children}</BasePopoverDescription>
+}
+
+export component PopoverClose(props: Parameters<typeof BasePopoverClose>[0]) {
+  <BasePopoverClose {...props} data-glaze="popover-close">{props.children}</BasePopoverClose>
+}
+
+export component PopoverArrow(props: Parameters<typeof BasePopoverArrow>[0]) {
+  <BasePopoverArrow {...props} data-glaze="popover-arrow">{props.children}</BasePopoverArrow>
+}

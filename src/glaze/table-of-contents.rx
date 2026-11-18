@@ -1,0 +1,17 @@
+import {
+  TableOfContentsRoot as BaseTableOfContentsRoot,
+  TableOfContentsLink as BaseTableOfContentsLink,
+  TableOfContentsIndicator as BaseTableOfContentsIndicator,
+} from "../bisque/table-of-contents/table-of-contents.rx"
+
+export component TableOfContentsRoot(props: Parameters<typeof BaseTableOfContentsRoot>[0]) {
+  <BaseTableOfContentsRoot {...props} data-glaze="table-of-contents-root">{props.children}</BaseTableOfContentsRoot>
+}
+
+export component TableOfContentsLink(props: Parameters<typeof BaseTableOfContentsLink>[0]) {
+  <BaseTableOfContentsLink {...props} data-glaze="table-of-contents-link">{props.children}</BaseTableOfContentsLink>
+}
+
+export component TableOfContentsIndicator(props: Parameters<typeof BaseTableOfContentsIndicator>[0]) {
+  <BaseTableOfContentsIndicator {...props} data-glaze="table-of-contents-indicator" />
+}

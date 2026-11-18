@@ -1,0 +1,17 @@
+import {
+  OTPFieldRoot as BaseOTPFieldRoot,
+  OTPFieldInput as BaseOTPFieldInput,
+  OTPFieldSeparator as BaseOTPFieldSeparator,
+} from "../bisque/otp-field/otp-field.rx"
+
+export component OTPFieldRoot(props: Parameters<typeof BaseOTPFieldRoot>[0]) {
+  <BaseOTPFieldRoot {...props} data-glaze="otp-field-root">{props.children}</BaseOTPFieldRoot>
+}
+
+export component OTPFieldInput(props: Parameters<typeof BaseOTPFieldInput>[0]) {
+  <BaseOTPFieldInput {...props} data-glaze="otp-field-input" />
+}
+
+export component OTPFieldSeparator(props: Parameters<typeof BaseOTPFieldSeparator>[0]) {
+  <BaseOTPFieldSeparator {...props} data-glaze="otp-field-separator" />
+}

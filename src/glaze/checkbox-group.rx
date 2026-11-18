@@ -1,0 +1,7 @@
+import {
+  CheckboxGroup as BaseCheckboxGroup,
+} from "../bisque/checkbox-group/checkbox-group.rx"
+
+export component CheckboxGroup(props: Parameters<typeof BaseCheckboxGroup>[0]) {
+  <BaseCheckboxGroup {...props} data-glaze="checkbox-group">{props.children}</BaseCheckboxGroup>
+}

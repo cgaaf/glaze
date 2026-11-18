@@ -1,0 +1,14 @@
+import {
+  CheckboxRoot as BaseCheckboxRoot,
+  CheckboxIndicator as BaseCheckboxIndicator,
+} from "../bisque/checkbox/checkbox.rx"
+
+export component CheckboxRoot(props: Parameters<typeof BaseCheckboxRoot>[0]) {
+  <span data-glaze="checkbox-shell">
+    <BaseCheckboxRoot {...props} data-glaze="checkbox-root">{props.children}</BaseCheckboxRoot>
+  </span>
+}
+
+export component CheckboxIndicator(props: Parameters<typeof BaseCheckboxIndicator>[0]) {
+  <BaseCheckboxIndicator {...props} data-glaze="checkbox-indicator">{props.children}</BaseCheckboxIndicator>
+}

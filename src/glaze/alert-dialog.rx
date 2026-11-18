@@ -1,0 +1,32 @@
+import {
+  AlertDialogRoot as BaseAlertDialogRoot,
+  AlertDialogTrigger as BaseAlertDialogTrigger,
+  AlertDialogPopup as BaseAlertDialogPopup,
+  AlertDialogTitle as BaseAlertDialogTitle,
+  AlertDialogDescription as BaseAlertDialogDescription,
+  AlertDialogClose as BaseAlertDialogClose,
+} from "../bisque/alert-dialog/alert-dialog.rx"
+
+export component AlertDialogRoot(props: Parameters<typeof BaseAlertDialogRoot>[0]) {
+  <BaseAlertDialogRoot {...props}>{props.children}</BaseAlertDialogRoot>
+}
+
+export component AlertDialogTrigger(props: Parameters<typeof BaseAlertDialogTrigger>[0]) {
+  <BaseAlertDialogTrigger {...props} data-glaze="alert-dialog-trigger">{props.children}</BaseAlertDialogTrigger>
+}
+
+export component AlertDialogPopup(props: Parameters<typeof BaseAlertDialogPopup>[0]) {
+  <BaseAlertDialogPopup {...props} data-glaze="alert-dialog-popup">{props.children}</BaseAlertDialogPopup>
+}
+
+export component AlertDialogTitle(props: Parameters<typeof BaseAlertDialogTitle>[0]) {
+  <BaseAlertDialogTitle {...props} data-glaze="alert-dialog-title">{props.children}</BaseAlertDialogTitle>
+}
+
+export component AlertDialogDescription(props: Parameters<typeof BaseAlertDialogDescription>[0]) {
+  <BaseAlertDialogDescription {...props} data-glaze="alert-dialog-description">{props.children}</BaseAlertDialogDescription>
+}
+
+export component AlertDialogClose(props: Parameters<typeof BaseAlertDialogClose>[0]) {
+  <BaseAlertDialogClose {...props} data-glaze="alert-dialog-close">{props.children}</BaseAlertDialogClose>
+}

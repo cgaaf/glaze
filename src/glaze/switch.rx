@@ -1,0 +1,14 @@
+import {
+  SwitchRoot as BaseSwitchRoot,
+  SwitchThumb as BaseSwitchThumb,
+} from "../bisque/switch/switch.rx"
+
+export component SwitchRoot(props: Parameters<typeof BaseSwitchRoot>[0]) {
+  <span data-glaze="switch-shell">
+    <BaseSwitchRoot {...props} data-glaze="switch-root">{props.children}</BaseSwitchRoot>
+  </span>
+}
+
+export component SwitchThumb(props: Parameters<typeof BaseSwitchThumb>[0]) {
+  <BaseSwitchThumb {...props} data-glaze="switch-thumb">{props.children}</BaseSwitchThumb>
+}

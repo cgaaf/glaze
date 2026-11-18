@@ -1,0 +1,22 @@
+import {
+  PreviewCardRoot as BasePreviewCardRoot,
+  PreviewCardTrigger as BasePreviewCardTrigger,
+  PreviewCardPopup as BasePreviewCardPopup,
+  PreviewCardArrow as BasePreviewCardArrow,
+} from "../bisque/preview-card/preview-card.rx"
+
+export component PreviewCardRoot(props: Parameters<typeof BasePreviewCardRoot>[0]) {
+  <BasePreviewCardRoot {...props}>{props.children}</BasePreviewCardRoot>
+}
+
+export component PreviewCardTrigger(props: Parameters<typeof BasePreviewCardTrigger>[0]) {
+  <BasePreviewCardTrigger {...props} data-glaze="preview-card-trigger">{props.children}</BasePreviewCardTrigger>
+}
+
+export component PreviewCardPopup(props: Parameters<typeof BasePreviewCardPopup>[0]) {
+  <BasePreviewCardPopup {...props} data-glaze="preview-card-popup">{props.children}</BasePreviewCardPopup>
+}
+
+export component PreviewCardArrow(props: Parameters<typeof BasePreviewCardArrow>[0]) {
+  <BasePreviewCardArrow {...props} data-glaze="preview-card-arrow">{props.children}</BasePreviewCardArrow>
+}

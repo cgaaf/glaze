@@ -1,0 +1,22 @@
+import {
+  TimeRangePickerRoot as BaseTimeRangePickerRoot,
+  TimeRangePickerStart as BaseTimeRangePickerStart,
+  TimeRangePickerEnd as BaseTimeRangePickerEnd,
+  TimeRangePickerSeparator as BaseTimeRangePickerSeparator,
+} from "../bisque/time-range-picker/time-range-picker.rx"
+
+export component TimeRangePickerRoot(props: Parameters<typeof BaseTimeRangePickerRoot>[0]) {
+  <BaseTimeRangePickerRoot {...props} data-glaze="time-range-picker-root">{props.children}</BaseTimeRangePickerRoot>
+}
+
+export component TimeRangePickerStart(props: Parameters<typeof BaseTimeRangePickerStart>[0]) {
+  <BaseTimeRangePickerStart {...props}>{props.children}</BaseTimeRangePickerStart>
+}
+
+export component TimeRangePickerEnd(props: Parameters<typeof BaseTimeRangePickerEnd>[0]) {
+  <BaseTimeRangePickerEnd {...props}>{props.children}</BaseTimeRangePickerEnd>
+}
+
+export component TimeRangePickerSeparator(props: Parameters<typeof BaseTimeRangePickerSeparator>[0]) {
+  <BaseTimeRangePickerSeparator {...props} data-glaze="time-range-picker-separator">{props.children}</BaseTimeRangePickerSeparator>
+}

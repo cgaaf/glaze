@@ -1,0 +1,72 @@
+import {
+  AutocompleteRoot as BaseAutocompleteRoot,
+  AutocompleteInput as BaseAutocompleteInput,
+  AutocompleteTrigger as BaseAutocompleteTrigger,
+  AutocompleteClear as BaseAutocompleteClear,
+  AutocompleteValue as BaseAutocompleteValue,
+  AutocompletePopup as BaseAutocompletePopup,
+  AutocompleteList as BaseAutocompleteList,
+  AutocompleteItem as BaseAutocompleteItem,
+  AutocompleteGroup as BaseAutocompleteGroup,
+  AutocompleteGroupLabel as BaseAutocompleteGroupLabel,
+  AutocompleteEmpty as BaseAutocompleteEmpty,
+  AutocompleteStatus as BaseAutocompleteStatus,
+  AutocompleteSeparator as BaseAutocompleteSeparator,
+  AutocompleteArrow as BaseAutocompleteArrow,
+} from "../bisque/autocomplete/autocomplete.rx"
+
+export component AutocompleteRoot(props: Parameters<typeof BaseAutocompleteRoot>[0]) {
+  <BaseAutocompleteRoot {...props}>{props.children}</BaseAutocompleteRoot>
+}
+
+export component AutocompleteInput(props: Parameters<typeof BaseAutocompleteInput>[0]) {
+  <BaseAutocompleteInput {...props} data-glaze="autocomplete-input">{props.children}</BaseAutocompleteInput>
+}
+
+export component AutocompleteTrigger(props: Parameters<typeof BaseAutocompleteTrigger>[0]) {
+  <BaseAutocompleteTrigger {...props} data-glaze="autocomplete-trigger">{props.children}</BaseAutocompleteTrigger>
+}
+
+export component AutocompleteClear(props: Parameters<typeof BaseAutocompleteClear>[0]) {
+  <BaseAutocompleteClear {...props} data-glaze="autocomplete-clear">{props.children}</BaseAutocompleteClear>
+}
+
+export component AutocompleteValue(props: Parameters<typeof BaseAutocompleteValue>[0]) {
+  <BaseAutocompleteValue {...props} data-glaze="autocomplete-value">{props.children}</BaseAutocompleteValue>
+}
+
+export component AutocompletePopup(props: Parameters<typeof BaseAutocompletePopup>[0]) {
+  <BaseAutocompletePopup {...props} data-glaze="autocomplete-popup">{props.children}</BaseAutocompletePopup>
+}
+
+export component AutocompleteList(props: Parameters<typeof BaseAutocompleteList>[0]) {
+  <BaseAutocompleteList {...props} data-glaze="autocomplete-list">{props.children}</BaseAutocompleteList>
+}
+
+export component AutocompleteItem(props: Parameters<typeof BaseAutocompleteItem>[0]) {
+  <BaseAutocompleteItem {...props} data-glaze="autocomplete-item">{props.children}</BaseAutocompleteItem>
+}
+
+export component AutocompleteGroup(props: Parameters<typeof BaseAutocompleteGroup>[0]) {
+  <BaseAutocompleteGroup {...props} data-glaze="autocomplete-group">{props.children}</BaseAutocompleteGroup>
+}
+
+export component AutocompleteGroupLabel(props: Parameters<typeof BaseAutocompleteGroupLabel>[0]) {
+  <BaseAutocompleteGroupLabel {...props} data-glaze="autocomplete-group-label">{props.children}</BaseAutocompleteGroupLabel>
+}
+
+export component AutocompleteEmpty(props: Parameters<typeof BaseAutocompleteEmpty>[0]) {
+  <BaseAutocompleteEmpty {...props} data-glaze="autocomplete-empty">{props.children}</BaseAutocompleteEmpty>
+}
+
+export component AutocompleteStatus(props: Parameters<typeof BaseAutocompleteStatus>[0]) {
+  <BaseAutocompleteStatus {...props} data-glaze="autocomplete-status">{props.children}</BaseAutocompleteStatus>
+}
+
+export component AutocompleteSeparator(props: Parameters<typeof BaseAutocompleteSeparator>[0]) {
+  <BaseAutocompleteSeparator {...props} data-glaze="autocomplete-separator">{props.children}</BaseAutocompleteSeparator>
+}
+
+export component AutocompleteArrow(props: Parameters<typeof BaseAutocompleteArrow>[0]) {
+  <BaseAutocompleteArrow {...props} data-glaze="autocomplete-arrow">{props.children}</BaseAutocompleteArrow>
+}

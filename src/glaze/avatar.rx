@@ -1,0 +1,17 @@
+import {
+  AvatarRoot as BaseAvatarRoot,
+  AvatarImage as BaseAvatarImage,
+  AvatarFallback as BaseAvatarFallback,
+} from "../bisque/avatar/avatar.rx"
+
+export component AvatarRoot(props: Parameters<typeof BaseAvatarRoot>[0]) {
+  <BaseAvatarRoot {...props} data-glaze="avatar-root">{props.children}</BaseAvatarRoot>
+}
+
+export component AvatarImage(props: Parameters<typeof BaseAvatarImage>[0]) {
+  <BaseAvatarImage {...props} data-glaze="avatar-image" />
+}
+
+export component AvatarFallback(props: Parameters<typeof BaseAvatarFallback>[0]) {
+  <BaseAvatarFallback {...props} data-glaze="avatar-fallback">{props.children}</BaseAvatarFallback>
+}

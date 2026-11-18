@@ -1,0 +1,37 @@
+import {
+  TagsInputRoot as BaseTagsInputRoot,
+  TagsInputControl as BaseTagsInputControl,
+  TagsInputTag as BaseTagsInputTag,
+  TagsInputTagText as BaseTagsInputTagText,
+  TagsInputTagRemove as BaseTagsInputTagRemove,
+  TagsInputInput as BaseTagsInputInput,
+  TagsInputClear as BaseTagsInputClear,
+} from "../bisque/tags-input/tags-input.rx"
+
+export component TagsInputRoot(props: Parameters<typeof BaseTagsInputRoot>[0]) {
+  <BaseTagsInputRoot {...props} data-glaze="tags-input-root">{props.children}</BaseTagsInputRoot>
+}
+
+export component TagsInputControl(props: Parameters<typeof BaseTagsInputControl>[0]) {
+  <BaseTagsInputControl {...props} data-glaze="tags-input-control">{props.children}</BaseTagsInputControl>
+}
+
+export component TagsInputTag(props: Parameters<typeof BaseTagsInputTag>[0]) {
+  <BaseTagsInputTag {...props} data-glaze="tags-input-tag">{props.children}</BaseTagsInputTag>
+}
+
+export component TagsInputTagText(props: Parameters<typeof BaseTagsInputTagText>[0]) {
+  <BaseTagsInputTagText {...props} data-glaze="tags-input-tag-text">{props.children}</BaseTagsInputTagText>
+}
+
+export component TagsInputTagRemove(props: Parameters<typeof BaseTagsInputTagRemove>[0]) {
+  <BaseTagsInputTagRemove {...props} data-glaze="tags-input-tag-remove">{props.children}</BaseTagsInputTagRemove>
+}
+
+export component TagsInputInput(props: Parameters<typeof BaseTagsInputInput>[0]) {
+  <BaseTagsInputInput {...props} data-glaze="tags-input-input" />
+}
+
+export component TagsInputClear(props: Parameters<typeof BaseTagsInputClear>[0]) {
+  <BaseTagsInputClear {...props} data-glaze="tags-input-clear">{props.children}</BaseTagsInputClear>
+}

@@ -1,0 +1,42 @@
+import {
+  DateRangePickerRoot as BaseDateRangePickerRoot,
+  DateRangePickerGroup as BaseDateRangePickerGroup,
+  DateRangePickerStart as BaseDateRangePickerStart,
+  DateRangePickerEnd as BaseDateRangePickerEnd,
+  DateRangePickerSeparator as BaseDateRangePickerSeparator,
+  DateRangePickerTrigger as BaseDateRangePickerTrigger,
+  DateRangePickerPopup as BaseDateRangePickerPopup,
+  DateRangePickerCalendar as BaseDateRangePickerCalendar,
+} from "../bisque/date-range-picker/date-range-picker.rx"
+
+export component DateRangePickerRoot(props: Parameters<typeof BaseDateRangePickerRoot>[0]) {
+  <BaseDateRangePickerRoot {...props}>{props.children}</BaseDateRangePickerRoot>
+}
+
+export component DateRangePickerGroup(props: Parameters<typeof BaseDateRangePickerGroup>[0]) {
+  <BaseDateRangePickerGroup {...props} data-glaze="date-range-picker-group">{props.children}</BaseDateRangePickerGroup>
+}
+
+export component DateRangePickerStart(props: Parameters<typeof BaseDateRangePickerStart>[0]) {
+  <BaseDateRangePickerStart {...props} data-glaze="date-range-picker-start">{props.children}</BaseDateRangePickerStart>
+}
+
+export component DateRangePickerEnd(props: Parameters<typeof BaseDateRangePickerEnd>[0]) {
+  <BaseDateRangePickerEnd {...props} data-glaze="date-range-picker-end">{props.children}</BaseDateRangePickerEnd>
+}
+
+export component DateRangePickerSeparator(props: Parameters<typeof BaseDateRangePickerSeparator>[0]) {
+  <BaseDateRangePickerSeparator {...props} data-glaze="date-range-picker-separator">{props.children}</BaseDateRangePickerSeparator>
+}
+
+export component DateRangePickerTrigger(props: Parameters<typeof BaseDateRangePickerTrigger>[0]) {
+  <BaseDateRangePickerTrigger {...props} data-glaze="date-range-picker-trigger">{props.children}</BaseDateRangePickerTrigger>
+}
+
+export component DateRangePickerPopup(props: Parameters<typeof BaseDateRangePickerPopup>[0]) {
+  <BaseDateRangePickerPopup {...props} data-glaze="date-range-picker-popup">{props.children}</BaseDateRangePickerPopup>
+}
+
+export component DateRangePickerCalendar(props: Parameters<typeof BaseDateRangePickerCalendar>[0]) {
+  <BaseDateRangePickerCalendar {...props} data-glaze="date-range-picker-calendar">{props.children}</BaseDateRangePickerCalendar>
+}

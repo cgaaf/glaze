@@ -1,0 +1,27 @@
+import {
+  PaginationRoot as BasePaginationRoot,
+  PaginationItem as BasePaginationItem,
+  PaginationEllipsis as BasePaginationEllipsis,
+  PaginationPrevious as BasePaginationPrevious,
+  PaginationNext as BasePaginationNext,
+} from "../bisque/pagination/pagination.rx"
+
+export component PaginationRoot(props: Parameters<typeof BasePaginationRoot>[0]) {
+  <BasePaginationRoot {...props} data-glaze="pagination-root">{props.children}</BasePaginationRoot>
+}
+
+export component PaginationItem(props: Parameters<typeof BasePaginationItem>[0]) {
+  <BasePaginationItem {...props} data-glaze="pagination-item">{props.children}</BasePaginationItem>
+}
+
+export component PaginationEllipsis(props: Parameters<typeof BasePaginationEllipsis>[0]) {
+  <BasePaginationEllipsis {...props} data-glaze="pagination-ellipsis">{props.children}</BasePaginationEllipsis>
+}
+
+export component PaginationPrevious(props: Parameters<typeof BasePaginationPrevious>[0]) {
+  <BasePaginationPrevious {...props} data-glaze="pagination-previous">{props.children}</BasePaginationPrevious>
+}
+
+export component PaginationNext(props: Parameters<typeof BasePaginationNext>[0]) {
+  <BasePaginationNext {...props} data-glaze="pagination-next">{props.children}</BasePaginationNext>
+}

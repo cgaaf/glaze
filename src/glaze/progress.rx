@@ -1,0 +1,27 @@
+import {
+  ProgressRoot as BaseProgressRoot,
+  ProgressTrack as BaseProgressTrack,
+  ProgressIndicator as BaseProgressIndicator,
+  ProgressValue as BaseProgressValue,
+  ProgressLabel as BaseProgressLabel,
+} from "../bisque/progress/progress.rx"
+
+export component ProgressRoot(props: Parameters<typeof BaseProgressRoot>[0]) {
+  <BaseProgressRoot {...props} data-glaze="progress-root">{props.children}</BaseProgressRoot>
+}
+
+export component ProgressTrack(props: Parameters<typeof BaseProgressTrack>[0]) {
+  <BaseProgressTrack {...props} data-glaze="progress-track">{props.children}</BaseProgressTrack>
+}
+
+export component ProgressIndicator(props: Parameters<typeof BaseProgressIndicator>[0]) {
+  <BaseProgressIndicator {...props} data-glaze="progress-indicator">{props.children}</BaseProgressIndicator>
+}
+
+export component ProgressValue(props: Parameters<typeof BaseProgressValue>[0]) {
+  <BaseProgressValue {...props} data-glaze="progress-value" />
+}
+
+export component ProgressLabel(props: Parameters<typeof BaseProgressLabel>[0]) {
+  <BaseProgressLabel {...props} data-glaze="progress-label">{props.children}</BaseProgressLabel>
+}

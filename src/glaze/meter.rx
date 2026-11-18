@@ -1,0 +1,27 @@
+import {
+  MeterRoot as BaseMeterRoot,
+  MeterTrack as BaseMeterTrack,
+  MeterIndicator as BaseMeterIndicator,
+  MeterValue as BaseMeterValue,
+  MeterLabel as BaseMeterLabel,
+} from "../bisque/meter/meter.rx"
+
+export component MeterRoot(props: Parameters<typeof BaseMeterRoot>[0]) {
+  <BaseMeterRoot {...props} data-glaze="meter-root">{props.children}</BaseMeterRoot>
+}
+
+export component MeterTrack(props: Parameters<typeof BaseMeterTrack>[0]) {
+  <BaseMeterTrack {...props} data-glaze="meter-track">{props.children}</BaseMeterTrack>
+}
+
+export component MeterIndicator(props: Parameters<typeof BaseMeterIndicator>[0]) {
+  <BaseMeterIndicator {...props} data-glaze="meter-indicator">{props.children}</BaseMeterIndicator>
+}
+
+export component MeterValue(props: Parameters<typeof BaseMeterValue>[0]) {
+  <BaseMeterValue {...props} data-glaze="meter-value" />
+}
+
+export component MeterLabel(props: Parameters<typeof BaseMeterLabel>[0]) {
+  <BaseMeterLabel {...props} data-glaze="meter-label">{props.children}</BaseMeterLabel>
+}

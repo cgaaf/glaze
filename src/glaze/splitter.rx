@@ -1,0 +1,17 @@
+import {
+  SplitterRoot as BaseSplitterRoot,
+  SplitterPanel as BaseSplitterPanel,
+  SplitterHandle as BaseSplitterHandle,
+} from "../bisque/splitter/splitter.rx"
+
+export component SplitterRoot(props: Parameters<typeof BaseSplitterRoot>[0]) {
+  <BaseSplitterRoot {...props} data-glaze="splitter-root">{props.children}</BaseSplitterRoot>
+}
+
+export component SplitterPanel(props: Parameters<typeof BaseSplitterPanel>[0]) {
+  <BaseSplitterPanel {...props} data-glaze="splitter-panel">{props.children}</BaseSplitterPanel>
+}
+
+export component SplitterHandle(props: Parameters<typeof BaseSplitterHandle>[0]) {
+  <BaseSplitterHandle {...props} data-glaze="splitter-handle">{props.children}</BaseSplitterHandle>
+}

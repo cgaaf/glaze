@@ -1,0 +1,12 @@
+import {
+  FieldsetRoot as BaseFieldsetRoot,
+  FieldsetLegend as BaseFieldsetLegend,
+} from "../bisque/fieldset/fieldset.rx"
+
+export component FieldsetRoot(props: Parameters<typeof BaseFieldsetRoot>[0]) {
+  <BaseFieldsetRoot {...props} data-glaze="fieldset-root">{props.children}</BaseFieldsetRoot>
+}
+
+export component FieldsetLegend(props: Parameters<typeof BaseFieldsetLegend>[0]) {
+  <BaseFieldsetLegend {...props} data-glaze="fieldset-legend">{props.children}</BaseFieldsetLegend>
+}

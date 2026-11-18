@@ -1,0 +1,7 @@
+import {
+  Input as BaseInput,
+} from "../bisque/input/input.rx"
+
+export component Input(props: Parameters<typeof BaseInput>[0]) {
+  <BaseInput {...props} data-glaze="input">{props.children}</BaseInput>
+}

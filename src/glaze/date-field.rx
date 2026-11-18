@@ -1,0 +1,17 @@
+import {
+  DateFieldRoot as BaseDateFieldRoot,
+  DateFieldInput as BaseDateFieldInput,
+  DateFieldSegment as BaseDateFieldSegment,
+} from "../bisque/date-field/date-field.rx"
+
+export component DateFieldRoot(props: Parameters<typeof BaseDateFieldRoot>[0]) {
+  <BaseDateFieldRoot {...props} data-glaze="date-field-root">{props.children}</BaseDateFieldRoot>
+}
+
+export component DateFieldInput(props: Parameters<typeof BaseDateFieldInput>[0]) {
+  <BaseDateFieldInput {...props} data-glaze="date-field-input">{props.children}</BaseDateFieldInput>
+}
+
+export component DateFieldSegment(props: Parameters<typeof BaseDateFieldSegment>[0]) {
+  <BaseDateFieldSegment {...props} data-glaze="date-field-segment" />
+}

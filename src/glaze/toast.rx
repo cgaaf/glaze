@@ -1,0 +1,42 @@
+import {
+  ToastProvider as BaseToastProvider,
+  ToastViewport as BaseToastViewport,
+  ToastRoot as BaseToastRoot,
+  ToastContent as BaseToastContent,
+  ToastTitle as BaseToastTitle,
+  ToastDescription as BaseToastDescription,
+  ToastAction as BaseToastAction,
+  ToastClose as BaseToastClose,
+} from "../bisque/toast/toast.rx"
+
+export component ToastProvider(props: Parameters<typeof BaseToastProvider>[0]) {
+  <BaseToastProvider {...props}>{props.children}</BaseToastProvider>
+}
+
+export component ToastViewport(props: Parameters<typeof BaseToastViewport>[0]) {
+  <BaseToastViewport {...props} data-glaze="toast-viewport">{props.children}</BaseToastViewport>
+}
+
+export component ToastRoot(props: Parameters<typeof BaseToastRoot>[0]) {
+  <BaseToastRoot {...props} data-glaze="toast-root">{props.children}</BaseToastRoot>
+}
+
+export component ToastContent(props: Parameters<typeof BaseToastContent>[0]) {
+  <BaseToastContent {...props} data-glaze="toast-content">{props.children}</BaseToastContent>
+}
+
+export component ToastTitle(props: Parameters<typeof BaseToastTitle>[0]) {
+  <BaseToastTitle {...props} data-glaze="toast-title">{props.children}</BaseToastTitle>
+}
+
+export component ToastDescription(props: Parameters<typeof BaseToastDescription>[0]) {
+  <BaseToastDescription {...props} data-glaze="toast-description">{props.children}</BaseToastDescription>
+}
+
+export component ToastAction(props: Parameters<typeof BaseToastAction>[0]) {
+  <BaseToastAction {...props} data-glaze="toast-action">{props.children}</BaseToastAction>
+}
+
+export component ToastClose(props: Parameters<typeof BaseToastClose>[0]) {
+  <BaseToastClose {...props} data-glaze="toast-close">{props.children}</BaseToastClose>
+}

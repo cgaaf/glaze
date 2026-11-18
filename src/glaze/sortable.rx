@@ -1,0 +1,22 @@
+import {
+  SortableGroup as BaseSortableGroup,
+  SortableRoot as BaseSortableRoot,
+  SortableItem as BaseSortableItem,
+  SortableHandle as BaseSortableHandle,
+} from "../bisque/sortable/sortable.rx"
+
+export component SortableGroup(props: Parameters<typeof BaseSortableGroup>[0]) {
+  <BaseSortableGroup {...props} data-glaze="sortable-group">{props.children}</BaseSortableGroup>
+}
+
+export component SortableRoot(props: Parameters<typeof BaseSortableRoot>[0]) {
+  <BaseSortableRoot {...props} data-glaze="sortable-root">{props.children}</BaseSortableRoot>
+}
+
+export component SortableItem(props: Parameters<typeof BaseSortableItem>[0]) {
+  <BaseSortableItem {...props} data-glaze="sortable-item">{props.children}</BaseSortableItem>
+}
+
+export component SortableHandle(props: Parameters<typeof BaseSortableHandle>[0]) {
+  <BaseSortableHandle {...props} data-glaze="sortable-handle">{props.children}</BaseSortableHandle>
+}

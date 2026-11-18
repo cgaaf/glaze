@@ -1,0 +1,37 @@
+import {
+  NumberFieldRoot as BaseNumberFieldRoot,
+  NumberFieldGroup as BaseNumberFieldGroup,
+  NumberFieldInput as BaseNumberFieldInput,
+  NumberFieldIncrement as BaseNumberFieldIncrement,
+  NumberFieldDecrement as BaseNumberFieldDecrement,
+  NumberFieldScrubArea as BaseNumberFieldScrubArea,
+  NumberFieldScrubAreaCursor as BaseNumberFieldScrubAreaCursor,
+} from "../bisque/number-field/number-field.rx"
+
+export component NumberFieldRoot(props: Parameters<typeof BaseNumberFieldRoot>[0]) {
+  <BaseNumberFieldRoot {...props} data-glaze="number-field-root">{props.children}</BaseNumberFieldRoot>
+}
+
+export component NumberFieldGroup(props: Parameters<typeof BaseNumberFieldGroup>[0]) {
+  <BaseNumberFieldGroup {...props} data-glaze="number-field-group">{props.children}</BaseNumberFieldGroup>
+}
+
+export component NumberFieldInput(props: Parameters<typeof BaseNumberFieldInput>[0]) {
+  <BaseNumberFieldInput {...props} data-glaze="number-field-input" />
+}
+
+export component NumberFieldIncrement(props: Parameters<typeof BaseNumberFieldIncrement>[0]) {
+  <BaseNumberFieldIncrement {...props} data-glaze="number-field-increment">{props.children}</BaseNumberFieldIncrement>
+}
+
+export component NumberFieldDecrement(props: Parameters<typeof BaseNumberFieldDecrement>[0]) {
+  <BaseNumberFieldDecrement {...props} data-glaze="number-field-decrement">{props.children}</BaseNumberFieldDecrement>
+}
+
+export component NumberFieldScrubArea(props: Parameters<typeof BaseNumberFieldScrubArea>[0]) {
+  <BaseNumberFieldScrubArea {...props} data-glaze="number-field-scrub-area">{props.children}</BaseNumberFieldScrubArea>
+}
+
+export component NumberFieldScrubAreaCursor(props: Parameters<typeof BaseNumberFieldScrubAreaCursor>[0]) {
+  <BaseNumberFieldScrubAreaCursor {...props} data-glaze="number-field-scrub-area-cursor">{props.children}</BaseNumberFieldScrubAreaCursor>
+}

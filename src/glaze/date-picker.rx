@@ -1,0 +1,37 @@
+import {
+  DatePickerRoot as BaseDatePickerRoot,
+  DatePickerFieldState as BaseDatePickerFieldState,
+  DatePickerGroup as BaseDatePickerGroup,
+  DatePickerTrigger as BaseDatePickerTrigger,
+  DatePickerPopup as BaseDatePickerPopup,
+  DatePickerMonthFollower as BaseDatePickerMonthFollower,
+  DatePickerCalendar as BaseDatePickerCalendar,
+} from "../bisque/date-picker/date-picker.rx"
+
+export component DatePickerRoot(props: Parameters<typeof BaseDatePickerRoot>[0]) {
+  <BaseDatePickerRoot {...props}>{props.children}</BaseDatePickerRoot>
+}
+
+export component DatePickerFieldState(props: Parameters<typeof BaseDatePickerFieldState>[0]) {
+  <BaseDatePickerFieldState {...props} />
+}
+
+export component DatePickerGroup(props: Parameters<typeof BaseDatePickerGroup>[0]) {
+  <BaseDatePickerGroup {...props} data-glaze="date-picker-group">{props.children}</BaseDatePickerGroup>
+}
+
+export component DatePickerTrigger(props: Parameters<typeof BaseDatePickerTrigger>[0]) {
+  <BaseDatePickerTrigger {...props} data-glaze="date-picker-trigger">{props.children}</BaseDatePickerTrigger>
+}
+
+export component DatePickerPopup(props: Parameters<typeof BaseDatePickerPopup>[0]) {
+  <BaseDatePickerPopup {...props} data-glaze="date-picker-popup">{props.children}</BaseDatePickerPopup>
+}
+
+export component DatePickerMonthFollower(props: Parameters<typeof BaseDatePickerMonthFollower>[0]) {
+  <BaseDatePickerMonthFollower {...props} />
+}
+
+export component DatePickerCalendar(props: Parameters<typeof BaseDatePickerCalendar>[0]) {
+  <BaseDatePickerCalendar {...props} data-glaze="date-picker-calendar">{props.children}</BaseDatePickerCalendar>
+}

@@ -1,0 +1,72 @@
+import {
+  CalendarRoot as BaseCalendarRoot,
+  RangeCalendarRoot as BaseRangeCalendarRoot,
+  CalendarMonthLabel as BaseCalendarMonthLabel,
+  CalendarPreviousMonth as BaseCalendarPreviousMonth,
+  CalendarNextMonth as BaseCalendarNextMonth,
+  CalendarMonthSelect as BaseCalendarMonthSelect,
+  CalendarYearSelect as BaseCalendarYearSelect,
+  CalendarGrid as BaseCalendarGrid,
+  CalendarGridHeader as BaseCalendarGridHeader,
+  CalendarGridHeaderCell as BaseCalendarGridHeaderCell,
+  CalendarGridBody as BaseCalendarGridBody,
+  CalendarWeekNumber as BaseCalendarWeekNumber,
+  CalendarDayCell as BaseCalendarDayCell,
+  CalendarDay as BaseCalendarDay,
+} from "../bisque/calendar/calendar.rx"
+
+export component CalendarRoot(props: Parameters<typeof BaseCalendarRoot>[0]) {
+  <BaseCalendarRoot {...props} data-glaze="calendar-root">{props.children}</BaseCalendarRoot>
+}
+
+export component RangeCalendarRoot(props: Parameters<typeof BaseRangeCalendarRoot>[0]) {
+  <BaseRangeCalendarRoot {...props} data-glaze="range-calendar-root">{props.children}</BaseRangeCalendarRoot>
+}
+
+export component CalendarMonthLabel(props: Parameters<typeof BaseCalendarMonthLabel>[0]) {
+  <BaseCalendarMonthLabel {...props} data-glaze="calendar-month-label">{props.children}</BaseCalendarMonthLabel>
+}
+
+export component CalendarPreviousMonth(props: Parameters<typeof BaseCalendarPreviousMonth>[0]) {
+  <BaseCalendarPreviousMonth {...props} data-glaze="calendar-previous-month">{props.children}</BaseCalendarPreviousMonth>
+}
+
+export component CalendarNextMonth(props: Parameters<typeof BaseCalendarNextMonth>[0]) {
+  <BaseCalendarNextMonth {...props} data-glaze="calendar-next-month">{props.children}</BaseCalendarNextMonth>
+}
+
+export component CalendarMonthSelect(props: Parameters<typeof BaseCalendarMonthSelect>[0]) {
+  <BaseCalendarMonthSelect {...props} data-glaze="calendar-month-select">{props.children}</BaseCalendarMonthSelect>
+}
+
+export component CalendarYearSelect(props: Parameters<typeof BaseCalendarYearSelect>[0]) {
+  <BaseCalendarYearSelect {...props} data-glaze="calendar-year-select">{props.children}</BaseCalendarYearSelect>
+}
+
+export component CalendarGrid(props: Parameters<typeof BaseCalendarGrid>[0]) {
+  <BaseCalendarGrid {...props} data-glaze="calendar-grid">{props.children}</BaseCalendarGrid>
+}
+
+export component CalendarGridHeader(props: Parameters<typeof BaseCalendarGridHeader>[0]) {
+  <BaseCalendarGridHeader {...props} data-glaze="calendar-grid-header">{props.children}</BaseCalendarGridHeader>
+}
+
+export component CalendarGridHeaderCell(props: Parameters<typeof BaseCalendarGridHeaderCell>[0]) {
+  <BaseCalendarGridHeaderCell {...props} data-glaze="calendar-grid-header-cell">{props.children}</BaseCalendarGridHeaderCell>
+}
+
+export component CalendarGridBody(props: Parameters<typeof BaseCalendarGridBody>[0]) {
+  <BaseCalendarGridBody {...props} data-glaze="calendar-grid-body">{props.children}</BaseCalendarGridBody>
+}
+
+export component CalendarWeekNumber(props: Parameters<typeof BaseCalendarWeekNumber>[0]) {
+  <BaseCalendarWeekNumber {...props} data-glaze="calendar-week-number">{props.children}</BaseCalendarWeekNumber>
+}
+
+export component CalendarDayCell(props: Parameters<typeof BaseCalendarDayCell>[0]) {
+  <BaseCalendarDayCell {...props} data-glaze="calendar-day-cell">{props.children}</BaseCalendarDayCell>
+}
+
+export component CalendarDay(props: Parameters<typeof BaseCalendarDay>[0]) {
+  <BaseCalendarDay {...props} data-glaze="calendar-day">{props.children}</BaseCalendarDay>
+}

@@ -1,0 +1,32 @@
+import {
+  ListboxRoot as BaseListboxRoot,
+  ListboxItem as BaseListboxItem,
+  ListboxItemText as BaseListboxItemText,
+  ListboxItemIndicator as BaseListboxItemIndicator,
+  ListboxGroup as BaseListboxGroup,
+  ListboxGroupLabel as BaseListboxGroupLabel,
+} from "../bisque/listbox/listbox.rx"
+
+export component ListboxRoot(props: Parameters<typeof BaseListboxRoot>[0]) {
+  <BaseListboxRoot {...props} data-glaze="listbox-root">{props.children}</BaseListboxRoot>
+}
+
+export component ListboxItem(props: Parameters<typeof BaseListboxItem>[0]) {
+  <BaseListboxItem {...props} data-glaze="listbox-item">{props.children}</BaseListboxItem>
+}
+
+export component ListboxItemText(props: Parameters<typeof BaseListboxItemText>[0]) {
+  <BaseListboxItemText {...props} data-glaze="listbox-item-text">{props.children}</BaseListboxItemText>
+}
+
+export component ListboxItemIndicator(props: Parameters<typeof BaseListboxItemIndicator>[0]) {
+  <BaseListboxItemIndicator {...props} data-glaze="listbox-item-indicator">{props.children}</BaseListboxItemIndicator>
+}
+
+export component ListboxGroup(props: Parameters<typeof BaseListboxGroup>[0]) {
+  <BaseListboxGroup {...props} data-glaze="listbox-group">{props.children}</BaseListboxGroup>
+}
+
+export component ListboxGroupLabel(props: Parameters<typeof BaseListboxGroupLabel>[0]) {
+  <BaseListboxGroupLabel {...props} data-glaze="listbox-group-label">{props.children}</BaseListboxGroupLabel>
+}

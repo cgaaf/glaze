@@ -1,0 +1,42 @@
+import {
+  NavigationMenuRoot as BaseNavigationMenuRoot,
+  NavigationMenuList as BaseNavigationMenuList,
+  NavigationMenuItem as BaseNavigationMenuItem,
+  NavigationMenuTrigger as BaseNavigationMenuTrigger,
+  NavigationMenuIcon as BaseNavigationMenuIcon,
+  NavigationMenuContent as BaseNavigationMenuContent,
+  NavigationMenuLink as BaseNavigationMenuLink,
+  NavigationMenuArrow as BaseNavigationMenuArrow,
+} from "../bisque/navigation-menu/navigation-menu.rx"
+
+export component NavigationMenuRoot(props: Parameters<typeof BaseNavigationMenuRoot>[0]) {
+  <BaseNavigationMenuRoot {...props} data-glaze="navigation-menu-root">{props.children}</BaseNavigationMenuRoot>
+}
+
+export component NavigationMenuList(props: Parameters<typeof BaseNavigationMenuList>[0]) {
+  <BaseNavigationMenuList {...props} data-glaze="navigation-menu-list">{props.children}</BaseNavigationMenuList>
+}
+
+export component NavigationMenuItem(props: Parameters<typeof BaseNavigationMenuItem>[0]) {
+  <BaseNavigationMenuItem {...props} data-glaze="navigation-menu-item">{props.children}</BaseNavigationMenuItem>
+}
+
+export component NavigationMenuTrigger(props: Parameters<typeof BaseNavigationMenuTrigger>[0]) {
+  <BaseNavigationMenuTrigger {...props} data-glaze="navigation-menu-trigger">{props.children}</BaseNavigationMenuTrigger>
+}
+
+export component NavigationMenuIcon(props: Parameters<typeof BaseNavigationMenuIcon>[0]) {
+  <BaseNavigationMenuIcon {...props} data-glaze="navigation-menu-icon">{props.children}</BaseNavigationMenuIcon>
+}
+
+export component NavigationMenuContent(props: Parameters<typeof BaseNavigationMenuContent>[0]) {
+  <BaseNavigationMenuContent {...props} data-glaze="navigation-menu-content">{props.children}</BaseNavigationMenuContent>
+}
+
+export component NavigationMenuLink(props: Parameters<typeof BaseNavigationMenuLink>[0]) {
+  <BaseNavigationMenuLink {...props} data-glaze="navigation-menu-link">{props.children}</BaseNavigationMenuLink>
+}
+
+export component NavigationMenuArrow(props: Parameters<typeof BaseNavigationMenuArrow>[0]) {
+  <BaseNavigationMenuArrow {...props} data-glaze="navigation-menu-arrow">{props.children}</BaseNavigationMenuArrow>
+}

@@ -1,0 +1,97 @@
+import {
+  InputListRoot as BaseInputListRoot,
+  ComboboxRoot as BaseComboboxRoot,
+  ComboboxInput as BaseComboboxInput,
+  ComboboxTrigger as BaseComboboxTrigger,
+  ComboboxClear as BaseComboboxClear,
+  ComboboxValue as BaseComboboxValue,
+  ComboboxPopup as BaseComboboxPopup,
+  ComboboxList as BaseComboboxList,
+  ComboboxItem as BaseComboboxItem,
+  ComboboxItemIndicator as BaseComboboxItemIndicator,
+  ComboboxGroup as BaseComboboxGroup,
+  ComboboxGroupLabel as BaseComboboxGroupLabel,
+  ComboboxEmpty as BaseComboboxEmpty,
+  ComboboxStatus as BaseComboboxStatus,
+  ComboboxSeparator as BaseComboboxSeparator,
+  ComboboxChips as BaseComboboxChips,
+  ComboboxChip as BaseComboboxChip,
+  ComboboxChipRemove as BaseComboboxChipRemove,
+  ComboboxArrow as BaseComboboxArrow,
+} from "../bisque/combobox/combobox.rx"
+
+export component InputListRoot(props: Parameters<typeof BaseInputListRoot>[0]) {
+  <BaseInputListRoot {...props}>{props.children}</BaseInputListRoot>
+}
+
+export component ComboboxRoot(props: Parameters<typeof BaseComboboxRoot>[0]) {
+  <BaseComboboxRoot {...props}>{props.children}</BaseComboboxRoot>
+}
+
+export component ComboboxInput(props: Parameters<typeof BaseComboboxInput>[0]) {
+  <BaseComboboxInput {...props} data-glaze="combobox-input" />
+}
+
+export component ComboboxTrigger(props: Parameters<typeof BaseComboboxTrigger>[0]) {
+  <BaseComboboxTrigger {...props} data-glaze="combobox-trigger">{props.children}</BaseComboboxTrigger>
+}
+
+export component ComboboxClear(props: Parameters<typeof BaseComboboxClear>[0]) {
+  <BaseComboboxClear {...props} data-glaze="combobox-clear">{props.children}</BaseComboboxClear>
+}
+
+export component ComboboxValue(props: Parameters<typeof BaseComboboxValue>[0]) {
+  <BaseComboboxValue {...props} data-glaze="combobox-value">{props.children}</BaseComboboxValue>
+}
+
+export component ComboboxPopup(props: Parameters<typeof BaseComboboxPopup>[0]) {
+  <BaseComboboxPopup {...props} data-glaze="combobox-popup">{props.children}</BaseComboboxPopup>
+}
+
+export component ComboboxList(props: Parameters<typeof BaseComboboxList>[0]) {
+  <BaseComboboxList {...props} data-glaze="combobox-list">{props.children}</BaseComboboxList>
+}
+
+export component ComboboxItem(props: Parameters<typeof BaseComboboxItem>[0]) {
+  <BaseComboboxItem {...props} data-glaze="combobox-item">{props.children}</BaseComboboxItem>
+}
+
+export component ComboboxItemIndicator(props: Parameters<typeof BaseComboboxItemIndicator>[0]) {
+  <BaseComboboxItemIndicator {...props} data-glaze="combobox-item-indicator">{props.children}</BaseComboboxItemIndicator>
+}
+
+export component ComboboxGroup(props: Parameters<typeof BaseComboboxGroup>[0]) {
+  <BaseComboboxGroup {...props} data-glaze="combobox-group">{props.children}</BaseComboboxGroup>
+}
+
+export component ComboboxGroupLabel(props: Parameters<typeof BaseComboboxGroupLabel>[0]) {
+  <BaseComboboxGroupLabel {...props} data-glaze="combobox-group-label">{props.children}</BaseComboboxGroupLabel>
+}
+
+export component ComboboxEmpty(props: Parameters<typeof BaseComboboxEmpty>[0]) {
+  <BaseComboboxEmpty {...props} data-glaze="combobox-empty">{props.children}</BaseComboboxEmpty>
+}
+
+export component ComboboxStatus(props: Parameters<typeof BaseComboboxStatus>[0]) {
+  <BaseComboboxStatus {...props} data-glaze="combobox-status">{props.children}</BaseComboboxStatus>
+}
+
+export component ComboboxSeparator(props: Parameters<typeof BaseComboboxSeparator>[0]) {
+  <BaseComboboxSeparator {...props} data-glaze="combobox-separator" />
+}
+
+export component ComboboxChips(props: Parameters<typeof BaseComboboxChips>[0]) {
+  <BaseComboboxChips {...props} data-glaze="combobox-chips">{props.children}</BaseComboboxChips>
+}
+
+export component ComboboxChip(props: Parameters<typeof BaseComboboxChip>[0]) {
+  <BaseComboboxChip {...props} data-glaze="combobox-chip">{props.children}</BaseComboboxChip>
+}
+
+export component ComboboxChipRemove(props: Parameters<typeof BaseComboboxChipRemove>[0]) {
+  <BaseComboboxChipRemove {...props} data-glaze="combobox-chip-remove">{props.children}</BaseComboboxChipRemove>
+}
+
+export component ComboboxArrow(props: Parameters<typeof BaseComboboxArrow>[0]) {
+  <BaseComboboxArrow {...props} data-glaze="combobox-arrow">{props.children}</BaseComboboxArrow>
+}

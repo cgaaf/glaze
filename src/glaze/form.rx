@@ -1,0 +1,7 @@
+import {
+  Form as BaseForm,
+} from "../bisque/form/form.rx"
+
+export component Form(props: Parameters<typeof BaseForm>[0]) {
+  <BaseForm {...props} data-glaze="form">{props.children}</BaseForm>
+}

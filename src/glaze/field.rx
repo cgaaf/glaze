@@ -1,0 +1,32 @@
+import {
+  FieldRoot as BaseFieldRoot,
+  FieldLabel as BaseFieldLabel,
+  FieldDescription as BaseFieldDescription,
+  FieldError as BaseFieldError,
+  FieldValidity as BaseFieldValidity,
+  FieldControl as BaseFieldControl,
+} from "../bisque/field/field.rx"
+
+export component FieldRoot(props: Parameters<typeof BaseFieldRoot>[0]) {
+  <BaseFieldRoot {...props} data-glaze="field-root">{props.children}</BaseFieldRoot>
+}
+
+export component FieldLabel(props: Parameters<typeof BaseFieldLabel>[0]) {
+  <BaseFieldLabel {...props} data-glaze="field-label">{props.children}</BaseFieldLabel>
+}
+
+export component FieldDescription(props: Parameters<typeof BaseFieldDescription>[0]) {
+  <BaseFieldDescription {...props} data-glaze="field-description">{props.children}</BaseFieldDescription>
+}
+
+export component FieldError(props: Parameters<typeof BaseFieldError>[0]) {
+  <BaseFieldError {...props} data-glaze="field-error">{props.children}</BaseFieldError>
+}
+
+export component FieldValidity(props: Parameters<typeof BaseFieldValidity>[0]) {
+  <BaseFieldValidity {...props}>{props.children}</BaseFieldValidity>
+}
+
+export component FieldControl(props: Parameters<typeof BaseFieldControl>[0]) {
+  <BaseFieldControl {...props} data-glaze="field-control">{props.children}</BaseFieldControl>
+}
