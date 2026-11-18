@@ -80,7 +80,6 @@ controlled (`open` with `onOpenChange`, `value` with `onValueChange`).
 
 ```rx
 import { DialogRoot, DialogTrigger, DialogPopup, DialogTitle, DialogDescription, DialogClose, DialogFooter } from "./ui/glaze/dialog.rx"
-import { Button } from "./ui/glaze/button.rx"
 import { Icon } from "./ui/glaze/icon.rx"
 
 export component DeleteProject(props: { onDelete: () => void }) {
@@ -91,7 +90,7 @@ export component DeleteProject(props: { onDelete: () => void }) {
       <DialogDescription>Its files are removed for everyone.</DialogDescription>
       <DialogFooter>
         <DialogClose variant="ghost">Cancel</DialogClose>
-        <Button variant="destructive" onClick={props.onDelete}>Delete</Button>
+        <DialogClose variant="destructive" onClick={props.onDelete}>Delete</DialogClose>
       </DialogFooter>
     </DialogPopup>
   </DialogRoot>
@@ -122,8 +121,8 @@ One scale, the `ButtonStyle` type in `button.rx`, is shared by `Button` and ever
   look; don't pass them a variant.
 - Give a view one `default` action and put it last in the footer. Use `ghost` for Cancel and `destructive` to
   confirm a deletion.
-- A close button that is also the primary action is a `…Close` part with `variant="default"`. An action that
-  must finish before the popup closes is a `Button` and a controlled Root.
+- An action that also closes its popup is a `…Close` part with the action's variant, as above: your `onClick`
+  runs before the part closes the popup. An action that must finish first is a `Button` and a controlled Root.
 - `Icon` takes `name` and `class` only. `name` is one of the `IconName` union in `icon.rx`, a selection of
   Lucide, not all of it: read the union before choosing. An icon is `aria-hidden`, so give an icon-only control
   a label: `<Button size="icon" variant="ghost" aria-label="Settings"><Icon name="settings" /></Button>`.
@@ -205,8 +204,9 @@ Colors and radii are CSS variables, defined in `node_modules/glaze-ui/styles/the
 ## Forms and server data
 
 These are Bisque's behavior, unchanged: `FieldRoot` connects a control to its `FieldLabel`, `FieldDescription`
-and `FieldError`; `Form` validates on submit and waits for `onFormSubmit`; controls submit through `name`; Roots
-take `loading` while options are on their way. Glaze styles the states (invalid, submitting, pending, empty).
+and `FieldError`; `Form` validates on submit and waits for `onFormSubmit`; controls submit through `name`;
+`ComboboxRoot`, `AutocompleteRoot` and `SelectRoot` take `loading` while options are on their way. Glaze styles
+the invalid state of a field and the empty state of an option list.
 For the patterns, read the `server.rx` examples in `docs/examples/<family>/` and the Button page's "Sending a
 request" example.
 
