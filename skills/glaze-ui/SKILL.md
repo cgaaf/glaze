@@ -29,6 +29,7 @@ ReactiveScript 0.3: trust the copied source over memory.
 | `InputGroup`                                                         | `input-group.rx`                  | Wraps a Combobox or Autocomplete input with its trigger or clear button.                |
 | `SegmentedControlRoot`, `SegmentedControlItem`                       | `segmented-control.rx`            | A radio group drawn as a segmented track. It picks a value; to switch panels, use Tabs. |
 | `DialogFooter`, `AlertDialogFooter`, `DrawerFooter`, `PopoverFooter` | In each family's file             | The row of actions that ends a popup.                                                   |
+| `Textarea`                                                           | `input.rx`                        | A multi-line text field that grows with its content.                                    |
 | `variant` and `size`                                                 | On every part that draws a button | The shared emphasis and size scale. See [Actions](#actions-variant-and-size).           |
 
 5. As in Bisque there is no Portal, Positioner, Backdrop or focus-trap part. The top layer, `::backdrop`, `inert`
