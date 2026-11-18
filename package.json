@@ -29,7 +29,8 @@
     "lint": "oxlint --type-aware --deny-warnings && node scripts/lint-design.mjs",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm build:docs",
     "test:browser": "pnpm build:docs && node scripts/test-browser.mjs",
-    "prepack": "pnpm prepare:source"
+    "prepack": "pnpm prepare:source",
+    "deploy:docs": "pnpm build:docs && cf deploy dist/docs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "5.3.0"
