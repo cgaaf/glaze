@@ -162,9 +162,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  bisque-ui@0.0.0: 84bf8a166c4b45e2c530b03ff7513cdb820729366e749a9b4608f52ac9fddbdb
-
 importers:
 
   .:
@@ -201,8 +198,8 @@ importers:
         specifier: 26.6.6
         version: 26.6.6
       bisque-ui:
-        specifier: github:cgaaf/bisque#b784e4e8e9861851b745f2dcd1aaa0c7aa3192fe
-        version: https://codeload.github.com/cgaaf/bisque/tar.gz/b784e4e8e9861851b745f2dcd1aaa0c7aa3192fe(patch_hash=84bf8a166c4b45e2c530b03ff7513cdb820729366e749a9b4608f52ac9fddbdb)(@reactivescript/runtime@0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0))(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+        specifier: github:cgaaf/bisque#0a4e220db886aefd8df12b9c98c710300dc8ee9b
+        version: https://codeload.github.com/cgaaf/bisque/tar.gz/0a4e220db886aefd8df12b9c98c710300dc8ee9b(@reactivescript/runtime@0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0))(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       lucide-static:
         specifier: 1.74.0
         version: 1.74.0
@@ -1126,8 +1123,8 @@ packages:
       typescript:
         optional: true
 
-  bisque-ui@https://codeload.github.com/cgaaf/bisque/tar.gz/b784e4e8e9861851b745f2dcd1aaa0c7aa3192fe:
-    resolution: {gitHosted: true, integrity: sha512-Qw5wOsVMzdjTRuI+ZsK5Q5JyQxcVeEwVTviB+S0Tt9tGpoYFlBHKAkLn9f7w3qweJkSKULzihvnOirOUn3KhIA==, tarball: https://codeload.github.com/cgaaf/bisque/tar.gz/b784e4e8e9861851b745f2dcd1aaa0c7aa3192fe}
+  bisque-ui@https://codeload.github.com/cgaaf/bisque/tar.gz/0a4e220db886aefd8df12b9c98c710300dc8ee9b:
+    resolution: {gitHosted: true, integrity: sha512-sa6305BPspfJQqp08/ssoN9rnz+LfiJZQiJ9cmtvm+znogUa9q/Rs7mZaNdMqWCVoU7rMDJ4n6piJ+d4d8AFTg==, tarball: https://codeload.github.com/cgaaf/bisque/tar.gz/0a4e220db886aefd8df12b9c98c710300dc8ee9b}
     version: 0.0.0
     hasBin: true
     peerDependencies:
@@ -2203,7 +2200,7 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  bisque-ui@https://codeload.github.com/cgaaf/bisque/tar.gz/b784e4e8e9861851b745f2dcd1aaa0c7aa3192fe(patch_hash=84bf8a166c4b45e2c530b03ff7513cdb820729366e749a9b4608f52ac9fddbdb)(@reactivescript/runtime@0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0))(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0):
+  bisque-ui@https://codeload.github.com/cgaaf/bisque/tar.gz/0a4e220db886aefd8df12b9c98c710300dc8ee9b(@reactivescript/runtime@0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0))(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0):
     dependencies:
       '@reactivescript/runtime': 0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@solidjs/web': 2.0.0(solid-js@2.0.0)

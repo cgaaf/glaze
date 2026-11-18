@@ -53,7 +53,7 @@
     "@solidjs/web": "2.0.0",
     "@tailwindcss/vite": "4.3.5",
     "@types/node": "26.6.6",
-    "bisque-ui": "github:cgaaf/bisque#b784e4e8e9861851b745f2dcd1aaa0c7aa3192fe",
+    "bisque-ui": "github:cgaaf/bisque#0a4e220db886aefd8df12b9c98c710300dc8ee9b",
     "lucide-static": "1.74.0",
     "oxfmt": "0.79.0",
     "oxlint": "1.94.0",
