@@ -47,6 +47,16 @@ Exclude `**/*.d.rx` in the tsconfig read by `rx-tsc`. Use the Glaze family modul
 
 For Combobox and Autocomplete, place the input and its optional trigger or clear button directly inside `InputGroup` from `./ui/glaze/input-group.rx`. It reserves space for the actions inside the field and keeps the popup aligned with the field. The docs include a complete example for each.
 
+## Agent skill
+
+The package ships a `glaze-ui` [agent skill](https://agentskills.io) that teaches coding agents how to set up Glaze, compose its parts, pick variants and theme an app. pnpm 12.11 or later links a dependency's skills into your agent directories (`.claude/skills`, `.agents/skills`, `.cursor/skills` and others) after you approve them.
+
+```sh
+pnpm approve
+```
+
+Choose `glaze-ui`. pnpm records the approval under `permissions` in `pnpm-workspace.yaml` and links the skill on every install. It links only into agent directories that already exist at the workspace root, unless it detects the agent running it. A tarball is approved by its exact source, so pnpm may ask again when you install a new one. Skills from Bisque are not linked, because Glaze copies Bisque instead of depending on it. With another package manager, copy `node_modules/glaze-ui/skills/glaze-ui` into your agent's skills directory.
+
 ## Design rules
 
 Every part keeps its Bisque name, so `DialogTrigger` in Bisque is `DialogTrigger` in Glaze. Glaze adds only what a styled library needs: `Icon`, `InputGroup`, `SegmentedControl`, `Textarea`, and the footer parts `DialogFooter`, `AlertDialogFooter`, `DrawerFooter` and `PopoverFooter`. The same few rules apply to every family.
