@@ -12,6 +12,7 @@
     "src/bisque",
     "styles",
     "skills",
+    "docs/examples",
     "LICENSE"
   ],
   "type": "module",

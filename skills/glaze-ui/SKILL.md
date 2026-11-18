@@ -33,10 +33,11 @@ ReactiveScript 0.3: trust the copied source over memory.
 
 5. As in Bisque there is no Portal, Positioner, Backdrop or focus-trap part. The top layer, `::backdrop`, `inert`
    and CSS anchor positioning do that work.
-6. For a canonical composition of a family, read `docs/examples/<family>.rx` in the Glaze repository, and
-   `docs/examples/<family>/` for its variations (a server-backed dialog, a range calendar). Follow them rather
-   than inventing a layout. They aren't in the installed package, so without a checkout of the repository, work
-   from the family file.
+6. For a canonical composition of a family, read `node_modules/glaze-ui/docs/examples/<family>.rx`, and
+   `node_modules/glaze-ui/docs/examples/<family>/` for its variations (a server-backed dialog, a range
+   calendar). Follow them rather than inventing a layout. They are there to read, not to import: their import
+   paths point into the package (`../../src/glaze/…`), so write yours to the app's copy, and the `docs/lib`
+   modules some of them import are the docs' simulated servers, which the package doesn't ship.
 
 ## Setup
 
@@ -207,8 +208,8 @@ These are Bisque's behavior, unchanged: `FieldRoot` connects a control to its `F
 and `FieldError`; `Form` validates on submit and waits for `onFormSubmit`; controls submit through `name`;
 `ComboboxRoot`, `AutocompleteRoot` and `SelectRoot` take `loading` while options are on their way. Glaze styles
 the invalid state of a field and the empty state of an option list.
-For the patterns, read the `server.rx` examples in `docs/examples/<family>/` and the Button page's "Sending a
-request" example.
+For the patterns, read the `server.rx` examples in `node_modules/glaze-ui/docs/examples/<family>/` and
+`button/request.rx` beside them, which shows pending, failure and retry on a button.
 
 ## Browsers
 
