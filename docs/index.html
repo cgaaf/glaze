@@ -18,21 +18,69 @@
     />
     <title>Glaze · Component library</title>
     <script>
-      try {
-        for (const [key, values] of Object.entries({
-          Theme: ["porcelain", "celadon", "terracotta", "cobalt"],
-          Mode: ["system", "light", "dark"],
-          Font: ["system", "serif", "mono"],
-          Shadow: ["flat", "raised"],
-          Density: ["compact", "roomy"],
-        })) {
-          const value = localStorage.getItem("glaze" + key);
-          if (values.includes(value)) document.documentElement.dataset["glaze" + key] = value;
-        }
-        const radius = localStorage.getItem("glazeRadius");
-        if (radius && +radius >= 0 && +radius <= 1)
-          document.documentElement.style.setProperty("--radius", +radius + "rem");
-      } catch {}
+      {
+        const root = document.documentElement;
+        // Puts the saved theme on the page. A choice that isn't saved goes back to its default, so this can
+        // run a second time.
+        const restore = () => {
+          try {
+            for (const [key, values] of Object.entries({
+              Theme: ["porcelain", "celadon", "terracotta", "cobalt"],
+              Mode: ["system", "light", "dark"],
+              Font: ["system", "serif", "mono"],
+              Shadow: ["flat", "raised"],
+              Density: ["compact", "roomy"],
+            })) {
+              const value = localStorage.getItem("glaze" + key);
+              if (values.includes(value)) root.dataset["glaze" + key] = value;
+              else if (key === "Theme") root.dataset.glazeTheme = "celadon";
+              else delete root.dataset["glaze" + key];
+            }
+            const radius = localStorage.getItem("glazeRadius");
+            if (radius && +radius >= 0 && +radius <= 1)
+              root.style.setProperty("--radius", +radius + "rem");
+            else root.style.removeProperty("--radius");
+          } catch {}
+        };
+        restore();
+        const follow = () => {
+          restore();
+          document.dispatchEvent(new Event("glaze-theme-change"));
+        };
+        // A change made in another page of the site: another tab, or the page whose link this one was
+        // prerendered from (see the speculation rules below), which read the theme when the link was hovered.
+        // Following the change as it is made means a prerendered page already has the theme when it is shown.
+        window.addEventListener("storage", (event) => {
+          if (event.key === null || event.key.startsWith("glaze")) follow();
+        });
+        // In case the page is shown before that event arrives.
+        if (document.prerendering)
+          document.addEventListener("prerenderingchange", follow, { once: true });
+      }
+    </script>
+    <!--
+      Chrome and Edge render a page of the docs in the background as soon as a link to it is hovered (on a
+      phone: as it scrolls into view), so the click shows a finished page. Other browsers ignore the block.
+      Links within the current page are left out: they would take one of the two pages Chrome keeps ready.
+    -->
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "where": {
+              "and": [
+                { "href_matches": "/*" },
+                {
+                  "not": {
+                    "selector_matches": "[href^='#'], [aria-current='page'], [target], [download]"
+                  }
+                }
+              ]
+            },
+            "eagerness": "eager"
+          }
+        ]
+      }
     </script>
     <link rel="stylesheet" href="./site.css" />
   </head>
