@@ -63,7 +63,7 @@
   [data-glaze="context-menu-popup"],
   [data-glaze="listbox-root"]
 ) {
-  @apply min-w-40 overflow-auto rounded-panel border border-border bg-card p-1 text-sm text-foreground;
+  @apply min-w-40 overflow-auto rounded-panel border p-1 text-sm text-foreground;
   max-block-size: min(24rem, 55dvh);
   overscroll-behavior: contain;
   scroll-padding-block: 0.25rem;
@@ -75,7 +75,14 @@
   [data-glaze="menu-popup"],
   [data-glaze="context-menu-popup"]
 ) {
-  box-shadow: var(--glaze-shadow);
+  background-color: var(--glass);
+  border-color: var(--glass-border);
+  backdrop-filter: var(--glass-filter);
+  box-shadow: var(--glass-edge), var(--glaze-shadow);
+}
+/* A listbox sits in the page, so it is a surface and not glass. */
+[data-glaze="listbox-root"] {
+  @apply border-border bg-surface;
 }
 :is(
   [data-glaze="select-item"],
@@ -228,9 +235,12 @@
   @apply bg-muted text-primary;
 }
 [data-glaze="navigation-menu-content"] {
-  @apply rounded-panel border border-border bg-card p-4 text-foreground;
+  @apply rounded-panel border p-4 text-foreground;
   max-inline-size: min(36rem, calc(100vw - 2rem));
-  box-shadow: var(--glaze-shadow);
+  background-color: var(--glass);
+  border-color: var(--glass-border);
+  backdrop-filter: var(--glass-filter);
+  box-shadow: var(--glass-edge), var(--glaze-shadow);
 }
 [data-glaze="tabs-list"] {
   @apply relative inline-flex max-w-full flex-wrap items-center gap-1 rounded-panel bg-muted p-1;
@@ -293,7 +303,7 @@
   @apply flex;
 }
 [data-glaze="sortable-item"] {
-  @apply flex items-center gap-2 rounded-control border border-border bg-card px-3 py-2 text-sm;
+  @apply flex items-center gap-2 rounded-control border border-border bg-surface px-3 py-2 text-sm;
 }
 [data-glaze="sortable-item"][data-dragging],
 [data-glaze="sortable-item"][data-lifted] {

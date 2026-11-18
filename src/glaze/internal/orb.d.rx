@@ -1,0 +1,3 @@
+// How .rx may use ./orb.js (guide: node_modules/@reactivescript/compiler/guide/libraries.md).
+// Both parameters are passed live. Bind the call: `_orb = createOrb(canvas, { … })`.
+export pure fn createOrb(ref canvas: HTMLCanvasElement | undefined, ref options: { state: "thinking" | "working" | "searching" | "listening" | "composing"; tone: "mono" | "spectrum"; level: number; paused: boolean }) instantiates

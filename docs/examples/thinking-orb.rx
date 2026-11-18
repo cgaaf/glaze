@@ -1,0 +1,31 @@
+import { ThinkingOrb, ThinkingStatus, ThinkingState } from "../../src/glaze/thinking-orb.rx"
+import { SegmentedControlRoot, SegmentedControlItem } from "../../src/glaze/segmented-control.rx"
+import { createDemoVoice } from "../lib/voice-demo.js"
+
+type Choice = { value: ThinkingState; name: string; label: string }
+
+export default component Example() {
+  choices: Choice[] = [
+    { value: "thinking", name: "Thinking", label: "Thinking…" },
+    { value: "working", name: "Working", label: "Working…" },
+    { value: "searching", name: "Searching", label: "Searching…" },
+    { value: "listening", name: "Listening", label: "Listening…" },
+    { value: "composing", name: "Composing", label: "Composing…" },
+  ]
+  source state: ThinkingState := "thinking"
+  current = choices.find((choice) => choice.value == state) ?? choices[0]
+  // A simulated voice for the listening state. An app passes the level of its microphone.
+  level = createDemoVoice(state == "listening")
+  <div class="grid max-w-full justify-items-center gap-6">
+    <ThinkingOrb state={state} level={level} size="lg" />
+    <ThinkingStatus state={state}>{current.label}</ThinkingStatus>
+    <SegmentedControlRoot aria-label="State" value={state} onValueChange={(next) => {
+      let found = choices.find((choice) => choice.value == next)
+      if (found) { state := found.value }
+    }}>
+      {for choice in choices {
+        <SegmentedControlItem value={choice.value}>{choice.name}</SegmentedControlItem>
+      }}
+    </SegmentedControlRoot>
+  </div>
+}

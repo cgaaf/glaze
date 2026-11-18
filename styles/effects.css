@@ -1,0 +1,227 @@
+/* Thinking orb: one canvas. src/glaze/internal/orb.js draws the dots in the canvas's own `color`, or for the
+   spectrum tone in three colors carried by SVG paint properties, which compute to a color on any element and
+   paint nothing on an HTML one. So every color here resolves in the theme and mode the orb sits in. */
+[data-glaze="thinking-orb"] {
+  --orb-size: calc(var(--spacing) * 6);
+  display: inline-block;
+  flex: none;
+  inline-size: var(--orb-size);
+  block-size: var(--orb-size);
+  vertical-align: middle;
+  flood-color: var(--glow-1);
+  lighting-color: var(--glow-2);
+  stop-color: var(--glow-3);
+  &[data-size="sm"] {
+    --orb-size: calc(var(--spacing) * 4.5);
+  }
+  &[data-size="lg"] {
+    --orb-size: calc(var(--spacing) * 16);
+  }
+}
+[data-glaze="thinking-status"] {
+  @apply inline-flex max-w-full items-center gap-2 rounded-full border py-1 ps-2 pe-3.5 text-sm font-medium text-muted-foreground;
+  background-color: var(--glass);
+  border-color: var(--glass-border);
+  backdrop-filter: var(--glass-filter);
+  box-shadow: var(--glass-edge);
+}
+[data-glaze="thinking-status"] > [data-glaze="thinking-orb"] {
+  @apply text-foreground;
+}
+/* A band of the foreground color crosses the muted text. */
+[data-glaze="thinking-status-label"] {
+  @apply truncate;
+  @media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+    background: linear-gradient(
+        90deg,
+        var(--muted-foreground) 35%,
+        var(--foreground) 50%,
+        var(--muted-foreground) 65%
+      )
+      0 0 / 250% 100%;
+    background-clip: text;
+    color: transparent;
+    animation: glaze-shimmer 2.4s linear infinite;
+  }
+}
+@keyframes glaze-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -150% 0;
+  }
+}
+
+/* Voice ring: three loops and a halo, each a conic gradient of the glow hues cut to a ring by a mask. A loop is
+   squashed along one axis and turned, so the loops cross like orbits; the voice level squashes them further. */
+[data-glaze="voice-ring"] {
+  --ring-size: calc(var(--spacing) * 12);
+  --voice-level: 0;
+  --ring-level: var(--voice-level);
+  --ring-a: var(--glow-1);
+  --ring-b: var(--glow-2);
+  --ring-c: var(--glow-3);
+  position: relative;
+  display: inline-block;
+  flex: none;
+  inline-size: var(--ring-size);
+  block-size: var(--ring-size);
+  vertical-align: middle;
+  transition: scale 160ms ease-out;
+  &[data-size="sm"] {
+    --ring-size: calc(var(--spacing) * 6);
+  }
+  &[data-size="lg"] {
+    --ring-size: calc(var(--spacing) * 24);
+  }
+  &[data-tone="mono"] {
+    --ring-a: currentColor;
+    --ring-b: color-mix(in oklab, currentColor 35%, transparent);
+    --ring-c: currentColor;
+  }
+  &:is([data-state="idle"], [data-state="processing"]) {
+    --ring-level: 0;
+  }
+  &[data-state="speaking"] {
+    scale: calc(1 + var(--ring-level) * 0.06);
+  }
+}
+[data-glaze="voice-ring-loop"] {
+  --squash: 0.08;
+  --turn: 7s;
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  padding: max(1.25px, calc(var(--ring-size) * 0.032));
+  background: conic-gradient(var(--ring-a), var(--ring-b), var(--ring-c), var(--ring-a));
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  scale: 1 calc(1 - var(--squash) * (1 + var(--ring-level) * 2.2));
+  transition:
+    scale 140ms ease-out,
+    opacity 300ms;
+  animation: glaze-ring-turn var(--turn) linear infinite;
+  &:nth-child(3) {
+    --squash: 0.15;
+    --turn: 11s;
+    opacity: 0.85;
+    animation-direction: reverse;
+    animation-delay: -4s;
+  }
+  &:nth-child(4) {
+    --squash: 0.04;
+    --turn: 5s;
+    opacity: 0.7;
+    animation-delay: -1.5s;
+  }
+}
+[data-glaze="voice-ring-halo"] {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(var(--ring-a), var(--ring-b), var(--ring-c), var(--ring-a));
+  mask: radial-gradient(closest-side, transparent 58%, #000 78%, transparent 100%);
+  filter: blur(calc(var(--ring-size) * 0.09));
+  opacity: calc(0.22 + var(--ring-level) * 0.55);
+  transition: opacity 200ms ease-out;
+  animation: glaze-ring-turn 9s linear infinite;
+}
+[data-glaze="voice-ring"][data-state="idle"] {
+  & [data-glaze="voice-ring-loop"] {
+    opacity: 0.5;
+    animation-duration: 16s;
+  }
+  & [data-glaze="voice-ring-halo"] {
+    opacity: 0.1;
+  }
+}
+/* Processing: the loops close into circles and a gap chases around them. */
+[data-glaze="voice-ring"][data-state="processing"] [data-glaze="voice-ring-loop"] {
+  --squash: 0;
+  --turn: 1.5s;
+  background: conic-gradient(transparent 20%, var(--ring-a), var(--ring-b), var(--ring-c));
+  &:nth-child(3) {
+    --turn: 2.3s;
+  }
+  &:nth-child(4) {
+    --turn: 3.4s;
+    animation-direction: reverse;
+  }
+}
+@keyframes glaze-ring-turn {
+  to {
+    rotate: 1turn;
+  }
+}
+
+/* Voice glow: a card whose bottom edge is lit from behind its content. */
+[data-glaze="voice-glow"] {
+  --voice-level: 0;
+  --glow-level: var(--voice-level);
+  @apply relative isolate overflow-clip rounded-panel border border-border bg-surface text-foreground;
+  &[data-state="idle"] {
+    --glow-level: 0;
+  }
+  &[data-state="processing"] {
+    --glow-level: 0.3;
+  }
+  /* The surface is the field's box, so it shows the focus a field inside it has. */
+  &:has(> :is([data-glaze="input"], [data-glaze="textarea"]):focus-visible) {
+    outline: 2px solid var(--ring);
+    outline-offset: -1px;
+  }
+}
+[data-glaze="voice-glow"] > :is([data-glaze="input"], [data-glaze="textarea"]) {
+  @apply border-0 bg-transparent;
+  outline: none;
+}
+[data-glaze="voice-glow-light"] {
+  position: absolute;
+  inset: auto -12% 0;
+  z-index: -1;
+  block-size: calc(48% + var(--glow-level) * 70%);
+  translate: 0 30%;
+  pointer-events: none;
+  background:
+    radial-gradient(34% 100% at 22% 100%, var(--glow-1), transparent 72%),
+    radial-gradient(34% 100% at 52% 100%, var(--glow-2), transparent 72%),
+    radial-gradient(34% 100% at 82% 100%, var(--glow-3), transparent 72%);
+  filter: blur(calc(var(--spacing) * 2.5));
+  opacity: calc(0.4 + var(--glow-level) * 0.55);
+  transition:
+    block-size 140ms ease-out,
+    opacity 240ms ease-out;
+}
+[data-glaze="voice-glow"][data-state="idle"] > [data-glaze="voice-glow-light"] {
+  opacity: 0;
+}
+[data-glaze="voice-glow"][data-state="processing"] > [data-glaze="voice-glow-light"] {
+  animation: glaze-glow-sweep 1.7s ease-in-out infinite alternate;
+}
+@keyframes glaze-glow-sweep {
+  from {
+    translate: -16% 30%;
+  }
+  to {
+    translate: 16% 30%;
+  }
+}
+/* Nothing here carries meaning that text beside it doesn't: without motion the ring and the light hold still. */
+@media (prefers-reduced-motion: reduce) {
+  [data-glaze="voice-ring-loop"],
+  [data-glaze="voice-ring-halo"],
+  [data-glaze="voice-glow-light"] {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  [data-glaze="voice-ring-loop"] {
+    background: CanvasText;
+  }
+  [data-glaze="voice-ring-halo"],
+  [data-glaze="voice-glow-light"] {
+    display: none;
+  }
+}

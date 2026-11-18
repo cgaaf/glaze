@@ -5,10 +5,17 @@ import { createThemeChoices, setTheme, setRadius, tokenOptions } from "./lib/the
 // The theme studio's token controls. They follow the theme live, so the header's theme menu and these stay in step.
 export default component StudioTokens() {
   choices = createThemeChoices()
+  finishes = tokenOptions("Finish")
   fonts = tokenOptions("Font")
   shadows = tokenOptions("Shadow")
   densities = tokenOptions("Density")
   <div class="tokens-panel" role="group" aria-label="Design tokens">
+    <div class="token-control">
+      <span id="studio-finish">Finish</span>
+      <SegmentedControlRoot aria-labelledby="studio-finish" value={choices.finish} onValueChange={(next) => { setTheme("Finish", next) }}>
+        {for entry in finishes { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
+      </SegmentedControlRoot>
+    </div>
     <div class="token-control">
       <span id="studio-radius">Radius</span>
       <output>{choices.radius}rem</output>

@@ -5,4 +5,5 @@
 @import "./overlays.css" layer(components);
 @import "./date-time.css" layer(components);
 @import "./layout.css" layer(components);
+@import "./effects.css" layer(components);
 @import "./icons.css" layer(components);

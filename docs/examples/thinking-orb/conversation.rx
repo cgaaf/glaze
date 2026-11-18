@@ -1,0 +1,32 @@
+import { ThinkingStatus, ThinkingState } from "../../../src/glaze/thinking-orb.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { after } from "../../lib/wait.js"
+
+type Step = { state: ThinkingState; label: string }
+
+export default component ThinkingConversation() {
+  steps: Step[] = [
+    { state: "searching", label: "Searching the kiln log…" },
+    { state: "thinking", label: "Comparing three firings…" },
+    { state: "composing", label: "Writing the answer…" },
+  ]
+  // 0 before the question, 1 to 3 while a step runs, 4 once the answer is in.
+  source step := 0
+  action advance() {
+    let next = step + 1
+    step := next
+    if (next < 4) { after(1600, advance) }
+  }
+  running = step > 0 && step < 4
+  current = steps[step - 1] ?? steps[0]
+  <div class="grid gap-3">
+    <p class="ms-auto w-fit rounded-panel bg-muted px-3 py-2 text-sm">Why did the last glaze firing craze?</p>
+    <ThinkingStatus class="w-fit" hidden={!running} state={current.state}>{running ? current.label : ""}</ThinkingStatus>
+    {if step == 4 {
+      <p class="text-sm">The kiln cooled from 1222 °C to 600 °C in under two hours. Slowing that to four hours lets the glaze and the clay shrink together.</p>
+    }}
+    <Button class="w-fit" variant="outline" disabled={running} onClick={() => { step := 0; advance() }}>
+      {step == 4 ? "Ask again" : "Ask"}
+    </Button>
+  </div>
+}

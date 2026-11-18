@@ -1,6 +1,6 @@
 ---
 name: glaze-ui
-description: Build UI in a ReactiveScript (.rx) app with glaze-ui, the styled, themeable component library that wraps every Bisque part with Tailwind CSS styles and semantic theme tokens (Button, Dialog, Drawer, Popover, Menu, Select, Combobox, Field, Form, Tabs, Toast and more). Use when adding or composing Glaze parts, choosing a button variant or size, laying out a dialog or popover footer, theming or restyling components, writing Tailwind classes beside them, or when an app's code imports from a copied `glaze` folder.
+description: Build UI in a ReactiveScript (.rx) app with glaze-ui, the styled, themeable component library that wraps every Bisque part with Tailwind CSS styles and semantic theme tokens (Button, Dialog, Drawer, Popover, Menu, Select, Combobox, Field, Form, Tabs, Toast and more). Use when adding or composing Glaze parts, choosing a button variant or size, laying out a dialog or popover footer, showing that an assistant is thinking or a voice is active (thinking orb, voice ring, voice glow), choosing a palette or finish, theming or restyling components, writing Tailwind classes beside them, or when an app's code imports from a copied `glaze` folder.
 license: MIT
 ---
 
@@ -23,14 +23,17 @@ ReactiveScript 0.3: trust the copied source over memory.
    are in the adjacent Bisque source, `<copy>/bisque/<family>/<family>.rx`.
 4. Glaze adds only these, which have no Bisque counterpart:
 
-| Addition                                                             | File                              | What it is                                                                              |
-| -------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------- |
-| `Icon`                                                               | `icon.rx`                         | A decorative Lucide icon, chosen by `name`.                                             |
-| `InputGroup`                                                         | `input-group.rx`                  | Wraps a Combobox or Autocomplete input with its trigger or clear button.                |
-| `SegmentedControlRoot`, `SegmentedControlItem`                       | `segmented-control.rx`            | A radio group drawn as a segmented track. It picks a value; to switch panels, use Tabs. |
-| `DialogFooter`, `AlertDialogFooter`, `DrawerFooter`, `PopoverFooter` | In each family's file             | The row of actions that ends a popup.                                                   |
-| `Textarea`                                                           | `input.rx`                        | A multi-line text field that grows with its content.                                    |
-| `variant` and `size`                                                 | On every part that draws a button | The shared emphasis and size scale. See [Actions](#actions-variant-and-size).           |
+| Addition                                                             | File                              | What it is                                                                               |
+| -------------------------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------- |
+| `Icon`                                                               | `icon.rx`                         | A decorative Lucide icon, chosen by `name`.                                              |
+| `InputGroup`                                                         | `input-group.rx`                  | Wraps a Combobox or Autocomplete input with its trigger or clear button.                 |
+| `SegmentedControlRoot`, `SegmentedControlItem`                       | `segmented-control.rx`            | A radio group drawn as a segmented track. It picks a value; to switch panels, use Tabs.  |
+| `DialogFooter`, `AlertDialogFooter`, `DrawerFooter`, `PopoverFooter` | In each family's file             | The row of actions that ends a popup.                                                    |
+| `Textarea`                                                           | `input.rx`                        | A multi-line text field that grows with its content.                                     |
+| `ThinkingOrb`, `ThinkingStatus`                                      | `thinking-orb.rx`                 | A dot-sphere busy indicator for an assistant, and a pill with the orb and a status line. |
+| `VoiceRing`                                                          | `voice-ring.rx`                   | A ring of light that follows a voice level. See [AI and voice](#ai-and-voice).           |
+| `VoiceGlow`                                                          | `voice-glow.rx`                   | A surface whose bottom edge lights up with a voice level.                                |
+| `variant` and `size`                                                 | On every part that draws a button | The shared emphasis and size scale. See [Actions](#actions-variant-and-size).            |
 
 5. As in Bisque there is no Portal, Positioner, Backdrop or focus-trap part. The top layer, `::backdrop`, `inert`
    and CSS anchor positioning do that work.
@@ -151,36 +154,88 @@ The same few rules hold in every family. Match them in the markup you write arou
   `InputGroup`. It reserves room for the actions inside the field and keeps the popup aligned with the field.
   Keep the input full width: the popup is anchored to its border box.
 
+## AI and voice
+
+Three families Glaze draws itself, for an assistant or a voice interface. Read each family file for its props.
+
+```rx
+import { ThinkingStatus } from "./ui/glaze/thinking-orb.rx"
+import { VoiceRing } from "./ui/glaze/voice-ring.rx"
+import { Button } from "./ui/glaze/button.rx"
+import { createMicrophoneLevel } from "./ui/glaze/internal/voice.js"
+
+export default component Assistant() {
+  source listening := false
+  [level, status] = createMicrophoneLevel(listening)
+  <ThinkingStatus state="searching">Searching the kiln log…</ThinkingStatus>
+  <VoiceRing state={status == "live" ? "listening" : "idle"} level={level} />
+  <Button onClick={() => { listening := !listening }}>{listening ? "Stop" : "Listen"}</Button>
+}
+```
+
+- `ThinkingOrb` takes `state` (`"thinking"`, `"working"`, `"searching"`, `"listening"`, `"composing"`), `tone`
+  (`"mono"` draws in the text color, `"spectrum"` in the theme's glow hues) and `size` (`"sm"`, `"default"`,
+  `"lg"`, or a class such as `size-24`). Use `ThinkingStatus` when there is text to show: it is the live
+  region, so keep it mounted and change its text and `state` rather than mounting a new one per step.
+- `VoiceRing` and `VoiceGlow` take `state` (`"idle"`, `"listening"`, `"speaking"`, `"processing"`) and `level`,
+  a number from 0 to 1. `createMicrophoneLevel(active)` gives a microphone's level and a status of `"off"`,
+  `"asking"`, `"live"` or `"blocked"`; bind both, and tell the user when it is blocked. While the assistant
+  speaks, pass the loudness of its audio instead.
+- `VoiceGlow` draws the card itself. Put a `Textarea` or `Input` directly inside it and it drops the field's
+  own border and background and shows the field's focus ring on the card.
+- These are decoration beside text that says the same thing. Pass `label` only when no such text is shown.
+- All three take their colors from the theme. Don't set colors on them except through `class="text-primary"`
+  with `tone="mono"`, or the `--glow-1`, `--glow-2` and `--glow-3` tokens.
+
 ## Theme tokens
 
 Colors and radii are CSS variables, defined in `node_modules/glaze-ui/styles/theme.css`. Each color is a
 `light-dark()` pair, so one token serves both modes, and each is also a Tailwind color.
 
-| Variable                                    | Utilities                                       | Used for                                          |
-| ------------------------------------------- | ----------------------------------------------- | ------------------------------------------------- |
-| `--background`, `--foreground`              | `bg-background`, `text-foreground`              | The page and its text.                            |
-| `--card`                                    | `bg-card`                                       | Raised surfaces: popups, panels, outline buttons. |
-| `--muted`, `--muted-foreground`             | `bg-muted`, `text-muted-foreground`             | Quiet fills, hover, secondary text.               |
-| `--primary`, `--primary-foreground`         | `bg-primary`, `text-primary-foreground`         | The main action and selected state.               |
-| `--destructive`, `--destructive-foreground` | `bg-destructive`, `text-destructive-foreground` | Deleting and errors.                              |
-| `--border`, `--input`                       | `border-border`, `border-input`                 | Dividers and surface edges; control borders.      |
-| `--ring`                                    | `outline-ring`, `ring-ring`                     | Focus. Follows `--primary` by default.            |
-| `--radius`                                  | `rounded-control`, `rounded-panel`              | Control radius; panels add 0.3rem.                |
-| `--scrollbar-thumb`, `--scrollbar-track`    | `scrollbar-thin`, `scrollbar-none`              | Scrollbar colors and the two scrollbar tiers.     |
-| `--glaze-font`, `--glaze-shadow`            | `font-sans`                                     | Geist, and the shadow under popups.               |
+| Variable                                    | Utilities                                       | Used for                                             |
+| ------------------------------------------- | ----------------------------------------------- | ---------------------------------------------------- |
+| `--background`, `--foreground`              | `bg-background`, `text-foreground`              | The page and its text.                               |
+| `--card`                                    | `bg-card`                                       | The solid surface color the two below start from.    |
+| `--surface`                                 | `bg-surface`                                    | Controls and panels: the card, see-through in gloss. |
+| `--glass`                                   | `bg-glass`, `glass`                             | Floating layers: popups, menus, toasts.              |
+| `--accent`, `--accent-foreground`           | `bg-accent`, `text-accent-foreground`           | Status and secondary marks. Not for actions.         |
+| `--glow-1`, `--glow-2`, `--glow-3`          | `wash`                                          | The orb, the voice ring and glow, the page wash.     |
+| `--muted`, `--muted-foreground`             | `bg-muted`, `text-muted-foreground`             | Quiet fills, hover, secondary text.                  |
+| `--primary`, `--primary-foreground`         | `bg-primary`, `text-primary-foreground`         | The main action and selected state.                  |
+| `--destructive`, `--destructive-foreground` | `bg-destructive`, `text-destructive-foreground` | Deleting and errors.                                 |
+| `--border`, `--input`                       | `border-border`, `border-input`                 | Dividers and surface edges; control borders.         |
+| `--ring`                                    | `outline-ring`, `ring-ring`                     | Focus. Follows `--primary` by default.               |
+| `--radius`                                  | `rounded-control`, `rounded-panel`              | Control radius; panels add 0.3rem.                   |
+| `--scrollbar-thumb`, `--scrollbar-track`    | `scrollbar-thin`, `scrollbar-none`              | Scrollbar colors and the two scrollbar tiers.        |
+| `--glaze-font`, `--glaze-shadow`            | `font-sans`                                     | Geist, and the shadow under popups.                  |
 
-- That is the whole list. There is no `secondary`, `accent`, `popover` or `card-foreground` token:
+- That is the whole list of colors. There is no `secondary`, `popover` or `card-foreground` token:
   `variant="secondary"` is drawn with `--muted`, and text on a card is `text-foreground`.
-- Presets: `data-glaze-theme="porcelain"` (the default), `"celadon"`, `"terracotta"` or `"cobalt"`. Appearance
-  follows the system; force it with `data-glaze-mode="light"` or `"dark"`. Either attribute can sit on the
-  document or on a section.
-- A custom theme is a rule after the library's import that sets the tokens it changes:
+- A theme is two independent choices. The palette, `data-glaze-theme`: `"porcelain"` (the default),
+  `"celadon"`, `"terracotta"`, `"cobalt"`, `"raku"`, `"oxblood"`, `"majolica"` or `"kintsugi"`. The finish,
+  `data-glaze-finish`: `"matte"` (the default, every surface solid), `"satin"` (floating layers are glass,
+  with a soft wash and sheen) or `"gloss"` (controls and panels are see-through too). Appearance follows the
+  system; force it with `data-glaze-mode="light"` or `"dark"`. Each attribute can sit on the document or on a
+  section.
+- A finish is six numbers: `--tint-strength`, `--glass-opacity`, `--glass-blur`, `--surface-opacity`, `--wash`
+  and `--sheen`. Set them on `:root` in place of a preset to tune one.
+- Give your own floating surface (a sticky header, a command bar) the `glass` utility and a border, and put
+  `wash` on the element that holds the page's background color. Don't write `backdrop-blur-*` or a gradient
+  yourself: they ignore the finish.
+- The neutrals, `--surface` and `--glass` are mixed from the palette and the finish where those are set. So
+  set palette tokens on `:root` or an element with `data-glaze-theme`, and finish tokens on `:root` or an
+  element with `data-glaze-finish`, not on an arbitrary wrapper.
+- A custom theme is a rule after the library's import that sets the tokens it changes. Only `--primary` and
+  its foreground are needed; the accent, the glow hues and the tint follow the primary until set. Name the
+  theme: a page with no theme attribute is Porcelain, so `--primary` on a bare `:root` keeps Porcelain's blue
+  accent and glow.
 
 ```css
 [data-glaze-theme="plum"] {
   --primary: light-dark(#6a365e, #e0afd2);
   --primary-foreground: light-dark(white, #32172d);
-  --ring: var(--primary);
+  --accent: light-dark(#2f6f6a, #9bd8d1);
+  --accent-foreground: light-dark(white, #0f302d);
   --radius: 0.65rem;
 }
 ```

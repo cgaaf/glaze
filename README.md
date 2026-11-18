@@ -1,6 +1,6 @@
 # Glaze
 
-Glaze is a styled component library for ReactiveScript. It adds Tailwind CSS styles, semantic theme tokens, Geist and Lucide icons to all 51 Bisque component families. Bisque supplies keyboard interaction, form behavior, accessibility attributes and native popup positioning.
+Glaze is a styled component library for ReactiveScript. It adds Tailwind CSS styles, semantic theme tokens, Geist and Lucide icons to all 51 Bisque component families. Bisque supplies keyboard interaction, form behavior, accessibility attributes and native popup positioning. Glaze also draws three families of its own for AI and voice interfaces: a thinking orb, a voice ring and a voice glow.
 
 ## Documentation
 
@@ -9,7 +9,7 @@ pnpm install
 pnpm docs
 ```
 
-Every component page includes live examples with copyable ReactiveScript source and an API reference. Use the table of contents to jump to an example. On the Button page, try “Sending a request” to see pending, failure and retry states. Select a swatch on the overview page or use **Theme** in the header to change the entire site. The docs remember the palette and color mode between visits.
+Every component page includes live examples with copyable ReactiveScript source and an API reference. Use the table of contents to jump to an example. On the Button page, try “Sending a request” to see pending, failure and retry states. Select a tile on the overview page or use **Theme** in the header to change the entire site: eight palettes, three finishes, the color mode and the shape tokens. The docs remember your choices between visits.
 
 ## Use Glaze in an app
 
@@ -59,32 +59,83 @@ Choose `glaze-ui`. pnpm records the approval under `permissions` in `pnpm-worksp
 
 ## Design rules
 
-Every part keeps its Bisque name, so `DialogTrigger` in Bisque is `DialogTrigger` in Glaze. Glaze adds only what a styled library needs: `Icon`, `InputGroup`, `SegmentedControl`, `Textarea`, and the footer parts `DialogFooter`, `AlertDialogFooter`, `DrawerFooter` and `PopoverFooter`. The same few rules apply to every family.
+Every part keeps its Bisque name, so `DialogTrigger` in Bisque is `DialogTrigger` in Glaze. Glaze adds only what a styled library needs: `Icon`, `InputGroup`, `SegmentedControl`, `Textarea`, the footer parts `DialogFooter`, `AlertDialogFooter`, `DrawerFooter` and `PopoverFooter`, and the AI and voice parts `ThinkingOrb`, `ThinkingStatus`, `VoiceRing` and `VoiceGlow`. The same few rules apply to every family.
 
 - **Actions.** `Button` and every part that renders a button (dialog, alert dialog, drawer and popover triggers and close buttons, `MenuTrigger`, `FileUploadTrigger`, `ToastAction`) take the same `variant` and `size`. Triggers and close buttons default to `outline`. Give a view one `default` action and put it last in the footer. Use `ghost` for Cancel and `destructive` to confirm a deletion. `MenuItem` and `ContextMenuItem` take `variant="destructive"` too.
 - **Size and shape.** Controls are 2.25rem tall, 1.75rem at `size="sm"`. Controls use `--radius` and surfaces use a slightly larger radius derived from it.
 - **Spacing.** Leave 0.5rem between a label and its control, 1rem between fields, and 1.25rem above a footer.
 - **Focus.** Text fields draw a solid 2px `--ring` outline over their border, so they keep their footprint. Everything else gets a 2px `--ring` outline, 2px away.
 - **Motion.** A dialog scales up slightly and sharpens as it opens while the page behind blurs and dims lightly. A drawer slides in from its edge. Anchored popups move a few pixels from their anchor. Under `prefers-reduced-motion` nothing moves.
+- **Surfaces.** What floats (dialogs, drawers, popovers, menus, toasts) is made of `--glass`. Controls and panels are filled with `--surface`. Both are the card color at an opacity the finish sets, so in matte they are solid.
+- **Color.** `--primary` marks the main action and what is selected. `--accent` is for status and secondary marks: a meter, today in a calendar. The three glow hues color the thinking orb, the voice ring and glow, and the wash.
 - **Disabled.** 55% opacity and a not-allowed cursor.
 - **Scrollbars.** Any part that scrolls shows a thin scrollbar colored by `--scrollbar-thumb` and `--scrollbar-track`. Parts that show scrolling another way hide it: the scroll area draws its own, and time picker columns move with the arrow keys. Use the `scrollbar-thin` and `scrollbar-none` utilities on your own containers. The thumb gets stronger under `prefers-contrast: more`.
 
 ## Themes
 
-The library defaults to Porcelain and the system color scheme. Select a preset using `data-glaze-theme="celadon"`, `"terracotta"`, `"cobalt"` or `"porcelain"`. Set `data-glaze-mode="light"` or `"dark"` to choose an explicit appearance. The attributes can live on the document or on a section.
+A theme is two independent choices and a few numbers.
 
-Define a custom theme after importing the library. The same tokens drive component rules and Tailwind utilities such as `bg-primary` and `text-primary-foreground`.
+- **Palette**, `data-glaze-theme`: `porcelain` (the default), `celadon`, `terracotta`, `cobalt`, `raku`, `oxblood`, `majolica` or `kintsugi`. A palette is a primary color, an accent and three glow hues. The neutrals lean toward the palette, so backgrounds and borders are never plain grey.
+- **Finish**, `data-glaze-finish`: how much color and glass the surfaces carry. `matte` (the default) keeps every surface solid. `satin` turns what floats into glass you can see through, and adds a soft wash behind the page and a light sheen on the primary action. `gloss` lets controls and panels show the page too, and gives primary actions a glow.
+- **Color mode**, `data-glaze-mode`: `light` or `dark`. Without it the system setting decides.
+
+Each attribute can sit on the document or on a section.
+
+```html
+<html data-glaze-theme="raku" data-glaze-finish="satin">
+```
+
+Define a custom theme after importing the library. The same tokens drive component rules and Tailwind utilities such as `bg-primary`, `text-accent` and `bg-glass`. A palette that sets only `--primary` works: the accent, the glow hues and the tint follow it until you set them. A page with no theme attribute is Porcelain, so a `--primary` set on a bare `:root` keeps Porcelain's blue accent and glow: name your theme as below, or set those too.
 
 ```css
 [data-glaze-theme="plum"] {
   --primary: light-dark(#6a365e, #e0afd2);
   --primary-foreground: light-dark(white, #32172d);
-  --ring: var(--primary);
+  --accent: light-dark(#2f6f6a, #9bd8d1);
+  --accent-foreground: light-dark(white, #0f302d);
   --radius: 0.65rem;
 }
 ```
 
+A finish is six numbers, so you can set your own in place of a preset.
+
+```css
+:root {
+  --tint-strength: 6; /* how far the neutrals lean toward the palette: 0 is grey */
+  --glass-opacity: 0.8; /* floating layers: 1 is solid */
+  --glass-blur: 10px;
+  --surface-opacity: 1; /* controls and panels */
+  --wash: 0.3; /* the page's ambient color */
+  --sheen: 0.06; /* the highlight on the primary action */
+}
+```
+
+The neutrals, `--surface` and `--glass` are mixed from the palette and the finish. Set palette tokens on `:root` or an element with `data-glaze-theme`, and finish tokens on `:root` or an element with `data-glaze-finish`, so the mix is made again there. Use the `glass` utility on your own floating surfaces, such as a sticky header, and `wash` on the element that holds the page background. Under `prefers-reduced-transparency`, `prefers-contrast: more` or forced colors, every finish is solid, including numbers of your own.
+
 The full token list is in [styles/theme.css](styles/theme.css). Parts expose stable selectors such as `[data-glaze="dialog-popup"]`. Tailwind utility classes can override component defaults. The stylesheet includes a locally served Geist variable font and a selection of Lucide SVGs. Add an accessible label to an icon-only control.
+
+## AI and voice
+
+Three families have no Bisque counterpart. They take their colors from the theme, hold still under `prefers-reduced-motion`, and are hidden from assistive technology unless you pass a `label`.
+
+```rx
+import { ThinkingStatus } from "./ui/glaze/thinking-orb.rx"
+import { VoiceRing } from "./ui/glaze/voice-ring.rx"
+import { createMicrophoneLevel } from "./ui/glaze/internal/voice.js"
+
+export default component Assistant() {
+  source listening := false
+  [level, status] = createMicrophoneLevel(listening)
+  <ThinkingStatus state="searching">Searching the kiln log…</ThinkingStatus>
+  <VoiceRing state={status == "live" ? "listening" : "idle"} level={level} />
+  <button onClick={() => { listening := !listening }}>{listening ? "Stop" : "Listen"}</button>
+}
+```
+
+- `ThinkingOrb` is a canvas of dots on a sphere with five states: `thinking`, `working`, `searching`, `listening` and `composing`. `ThinkingStatus` puts a small orb beside a shimmering line of text in a live region.
+- `VoiceRing` is a ring of light with four states: `idle`, `listening`, `speaking` and `processing`. It is drawn in CSS and follows a `level` from 0 to 1.
+- `VoiceGlow` is a surface whose bottom edge lights up with the same `level`. Put a `Textarea` and its buttons inside it.
+- `createMicrophoneLevel` returns a microphone's level and whether the browser allowed it. Pass any other level you have, such as the loudness of the reply being spoken.
 
 ## Verification
 

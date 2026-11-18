@@ -15,6 +15,10 @@
 ) {
   @apply rounded-full bg-primary;
 }
+/* A meter reports a measurement and a progress bar a task, so they take different hues. */
+[data-glaze="meter-indicator"] {
+  @apply bg-accent;
+}
 :is([data-glaze="progress-value"], [data-glaze="meter-value"], [data-glaze="slider-value"]) {
   @apply text-xs text-muted-foreground tabular-nums;
 }
@@ -46,7 +50,7 @@
   @apply h-full w-1.5 flex-none;
 }
 [data-glaze="scroll-area-root"] {
-  @apply relative max-w-full overflow-hidden rounded-panel border border-border bg-card;
+  @apply relative max-w-full overflow-hidden rounded-panel border border-border bg-surface;
   height: 13rem;
 }
 /* The scroll area draws its own scrollbar, so the native one is hidden rather than doubled. */
@@ -86,7 +90,7 @@
   @apply absolute right-0 bottom-0 bg-muted;
 }
 [data-glaze="splitter-root"] {
-  @apply min-h-40 overflow-hidden rounded-panel border border-border bg-card;
+  @apply min-h-40 overflow-hidden rounded-panel border border-border bg-surface;
 }
 [data-glaze="splitter-panel"] {
   @apply min-w-0 overflow-auto p-3 text-sm;

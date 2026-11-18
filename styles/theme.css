@@ -3,10 +3,14 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-surface: var(--surface);
+  --color-glass: var(--glass);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -16,62 +20,265 @@
   --radius-panel: calc(var(--radius) + 0.3rem);
 }
 
+/*
+ * A theme is two independent choices and a few numbers.
+ *
+ *   Palette  `data-glaze-theme`   --primary, --accent and three glow hues.
+ *   Finish   `data-glaze-finish`  how much color and glass the surfaces carry: matte, satin or gloss.
+ *   Shape    on :root             --radius, --glaze-font, --glaze-shadow and Tailwind's --spacing.
+ *
+ * The neutrals (background, card, muted, border) and the glass are mixed from those, so a palette that sets
+ * only --primary still gets tinted surfaces and its own glow. A token that is mixed from another is declared
+ * again on every element that can change its inputs: a custom property is substituted where it is declared,
+ * and what a child inherits is the result. So set palette tokens on :root or on an element with
+ * `data-glaze-theme`, and finish tokens on :root or on an element with `data-glaze-finish`.
+ */
 @layer base {
-  :root,
-  [data-glaze-theme] {
+  :root {
     --glaze-font: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
-    --background: light-dark(#fafaf9, #161717);
-    --foreground: light-dark(#222525, #f1f2ef);
-    --card: light-dark(#ffffff, #202222);
-    --muted: light-dark(#eeefed, #303332);
-    --muted-foreground: light-dark(#606660, #adb5ac);
-    --primary: light-dark(#272b29, #e8ebe7);
-    --primary-foreground: light-dark(white, #1c211d);
-    --border: light-dark(#dddfdc, #3d423e);
-    --input: light-dark(#b5bbb6, #676e69);
-    --ring: var(--primary);
-    --destructive: light-dark(#ad332e, #ff9690);
-    --destructive-foreground: light-dark(white, #2b1010);
     --radius: 0.45rem;
     --glaze-shadow: 0 6px 24px -8px light-dark(#292e2930, #0009);
+    /* Matte, the default finish. */
+    --tint-strength: 4;
+    --glass-opacity: 1;
+    --glass-blur: 0px;
+    --surface-opacity: 1;
+    --wash: 0;
+    --sheen: 0;
+    color-scheme: light dark;
+  }
+  /* Glass only where something floats: popups, menus, toasts. A soft wash and a light sheen. */
+  [data-glaze-finish="satin"] {
+    --tint-strength: 8;
+    --glass-opacity: 0.64;
+    --glass-blur: 14px;
+    --surface-opacity: 1;
+    --wash: 0.6;
+    --sheen: 0.1;
+  }
+  /* Controls and panels let the page through too, and primary actions glow. */
+  [data-glaze-finish="gloss"] {
+    --tint-strength: 12;
+    --glass-opacity: 0.4;
+    --glass-blur: 22px;
+    --surface-opacity: 0.5;
+    --wash: 1;
+    --sheen: 0.18;
+  }
+  /* A section can go back to matte inside a page with another finish. */
+  [data-glaze-finish="matte"] {
+    --tint-strength: 4;
+    --glass-opacity: 1;
+    --glass-blur: 0px;
+    --surface-opacity: 1;
+    --wash: 0;
+    --sheen: 0;
+  }
+
+  :root,
+  [data-glaze-theme] {
+    --primary: light-dark(#272b29, #e8ebe7);
+    --primary-foreground: light-dark(white, #1c211d);
+    /* A second hue, for status and secondary marks. A palette without one uses its primary. */
+    --accent: var(--primary);
+    --accent-foreground: var(--primary-foreground);
+    /* The hues of the thinking orb, the voice ring and glow, and the wash. */
+    --glow-1: var(--primary);
+    --glow-2: var(--accent);
+    --glow-3: color-mix(in oklch, var(--glow-1), var(--glow-2));
+    /* The hue the neutrals lean toward. */
+    --tint: var(--glow-1);
+    --destructive: light-dark(#ad332e, #ff9690);
+    --destructive-foreground: light-dark(white, #2b1010);
+  }
+  :root:not([data-glaze-theme]),
+  [data-glaze-theme="porcelain"] {
+    --accent: light-dark(#2f55b8, #a9c0ff);
+    --accent-foreground: light-dark(white, #14244f);
+    --glow-1: light-dark(#3b63d1, #8fb0ff);
+    --glow-2: light-dark(#7fa3e8, #c9d8ff);
+    --glow-3: light-dark(#4a45a8, #b3adf5);
+  }
+  [data-glaze-theme="celadon"] {
+    --primary: light-dark(#27654d, #94d2ab);
+    --primary-foreground: light-dark(white, #102f23);
+    --accent: light-dark(#9a5d0d, #f0c27a);
+    --accent-foreground: light-dark(white, #3a2606);
+    --glow-1: light-dark(#2f9a72, #7fe0b0);
+    --glow-2: light-dark(#d09a2c, #f3cf85);
+    --glow-3: light-dark(#2a8f9a, #7fd6de);
+  }
+  [data-glaze-theme="terracotta"] {
+    --primary: light-dark(#9c4a34, #f1ae94);
+    --primary-foreground: light-dark(white, #422217);
+    --accent: light-dark(#1b736b, #86d6cc);
+    --accent-foreground: light-dark(white, #0c302c);
+    --glow-1: light-dark(#d4603c, #ff9d7a);
+    --glow-2: light-dark(#dc9a34, #f6c979);
+    --glow-3: light-dark(#1f8f84, #7fdccf);
+  }
+  [data-glaze-theme="cobalt"] {
+    --primary: light-dark(#3e569c, #aebff7);
+    --primary-foreground: light-dark(white, #182c56);
+    --accent: light-dark(#a8501f, #f5b48f);
+    --accent-foreground: light-dark(white, #45200b);
+    --glow-1: light-dark(#3d63d8, #8eabff);
+    --glow-2: light-dark(#7a5be0, #c2b0ff);
+    --glow-3: light-dark(#1aa3c4, #84dcf2);
+  }
+  [data-glaze-theme="raku"] {
+    --primary: light-dark(#0f6b6f, #7fd9d6);
+    --primary-foreground: light-dark(white, #06302f);
+    --accent: light-dark(#a8501f, #f2b08a);
+    --accent-foreground: light-dark(white, #45200b);
+    --glow-1: light-dark(#12999c, #6fe0dc);
+    --glow-2: light-dark(#cf6c35, #f6b18a);
+    --glow-3: light-dark(#5a4fb0, #b9b0f5);
+  }
+  [data-glaze-theme="oxblood"] {
+    --primary: light-dark(#8a1f2d, #f3a3a8);
+    --primary-foreground: light-dark(white, #3d0c13);
+    --accent: light-dark(#5e3a78, #cdb0e6);
+    --accent-foreground: light-dark(white, #2a1638);
+    --glow-1: light-dark(#c8324a, #ff8e98);
+    --glow-2: light-dark(#dc7636, #ffbe8f);
+    --glow-3: light-dark(#7d4bb0, #cfaaf5);
+  }
+  [data-glaze-theme="majolica"] {
+    --primary: light-dark(#1f4fb3, #9fbcff);
+    --primary-foreground: light-dark(white, #10275c);
+    --accent: light-dark(#8f5d00, #f6cf5e);
+    --accent-foreground: light-dark(white, #3b2a00);
+    --glow-1: light-dark(#2b62e0, #8db0ff);
+    --glow-2: light-dark(#dba400, #ffd95e);
+    --glow-3: light-dark(#2e9a55, #86e0a4);
+  }
+  [data-glaze-theme="kintsugi"] {
+    --primary: light-dark(#1e2021, #ecebe6);
+    --primary-foreground: light-dark(white, #1c1d1b);
+    --accent: light-dark(#86620c, #e6c66a);
+    --accent-foreground: light-dark(white, #33260a);
+    --glow-1: light-dark(#c39224, #f0d078);
+    --glow-2: light-dark(#e2bb5c, #fae6a8);
+    --glow-3: light-dark(#6d7278, #b9bec4);
+  }
+
+  /* Mixed from the palette and the finish. Override any of them to take a surface out of the mix. */
+  :root,
+  [data-glaze-theme],
+  [data-glaze-finish] {
+    --background: color-mix(
+      in oklab,
+      var(--tint) calc(var(--tint-strength) * 1%),
+      light-dark(#fafaf9, #161717)
+    );
+    --foreground: light-dark(#222525, #f1f2ef);
+    --card: color-mix(
+      in oklab,
+      var(--tint) calc(var(--tint-strength) * 0.5%),
+      light-dark(#ffffff, #202222)
+    );
+    --muted: color-mix(
+      in oklab,
+      var(--tint) calc(var(--tint-strength) * 2%),
+      light-dark(#eeefed, #303332)
+    );
+    --muted-foreground: light-dark(#606660, #adb5ac);
+    --border: color-mix(
+      in oklab,
+      var(--tint) calc(var(--tint-strength) * 2%),
+      light-dark(#dddfdc, #3d423e)
+    );
+    --input: color-mix(
+      in oklab,
+      var(--tint) calc(var(--tint-strength) * 1%),
+      light-dark(#b5bbb6, #676e69)
+    );
+    --ring: var(--primary);
+    /* What a control or a panel is filled with: the card, let through by the finish. */
+    --surface: color-mix(in oklab, var(--card) calc(var(--surface-opacity) * 100%), transparent);
+    /* What a floating layer is made of. The edge is a lit top rim that shows as the glass thins. */
+    --glass: color-mix(in oklab, var(--card) calc(var(--glass-opacity) * 100%), transparent);
+    --glass-filter: blur(var(--glass-blur)) saturate(calc(2.6 - var(--glass-opacity) * 1.6));
+    --glass-border: color-mix(
+      in oklab,
+      var(--border) calc(40% + var(--glass-opacity) * 60%),
+      transparent
+    );
+    --glass-edge: inset 0 1px 0
+      light-dark(
+        rgb(255 255 255 / calc((1 - var(--glass-opacity)) * 2.4)),
+        rgb(255 255 255 / calc((1 - var(--glass-opacity)) * 0.5))
+      );
     /* The thumb keeps 3:1 against card and background in both modes. Never transition scrollbar-color. */
     --scrollbar-thumb: color-mix(in oklab, var(--muted-foreground) 80%, transparent);
     --scrollbar-track: transparent;
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-    color-scheme: light dark;
+  }
+  /* Glass is a preference. Anyone who asks for less transparency or more contrast gets solid surfaces, in a
+     preset finish or in numbers of your own: this sets what the finish is mixed into, not the numbers. */
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more), (forced-colors: active) {
+    :root,
+    [data-glaze-theme],
+    [data-glaze-finish] {
+      --surface: var(--card);
+      --glass: var(--card);
+      --glass-filter: none;
+      --glass-border: var(--border);
+      --glass-edge: 0 0 #0000;
+    }
   }
   @media (prefers-contrast: more) {
     :root,
-    [data-glaze-theme] {
+    [data-glaze-theme],
+    [data-glaze-finish] {
       --scrollbar-thumb: var(--foreground);
     }
   }
   @media (forced-colors: active) {
     :root,
-    [data-glaze-theme] {
+    [data-glaze-theme],
+    [data-glaze-finish] {
       scrollbar-color: auto;
     }
-  }
-  [data-glaze-theme="celadon"] {
-    --primary: light-dark(#27654d, #94d2ab);
-    --primary-foreground: light-dark(white, #102f23);
-    --muted: light-dark(#eaf0e9, #27352e);
-  }
-  [data-glaze-theme="terracotta"] {
-    --primary: light-dark(#9c4a34, #f1ae94);
-    --primary-foreground: light-dark(white, #422217);
-    --muted: light-dark(#f5ede7, #392d28);
-  }
-  [data-glaze-theme="cobalt"] {
-    --primary: light-dark(#3e569c, #aebff7);
-    --primary-foreground: light-dark(white, #182c56);
-    --muted: light-dark(#ebeff8, #2a3043);
   }
   [data-glaze-mode="dark"] {
     color-scheme: dark;
   }
   [data-glaze-mode="light"] {
     color-scheme: light;
+  }
+}
+
+/* The glass recipe, for your own floating surfaces: a sticky header, a command bar. */
+@utility glass {
+  background-color: var(--glass);
+  border-color: var(--glass-border);
+  backdrop-filter: var(--glass-filter);
+  box-shadow: var(--glass-edge);
+}
+/* The page's ambient color: three soft fields in the glow hues, as strong as the finish's --wash. Put it on
+   the element that holds the page's background color. */
+@utility wash {
+  background-image:
+    radial-gradient(
+      70% 55% at 8% 0%,
+      color-mix(in oklab, var(--glow-1) calc(var(--wash) * 22%), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      60% 50% at 100% 38%,
+      color-mix(in oklab, var(--glow-2) calc(var(--wash) * 18%), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      60% 45% at 30% 100%,
+      color-mix(in oklab, var(--glow-3) calc(var(--wash) * 15%), transparent),
+      transparent 70%
+    );
+  background-attachment: fixed;
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more), (forced-colors: active) {
+    background-image: none;
   }
 }
 

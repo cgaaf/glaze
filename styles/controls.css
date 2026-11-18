@@ -54,7 +54,7 @@
   [data-glaze="pagination-previous"],
   [data-glaze="pagination-item"]
 ) {
-  @apply inline-flex min-h-9 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control border border-border bg-card px-3 text-sm font-medium text-foreground transition-colors;
+  @apply inline-flex min-h-9 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control border border-border bg-surface px-3 text-sm font-medium text-foreground transition-colors;
   cursor: pointer;
   &:hover:not(:disabled, [data-disabled]) {
     @apply bg-muted;
@@ -62,8 +62,13 @@
 }
 /* One emphasis scale for Button and every part that renders a button. Outline is the base recipe above. */
 [data-glaze][data-variant]:not([role^="menuitem"], [role="option"]) {
+  /* The finish lights the primary action: a sheen from above, and in satin and gloss a glow beneath. */
   &[data-variant="default"] {
     @apply border-transparent bg-primary text-primary-foreground;
+    background-image: linear-gradient(to bottom, rgb(255 255 255 / var(--sheen)), transparent 60%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / calc(var(--sheen) * 1.6)),
+      0 6px 16px -8px color-mix(in oklab, var(--glow-1) calc(var(--wash) * 70%), transparent);
   }
   &[data-variant="secondary"] {
     @apply border-transparent bg-muted;
@@ -86,10 +91,10 @@
       :disabled,
       [data-disabled]
     ) {
-    background: color-mix(in oklab, var(--primary) 88%, var(--background));
+    background-color: color-mix(in oklab, var(--primary) 88%, var(--background));
   }
   &[data-variant="destructive"]:hover:not(:disabled, [data-disabled]) {
-    background: color-mix(in oklab, var(--destructive) 90%, var(--foreground));
+    background-color: color-mix(in oklab, var(--destructive) 90%, var(--foreground));
   }
   &[data-size="sm"] {
     @apply min-h-7 px-2.5 text-xs;
@@ -111,7 +116,7 @@
   [data-glaze="combobox-input"],
   [data-glaze="number-field-input"]
 ) {
-  @apply min-h-9 min-w-0 rounded-control border border-input bg-card px-3 py-1.5 text-sm text-foreground;
+  @apply min-h-9 min-w-0 rounded-control border border-input bg-surface px-3 py-1.5 text-sm text-foreground;
   &::placeholder {
     @apply text-muted-foreground;
   }
@@ -369,7 +374,7 @@ label:has(
   @apply size-1.5 rounded-full bg-primary-foreground;
 }
 [data-glaze="number-field-group"] {
-  @apply inline-flex w-fit items-center overflow-clip rounded-control border border-input bg-card;
+  @apply inline-flex w-fit items-center overflow-clip rounded-control border border-input bg-surface;
 }
 [data-glaze="number-field-group"] button:focus-visible {
   outline-offset: -2px;
@@ -414,7 +419,7 @@ label:has(
 }
 
 :is([data-glaze="tags-input-control"], [data-glaze="combobox-chips"]) {
-  @apply flex min-h-9 flex-wrap items-center gap-1 rounded-control border border-input bg-card p-1;
+  @apply flex min-h-9 flex-wrap items-center gap-1 rounded-control border border-input bg-surface p-1;
 }
 :is([data-glaze="tags-input-tag"], [data-glaze="combobox-chip"]) {
   @apply inline-flex items-center gap-1 rounded-control bg-muted ps-2 pe-1 text-xs font-medium;
@@ -429,7 +434,7 @@ label:has(
   @apply truncate;
 }
 [data-glaze="file-upload-drop-zone"] {
-  @apply grid place-items-center gap-2 rounded-panel border border-dashed border-input bg-card px-5 py-7 text-sm;
+  @apply grid place-items-center gap-2 rounded-panel border border-dashed border-input bg-surface px-5 py-7 text-sm;
 }
 [data-glaze="file-upload-drop-zone"][data-dragging],
 [data-glaze="file-upload-drop-zone"][data-dragging-over] {
@@ -478,7 +483,7 @@ label:has(
   @apply inline-flex max-w-full flex-wrap items-center gap-1;
 }
 :is([data-glaze="toggle-group"], [data-glaze="toolbar-root"], [data-glaze="menubar-root"]) {
-  @apply rounded-panel border border-border bg-card p-1;
+  @apply rounded-panel border border-border bg-surface p-1;
 }
 :is([data-glaze="toggle-group"], [data-glaze="toolbar-root"], [data-glaze="menubar-root"])
   :is(button, a) {

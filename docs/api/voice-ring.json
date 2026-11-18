@@ -1,0 +1,82 @@
+{
+  "family": "voice-ring",
+  "parts": [
+    {
+      "name": "VoiceRing",
+      "element": "span",
+      "description": "A ring of light for a voice interface: three loops and a halo that open and wobble as the voice gets louder. It is drawn in CSS from the theme's glow hues, so it needs no canvas and follows the palette and color mode. Under `prefers-reduced-motion` it holds still.",
+      "props": [
+        {
+          "name": "state",
+          "type": "\"idle\" | \"listening\" | \"speaking\" | \"processing\"",
+          "default": "\"idle\"",
+          "required": false,
+          "description": "Where the conversation is. `listening` and `speaking` follow `level`. `idle` is dim and slow. `processing` closes the loops into circles that chase their own tails."
+        },
+        {
+          "name": "level",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The voice level from 0 to 1: a microphone's while listening, the reply's while speaking. `createMicrophoneLevel` in `internal/voice.js` gives a microphone's."
+        },
+        {
+          "name": "tone",
+          "type": "\"spectrum\" | \"mono\"",
+          "default": "\"spectrum\"",
+          "required": false,
+          "description": "`spectrum` blends `--glow-1`, `--glow-2` and `--glow-3`. `mono` draws in the element's text color."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"default\" | \"lg\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "1.5rem, 3rem or 6rem at the default spacing. For another size, set `--ring-size`."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Names the ring for assistive technology and gives it `role=\"img\"`. Without it the ring is hidden from assistive technology."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Classes for the element. A Tailwind size such as `size-24` or a text color such as `text-primary` overrides the defaults."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-state",
+          "description": "The current state."
+        },
+        {
+          "name": "data-tone",
+          "description": "`spectrum` or `mono`."
+        },
+        {
+          "name": "data-size",
+          "description": "`sm`, `default` or `lg`."
+        }
+      ],
+      "cssVariables": [
+        {
+          "name": "--voice-level",
+          "description": "The level the ring follows, set from the `level` prop."
+        },
+        {
+          "name": "--ring-size",
+          "description": "The width and height of the ring."
+        },
+        {
+          "name": "--ring-a, --ring-b, --ring-c",
+          "description": "The three colors of the ring. They default to the theme's glow hues."
+        }
+      ]
+    }
+  ]
+}

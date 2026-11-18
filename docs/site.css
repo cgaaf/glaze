@@ -36,8 +36,11 @@ html {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+/* The page's ambient color. It is as strong as the finish's --wash, so matte shows none. */
 body {
+  @apply wash;
   margin: 0;
+  min-height: 100dvh;
   font-size: 0.91rem;
   -webkit-font-smoothing: antialiased;
 }
@@ -73,8 +76,9 @@ select {
   align-items: center;
   gap: 1.25rem;
   padding-inline: clamp(1.1rem, 3vw, 3.2rem);
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
+  /* The page scrolls beneath the header, so it is glass: solid in matte, see-through in satin and gloss. */
+  @apply glass;
+  border-bottom: 1px solid var(--glass-border);
 }
 .brand {
   display: inline-flex;
@@ -386,7 +390,7 @@ h1 {
   border: 1px solid var(--border);
   border-radius: calc(var(--radius) + 0.4rem);
   overflow: hidden;
-  background: var(--card);
+  background: var(--surface);
 }
 .studio-heading,
 .studio-footer {
@@ -422,21 +426,21 @@ h1 {
   min-height: 20rem;
   border-right: 1px solid var(--border);
 }
+/* A rack of glaze test tiles, one per palette. No tile covers another, so each is easy to hit. */
 .sample-fan {
-  position: relative;
-  height: 15rem;
-  width: 18rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem 0.7rem;
+  width: 19rem;
   max-width: 100%;
   margin: auto;
+  padding: 1.5rem 1.2rem 1.1rem;
 }
 .sample {
-  position: absolute;
-  bottom: 1.4rem;
-  left: 50%;
-  width: 4.65rem;
-  height: 10.6rem;
-  transform-origin: center 90%;
-  transform: translateX(calc(-50% + var(--shift))) rotate(var(--tilt));
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  rotate: var(--tilt);
   box-shadow:
     0 4px 9px #172d221e,
     0 1px 2px #172d2233;
@@ -450,40 +454,63 @@ h1 {
 }
 .sample:hover,
 .sample:focus-visible {
-  translate: 0 -0.45rem;
+  translate: 0 -0.25rem;
 }
 .sample-porcelain {
   --ink: #454c47;
-  --shift: -3.8rem;
-  --tilt: -23deg;
+  --ink-2: #4a6fd0;
+  --tilt: -3deg;
 }
 .sample-celadon {
   --ink: #3e805f;
-  --shift: -1.35rem;
-  --tilt: -7deg;
+  --ink-2: #c88a2a;
+  --tilt: 2deg;
 }
 .sample-terracotta {
   --ink: #b96143;
-  --shift: 1.35rem;
-  --tilt: 9deg;
+  --ink-2: #2a8f86;
+  --tilt: -1.5deg;
 }
 .sample-cobalt {
   --ink: #566eb0;
-  --shift: 3.8rem;
-  --tilt: 25deg;
+  --ink-2: #c66a35;
+  --tilt: 3deg;
+}
+.sample-raku {
+  --ink: #1f8a8d;
+  --ink-2: #cf6c35;
+  --tilt: 2deg;
+}
+.sample-oxblood {
+  --ink: #a53645;
+  --ink-2: #7a55a0;
+  --tilt: -2.5deg;
+}
+.sample-majolica {
+  --ink: #3565cf;
+  --ink-2: #dba400;
+  --tilt: 3deg;
+}
+.sample-kintsugi {
+  --ink: #3a3d3e;
+  --ink-2: #c39224;
+  --tilt: -2deg;
 }
 .sample[aria-pressed="true"] {
-  translate: 0 -0.8rem;
-  z-index: 1;
-  box-shadow: 0 7px 14px #172d222b;
+  translate: 0 -0.4rem;
+  box-shadow:
+    0 0 0 2px var(--card),
+    0 0 0 4px var(--foreground),
+    0 9px 16px #172d2230;
 }
 .sample-tints {
   display: grid;
-  height: 72%;
+  height: 68%;
   grid-template-rows: 1.6fr 1fr 1fr;
 }
+/* The middle band is the palette's accent. */
 .sample-tints i:nth-child(2) {
-  background: color-mix(in oklab, var(--ink) 73%, white);
+  background: var(--ink-2);
 }
 .sample-tints i:nth-child(3) {
   background: color-mix(in oklab, var(--ink) 45%, white);
@@ -492,15 +519,18 @@ h1 {
   display: grid;
   gap: 2px;
   align-content: center;
-  height: 28%;
-  padding: 0 0.48rem;
+  height: 32%;
+  padding: 0 0.4rem;
   background: #f7f5ec;
   color: #292f29;
   line-height: 1.1;
 }
 .sample-paper strong {
-  font-size: 0.69rem;
-  letter-spacing: -0.025em;
+  overflow: hidden;
+  font-size: 0.64rem;
+  letter-spacing: -0.03em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .sample-paper > span {
   font-size: 0.53rem;
@@ -702,7 +732,7 @@ h1 {
   min-width: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--card);
+  background: var(--surface);
 }
 .code-block {
   margin: 1rem 0;
@@ -917,6 +947,9 @@ pre {
   > * {
   width: min(100%, 18rem);
 }
+.example-stage .demo:has([data-glaze="voice-glow"], [data-glaze="thinking-status"]) > * {
+  width: min(100%, 24rem);
+}
 /* The preview and its source read as one card. */
 .doc-example .example-stage {
   border-end-start-radius: 0;
@@ -994,7 +1027,7 @@ pre {
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 50%;
-  background: var(--ink);
+  background: linear-gradient(135deg, var(--ink) 60%, var(--ink-2) 60%);
 }
 @media (max-width: 980px) {
   .frame {
@@ -1065,12 +1098,13 @@ pre {
     border-bottom: 1px solid var(--border);
   }
   .sample-fan {
-    height: 11.4rem;
+    padding-block: 1.1rem 0.8rem;
   }
-  .sample {
-    height: 8.8rem;
-    width: 4.2rem;
-    bottom: 0.6rem;
+  .sample-paper {
+    padding: 0 0.3rem;
+  }
+  .sample-paper strong {
+    font-size: 0.58rem;
   }
   .sample-caption {
     padding-bottom: 0.7rem;

@@ -1,0 +1,18 @@
+import { ThinkingOrb } from "../../../src/glaze/thinking-orb.rx"
+
+export default component ThinkingTones() {
+  <div class="grid max-w-full gap-6">
+    <div class="flex flex-wrap items-end gap-6">
+      <ThinkingOrb size="sm" label="Thinking" />
+      <ThinkingOrb label="Thinking" />
+      <ThinkingOrb size="lg" label="Thinking" />
+      <ThinkingOrb class="size-24" label="Thinking" />
+    </div>
+    <div class="flex flex-wrap items-end gap-6">
+      <ThinkingOrb tone="spectrum" size="lg" state="working" label="Working" />
+      <ThinkingOrb tone="spectrum" size="lg" state="composing" label="Composing" />
+      <ThinkingOrb class="text-primary" size="lg" state="searching" label="Searching" />
+      <ThinkingOrb class="text-accent" size="lg" paused label="Paused" />
+    </div>
+  </div>
+}

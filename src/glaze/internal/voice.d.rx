@@ -1,0 +1,3 @@
+// How .rx may use ./voice.js (guide: node_modules/@reactivescript/compiler/guide/libraries.md).
+// `active` is passed live. Bind the call: `[level, status] = createMicrophoneLevel(listening)`.
+export pure fn createMicrophoneLevel(ref active: boolean): [ref number, ref "off" | "asking" | "live" | "blocked"]

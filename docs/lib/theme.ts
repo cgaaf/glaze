@@ -8,11 +8,25 @@ function themeCss() {
   const names = [
     "--primary",
     "--primary-foreground",
-    "--muted",
+    "--accent",
+    "--accent-foreground",
+    "--glow-1",
+    "--glow-2",
+    "--glow-3",
     "--radius",
     "--glaze-font",
     "--glaze-shadow",
   ];
+  // A finish is six numbers. Matte is the library default, so only another finish is written out.
+  if (root.dataset.glazeFinish)
+    names.push(
+      "--tint-strength",
+      "--glass-opacity",
+      "--glass-blur",
+      "--surface-opacity",
+      "--wash",
+      "--sheen",
+    );
   if (root.dataset.glazeDensity) names.push("--spacing");
   return `:root {\n${names.map((name) => `  ${name}: ${style.getPropertyValue(name).trim()};`).join("\n")}\n}`;
 }

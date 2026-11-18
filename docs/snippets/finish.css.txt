@@ -1,0 +1,10 @@
+/* A preset: <html data-glaze-theme="raku" data-glaze-finish="satin"> */
+
+/* Or your own finish, between matte and satin. */
+:root {
+  --tint-strength: 6;
+  --glass-opacity: 0.8;
+  --glass-blur: 10px;
+  --wash: 0.3;
+  --sheen: 0.06;
+}

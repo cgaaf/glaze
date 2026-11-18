@@ -1,5 +1,5 @@
 :is([data-glaze="calendar-root"], [data-glaze="range-calendar-root"]) {
-  @apply w-fit max-w-full rounded-panel border border-border bg-card p-3 text-foreground;
+  @apply w-fit max-w-full rounded-panel border border-border bg-surface p-3 text-foreground;
 }
 /* Inside a popup the calendar is the popup's content, not a second card. */
 [data-glaze][popover] :is([data-glaze="calendar-root"], [data-glaze="range-calendar-root"]) {
@@ -45,7 +45,7 @@
   @apply text-muted-foreground;
 }
 [data-glaze="calendar-grid"] button[data-today] {
-  @apply underline underline-offset-4;
+  @apply font-semibold text-accent underline underline-offset-4;
 }
 [data-glaze="calendar-grid"] button:is([data-range-middle], [data-range-preview]) {
   @apply bg-muted;
@@ -64,7 +64,7 @@
   [data-glaze="date-range-picker-group"],
   [data-glaze="time-picker-field"]
 ) {
-  @apply inline-flex min-h-9 w-fit max-w-full flex-wrap items-center rounded-control border border-input bg-card px-2 text-sm tabular-nums;
+  @apply inline-flex min-h-9 w-fit max-w-full flex-wrap items-center rounded-control border border-input bg-surface px-2 text-sm tabular-nums;
 }
 :is(
     [data-glaze="date-picker-group"],

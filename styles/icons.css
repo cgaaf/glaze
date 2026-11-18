@@ -351,3 +351,12 @@
 [data-glaze="icon"][data-icon="bell"] {
   --glaze-icon: url("./icons/bell.svg");
 }
+[data-glaze="icon"][data-icon="mic"] {
+  --glaze-icon: url("./icons/mic.svg");
+}
+[data-glaze="icon"][data-icon="arrow-up"] {
+  --glaze-icon: url("./icons/arrow-up.svg");
+}
+[data-glaze="icon"][data-icon="square"] {
+  --glaze-icon: url("./icons/square.svg");
+}

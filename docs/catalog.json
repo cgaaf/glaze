@@ -175,6 +175,10 @@
     "name": "Tags Input",
     "description": "A text input that turns what is typed into a list of removable tags."
   },
+  "thinking-orb": {
+    "name": "Thinking Orb",
+    "description": "A sphere of dots that shows what an assistant is doing while you wait."
+  },
   "time-field": {
     "name": "Time Field",
     "description": "A time of day typed or stepped one segment at a time, in the locale's hour cycle."
@@ -206,5 +210,13 @@
   "tooltip": {
     "name": "Tooltip",
     "description": "A short label that appears when a button is hovered or focused."
+  },
+  "voice-glow": {
+    "name": "Voice Glow",
+    "description": "A surface whose bottom edge lights up with a voice."
+  },
+  "voice-ring": {
+    "name": "Voice Ring",
+    "description": "A ring of light that follows a voice while it listens, speaks or works."
   }
 }

@@ -1,0 +1,20 @@
+import { VoiceGlow } from "../../src/glaze/voice-glow.rx"
+import { Textarea } from "../../src/glaze/input.rx"
+import { Button } from "../../src/glaze/button.rx"
+import { Icon } from "../../src/glaze/icon.rx"
+import { createDemoVoice } from "../lib/voice-demo.js"
+
+export default component Example() {
+  source listening := true
+  // A simulated voice. An app passes the level of its microphone.
+  level = createDemoVoice(listening)
+  <VoiceGlow class="grid" state={listening ? "listening" : "idle"} level={level}>
+    <Textarea aria-label="Message" placeholder={listening ? "Listening…" : "Ask about this firing…"} />
+    <div class="flex items-center justify-end gap-2 p-2">
+      <Button variant="ghost" size="icon" aria-label={listening ? "Stop dictating" : "Dictate"} aria-pressed={listening ? "true" : "false"} onClick={() => { listening := !listening }}>
+        <Icon name={listening ? "square" : "mic"} />
+      </Button>
+      <Button size="icon" aria-label="Send"><Icon name="arrow-up" /></Button>
+    </div>
+  </VoiceGlow>
+}

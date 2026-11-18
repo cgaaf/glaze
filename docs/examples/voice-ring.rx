@@ -1,0 +1,29 @@
+import { VoiceRing, VoiceState } from "../../src/glaze/voice-ring.rx"
+import { SegmentedControlRoot, SegmentedControlItem } from "../../src/glaze/segmented-control.rx"
+import { createDemoVoice } from "../lib/voice-demo.js"
+
+type Choice = { value: VoiceState; name: string }
+
+export default component Example() {
+  choices: Choice[] = [
+    { value: "idle", name: "Idle" },
+    { value: "listening", name: "Listening" },
+    { value: "speaking", name: "Speaking" },
+    { value: "processing", name: "Processing" },
+  ]
+  source state: VoiceState := "listening"
+  // A simulated voice. An app passes the level of its microphone or of the reply it is playing.
+  level = createDemoVoice(state == "listening" || state == "speaking")
+  current = choices.find((choice) => choice.value == state) ?? choices[0]
+  <div class="grid max-w-full justify-items-center gap-6">
+    <VoiceRing state={state} level={level} size="lg" label={current.name} />
+    <SegmentedControlRoot aria-label="State" value={state} onValueChange={(next) => {
+      let found = choices.find((choice) => choice.value == next)
+      if (found) { state := found.value }
+    }}>
+      {for choice in choices {
+        <SegmentedControlItem value={choice.value}>{choice.name}</SegmentedControlItem>
+      }}
+    </SegmentedControlRoot>
+  </div>
+}

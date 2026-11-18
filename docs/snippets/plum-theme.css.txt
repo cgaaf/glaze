@@ -1,6 +1,9 @@
 [data-glaze-theme="plum"] {
   --primary: light-dark(#6a365e, #e0afd2);
   --primary-foreground: light-dark(white, #32172d);
-  --ring: var(--primary);
+  /* Optional. Without these the accent and the glow follow the primary. */
+  --accent: light-dark(#2f6f6a, #9bd8d1);
+  --accent-foreground: light-dark(white, #0f302d);
+  --glow-2: light-dark(#d98a3c, #f4c58f);
   --radius: 0.65rem;
 }

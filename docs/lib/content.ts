@@ -6,6 +6,7 @@ import appStylesheet from "../snippets/app.css.txt?highlighted";
 import appComponent from "../snippets/app.rx.txt?highlighted";
 import themeAttribute from "../snippets/theme-attribute.html.txt?highlighted";
 import plumTheme from "../snippets/plum-theme.css.txt?highlighted";
+import finishAttribute from "../snippets/finish.css.txt?highlighted";
 export const families: Record<string, { name: string; description: string }> = catalog;
 export const groups: Record<string, string[]> = {
   "Inputs & forms":
@@ -24,6 +25,7 @@ export const groups: Record<string, string[]> = {
   "Display & layout": "avatar meter progress scroll-area separator sortable splitter toast".split(
     " ",
   ),
+  "AI & voice": "thinking-orb voice-glow voice-ring".split(" "),
 };
 export function escape(text: string) {
   return text
@@ -83,7 +85,7 @@ export function overview() {
       "Styled, accessible components for ReactiveScript. Built on Bisque, with Tailwind CSS and a theme you can make your own.",
     ) +
     `<div class="intro-actions"><a data-glaze="button" data-variant="default" href="?page=installation">Get started ${icon("arrow-right")}</a><a href="#components" class="browse-link">Browse components</a></div></header>
-    <section class="studio" id="studio"><div class="studio-heading"><h2>Theme studio</h2><span>${icon("swatch-book")} 4 palettes, 4 tokens</span></div>
+    <section class="studio" id="studio"><div class="studio-heading"><h2>Theme studio</h2><span>${icon("swatch-book")} 8 palettes, 3 finishes</span></div>
     <div class="studio-body"><div class="samples"><div class="sample-fan" role="group" aria-label="Select a theme palette">${Object.entries(
       themes,
     )
@@ -125,7 +127,7 @@ export function theming() {
       "Theming",
       "Change a few semantic tokens to update controls, overlays, and focus states together.",
     ) +
-    `<article class="guide"><h2>Choose a palette</h2><p>Porcelain is the library default. The docs open in Celadon. Pick a swatch to apply a preset, try radius, font, elevation and density in the <a href="?#studio">theme studio</a>, or use Theme in the header to change the palette, color mode and tokens from any page.</p><div class="palette-options">${Object.entries(
+    `<article class="guide"><h2>Choose a palette</h2><p>A palette is a primary color, an accent and three glow hues. Porcelain is the library default. The docs open in Celadon. Pick a swatch to apply a preset, try the finish, radius, font, elevation and density in the <a href="?#studio">theme studio</a>, or use Theme in the header to change them from any page.</p><div class="palette-options">${Object.entries(
       themes,
     )
       .map(
@@ -134,13 +136,27 @@ export function theming() {
       )
       .join("")}</div>` +
     codeBlock(themeAttribute, "HTML") +
-    `<h2>Define your own theme</h2><p>Apply a theme attribute to the page or a containing element. Define both appearances with CSS <code translate="no">light-dark()</code>. Radius and font are inherited by the components.</p>` +
+    `<h2>Choose a finish</h2><p>The finish is a second choice, independent of the palette: how much color and glass the surfaces carry. <strong>Matte</strong>, the default, keeps every surface solid. <strong>Satin</strong> turns what floats (menus, popovers, dialogs, toasts) into glass you can see through, adds a soft wash of the palette behind the page and a light sheen on the primary action. <strong>Gloss</strong> lets controls and panels show the page too, and gives primary actions a glow. Under reduced transparency, increased contrast or forced colors, every finish is solid, including numbers of your own.</p><p>A finish is six numbers. Set <code translate="no">data-glaze-finish</code> for a preset, or set the numbers yourself. The <code translate="no">glass</code> utility gives your own floating surfaces the same treatment, and <code translate="no">wash</code> paints the ambient color on the element that holds the page background.</p>` +
+    codeBlock(finishAttribute, "app.css") +
+    `<h2>Define your own theme</h2><p>Apply a theme attribute to the page or a containing element. Define both appearances with CSS <code translate="no">light-dark()</code>. A palette that sets only <code translate="no">--primary</code> works: the accent, the glow hues and the tint of the neutrals follow it until you set them. That holds for a rule on <code translate="no">data-glaze-theme</code>. A page with no theme attribute is Porcelain, so changing <code translate="no">--primary</code> on a bare <code translate="no">:root</code> keeps Porcelain's blue accent and glow: name your theme, or set those too.</p>` +
     codeBlock(plumTheme, "app.css") +
     `<h2>Semantic tokens</h2><dl class="tokens">${Object.entries({
-      "--background, --foreground": "Page surface and body text.",
-      "--card, --border, --input": "Control surfaces, dividers, and input borders.",
-      "--muted, --muted-foreground": "Secondary surfaces and supporting text.",
       "--primary, --primary-foreground": "Selected controls and primary actions.",
+      "--accent, --accent-foreground":
+        "A second hue for status and secondary marks: a meter, today in a calendar. Defaults to the primary.",
+      "--glow-1, --glow-2, --glow-3":
+        "The hues of the thinking orb, the voice ring and glow, and the wash. They default to the primary and the accent.",
+      "--tint, --tint-strength":
+        "The hue the neutrals lean toward, and how far: 0 is grey, 12 is the gloss finish.",
+      "--background, --foreground": "Page surface and body text.",
+      "--card, --border, --input": "Solid surfaces, dividers, and input borders.",
+      "--muted, --muted-foreground": "Secondary surfaces and supporting text.",
+      "--surface, --surface-opacity":
+        "What controls and panels are filled with: the card, as see-through as the finish says.",
+      "--glass, --glass-opacity, --glass-blur":
+        "What floating layers are made of: the card at an opacity, blurring what is behind it.",
+      "--wash, --sheen":
+        "The strength of the page's ambient color, and of the highlight on the primary action.",
       "--ring, --destructive": "Keyboard focus, error messages, and destructive actions.",
       "--radius, --glaze-font, --glaze-shadow": "Corner radius, font stack, and overlay elevation.",
       "--spacing":
@@ -149,6 +165,6 @@ export function theming() {
       .map(([name, desc]) => `<dt><code translate="no">${name}</code></dt><dd>${desc}</dd>`)
       .join(
         "",
-      )}</dl><p>Each rendered part exposes a <code translate="no">data-glaze</code> attribute. Component rules use Tailwind’s components layer, so utility classes on a part can override its defaults.</p></article>`
+      )}</dl><p>The neutrals, the surface and the glass are mixed from the palette and the finish, so set palette tokens on <code translate="no">:root</code> or an element with <code translate="no">data-glaze-theme</code>, and finish tokens on <code translate="no">:root</code> or an element with <code translate="no">data-glaze-finish</code>. To take one out of the mix, set it directly: <code translate="no">--background: white</code>.</p><p>Each rendered part exposes a <code translate="no">data-glaze</code> attribute. Component rules use Tailwind’s components layer, so utility classes on a part can override its defaults.</p></article>`
   );
 }

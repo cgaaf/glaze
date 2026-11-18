@@ -31,9 +31,12 @@ for (const file of families) {
   assert.ok(catalog[family], family);
   count += upstream.length;
 }
-// Families Glaze composes from Bisque parts, with no Bisque family of their own.
+// Families with no Bisque family of their own: composed from Bisque parts, or drawn by Glaze itself.
 const composed = {
   "segmented-control": ["SegmentedControlItem", "SegmentedControlRoot"],
+  "thinking-orb": ["ThinkingOrb", "ThinkingStatus"],
+  "voice-glow": ["VoiceGlow"],
+  "voice-ring": ["VoiceRing"],
 };
 for (const [family, parts] of Object.entries(composed)) {
   assert.deepEqual(exportsOf(`src/glaze/${family}.rx`), parts, `Glaze parts for ${family}`);

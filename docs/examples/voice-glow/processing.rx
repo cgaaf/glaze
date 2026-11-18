@@ -1,0 +1,30 @@
+import { VoiceGlow } from "../../../src/glaze/voice-glow.rx"
+import { SegmentedControlRoot, SegmentedControlItem } from "../../../src/glaze/segmented-control.rx"
+import { createDemoVoice } from "../../lib/voice-demo.js"
+
+type Stage = { value: "idle" | "listening" | "processing" | "speaking"; name: string; text: string }
+
+export default component VoiceTurn() {
+  stages: Stage[] = [
+    { value: "idle", name: "Idle", text: "Hold the button and ask a question." },
+    { value: "listening", name: "Listening", text: "“Hold at 600 °C for an hour, then cool.”" },
+    { value: "processing", name: "Processing", text: "Updating the firing schedule…" },
+    { value: "speaking", name: "Speaking", text: "Done. The kiln will hold at 600 °C until 4:40 pm." },
+  ]
+  source stage: "idle" | "listening" | "processing" | "speaking" := "processing"
+  level = createDemoVoice(stage == "listening" || stage == "speaking")
+  current = stages.find((entry) => entry.value == stage) ?? stages[0]
+  <div class="grid gap-4">
+    <VoiceGlow state={stage} level={level}>
+      <p class="min-h-24 p-4 text-sm" role="status">{current.text}</p>
+    </VoiceGlow>
+    <SegmentedControlRoot aria-label="Stage" value={stage} onValueChange={(next) => {
+      let found = stages.find((entry) => entry.value == next)
+      if (found) { stage := found.value }
+    }}>
+      {for entry in stages {
+        <SegmentedControlItem value={entry.value}>{entry.name}</SegmentedControlItem>
+      }}
+    </SegmentedControlRoot>
+  </div>
+}

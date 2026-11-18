@@ -13,6 +13,7 @@ export default component ThemeMenu() {
   choices = createThemeChoices()
   palettes = paletteOptions()
   modes = modeOptions()
+  finishes = tokenOptions("Finish")
   fonts = tokenOptions("Font")
   shadows = tokenOptions("Shadow")
   densities = tokenOptions("Density")
@@ -35,10 +36,16 @@ export default component ThemeMenu() {
         }}>
           {for entry in palettes {
             <Toggle value={entry.value} aria-label={entry.label} title={entry.label}>
-              <span class="theme-swatch" style={{ "background-color": entry.color }}></span>
+              <span class="theme-swatch" style={{ "background-image": entry.swatch }}></span>
             </Toggle>
           }}
         </ToggleGroup>
+      </section>
+      <section class="theme-menu-group">
+        <span class="theme-menu-label" id="theme-menu-finish">Finish</span>
+        <SegmentedControlRoot aria-labelledby="theme-menu-finish" value={choices.finish} onValueChange={(next) => { setTheme("Finish", next) }}>
+          {for entry in finishes { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
+        </SegmentedControlRoot>
       </section>
       <section class="theme-menu-group">
         <span class="theme-menu-label" id="theme-menu-mode">Color mode</span>

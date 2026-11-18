@@ -587,6 +587,18 @@
       "description": "Try saving an empty ingredient list, then add tags and submit. Reset restores the field to its initial state."
     }
   ],
+  "thinking-orb": [
+    {
+      "id": "conversation",
+      "title": "Reporting progress in a conversation",
+      "description": "Ask the question. The status names each step as the reply is put together, and a screen reader announces each one."
+    },
+    {
+      "id": "tones",
+      "title": "Choosing a tone and a size",
+      "description": "`mono` draws in the text color, so it takes any color you give it. `spectrum` blends the palette's three glow hues. Change the palette in Theme to see both follow."
+    }
+  ],
   "time-field": [
     {
       "id": "options",
@@ -681,6 +693,25 @@
       "id": "delay",
       "title": "Explaining an unavailable action",
       "description": "Focus or hover the export control to see why it is unavailable. The explanation is also visible beside the control."
+    }
+  ],
+  "voice-glow": [
+    {
+      "id": "processing",
+      "title": "Showing each stage of a turn",
+      "description": "Step through a voice turn. The light follows the level while listening and speaking, and sweeps from side to side while the reply is worked out."
+    }
+  ],
+  "voice-ring": [
+    {
+      "id": "microphone",
+      "title": "Following a microphone",
+      "description": "Start listening and allow the microphone. The ring opens with your voice, and the text beside it reports a refused microphone."
+    },
+    {
+      "id": "tones",
+      "title": "Choosing a tone and a size",
+      "description": "The ring takes the palette's glow hues, or the text color with `mono`. Each size keeps the same proportions."
     }
   ]
 }

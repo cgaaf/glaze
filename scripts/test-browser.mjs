@@ -10,9 +10,13 @@ const origin = server.resolvedUrls.local[0];
 const engine = { chromium, firefox, webkit }[process.env.BROWSER || "chromium"];
 let browser;
 try {
-  browser = await engine.launch(
-    process.env.CHROME_CHANNEL ? { channel: process.env.CHROME_CHANNEL } : {},
-  );
+  browser = await engine.launch({
+    ...(process.env.CHROME_CHANNEL ? { channel: process.env.CHROME_CHANNEL } : {}),
+    // A fake microphone that is granted without a prompt, for the voice ring's microphone example.
+    ...(engine === chromium
+      ? { args: ["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream"] }
+      : {}),
+  });
   const page = await browser.newPage({
     viewport: { width: 1360, height: 960 },
     colorScheme: "light",
@@ -36,9 +40,28 @@ try {
   await page.getByRole("radio", { name: "Serif" }).click();
   await page.getByRole("radio", { name: "Raised" }).click();
   await page.getByRole("radio", { name: "Compact" }).click();
+  // The finish is a choice beside the palette: matte keeps floating layers solid, satin makes them glass.
+  const header = page.locator(".topbar");
+  const alpha = (el) => {
+    const probe = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+    probe.fillStyle = getComputedStyle(el).backgroundColor;
+    probe.fillRect(0, 0, 1, 1);
+    return probe.getImageData(0, 0, 1, 1).data[3];
+  };
+  assert.equal(await header.evaluate(alpha), 255);
+  await page.getByRole("radio", { name: "Satin" }).click();
+  assert.equal(await page.locator("html").getAttribute("data-glaze-finish"), "satin");
+  assert.ok((await header.evaluate(alpha)) < 255);
+  assert.match(await header.evaluate((el) => getComputedStyle(el).backdropFilter), /blur\(14px\)/);
   const themeCss = await page.locator("[data-theme-css] code").textContent();
   // The build's minifier may drop a leading zero.
-  for (const line of [/--radius: 1rem;/, /--glaze-font: ui-serif/, /--spacing: 0?\.22rem;/])
+  for (const line of [
+    /--radius: 1rem;/,
+    /--glaze-font: ui-serif/,
+    /--spacing: 0?\.22rem;/,
+    /--accent: light-dark\(/,
+    /--glass-opacity: 0?\.64;/,
+  ])
     assert.match(themeCss, line);
   await page.reload();
   await page.waitForFunction(() => document.documentElement.dataset.glazeTheme === "cobalt");
@@ -47,7 +70,24 @@ try {
   assert.equal(await save.evaluate((el) => getComputedStyle(el).borderRadius), "16px");
   assert.ok((await save.evaluate((el) => getComputedStyle(el).fontFamily)).startsWith("ui-serif"));
   assert.ok(await page.getByRole("radio", { name: "Raised" }).isChecked());
+  assert.ok(await page.getByRole("radio", { name: "Satin" }).isChecked());
+  // Someone who asks for more contrast (or less transparency) gets solid surfaces in any finish. Playwright's
+  // Firefox applies an emulated preference to styles only from the next load, so each change is followed by one.
+  for (const [contrast, solid] of [
+    ["more", true],
+    [null, false],
+  ]) {
+    await page.emulateMedia({ contrast });
+    await page.reload();
+    await save.waitFor();
+    assert.equal((await page.locator(".topbar").evaluate(alpha)) === 255, solid);
+    // Numbers of an app's own, which no preset knows about, are held to the same preference.
+    await page.evaluate(() => document.documentElement.style.setProperty("--glass-opacity", "0.5"));
+    assert.equal((await page.locator(".topbar").evaluate(alpha)) === 255, solid);
+    await page.evaluate(() => document.documentElement.style.removeProperty("--glass-opacity"));
+  }
   await page.getByRole("button", { name: "Reset tokens" }).click();
+  assert.equal(await page.locator("html").getAttribute("data-glaze-finish"), null);
   assert.equal(await save.evaluate((el) => getComputedStyle(el).borderRadius), "7.2px");
   assert.equal(await page.evaluate(() => localStorage.getItem("glazeRadius")), null);
   await page.getByRole("button", { name: "Theme", exact: true }).click();
@@ -94,6 +134,39 @@ try {
       const source = await demo.locator(".source code").first().textContent();
       assert.ok(source.startsWith("import ") && source.includes("./ui/glaze/"), id);
     }
+  }
+  // The thinking orb draws itself in colors it reads from CSS, in both tones, and the voice parts follow a level.
+  await visit("?component=thinking-orb");
+  for (const orb of ["#demo", "#demo-tones [data-tone=spectrum]"]) {
+    await page.waitForFunction((selector) => {
+      const canvas = document.querySelector(
+        selector + '[data-glaze="thinking-orb"], ' + selector + " canvas",
+      );
+      if (!canvas?.width) return false;
+      const { data } = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height);
+      return data.some((value, index) => index % 4 === 3 && value > 0);
+    }, orb);
+  }
+  await visit("?component=voice-ring");
+  await page.waitForFunction(
+    () =>
+      +document
+        .querySelector("#demo [data-glaze=voice-ring]")
+        .style.getPropertyValue("--voice-level") > 0,
+  );
+  // Chromium can stand in a fake microphone (see the launch flags), so the helper is run for real there.
+  if (engine === chromium) {
+    const microphone = page.locator("#demo-microphone");
+    await microphone.getByRole("button", { name: "Start listening" }).click();
+    await microphone.getByText("Listening", { exact: true }).waitFor();
+    await page.waitForFunction(
+      () =>
+        +document
+          .querySelector("#demo-microphone [data-glaze=voice-ring]")
+          .style.getPropertyValue("--voice-level") > 0,
+    );
+    await microphone.getByRole("button", { name: "Stop listening" }).click();
+    await microphone.getByText("The microphone is off").waitFor();
   }
   // The brand mark has its own size, so it can't fill the page while the stylesheet is on its way.
   const bare = await browser.newPage();

@@ -8,10 +8,14 @@
   [data-glaze="date-range-picker-popup"],
   [data-glaze="time-picker-popup"]
 ) {
-  @apply overflow-auto rounded-panel border border-border bg-card p-5 text-foreground;
+  @apply overflow-auto rounded-panel border p-5 text-foreground;
   max-height: 85dvh;
   overscroll-behavior: contain;
-  box-shadow: var(--glaze-shadow);
+  /* A floating layer is made of the theme's glass: the card, as see-through as the finish says. */
+  background-color: var(--glass);
+  border-color: var(--glass-border);
+  backdrop-filter: var(--glass-filter);
+  box-shadow: var(--glass-edge), var(--glaze-shadow);
 }
 :is([data-glaze="dialog-popup"], [data-glaze="alert-dialog-popup"]) {
   margin: auto;
@@ -200,7 +204,11 @@
   width: 0.5rem;
   height: 0.5rem;
   rotate: 45deg;
-  background: inherit;
+  /* The card, not the popup's glass: an arrow has no backdrop of its own to blur. */
+  background: var(--card);
+  &[data-glaze="tooltip-arrow"] {
+    background: inherit;
+  }
   border: 1px solid var(--border);
   border-right: 0;
   border-bottom: 0;
@@ -261,8 +269,11 @@
   @apply overflow-visible border-0 bg-transparent p-0;
 }
 [data-glaze="toast-root"] {
-  @apply absolute right-0 bottom-0 w-full rounded-panel border border-border bg-card text-foreground;
-  box-shadow: var(--glaze-shadow);
+  @apply absolute right-0 bottom-0 w-full rounded-panel border text-foreground;
+  background-color: var(--glass);
+  border-color: var(--glass-border);
+  backdrop-filter: var(--glass-filter);
+  box-shadow: var(--glass-edge), var(--glaze-shadow);
   z-index: calc(1000 - var(--toast-index));
   transform-origin: bottom center;
   height: var(--toast-frontmost-height, var(--toast-height));

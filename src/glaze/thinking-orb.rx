@@ -1,0 +1,48 @@
+import { createOrb } from "./internal/orb.js"
+
+// What the assistant is doing. Each state moves the dots differently; `listening` also follows `level`.
+export type ThinkingState = "thinking" | "working" | "searching" | "listening" | "composing"
+
+export type ThinkingOrbProps = {
+  state?: ThinkingState
+  // `mono` draws in the text color. `spectrum` blends the theme's three glow hues.
+  tone?: "mono" | "spectrum"
+  size?: "sm" | "default" | "lg"
+  // The voice level from 0 to 1, for `listening`.
+  level?: number
+  // Holds a still frame.
+  paused?: boolean
+  // Names the orb for assistive technology. Leave it out when text beside the orb says the same thing.
+  label?: string
+  class?: string
+  style?: any
+  id?: string
+}
+
+// A sphere of dots that shows the assistant is busy. It is one canvas, colored and sized by CSS.
+export component ThinkingOrb({ state = "thinking", tone = "mono", size = "default", level = 0, paused = false, label, ...rest }: ThinkingOrbProps) {
+  source canvas: HTMLCanvasElement | undefined := undefined
+  action writeCanvas(element: HTMLCanvasElement) { canvas := element }
+  _orb = createOrb(canvas, { state: state, tone: tone, level: level, paused: paused })
+  <canvas {...rest} ref={writeCanvas} data-glaze="thinking-orb" data-state={state} data-tone={tone} data-size={size} role={label == undefined ? undefined : "img"} aria-label={label} aria-hidden={label == undefined ? "true" : undefined} />
+}
+
+export type ThinkingStatusProps = {
+  state?: ThinkingState
+  tone?: "mono" | "spectrum"
+  children: View
+  // Hides the pill while keeping the live region in the page, so the next status is announced.
+  hidden?: boolean
+  class?: string
+  style?: any
+  id?: string
+}
+
+// A pill that says what the assistant is doing: an orb and a line of text that shimmers. It is a live region, so
+// a screen reader announces the text when it changes.
+export component ThinkingStatus({ state = "thinking", tone = "mono", children, ...rest }: ThinkingStatusProps) {
+  <span {...rest} data-glaze="thinking-status" data-state={state} role="status">
+    <ThinkingOrb state={state} tone={tone} size="sm" />
+    <span data-glaze="thinking-status-label">{children}</span>
+  </span>
+}

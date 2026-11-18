@@ -1,0 +1,130 @@
+{
+  "family": "thinking-orb",
+  "parts": [
+    {
+      "name": "ThinkingOrb",
+      "element": "canvas",
+      "description": "A sphere of dots that shows the assistant is busy: one `<canvas>`, sized and colored by CSS. Every orb on a page shares one animation frame, an orb that is off screen isn't drawn, and under `prefers-reduced-motion` it holds a still frame.",
+      "props": [
+        {
+          "name": "state",
+          "type": "\"thinking\" | \"working\" | \"searching\" | \"listening\" | \"composing\"",
+          "default": "\"thinking\"",
+          "required": false,
+          "description": "What the assistant is doing. Each state moves the dots differently, and a change blends from one to the next."
+        },
+        {
+          "name": "tone",
+          "type": "\"mono\" | \"spectrum\"",
+          "default": "\"mono\"",
+          "required": false,
+          "description": "`mono` draws in the element's text color. `spectrum` blends the theme's `--glow-1`, `--glow-2` and `--glow-3`."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"default\" | \"lg\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "1.125rem, 1.5rem or 4rem at the default spacing. For another size, pass a class."
+        },
+        {
+          "name": "level",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The voice level from 0 to 1. Only `listening` uses it, as the height of its ripples."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Holds a still frame."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Names the orb for assistive technology and gives it `role=\"img\"`. Without it the orb is hidden from assistive technology, which is right when text beside it says the same thing."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Classes for the element. A Tailwind size such as `size-24` or a text color such as `text-primary` overrides the defaults."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-state",
+          "description": "The current state."
+        },
+        {
+          "name": "data-tone",
+          "description": "`mono` or `spectrum`."
+        },
+        {
+          "name": "data-size",
+          "description": "`sm`, `default` or `lg`."
+        }
+      ],
+      "cssVariables": [
+        {
+          "name": "--orb-size",
+          "description": "The width and height of the orb."
+        }
+      ]
+    },
+    {
+      "name": "ThinkingStatus",
+      "element": "span",
+      "description": "A pill that says what the assistant is doing: a small orb and a line of text that shimmers. It has `role=\"status\"`, so a screen reader announces the text when it changes. Keep it mounted and change its text for the announcement to be made. It is made of the theme's glass, so in the satin and gloss finishes it shows what is behind it.",
+      "props": [
+        {
+          "name": "state",
+          "type": "\"thinking\" | \"working\" | \"searching\" | \"listening\" | \"composing\"",
+          "default": "\"thinking\"",
+          "required": false,
+          "description": "The orb's state."
+        },
+        {
+          "name": "tone",
+          "type": "\"mono\" | \"spectrum\"",
+          "default": "\"mono\"",
+          "required": false,
+          "description": "The orb's tone."
+        },
+        {
+          "name": "children",
+          "type": "View",
+          "default": null,
+          "required": true,
+          "description": "The text, such as “Searching the kiln log…”."
+        },
+        {
+          "name": "hidden",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Hides the pill while keeping the live region in the page. Between runs, hide it and empty its text rather than unmounting it, so the next status is announced."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Classes for the element. A Tailwind size such as `size-24` or a text color such as `text-primary` overrides the defaults."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-state",
+          "description": "The current state."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

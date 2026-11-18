@@ -1,0 +1,26 @@
+// Where a voice conversation is. `listening` and `speaking` follow `level`; `processing` chases its own tail.
+export type VoiceState = "idle" | "listening" | "speaking" | "processing"
+
+export type VoiceRingProps = {
+  state?: VoiceState
+  // The voice level from 0 to 1: a microphone's while listening, the reply's while speaking.
+  level?: number
+  // `spectrum` blends the theme's three glow hues. `mono` draws in the text color.
+  tone?: "spectrum" | "mono"
+  size?: "sm" | "default" | "lg"
+  // Names the ring for assistive technology. Leave it out when text beside the ring says the same thing.
+  label?: string
+  class?: string
+  id?: string
+}
+
+// A ring of light for a voice interface: three loops that open and wobble as the voice gets louder. It is drawn
+// in CSS from the theme's glow hues and one custom property, `--voice-level`.
+export component VoiceRing({ state = "idle", level = 0, tone = "spectrum", size = "default", label, ...rest }: VoiceRingProps) {
+  <span {...rest} data-glaze="voice-ring" data-state={state} data-tone={tone} data-size={size} style={{ "--voice-level": `${level}` }} role={label == undefined ? undefined : "img"} aria-label={label} aria-hidden={label == undefined ? "true" : undefined}>
+    <span data-glaze="voice-ring-halo" />
+    <span data-glaze="voice-ring-loop" />
+    <span data-glaze="voice-ring-loop" />
+    <span data-glaze="voice-ring-loop" />
+  </span>
+}

@@ -1,0 +1,18 @@
+import { VoiceRing } from "../../../src/glaze/voice-ring.rx"
+import { createDemoVoice } from "../../lib/voice-demo.js"
+
+export default component VoiceTones() {
+  level = createDemoVoice(true)
+  <div class="grid max-w-full gap-6">
+    <div class="flex flex-wrap items-center gap-6">
+      <VoiceRing state="speaking" level={level} size="sm" label="Speaking" />
+      <VoiceRing state="speaking" level={level} label="Speaking" />
+      <VoiceRing state="speaking" level={level} size="lg" label="Speaking" />
+    </div>
+    <div class="flex flex-wrap items-center gap-6">
+      <VoiceRing tone="mono" state="listening" level={level} label="Listening" />
+      <VoiceRing class="text-primary" tone="mono" state="listening" level={level} label="Listening" />
+      <VoiceRing tone="mono" state="processing" label="Processing" />
+    </div>
+  </div>
+}

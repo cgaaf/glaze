@@ -1,0 +1,18 @@
+export type VoiceGlowProps = {
+  state?: "idle" | "listening" | "speaking" | "processing"
+  // The voice level from 0 to 1.
+  level?: number
+  children: View
+  class?: string
+  id?: string
+}
+
+// A surface whose bottom edge lights up with a voice: the light rises with `level`, and sweeps from side to side
+// while `processing`. It draws the card itself, so what goes inside (a text field, a row of buttons) should have
+// no background of its own.
+export component VoiceGlow({ state = "idle", level = 0, children, ...rest }: VoiceGlowProps) {
+  <div {...rest} data-glaze="voice-glow" data-state={state} style={{ "--voice-level": `${level}` }}>
+    <span data-glaze="voice-glow-light" aria-hidden="true" />
+    {children}
+  </div>
+}

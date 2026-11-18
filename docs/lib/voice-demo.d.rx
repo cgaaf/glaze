@@ -1,0 +1,1 @@
+export pure fn createDemoVoice(ref active: boolean): ref number

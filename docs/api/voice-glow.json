@@ -1,0 +1,52 @@
+{
+  "family": "voice-glow",
+  "parts": [
+    {
+      "name": "VoiceGlow",
+      "element": "div",
+      "description": "A surface whose bottom edge lights up with a voice. It draws the card itself (border, radius and background) and puts the light behind its content. An `Input` or `Textarea` placed directly inside loses its own border and background, and the surface shows that field's focus ring.",
+      "props": [
+        {
+          "name": "state",
+          "type": "\"idle\" | \"listening\" | \"speaking\" | \"processing\"",
+          "default": "\"idle\"",
+          "required": false,
+          "description": "`listening` and `speaking` raise the light with `level`. `processing` sweeps it from side to side. `idle` turns it off."
+        },
+        {
+          "name": "level",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The voice level from 0 to 1."
+        },
+        {
+          "name": "children",
+          "type": "View",
+          "default": null,
+          "required": true,
+          "description": "The content of the surface: a field, a row of buttons, a transcript."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Classes for the element. A Tailwind size such as `size-24` or a text color such as `text-primary` overrides the defaults."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-state",
+          "description": "The current state."
+        }
+      ],
+      "cssVariables": [
+        {
+          "name": "--voice-level",
+          "description": "The level the light follows, set from the `level` prop."
+        }
+      ]
+    }
+  ]
+}

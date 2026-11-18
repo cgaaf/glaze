@@ -1,0 +1,20 @@
+import { VoiceRing } from "../../../src/glaze/voice-ring.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { Icon } from "../../../src/glaze/icon.rx"
+import { createMicrophoneLevel } from "../../../src/glaze/internal/voice.js"
+
+export default component VoiceMicrophone() {
+  source listening := false
+  // The browser asks for the microphone the first time `listening` is true, and releases it when it is false.
+  [level, status] = createMicrophoneLevel(listening)
+  <div class="grid max-w-full justify-items-center gap-4">
+    <VoiceRing state={status == "live" ? "listening" : status == "asking" ? "processing" : "idle"} level={level} size="lg" />
+    <Button variant={listening ? "outline" : "default"} onClick={() => { listening := !listening }}>
+      <Icon name={listening ? "square" : "mic"} />
+      {listening ? "Stop listening" : "Start listening"}
+    </Button>
+    <span role="status" class="text-sm text-muted-foreground">
+      {status == "live" ? "Listening" : status == "asking" ? "Waiting for the microphone" : status == "blocked" ? "The microphone is blocked. Allow it in the browser's site settings." : "The microphone is off"}
+    </span>
+  </div>
+}
