@@ -1,0 +1,5 @@
+# Read by Cloudflare (it is not served). Everything the build writes to assets/ has a hash of its content in
+# its name, so a browser can keep it for good: a changed file gets a new name. Without this Cloudflare has the
+# browser ask whether each file changed on every page load, which is dozens of requests before a page appears.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
