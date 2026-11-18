@@ -1,0 +1,258 @@
+{
+  "family": "time-range-picker",
+  "parts": [
+    {
+      "name": "TimeRangePickerRoot",
+      "element": "div",
+      "description": "Holds the range and shares it, with the bounds, locale and the rest, with the two sides. A `role=\"group\"`, named by its `aria-label`, `aria-labelledby` or an enclosing FieldLabel. With a name, or inside a FieldRoot, it renders the two hidden `<input type=\"time\">`s that submit the range and that Field validates.",
+      "props": [
+        {
+          "name": "value",
+          "type": "TimeRange | null",
+          "default": null,
+          "required": false,
+          "description": "The range. `null` is controlled and empty; leaving it out lets the picker hold its own."
+        },
+        {
+          "name": "defaultValue",
+          "type": "TimeRange",
+          "default": null,
+          "required": false,
+          "description": "The range at first, when it isn't controlled. A form reset puts it back."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: TimeRange) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the whole range whenever either end changes (undefined while that end is empty or incomplete)."
+        },
+        {
+          "name": "allowOvernight",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the end may be earlier than the start, a range across midnight."
+        },
+        {
+          "name": "min",
+          "type": "PlainTime",
+          "default": null,
+          "required": false,
+          "description": "The earliest valid time, for both ends."
+        },
+        {
+          "name": "max",
+          "type": "PlainTime",
+          "default": null,
+          "required": false,
+          "description": "The latest valid time, for both ends."
+        },
+        {
+          "name": "locale",
+          "type": "string | string[]",
+          "default": null,
+          "required": false,
+          "description": "The locale of both fields and their popups."
+        },
+        {
+          "name": "granularity",
+          "type": "TimeGranularity",
+          "default": "\"minute\"",
+          "required": false,
+          "description": "The smallest unit of both times: `\"hour\"`, `\"minute\"` or `\"second\"`."
+        },
+        {
+          "name": "hourCycle",
+          "type": "12 | 24",
+          "default": null,
+          "required": false,
+          "description": "`12` or `24` overrides the locale's hour cycle."
+        },
+        {
+          "name": "minuteStep",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Minutes between the minute columns' options."
+        },
+        {
+          "name": "secondStep",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Seconds between the second columns' options."
+        },
+        {
+          "name": "placeholderValue",
+          "type": "PlainTime",
+          "default": null,
+          "required": false,
+          "description": "What a choice starts from on a side with no time yet."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether neither side can be changed. Also true inside a disabled FieldRoot."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the fields can be focused but not changed; the triggers are disabled."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether both times are needed for the form to be valid."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Submits the range as `<name>-start` and `<name>-end`. Taken from an enclosing FieldRoot when not given."
+        },
+        {
+          "name": "startName",
+          "type": "string",
+          "default": "<name>-start",
+          "required": false,
+          "description": "The start time's name with a form."
+        },
+        {
+          "name": "endName",
+          "type": "string",
+          "default": "<name>-end",
+          "required": false,
+          "description": "The end time's name with a form."
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The id of a `<form>` the hidden inputs belong to."
+        },
+        {
+          "name": "incompleteMessage",
+          "type": "string",
+          "default": "\"Enter a complete time.\"",
+          "required": false,
+          "description": "The validation message while a side is partly filled."
+        },
+        {
+          "name": "rangeOrderMessage",
+          "type": "string",
+          "default": "\"The end time is before the start time.\"",
+          "required": false,
+          "description": "The validation message for an end before the start (unless `allowOvernight`)."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Present once the field's value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the range is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while the field has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the end is before the start (and `allowOvernight` is off), a side is outside `min`/`max` or partly filled, or the FieldRoot around it is invalid."
+        },
+        {
+          "name": "data-touched",
+          "description": "Present once the field has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Present when the field is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimeRangePickerStart",
+      "element": null,
+      "description": "The start: a TimePickerRoot for the range's start, bounded above by the end unless `allowOvernight`. Inside it go the Time Picker's parts (TimePickerField, TimePickerTrigger, TimePickerPopup and its columns). Its field submits `<name>-start`.",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether this side's popup is open."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether this side's popup is open at first, when it isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called after this side's popup opens or closes."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "TimeRangePickerEnd",
+      "element": null,
+      "description": "The end: a TimePickerRoot for the range's end, bounded below by the start unless `allowOvernight`, so its popup disables what would put it earlier. Its field submits `<name>-end`.",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether this side's popup is open."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether this side's popup is open at first, when it isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called after this side's popup opens or closes."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "TimeRangePickerSeparator",
+      "element": "span",
+      "description": "A span between the two sides, hidden from assistive technology (each field has its own name). Its text is yours: \"\u2013\", \"to\".",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    }
+  ]
+}

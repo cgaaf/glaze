@@ -1,0 +1,19 @@
+import { FieldsetRoot, FieldsetLegend } from "../../src/glaze/fieldset.rx"
+import { FieldRoot, FieldLabel } from "../../src/glaze/field.rx"
+import { Input } from "../../src/glaze/input.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <FieldsetRoot>
+      <FieldsetLegend>Billing details</FieldsetLegend>
+      <FieldRoot name="company">
+        <FieldLabel>Company</FieldLabel>
+        <Input placeholder="Northwind Studio" />
+      </FieldRoot>
+      <FieldRoot name="taxId">
+        <FieldLabel>Tax ID</FieldLabel>
+        <Input placeholder="XX-0000000" />
+      </FieldRoot>
+    </FieldsetRoot>
+  </div>
+}

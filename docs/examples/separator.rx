@@ -1,0 +1,15 @@
+import { Separator } from "../../src/glaze/separator.rx"
+
+export default component Example() {
+  <div class="grid gap-2">
+    <nav class="flex items-center gap-2" aria-label="Account">
+      <a class="underline underline-offset-4" href="#profile">Profile</a>
+      <Separator orientation="vertical" />
+      <a class="underline underline-offset-4" href="#billing">Billing</a>
+      <Separator orientation="vertical" />
+      <a class="underline underline-offset-4" href="#sign-out">Sign out</a>
+    </nav>
+    <Separator />
+    <p class="text-sm text-muted-foreground">Signed in since 9:41. Changes are saved as you make them.</p>
+  </div>
+}

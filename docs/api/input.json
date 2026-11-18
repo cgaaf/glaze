@@ -1,0 +1,56 @@
+{
+  "family": "input",
+  "parts": [
+    {
+      "name": "Input",
+      "element": "input",
+      "description": "A native `<input>`; any `type` works and every attribute is passed through. Inside a FieldRoot it is the field's control: labelled and described by the field's parts, named and disabled with it, and validated by it.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The input's value. Pass it with `onValueChange` to control the input."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The value at first, when the input isn't controlled. The first value is also the input's `value` attribute: what a form reset puts back."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new value on every input, and once when a form reset changes an uncontrolled input."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present while the value differs from the one it started with."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present while the input isn't empty."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and passed."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

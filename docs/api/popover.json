@@ -1,0 +1,149 @@
+{
+  "family": "popover",
+  "parts": [
+    {
+      "name": "PopoverRoot",
+      "element": null,
+      "description": "Holds the popover's open state and shares it with the parts inside it.",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the popover is open. Pass it with `onOpenChange` to control the popover."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the popover is open at first, when it isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new state after the browser or a part opened or closed the popover. A press outside and Escape can't be refused: a controlled popover that keeps `open` true is shown again. It is called in a change of its own, after the popover's: a request it starts, or a handler that is itself an action, doesn't hold the popover or hide it again after the browser showed it."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "PopoverTrigger",
+      "element": "button",
+      "description": "The button that opens and closes the popover. The browser's `popovertarget` does both on a press.",
+      "props": [
+        {
+          "name": "openOnHover",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether resting the pointer on the trigger also opens the popover. A press still toggles it."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "default": "300",
+          "required": false,
+          "description": "With `openOnHover`: how long the pointer rests on the trigger before it opens, in ms."
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "With `openOnHover`: how long after the pointer leaves trigger and popup before it closes, in ms."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-popup-open",
+          "description": "Present on the trigger while its popup is open."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "PopoverPopup",
+      "element": "div",
+      "description": "The popup: an element with `popover=\"auto\"`, placed against the trigger with CSS anchor positioning. Style it with `:popover-open`, `::backdrop` and `@starting-style`.",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Which side of the trigger it sits on; the browser flips it when it doesn't fit."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "default": "\"center\"",
+          "required": false,
+          "description": "Which edge of the trigger it lines up with."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Gap between trigger and popup, in pixels."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "How far the popup is moved along the trigger's edge from its `align` position, in pixels."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-side",
+          "description": "Which side of its anchor the popup is on: the one asked for, then the one the browser placed it on."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "PopoverTitle",
+      "element": "h2",
+      "description": "A heading that names the popup. The popup's `aria-labelledby` points at it.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "PopoverDescription",
+      "element": "p",
+      "description": "A paragraph that describes the popup. The popup's `aria-describedby` points at it.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "PopoverClose",
+      "element": "button",
+      "description": "A button that closes the popover.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "PopoverArrow",
+      "element": "div",
+      "description": "An element placed on the popup's edge that faces the trigger, centred on the trigger. It follows the popup when the browser flips it. Give it a shape in CSS and turn it per `data-side`.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-side",
+          "description": "Which side of the trigger the popup is on. Absent until the popup first opens; a close keeps the last side."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

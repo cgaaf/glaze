@@ -1,0 +1,23 @@
+import { DrawerRoot, DrawerTrigger, DrawerPopup, DrawerContent, DrawerTitle, DrawerDescription, DrawerClose } from "../../src/glaze/drawer.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <DrawerRoot>
+      <DrawerTrigger>Open filters</DrawerTrigger>
+      <DrawerPopup>
+        <div class="mx-auto mb-4 h-1 w-10 rounded-full bg-muted" />
+        <DrawerContent>
+          <DrawerTitle>Filters</DrawerTitle>
+          <DrawerDescription>Swipe down, press outside or press Done to close.</DrawerDescription>
+          <fieldset class="mb-4 grid gap-2">
+            <legend class="mb-1 text-sm font-medium">Availability</legend>
+            <label class="flex items-center gap-2 text-sm"><input type="checkbox" checked /> In stock</label>
+            <label class="flex items-center gap-2 text-sm"><input type="checkbox" /> Ships this week</label>
+            <label class="flex items-center gap-2 text-sm"><input type="checkbox" /> Pick up in store</label>
+          </fieldset>
+          <DrawerClose>Done</DrawerClose>
+        </DrawerContent>
+      </DrawerPopup>
+    </DrawerRoot>
+  </div>
+}

@@ -1,0 +1,315 @@
+{
+  "family": "tags-input",
+  "parts": [
+    {
+      "name": "TagsInputRoot",
+      "element": "div",
+      "description": "Holds the tags and the input's text and shares them with the parts inside it. It also renders a visually hidden polite live region that announces a highlighted or removed tag, and, with a `name` (or inside a named FieldRoot), one hidden `<input>` per tag for the form.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "The tags. Pass it with `onValueChange` to control them. It may be read from an answer that is loading or guessed over; one that fails is left to the app's `errored` region."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "The tags at first, when they aren't controlled. A form reset puts them back."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new tags whenever one is added or removed, or all are cleared. It is called in a change of its own, so it may be an action that saves: the tags and the input are never held by it."
+        },
+        {
+          "name": "inputValue",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The input's text. Pass it with `onInputValueChange` to control it."
+        },
+        {
+          "name": "onInputValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the input's text as it is typed, and with what is left once an entry is added (usually an empty string)."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "The most tags there may be. An entry past it is refused with the reason `max`."
+        },
+        {
+          "name": "allowDuplicates",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the same text may be a tag twice. Otherwise a repeat is refused with the reason `duplicate`."
+        },
+        {
+          "name": "delimiter",
+          "type": "string | null",
+          "default": "\",\"",
+          "required": false,
+          "description": "Text that finishes an entry when typed or pasted, as Enter does. `null` for none, so only Enter (and `addOnBlur`, `addOnPaste`) adds."
+        },
+        {
+          "name": "addOnBlur",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Add what was typed when the input loses focus."
+        },
+        {
+          "name": "addOnPaste",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Add everything pasted at once, split at the delimiter and at line breaks, the last part included. Without it a paste is like typing: the parts before a delimiter are added and the rest stays in the input."
+        },
+        {
+          "name": "validate",
+          "type": "(value: string) => boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether an entry may be a tag. Entries are trimmed first; one it returns false for is refused with the reason `invalid`. It is called synchronously, so it must be a plain function, not an action."
+        },
+        {
+          "name": "onValueInvalid",
+          "type": "(details: TagsInputInvalidDetails) => void",
+          "default": null,
+          "required": false,
+          "description": "Called for each refused entry with `{ value, reason }`, where `reason` is `duplicate`, `max` or `invalid`. The refused text stays in the input to be corrected."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the tags input can't be used or focused. Also true inside a disabled FieldRoot. Disabled while its input has focus (`disabled={pending? saved}`), the input takes focus back when it is enabled again."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the tags can be read and highlighted but not added or removed."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether at least one tag is needed for the form to be valid. The input is natively `required` while there is no tag, so text typed but not yet added counts as filled and the form submits without it."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The name each tag is submitted under, one entry per tag. Taken from an enclosing FieldRoot when not given."
+        },
+        {
+          "name": "messages",
+          "type": "TagsInputMessages",
+          "default": null,
+          "required": false,
+          "description": "What the live region says: `highlighted(value)`, `removed(value)` and `cleared`. Defaults: \"<value>, press Backspace or Delete to remove\" (only the value when read-only), \"<value> removed\" and \"All tags removed\"."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the tags have changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the tags input is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when there is at least one tag."
+        },
+        {
+          "name": "data-focused",
+          "description": "Inside a FieldRoot: present while the input has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the tags input is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the tags input is required."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TagsInputControl",
+      "element": "div",
+      "description": "The box that holds the tags and the input. A press on its empty space puts the caret in the input.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the tags input is disabled."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the tags input is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the tags input is required."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TagsInputTag",
+      "element": "div",
+      "description": "One tag. Render one per entry of the `tagsInput` context's `tags`. A press on it highlights it and keeps the caret in the input. It is never focused itself: focus stays in the input.",
+      "props": [
+        {
+          "name": "index",
+          "type": "number",
+          "default": null,
+          "required": true,
+          "description": "The tag's position in the value: `tag.index` for each `tag` of the context's `tags`."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the tags input is disabled."
+        },
+        {
+          "name": "data-highlighted",
+          "description": "Present while the tag is highlighted: Backspace or Delete removes it."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the tags input is read-only."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TagsInputTagText",
+      "element": "span",
+      "description": "The tag's text: its value, unless given children.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-highlighted",
+          "description": "Present while its tag is highlighted."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TagsInputTagRemove",
+      "element": "button",
+      "description": "A button that removes its tag. Named \"Remove <value>\" unless given an `aria-label`. It is not in the tab order (Backspace and Delete remove a highlighted tag), and pressing it leaves focus in the input. Disabled while the tags input is disabled or read-only.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "TagsInputInput",
+      "element": "input",
+      "description": "The text input. Enter or the delimiter adds what was typed; Backspace or ArrowLeft at the start of the text highlights the last tag. Inside a FieldRoot it is the field's control: labelled by FieldLabel and described by FieldDescription and FieldError.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the tags have changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the tags input is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when there is at least one tag."
+        },
+        {
+          "name": "data-focused",
+          "description": "Inside a FieldRoot: present while the input has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the tags input is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the tags input is required."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TagsInputClear",
+      "element": "button",
+      "description": "A button that removes every tag and the typed text, then puts the caret in the input. Not in the tab order, like the remove buttons. Give it an `aria-label` when its content is an icon.",
+      "props": [
+        {
+          "name": "keepMounted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render the button even when there is nothing to clear."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the tags input is disabled."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the tags input is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the tags input is required."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

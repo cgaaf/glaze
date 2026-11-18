@@ -1,0 +1,30 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { ContextMenuRoot, ContextMenuTrigger, ContextMenuPopup, ContextMenuItem, ContextMenuSeparator, ContextMenuSubmenuRoot, ContextMenuSubmenuTrigger } from "../../src/glaze/context-menu.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <ContextMenuRoot>
+      <ContextMenuTrigger>Right-click here</ContextMenuTrigger>
+      <ContextMenuPopup>
+        <ContextMenuItem>Add comment</ContextMenuItem>
+        <ContextMenuItem>Copy link</ContextMenuItem>
+        <ContextMenuItem>Duplicate</ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuSubmenuRoot>
+          <ContextMenuSubmenuTrigger>
+            Arrange
+            <Icon name="chevron-right" />
+          </ContextMenuSubmenuTrigger>
+          <ContextMenuPopup alignOffset={-5}>
+            <ContextMenuItem>Bring to front</ContextMenuItem>
+            <ContextMenuItem>Bring forward</ContextMenuItem>
+            <ContextMenuItem>Send backward</ContextMenuItem>
+            <ContextMenuItem>Send to back</ContextMenuItem>
+          </ContextMenuPopup>
+        </ContextMenuSubmenuRoot>
+        <ContextMenuSeparator />
+        <ContextMenuItem>Delete</ContextMenuItem>
+      </ContextMenuPopup>
+    </ContextMenuRoot>
+  </div>
+}

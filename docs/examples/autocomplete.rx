@@ -1,0 +1,32 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { FieldRoot, FieldLabel } from "../../src/glaze/field.rx"
+import { AutocompleteRoot, AutocompleteInput, AutocompleteClear, AutocompletePopup, AutocompleteEmpty, AutocompleteList, AutocompleteItem } from "../../src/glaze/autocomplete.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <FieldRoot>
+      <FieldLabel>Search tags</FieldLabel>
+      <AutocompleteRoot>
+        <div class="flex items-center gap-1">
+          <AutocompleteInput placeholder="e.g. feature" />
+          <AutocompleteClear aria-label="Clear">
+            <Icon name="x" />
+          </AutocompleteClear>
+        </div>
+        <AutocompletePopup sideOffset={6}>
+          <AutocompleteEmpty>No matching tags.</AutocompleteEmpty>
+          <AutocompleteList>
+            <AutocompleteItem value="feature">feature</AutocompleteItem>
+            <AutocompleteItem value="fix">fix</AutocompleteItem>
+            <AutocompleteItem value="docs">docs</AutocompleteItem>
+            <AutocompleteItem value="refactor">refactor</AutocompleteItem>
+            <AutocompleteItem value="performance">performance</AutocompleteItem>
+            <AutocompleteItem value="test">test</AutocompleteItem>
+            <AutocompleteItem value="build">build</AutocompleteItem>
+            <AutocompleteItem value="chore">chore</AutocompleteItem>
+          </AutocompleteList>
+        </AutocompletePopup>
+      </AutocompleteRoot>
+    </FieldRoot>
+  </div>
+}

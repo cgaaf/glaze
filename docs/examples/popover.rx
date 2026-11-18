@@ -1,0 +1,17 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { PopoverRoot, PopoverTrigger, PopoverPopup, PopoverArrow, PopoverTitle, PopoverDescription } from "../../src/glaze/popover.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <PopoverRoot>
+      <PopoverTrigger aria-label="Notifications">
+        <Icon name="bell" />
+      </PopoverTrigger>
+      <PopoverPopup sideOffset={10}>
+        <PopoverArrow />
+        <PopoverTitle>Notifications</PopoverTitle>
+        <PopoverDescription>You are all caught up. Good job!</PopoverDescription>
+      </PopoverPopup>
+    </PopoverRoot>
+  </div>
+}

@@ -1,0 +1,37 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { TimePickerRoot, TimePickerField, TimePickerTrigger, TimePickerPopup, TimePickerHours, TimePickerMinutes, TimePickerDayPeriod } from "../../src/glaze/time-picker.rx"
+import { TimeFieldInput, TimeFieldSegment } from "../../src/glaze/time-field.rx"
+import { timeField } from "../../src/bisque/time-field/time-field.rx"
+import { parseTime } from "../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use timeField
+  {for segment in c.segments {
+    <TimeFieldSegment segment={segment} />
+  }}
+}
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <span class="text-sm font-medium" id="time-picker-hero-label">Reminder</span>
+    <TimePickerRoot locale="en-US" minuteStep={5} defaultValue={parseTime("09:30")}>
+      <TimePickerField aria-labelledby="time-picker-hero-label">
+        <TimeFieldInput><Segments /></TimeFieldInput>
+        <TimePickerTrigger>
+          <Icon name="clock" />
+        </TimePickerTrigger>
+      </TimePickerField>
+      <TimePickerPopup align="center" sideOffset={6}>
+        <div class="grid gap-2">
+          <span class="text-xs font-medium" id="reminder-hour">Hour</span>
+          <TimePickerHours gridColumns={6} aria-labelledby="reminder-hour" />
+          <TimePickerDayPeriod gridColumns={2} aria-orientation="horizontal" />
+        </div>
+        <div class="mt-2 grid gap-2 border-t border-border pt-2">
+          <span class="text-xs font-medium" id="reminder-minute">Minute</span>
+          <TimePickerMinutes gridColumns={6} aria-labelledby="reminder-minute" />
+        </div>
+      </TimePickerPopup>
+    </TimePickerRoot>
+  </div>
+}

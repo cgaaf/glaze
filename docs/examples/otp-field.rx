@@ -1,0 +1,21 @@
+import { OTPFieldRoot, OTPFieldInput, OTPFieldSeparator } from "../../src/glaze/otp-field.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <label class="text-sm font-medium" for="otp-field-hero">Verification code</label>
+    <OTPFieldRoot id="otp-field-hero" length={6}>
+      <div class="inline-flex items-center gap-1">
+        <OTPFieldInput />
+        <OTPFieldInput aria-label="Digit 2 of 6" />
+        <OTPFieldInput aria-label="Digit 3 of 6" />
+      </div>
+      <OTPFieldSeparator />
+      <div class="inline-flex items-center gap-1">
+        <OTPFieldInput aria-label="Digit 4 of 6" />
+        <OTPFieldInput aria-label="Digit 5 of 6" />
+        <OTPFieldInput aria-label="Digit 6 of 6" />
+      </div>
+    </OTPFieldRoot>
+    <p class="text-xs text-muted-foreground">Enter the 6-digit code we sent you.</p>
+  </div>
+}

@@ -1,0 +1,43 @@
+import { Button } from "../../src/glaze/button.rx"
+import { Icon } from "../../src/glaze/icon.rx"
+import { ToastProvider, ToastViewport, ToastRoot, ToastContent, ToastTitle, ToastDescription, ToastClose } from "../../src/glaze/toast.rx"
+import { toast } from "../../src/bisque/toast/toast.rx"
+
+component Toasts() {
+  c = use toast
+  for t in c.toasts {
+    <ToastRoot toast={t}>
+      <ToastContent>
+        <div class="text-sm text-muted-foreground">
+          <ToastTitle />
+          <ToastDescription />
+        </div>
+        <ToastClose aria-label="Close">
+          <Icon name="x" />
+        </ToastClose>
+      </ToastContent>
+    </ToastRoot>
+  }
+}
+
+component SaveButton() {
+  c = use toast
+  source saved := 0
+  action save() {
+    let n = saved + 1
+    saved := n
+    c.manager.add({ title: "Draft saved", description: `Version ${n} of the draft is safe.` })
+  }
+  <Button type="button" onClick={save}>Save draft</Button>
+}
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <ToastProvider>
+      <SaveButton />
+      <ToastViewport>
+        <Toasts />
+      </ToastViewport>
+    </ToastProvider>
+  </div>
+}

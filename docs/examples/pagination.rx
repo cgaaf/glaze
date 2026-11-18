@@ -1,0 +1,33 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { PaginationRoot, PaginationItem, PaginationEllipsis, PaginationPrevious, PaginationNext } from "../../src/glaze/pagination.rx"
+import { pagination } from "../../src/bisque/pagination/pagination.rx"
+
+// The pages and ellipses, rendered from inside the root.
+component Pages() {
+  c = use pagination
+  <ul class="flex flex-wrap items-center gap-1">
+    {for item in c.items {
+      <li>
+        {if item.type == "page" {
+          <PaginationItem value={item.value}>{item.value}</PaginationItem>
+        } else {
+          <PaginationEllipsis>…</PaginationEllipsis>
+        }}
+      </li>
+    }}
+  </ul>
+}
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <PaginationRoot count={240} pageSize={10} defaultPage={6}>
+      <PaginationPrevious aria-label="Previous page">
+        <Icon name="chevron-left" />
+      </PaginationPrevious>
+      <Pages />
+      <PaginationNext aria-label="Next page">
+        <Icon name="chevron-right" />
+      </PaginationNext>
+    </PaginationRoot>
+  </div>
+}

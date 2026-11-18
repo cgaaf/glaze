@@ -1,0 +1,22 @@
+import { ScrollAreaRoot, ScrollAreaViewport, ScrollAreaContent, ScrollAreaScrollbar, ScrollAreaThumb } from "../../src/glaze/scroll-area.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <ScrollAreaRoot>
+      <ScrollAreaViewport>
+        <ScrollAreaContent>
+          <p>Warm the pot first. A cold pot takes the heat out of the water before the leaves have had a chance to open.</p>
+          <p>Green teas want water well below boiling, around 75 to 80 degrees. Hotter water draws out bitterness quickly.</p>
+          <p>Black teas take water just off the boil and three to five minutes. Taste at three, then decide.</p>
+          <p>Oolongs reward several short infusions. Start at thirty seconds and add ten for each round after.</p>
+          <p>Measure by weight rather than by spoon: large, open leaves fill a spoon with far less tea than small, rolled ones.</p>
+          <p>Soft water lets the flavour through. If the kettle scales up quickly, try filtered water for a week and compare.</p>
+          <p>Store leaves away from light, heat and strong smells, in a container that closes well.</p>
+        </ScrollAreaContent>
+      </ScrollAreaViewport>
+      <ScrollAreaScrollbar>
+        <ScrollAreaThumb />
+      </ScrollAreaScrollbar>
+    </ScrollAreaRoot>
+  </div>
+}

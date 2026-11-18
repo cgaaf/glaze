@@ -1,0 +1,12 @@
+import { RadioGroup, RadioRoot, RadioIndicator } from "../../src/glaze/radio.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <div class="mb-2 text-sm font-medium" id="radio-hero-caption">Delivery</div>
+    <RadioGroup aria-labelledby="radio-hero-caption" name="delivery" defaultValue="standard">
+      <label class="flex items-center gap-2 text-sm"><RadioRoot value="standard"><RadioIndicator /></RadioRoot>Standard</label>
+      <label class="flex items-center gap-2 text-sm"><RadioRoot value="express"><RadioIndicator /></RadioRoot>Express</label>
+      <label class="flex items-center gap-2 text-sm"><RadioRoot value="overnight" disabled><RadioIndicator /></RadioRoot>Overnight</label>
+    </RadioGroup>
+  </div>
+}

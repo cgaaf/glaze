@@ -1,0 +1,29 @@
+{
+  "family": "fieldset",
+  "parts": [
+    {
+      "name": "FieldsetRoot",
+      "element": "fieldset",
+      "description": "A native `<fieldset>`: a group named by its legend. Disabling it disables every control inside, and the Fields inside are disabled with it.",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disables the fieldset natively, which disables every form control inside it; `:disabled` matches the fieldset and those controls. The Fields inside become disabled too."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "FieldsetLegend",
+      "element": "legend",
+      "description": "A native `<legend>` that names the fieldset. Make it the fieldset's first child: only that legend names it. Style a disabled one with `fieldset:disabled > legend`.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    }
+  ]
+}

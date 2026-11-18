@@ -1,0 +1,58 @@
+{
+  "family": "toggle",
+  "parts": [
+    {
+      "name": "Toggle",
+      "element": "button",
+      "description": "A `<button>` that is pressed or not, with `aria-pressed`. Inside a toggle group the group owns its state; inside a toolbar it is one of the toolbar's items.",
+      "props": [
+        {
+          "name": "pressed",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the toggle is pressed. Pass it with `onPressedChange` to control it. Ignored inside a toggle group. It may be read from an answer that is loading or guessed over (`pressed={setting}`); one that fails is left to the app's `errored` region."
+        },
+        {
+          "name": "defaultPressed",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the toggle is pressed at first, when it isn't controlled."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new state when the toggle is pressed. Inside a group it runs before the group's `onValueChange`. It is called in a change of its own, so it may be an action that saves: the toggle is never held by it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A disabled toggle doesn't change, and its `onClick` and `onPressedChange` aren't called. It is also disabled when its group is. A toggle disabled while it has focus takes focus back when it is enabled again, if focus hasn't moved elsewhere."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "What the toggle stands for in a toggle group's `value`. Give one to every toggle in a group."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the toggle is disabled."
+        },
+        {
+          "name": "data-pressed",
+          "description": "Present while the toggle is pressed."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

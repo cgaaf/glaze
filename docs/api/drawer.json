@@ -1,0 +1,158 @@
+{
+  "family": "drawer",
+  "parts": [
+    {
+      "name": "DrawerRoot",
+      "element": null,
+      "description": "Holds the drawer's open state and its swipe, and shares them with the parts inside it. It is a DialogRoot underneath.",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the drawer is open. Pass it with `onOpenChange` to control the drawer."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the drawer is open at first, when it isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when a part, Escape, a press outside or a swipe asks to open or close the drawer. A controlled drawer changes only when `open` does. It is called in a change of its own, after the drawer's: a request it starts, or a handler that is itself an action, doesn't hold the drawer."
+        },
+        {
+          "name": "swipeDirection",
+          "type": "DrawerSwipeDirection",
+          "default": "\"down\"",
+          "required": false,
+          "description": "The edge the drawer is swiped out through: `\"up\"`, `\"down\"`, `\"left\"` or `\"right\"`."
+        },
+        {
+          "name": "swipeThreshold",
+          "type": "number",
+          "default": "half the drawer's size along `swipeDirection`",
+          "required": false,
+          "description": "How far a swipe must travel to close the drawer, in pixels. When it isn't given, half the drawer's size along `swipeDirection`. A fast flick closes it whatever the distance."
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the drawer is opened with `showModal()`: in the top layer, with a backdrop, the page behind it inert and its scroll locked. As DialogRoot's."
+        },
+        {
+          "name": "dismissible",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether Escape and a press outside close the drawer. With `false` only its own buttons and a swipe do."
+        },
+        {
+          "name": "disablePointerDismissal",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether a press outside is ignored. Escape and a swipe still close the drawer."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "DrawerTrigger",
+      "element": "button",
+      "description": "The button that opens the drawer.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-popup-open",
+          "description": "Present while the drawer is open."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "DrawerPopup",
+      "element": "dialog",
+      "description": "The `<dialog>` element, which follows the swipe. Place it against its edge in CSS and translate it by the movement variables. Its `::backdrop` inherits the variables.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-ending-style",
+          "description": "Present while the drawer animates out. It stays open until the transitions and animations on it and its descendants finish."
+        },
+        {
+          "name": "data-swipe-direction",
+          "description": "The edge it is swiped out through: `up`, `down`, `left` or `right`."
+        },
+        {
+          "name": "data-swipe-dismiss",
+          "description": "Present when the drawer was last closed by a swipe, until it opens again."
+        },
+        {
+          "name": "data-swiping",
+          "description": "Present while the drawer is being dragged."
+        }
+      ],
+      "cssVariables": [
+        {
+          "name": "--drawer-swipe-movement-x",
+          "description": "How far the drawer has been dragged horizontally, in pixels. `0px` at rest."
+        },
+        {
+          "name": "--drawer-swipe-movement-y",
+          "description": "How far the drawer has been dragged vertically, in pixels. `0px` at rest."
+        },
+        {
+          "name": "--drawer-swipe-progress",
+          "description": "The drag towards `swipeDirection` as a fraction of the drawer's size, from 0 to 1."
+        }
+      ]
+    },
+    {
+      "name": "DrawerContent",
+      "element": "div",
+      "description": "Holds the drawer's content. A mouse press inside it selects text instead of starting a swipe; a touch still swipes.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-drawer-content",
+          "description": "Always present. It marks the area where a mouse press doesn't start a swipe."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "DrawerTitle",
+      "element": "h2",
+      "description": "A heading that names the drawer. The popup's `aria-labelledby` points at it.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "DrawerDescription",
+      "element": "p",
+      "description": "A paragraph that describes the drawer. The popup's `aria-describedby` points at it.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "DrawerClose",
+      "element": "button",
+      "description": "A button that closes the drawer.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    }
+  ]
+}

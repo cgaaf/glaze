@@ -1,0 +1,68 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { NavigationMenuRoot, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuIcon, NavigationMenuContent, NavigationMenuLink, NavigationMenuArrow } from "../../src/glaze/navigation-menu.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <NavigationMenuRoot aria-label="Main">
+      <NavigationMenuList>
+        <NavigationMenuItem value="guides">
+          <NavigationMenuTrigger>
+            Guides
+            <NavigationMenuIcon>
+              <Icon name="chevron-down" />
+            </NavigationMenuIcon>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent sideOffset={10}>
+            <NavigationMenuArrow />
+            <ul class="grid gap-2 sm:grid-cols-2">
+              <li>
+                <NavigationMenuLink href="#getting-started">
+                  <span class="block font-medium">Getting started</span>
+                  <span class="block text-xs text-muted-foreground">Install the kit and plant your first seed tray.</span>
+                </NavigationMenuLink>
+              </li>
+              <li>
+                <NavigationMenuLink href="#soil">
+                  <span class="block font-medium">Soil and compost</span>
+                  <span class="block text-xs text-muted-foreground">Mix a bed that holds water without going sour.</span>
+                </NavigationMenuLink>
+              </li>
+              <li>
+                <NavigationMenuLink href="#watering">
+                  <span class="block font-medium">Watering</span>
+                  <span class="block text-xs text-muted-foreground">How often, how much, and what the leaves tell you.</span>
+                </NavigationMenuLink>
+              </li>
+              <li>
+                <NavigationMenuLink href="#pests">
+                  <span class="block font-medium">Pests</span>
+                  <span class="block text-xs text-muted-foreground">Keep slugs and aphids off without sprays.</span>
+                </NavigationMenuLink>
+              </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem value="seasons">
+          <NavigationMenuTrigger>
+            Seasons
+            <NavigationMenuIcon>
+              <Icon name="chevron-down" />
+            </NavigationMenuIcon>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent sideOffset={10}>
+            <NavigationMenuArrow />
+            <ul class="grid gap-1">
+              <li><NavigationMenuLink href="#spring">Spring sowing</NavigationMenuLink></li>
+              <li><NavigationMenuLink href="#summer">Summer care</NavigationMenuLink></li>
+              <li><NavigationMenuLink href="#autumn">Autumn harvest</NavigationMenuLink></li>
+              <li><NavigationMenuLink href="#winter">Winter rest</NavigationMenuLink></li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#journal" active>Journal</NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenuRoot>
+  </div>
+}

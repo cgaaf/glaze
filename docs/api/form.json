@@ -1,0 +1,54 @@
+{
+  "family": "form",
+  "parts": [
+    {
+      "name": "Form",
+      "element": "form",
+      "description": "A native `<form>` with `novalidate`. On submit it validates every enabled Field inside, prevents the submit and focuses the first invalid field when one fails, then hands the values to `onFormSubmit`, waits for it, and shows the errors it returns on their fields. A reset returns it to before its first submit.",
+      "props": [
+        {
+          "name": "validationMode",
+          "type": "FormValidationMode",
+          "default": "\"onSubmit\"",
+          "required": false,
+          "description": "When the Fields inside validate, unless a FieldRoot sets its own: `\"onSubmit\"` (on submit, then on every change), `\"onBlur\"` or `\"onChange\"`. A submit always validates every field."
+        },
+        {
+          "name": "errors",
+          "type": "FormErrors",
+          "default": null,
+          "required": false,
+          "description": "Errors to show that didn\u2019t come from a submit (a page rendered with them), keyed by field name: a message or a list of messages each. An entry is hidden once its field\u2019s value changes, until `errors` itself changes."
+        },
+        {
+          "name": "onFormSubmit",
+          "type": "(values: FormValues) => FormErrors | void | Promise<FormErrors | void>",
+          "default": null,
+          "required": false,
+          "description": "Called on a valid submit with the values of the enabled, named Fields, keyed by name; the native submission is then prevented. It may return a promise or be an action that awaits: the form is `data-submitting` until it ends and ignores further submits. What it resolves to, if anything, is the server\u2019s errors keyed by field name: they show on their fields and the first takes focus. An error for a field edited while the request was out is dropped."
+        },
+        {
+          "name": "onFormError",
+          "type": "(error: unknown) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the error when `onFormSubmit` throws or its promise rejects. The form can then be submitted again. Without it, the failure is reported to the page as an uncaught error."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(event: SubmitEvent) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the submit event on a valid submit, before `onFormSubmit`. Without `onFormSubmit`, the native submission goes ahead unless this prevents it."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-submitting",
+          "description": "Present while `onFormSubmit` is out. The form also has `aria-busy=\"true\"` meanwhile."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

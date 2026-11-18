@@ -1,0 +1,82 @@
+{
+  "family": "collapsible",
+  "parts": [
+    {
+      "name": "CollapsibleRoot",
+      "element": "details",
+      "description": "The `<details>` element. It holds the open state and shares it with the parts inside it. Style it with `[open]`.",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the panel is open. Pass it with `onOpenChange` to control the collapsible."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the panel is open at first, when it isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the trigger asks to open or close the panel, and after the browser opened it by itself for find-in-page. A controlled collapsible follows `open`, and is closed again if `open` stays false. It is called in a change of its own, after the component's: a handler that starts a request, writes what a loading question reads, or is an action that awaits, never holds the component."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the trigger is disabled: it ignores presses and keys and leaves the tab order. Find-in-page still opens the panel."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the collapsible is disabled."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "CollapsibleTrigger",
+      "element": "summary",
+      "description": "The `<summary>` that opens and closes the panel. It must be the first child of the root. A press asks the root rather than toggling the element, so a controlled `open` decides.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the collapsible is disabled."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "CollapsiblePanel",
+      "element": "div",
+      "description": "The content after the summary, hidden by the browser while the collapsible is closed. Its measured size is written to CSS variables for animating its height.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-ending-style",
+          "description": "Present while the panel animates out. The `<details>` stays open until the panel's transitions and animations finish."
+        }
+      ],
+      "cssVariables": [
+        {
+          "name": "--collapsible-panel-height",
+          "description": "The panel's content height: in px while it opens and closes, `auto` once it is open."
+        },
+        {
+          "name": "--collapsible-panel-width",
+          "description": "The panel's content width: in px while it opens and closes, `auto` once it is open."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,552 @@
+{
+  "family": "combobox",
+  "parts": [
+    {
+      "name": "ComboboxRoot",
+      "element": null,
+      "description": "Holds the selection, the input's text and the open state, and shares them with the parts inside it through the `combobox` context.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": null,
+          "required": false,
+          "description": "Single selection: the selected value, null for none."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | null",
+          "default": null,
+          "required": false,
+          "description": "The value selected at first, when `value` isn't controlled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | null) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new value when an option is chosen, the input is emptied or Clear is pressed (`null` for no selection)."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Any number of values may be selected; they are then `values`, `defaultValues` and `onValuesChange`."
+        },
+        {
+          "name": "values",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "With `multiple`: the selected values. Pass it with `onValuesChange` to control them."
+        },
+        {
+          "name": "defaultValues",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "With `multiple`: the values selected at first, when `values` isn't controlled."
+        },
+        {
+          "name": "onValuesChange",
+          "type": "(values: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "With `multiple`: called with the new values when an option is toggled, a chip removed or the selection cleared."
+        },
+        {
+          "name": "inputValue",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The input's text. By default it shows the selected option's label (single) or what was typed (multiple)."
+        },
+        {
+          "name": "defaultInputValue",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The input's text at first, when `inputValue` isn't controlled."
+        },
+        {
+          "name": "onInputValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the input's new text: what was typed, or the label shown after a choice. It is called in a change of its own, after the combobox has taken the text in, so a handler that starts a request (`query := text` read by `await search(query)`) doesn't hold the input, the popup or the highlight while the answer is out."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the popup is open. Pass it with `onOpenChange` to control it."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the popup is open at first, when `open` isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called after the popup opened or closed, whatever closed it."
+        },
+        {
+          "name": "filter",
+          "type": "(label: string, query: string) => boolean",
+          "default": "case- and accent-insensitive \"contains\"",
+          "required": false,
+          "description": "Whether an option labelled `label` matches what was typed."
+        },
+        {
+          "name": "autoHighlight",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Highlight the first matching option as the user types."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the arrow keys go from the last option back to the input, and on to the first."
+        },
+        {
+          "name": "openOnInputClick",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether a click in the input opens the list."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the combobox is disabled. Also disabled inside a disabled `FieldRoot`."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the selection can't be changed. The popup doesn't open."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether a value must be selected for the form to submit. Validated by an enclosing `FieldRoot`."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "With a name (or inside a named FieldRoot) the selected value is submitted with a <form>; with `multiple`, one entry per value."
+        },
+        {
+          "name": "items",
+          "type": "ComboboxItemLabel[]",
+          "default": null,
+          "required": false,
+          "description": "The label of each value, when it must be known before the option has rendered."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the options are being fetched: pass `pending? results` (and `results == null` before the first answer) for `results = await search(query)`. `ComboboxEmpty` stays empty, the list is `aria-busy`, and the popup and list carry `data-loading`."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxInput",
+      "element": "input",
+      "description": "The text input, with `role=\"combobox\"`. Typing filters the options and opens the popup; the arrow keys move the highlight while focus stays here; Enter chooses the highlighted option.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Present once the field's value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the combobox is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while the field has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the field is invalid."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the popup is open."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the combobox is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when a value is required."
+        },
+        {
+          "name": "data-touched",
+          "description": "Present once the field has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Present when the field is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxTrigger",
+      "element": "button",
+      "description": "A button beside the input that opens and closes the popup and leaves focus in the input. It isn't a Tab stop. Give it an `aria-label`.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the combobox is disabled."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the popup is open."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the combobox is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when a value is required."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxClear",
+      "element": "button",
+      "description": "A button that clears the selection and the input's text, then focuses the input. It is rendered only while there is something to clear, and isn't a Tab stop. Give it an `aria-label`.",
+      "props": [
+        {
+          "name": "keepMounted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether to render the button while there is nothing to clear."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the combobox is disabled."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the popup is open."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the combobox is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when a value is required."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxValue",
+      "element": "span",
+      "description": "The selected option's label, or the labels joined by \", \" with `multiple`. Use it to show the selection somewhere other than the input.",
+      "props": [
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Shown while nothing is selected (the value then carries `data-placeholder`)."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the combobox is disabled."
+        },
+        {
+          "name": "data-placeholder",
+          "description": "Present while nothing is selected and the placeholder is shown."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the popup is open."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the combobox is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when a value is required."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxPopup",
+      "element": "div",
+      "description": "The popup: an element with `popover=\"manual\"`, placed against the input (or `ComboboxChips`) with CSS anchor positioning and at least as wide as it. Style it with `:popover-open` and `@starting-style`. A press inside it keeps focus in the input.",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Which side of the input it sits on; the browser flips it when it doesn't fit."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "default": "\"start\"",
+          "required": false,
+          "description": "Which edge of the input it lines up with."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Gap between input and popup, in pixels."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "How far the popup is moved along the input's edge from its `align` position, in pixels."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-empty",
+          "description": "Present while no option is rendered (none matches what was typed, or the answer had none)."
+        },
+        {
+          "name": "data-loading",
+          "description": "Present while the root's `loading` is true."
+        },
+        {
+          "name": "data-side",
+          "description": "Which side of the input the popup is on: the one asked for, then the one the browser placed it on."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxList",
+      "element": "div",
+      "description": "The listbox that holds the options. The input's `aria-controls` points at it.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-empty",
+          "description": "Present while no option is rendered (none matches what was typed, or the answer had none)."
+        },
+        {
+          "name": "data-loading",
+          "description": "Present while the root's `loading` is true; the list is `aria-busy` then too."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxItem",
+      "element": "div",
+      "description": "An option. It isn't rendered while it doesn't match what was typed. A press or Enter while it is highlighted chooses it.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The value the option stands for."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "the option's text",
+          "required": false,
+          "description": "The text the filter matches and the input shows once chosen."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the option can't be highlighted or chosen."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the part is disabled."
+        },
+        {
+          "name": "data-highlighted",
+          "description": "Present while the option is highlighted: the input's `aria-activedescendant`."
+        },
+        {
+          "name": "data-label",
+          "description": "The option's label: what the filter matches and the input shows once chosen."
+        },
+        {
+          "name": "data-selected",
+          "description": "Present while the option's value is selected."
+        },
+        {
+          "name": "data-value",
+          "description": "The option's `value`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxItemIndicator",
+      "element": "span",
+      "description": "A mark (a check) shown while its option is selected. Hidden from assistive technology.",
+      "props": [
+        {
+          "name": "keepMounted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether to render it while the option isn't selected too; style it with `data-selected`."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-selected",
+          "description": "Present while its option is selected."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxGroup",
+      "element": "div",
+      "description": "Groups related options under a `ComboboxGroupLabel`. It gets `hidden` while none of its options match.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxGroupLabel",
+      "element": "div",
+      "description": "The heading of a group. The group's `aria-labelledby` points at it.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxEmpty",
+      "element": "div",
+      "description": "A `role=\"status\"` element whose children show while no option is rendered, except while the root is `loading`: \"no results\" isn't shown for an answer that hasn't come. The element stays in the document, empty, otherwise.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxStatus",
+      "element": "div",
+      "description": "A `role=\"status\"` element with `aria-live=\"polite\"`, for a message about the list, such as a result count.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxSeparator",
+      "element": "div",
+      "description": "A horizontal `role=\"separator\"` between options or groups.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxChips",
+      "element": "div",
+      "description": "With `multiple`: the container of the chips and the input. When it is there, the popup is anchored to it rather than to the input.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxChip",
+      "element": "div",
+      "description": "One selected value. Render one per value in the `combobox` context's `selected`.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The selected value the chip stands for. `ComboboxChipRemove` inside it removes this value."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the combobox is disabled."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the combobox is read-only."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxChipRemove",
+      "element": "button",
+      "description": "A button inside a chip that removes its value from the selection. It isn't a Tab stop. Give it an `aria-label`.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ComboboxArrow",
+      "element": "div",
+      "description": "An element placed on the popup's edge that faces the input, centred on it. It follows the popup when the browser flips it. Give it a shape in CSS and turn it per `data-side`.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-side",
+          "description": "Which side of the input the popup is on. Absent until the popup first opens; a close keeps the last side."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

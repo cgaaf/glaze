@@ -1,0 +1,179 @@
+{
+  "family": "splitter",
+  "parts": [
+    {
+      "name": "SplitterRoot",
+      "element": "div",
+      "description": "Holds the panels' sizes and shares them with the panels and handles inside it. Renders a `<div>` that is a flex container in the orientation's direction: it sets `display: flex` and `flex-direction` inline, because the panels' sizes are flex grow factors.",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "SplitterOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Whether the panels sit side by side (`horizontal`, the handles are vertical bars) or are stacked (`vertical`)."
+        },
+        {
+          "name": "sizes",
+          "type": "number[]",
+          "default": null,
+          "required": false,
+          "description": "The panels' sizes in percent, one per panel in document order. Pass it with `onSizesChange` to control the layout. A list without one size per panel is ignored and the panels' defaults apply; one that doesn't sum to 100 or breaks a panel's bounds is corrected. Pass it with only `onSizesCommit` and the handles follow the pointer and keys by themselves, then show `sizes` again once the owner's `onSizesCommit` has run."
+        },
+        {
+          "name": "defaultSizes",
+          "type": "number[]",
+          "default": null,
+          "required": false,
+          "description": "The sizes at first, when they aren't controlled, as `sizes`. Without them each panel starts at its `defaultSize`, and panels without one share what is left equally. A double-click on a handle goes back to them."
+        },
+        {
+          "name": "onSizesChange",
+          "type": "(sizes: number[], details: SplitterChangeDetails) => void",
+          "default": null,
+          "required": false,
+          "description": "Called on every change, many times during a drag, with the new sizes and details whose `reason` is `drag`, `keyboard` or `reset`. It is called in a change of its own, after the one that resized the panels."
+        },
+        {
+          "name": "onSizesCommit",
+          "type": "(sizes: number[], details: SplitterChangeDetails) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when a change is final: when a drag that changed the sizes is released, on each key, and on a reset. Receives the sizes and the `reason`. Save a layout here: it is called in a change of its own, so it may be an action that waits for a server, and the panels can be resized again while the save is out. Persisting to storage is up to you; there is no storage option."
+        },
+        {
+          "name": "keyboardStep",
+          "type": "number",
+          "default": "10",
+          "required": false,
+          "description": "How far an arrow key moves a handle, in percent of the group."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether every handle ignores the pointer and the keys. Disabled handles leave the tab order."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the group is disabled."
+        },
+        {
+          "name": "data-dragging",
+          "description": "Present while a handle is being dragged. Set the cursor and `user-select: none` here, so they hold wherever the pointer goes."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The group's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "SplitterPanel",
+      "element": "div",
+      "description": "A panel. Its size is written inline as its flex grow factor on a zero basis (`flex: <size> 1 0px`), so sizes are percentages of the space the panels share after the handles. It also sets `min-width: 0` (`min-height: 0` when stacked) so it can shrink below its content; what overflows is yours to decide with `overflow`.",
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The panel's key, unique within its group: the root knows it by this, carries its size by it when panels are added or removed, and gives its element the DOM id that the handle's `aria-controls` points at (prefixed, so two groups can both have a panel `\"left\"`)."
+        },
+        {
+          "name": "defaultSize",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "The size to start with, in percent. Without one, the panel shares what the panels with a default leave."
+        },
+        {
+          "name": "minSize",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The smallest the panel can be dragged or stepped to, in percent."
+        },
+        {
+          "name": "maxSize",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": "The largest the panel can be, in percent."
+        },
+        {
+          "name": "collapsible",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the panel can collapse to `collapsedSize`: when dragged past halfway between its minimum and collapsed sizes, by an arrow key when it is already at its minimum, by Home on the handle after it, or by Enter on the handle beside it."
+        },
+        {
+          "name": "collapsedSize",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The panel's size when collapsed, in percent. At most `minSize`."
+        },
+        {
+          "name": "onCollapse",
+          "type": "() => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the panel collapses, by a drag, a key or a change of `sizes`. Not called for a panel that starts collapsed."
+        },
+        {
+          "name": "onExpand",
+          "type": "() => void",
+          "default": null,
+          "required": false,
+          "description": "Called when a collapsed panel opens again."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-collapsed",
+          "description": "Present while the panel is collapsed."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The group's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "SplitterHandle",
+      "element": "div",
+      "description": "The bar between two panels: a focusable `role=\"separator\"` whose value (`aria-valuenow`, `aria-valuemin`, `aria-valuemax`) is the size of the panel before it, which it names in `aria-controls`. Its `aria-orientation` is the bar's own, so it is `vertical` between side-by-side panels. Drag it, or focus it and use the arrow keys along the group's axis (mirrored right to left), Home and End (the smallest and largest size that panel can reach, exactly `aria-valuemin` and `aria-valuemax`; a collapsible panel's smallest is its collapsed size, so Home collapses it), and Enter (collapse or restore a collapsible panel beside it). A double-click puts the default sizes back. It sets `touch-action: none` so a touch drag moves it instead of scrolling.",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether this handle alone ignores the pointer and the keys. It leaves the tab order."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the handle or the whole group is disabled."
+        },
+        {
+          "name": "data-dragging",
+          "description": "Present while this handle is being dragged."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The group's orientation, not the bar's: `horizontal` between side-by-side panels."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

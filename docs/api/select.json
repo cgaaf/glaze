@@ -1,0 +1,420 @@
+{
+  "family": "select",
+  "parts": [
+    {
+      "name": "SelectRoot",
+      "element": null,
+      "description": "Holds the selected value and the open state, and shares them with the parts inside it. With a `name`, or inside a FieldRoot, it renders a hidden input so the value is submitted with its form.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": null,
+          "required": false,
+          "description": "The selected value, or `null` for none. Pass it with `onValueChange` to control the selection."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | null",
+          "default": null,
+          "required": false,
+          "description": "The value selected at first, when the selection isn't controlled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | null) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new value when an item is chosen."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether any number of values may be selected. The selection is then read and written through `values`, `defaultValues` and `onValuesChange`, choosing an item toggles it, and the popup stays open."
+        },
+        {
+          "name": "values",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "With `multiple`: the selected values. Pass it with `onValuesChange` to control the selection."
+        },
+        {
+          "name": "defaultValues",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "With `multiple`: the values selected at first, when the selection isn't controlled."
+        },
+        {
+          "name": "onValuesChange",
+          "type": "(values: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "With `multiple`: called with the new list of values when an item is toggled."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the popup is open. Pass it with `onOpenChange` to control it."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the popup is open at first, when it isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called after the browser or a part opened or closed the popup. A press outside and Escape can't be refused: a controlled select that keeps `open` true is shown again."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the select is disabled: the trigger is a disabled button and can't open the popup. A disabled FieldRoot around it disables it too."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the popup can be opened and browsed while nothing in it can be selected."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether a value must be selected for the form to be valid."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The name the value is submitted under. With `multiple`, each selected value is submitted as its own entry. Inside a named FieldRoot, the field's name is used."
+        },
+        {
+          "name": "items",
+          "type": "SelectItemLabel[]",
+          "default": null,
+          "required": false,
+          "description": "The label of each value, as `{ value, label }` pairs: what SelectValue shows for a value whose item hasn't rendered yet, or whose text differs from what the trigger should say."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the options are being fetched: pass `pending? fruits` (and `fruits == null` before the first answer) for `fruits = await loadFruits()`. The popup is `aria-busy`, the parts carry `data-loading`, and `SelectValue` shows nothing for a value whose label isn't known yet, rather than the raw value. Opened before the options arrive, focus waits on the popup and moves to the selected (or first) item when they do."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectTrigger",
+      "element": "button",
+      "description": "The button that opens the popup, with `role=\"combobox\"`. Its `popovertarget` makes the browser open and close the popup on a click, Enter and Space; ArrowDown and ArrowUp open it too, and typing on it while closed selects the matching item without opening.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Present once the field's value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the select is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while the field has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the field is invalid."
+        },
+        {
+          "name": "data-loading",
+          "description": "Present while the root's `loading` is true."
+        },
+        {
+          "name": "data-placeholder",
+          "description": "Present while no value is selected."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the popup is open."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the select is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the select is required."
+        },
+        {
+          "name": "data-touched",
+          "description": "Present once the field has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Present when the field is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectValue",
+      "element": "span",
+      "description": "Shows the selected item's label, the labels joined by \", \" with `multiple`, or the placeholder while nothing is selected.",
+      "props": [
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The text shown while nothing is selected."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the select is disabled."
+        },
+        {
+          "name": "data-loading",
+          "description": "Present while the root's `loading` is true."
+        },
+        {
+          "name": "data-placeholder",
+          "description": "Present while no value is selected, so the placeholder can be styled."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the popup is open."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the select is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the select is required."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectIcon",
+      "element": "span",
+      "description": "A decoration beside the value, such as a chevron. It is hidden from assistive technology.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the select is disabled."
+        },
+        {
+          "name": "data-loading",
+          "description": "Present while the root's `loading` is true."
+        },
+        {
+          "name": "data-placeholder",
+          "description": "Present while no value is selected."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the popup is open, for turning the icon."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the select is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the select is required."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectPopup",
+      "element": "div",
+      "description": "The list of options, with `role=\"listbox\"`: an element with `popover=\"auto\"`, placed against the trigger with CSS anchor positioning and at least as wide as it (`min-width: anchor-size(width)`). The browser closes it on Escape and on a press outside; Tab closes it too. Style it with `:popover-open` and `@starting-style`. It stays in the document while closed.",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Which side of the trigger the popup sits on. The browser flips it to the other side when it doesn't fit."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "default": "\"start\"",
+          "required": false,
+          "description": "Which edge of the trigger the popup lines up with."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The gap between the trigger and the popup, in pixels."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "How far the popup is moved along the trigger's edge from its `align` position, in pixels."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-loading",
+          "description": "Present while the root's `loading` is true; the popup is `aria-busy` then too."
+        },
+        {
+          "name": "data-side",
+          "description": "Which side of the trigger the popup is on: the one asked for until it opens, then the one the browser placed it on."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectItem",
+      "element": "div",
+      "description": "An option in the list. A click, Enter or Space chooses it; the pointer and the arrow keys move focus to it, which highlights it.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The value the item stands for: what is selected, submitted and passed to `onValueChange`."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "SelectItemText's text, else the item's",
+          "required": false,
+          "description": "The text that names the value, in SelectValue and for typeahead. Without it, SelectItemText's text is used, else the item's own."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the item can't be chosen. It is skipped by the arrow keys and typeahead."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the item is disabled."
+        },
+        {
+          "name": "data-highlighted",
+          "description": "Present while the item has focus, from the pointer or the keyboard."
+        },
+        {
+          "name": "data-label",
+          "description": "The item's `label` prop, when it is given."
+        },
+        {
+          "name": "data-selected",
+          "description": "Present when the item's value is selected."
+        },
+        {
+          "name": "data-value",
+          "description": "The item's value."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectItemText",
+      "element": "span",
+      "description": "The item's text. Use it when the item holds more than its label, such as an indicator, so SelectValue and typeahead read only the text.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectItemIndicator",
+      "element": "span",
+      "description": "Shown while its item is selected, such as a check mark. It is hidden from assistive technology.",
+      "props": [
+        {
+          "name": "keepMounted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the indicator stays rendered while its item isn't selected, for drawing an empty box that `data-selected` fills."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-selected",
+          "description": "Present when the item is selected."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectGroup",
+      "element": "div",
+      "description": "Groups related items, with `role=\"group\"`. The group is named by its SelectGroupLabel.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectGroupLabel",
+      "element": "div",
+      "description": "The heading of a group. The group's `aria-labelledby` points at it.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectSeparator",
+      "element": "div",
+      "description": "A line between items or groups, with `role=\"separator\"`.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "SelectArrow",
+      "element": "div",
+      "description": "An element placed on the popup's edge that faces the trigger, centred on the trigger. It follows the popup when the browser flips it. Give it a shape in CSS and turn it per `data-side`.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-side",
+          "description": "Which side of the trigger the popup is on. Absent until the popup first opens; a close keeps the last side."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

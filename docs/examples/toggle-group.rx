@@ -1,0 +1,19 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { ToggleGroup } from "../../src/glaze/toggle-group.rx"
+import { Toggle } from "../../src/glaze/toggle.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <ToggleGroup aria-label="Text alignment" defaultValue={["left"]}>
+      <Toggle value="left" aria-label="Align left">
+        <Icon name="align-left" />
+      </Toggle>
+      <Toggle value="center" aria-label="Align center">
+        <Icon name="align-center" />
+      </Toggle>
+      <Toggle value="right" aria-label="Align right">
+        <Icon name="align-right" />
+      </Toggle>
+    </ToggleGroup>
+  </div>
+}

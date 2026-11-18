@@ -1,0 +1,55 @@
+import { Button } from "../../src/glaze/button.rx"
+import { Icon } from "../../src/glaze/icon.rx"
+import { Form } from "../../src/glaze/form.rx"
+import { FieldRoot, FieldLabel, FieldDescription, FieldError } from "../../src/glaze/field.rx"
+import { Input } from "../../src/glaze/input.rx"
+import { CheckboxRoot, CheckboxIndicator } from "../../src/glaze/checkbox.rx"
+import { createAccount } from "../lib/form-server.js"
+
+export default component Example() {
+  source created := ""
+  source failure := ""
+  <div class="grid max-w-full gap-2">
+    <Form class="group" onFormSubmit={(values) => {
+      // Shown at once: a write before the `await` would otherwise wait for the action to end.
+      onFlush(() => { failure := ""; created := "" })
+      try {
+        // Resolves to the errors the server found, keyed by field name, or to nothing.
+        let refused = await createAccount(values)
+        if (!refused) { created := `${values.username}` }
+        return refused
+      } catch (error) {
+        failure := error.message
+      }
+    }}>
+      <FieldRoot name="email">
+        <FieldLabel>Email</FieldLabel>
+        <Input type="email" required />
+        <FieldError />
+      </FieldRoot>
+      <FieldRoot name="username" validate={(value) => `${value}`.includes(" ") ? "Use letters and digits, no spaces" : null}>
+        <FieldLabel>Username</FieldLabel>
+        <Input required minlength={3} />
+        <FieldDescription>Try “studio”, or “offline” for a failed request.</FieldDescription>
+        <FieldError />
+      </FieldRoot>
+      <FieldRoot name="terms">
+        <div class="flex items-center gap-2">
+          <CheckboxRoot required>
+            <CheckboxIndicator>
+              <Icon name="check" />
+            </CheckboxIndicator>
+          </CheckboxRoot>
+          <FieldLabel>I accept the terms</FieldLabel>
+        </div>
+        <FieldError>Accept the terms to create an account.</FieldError>
+      </FieldRoot>
+      <Button type="submit">
+        <span class="group-data-submitting:hidden">Create account</span>
+        <span class="hidden group-data-submitting:inline">Creating account…</span>
+      </Button>
+    </Form>
+    <p class="text-sm text-destructive" role="alert" hidden={failure == ""}>{failure}</p>
+    <p class="text-sm text-primary" role="status" hidden={created == ""}>Account created for {created}.</p>
+  </div>
+}

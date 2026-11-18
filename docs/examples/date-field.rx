@@ -1,0 +1,19 @@
+import { DateFieldRoot, DateFieldInput, DateFieldSegment } from "../../src/glaze/date-field.rx"
+import { dateField } from "../../src/bisque/date-field/date-field.rx"
+import { parseDate } from "../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use dateField
+  {for segment in c.segments {
+    <DateFieldSegment segment={segment} />
+  }}
+}
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <span class="text-sm font-medium" id="date-field-hero-label">Event date</span>
+    <DateFieldRoot aria-labelledby="date-field-hero-label" defaultValue={parseDate("2026-11-17", undefined)}>
+      <DateFieldInput><Segments /></DateFieldInput>
+    </DateFieldRoot>
+  </div>
+}

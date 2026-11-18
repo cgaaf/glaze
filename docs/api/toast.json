@@ -1,0 +1,198 @@
+{
+  "family": "toast",
+  "parts": [
+    {
+      "name": "ToastProvider",
+      "element": null,
+      "description": "Holds the list of toasts and their timers. Inside it, `(use toast).toasts` is the list to render (newest first) and `(use toast).manager` adds, updates and closes toasts. What the manager is told lands in a change of its own, a microtask after the call, so a toast added from inside an action (`await manager.promise(save())`) shows at once rather than when the action ends. A toast's `onClose` and `onRemove` are called the same way.",
+      "props": [
+        {
+          "name": "timeout",
+          "type": "number",
+          "default": "5000",
+          "required": false,
+          "description": "How long a toast stays before it closes by itself, in ms, unless it was added with its own `timeout`. `0` keeps toasts until they are closed."
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "default": "3",
+          "required": false,
+          "description": "How many toasts show at once. Older ones stay in the list, inert and with `data-limited`, until the ones in front close."
+        },
+        {
+          "name": "toastManager",
+          "type": "ToastManager",
+          "default": "one of the provider's own",
+          "required": false,
+          "description": "A manager made with `createToastManager()`, for adding toasts from outside the provider. Read once. Without it the provider makes its own."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ToastViewport",
+      "element": "div",
+      "description": "The element the toasts are rendered in: a `popover=\"manual\"` shown while it is mounted, so it is in the top layer, and a polite live region labelled \"Notifications\". It comes with the browser's popover styles: give it a position. Hovering it or moving keyboard focus into it expands the stack and pauses the timers; F6 moves focus to it while there are toasts.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-expanded",
+          "description": "Present while the pointer is over the viewport or keyboard focus is in it."
+        }
+      ],
+      "cssVariables": [
+        {
+          "name": "--toast-frontmost-height",
+          "description": "The height of the newest toast that isn't closing, in px. Set once it has been measured."
+        }
+      ]
+    },
+    {
+      "name": "ToastRoot",
+      "element": "div",
+      "description": "One toast, for one entry of `(use toast).toasts`. It closes after its timeout, on Escape while focus is in it, and when swiped past the threshold. A toast added with `priority: \"high\"` gets the `alertdialog` role.",
+      "props": [
+        {
+          "name": "toast",
+          "type": "ToastObject",
+          "default": null,
+          "required": true,
+          "description": "The toast to render: an entry of `(use toast).toasts`."
+        },
+        {
+          "name": "swipeDirection",
+          "type": "SwipeDirection | SwipeDirection[]",
+          "default": "[\"down\", \"right\"]",
+          "required": false,
+          "description": "The directions a swipe closes it in, one or several. Movement the other way is damped. `[]` turns swiping off."
+        },
+        {
+          "name": "swipeThreshold",
+          "type": "number",
+          "default": "40",
+          "required": false,
+          "description": "How far a swipe must travel to close the toast, in px. A shorter one snaps back."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-ending-style",
+          "description": "Present while the toast animates out. It stays in the list until the transitions and animations on it and its descendants finish."
+        },
+        {
+          "name": "data-expanded",
+          "description": "Present while the stack is expanded: the pointer is over the viewport or keyboard focus is in it."
+        },
+        {
+          "name": "data-limited",
+          "description": "Present on toasts beyond the provider's `limit`. They are inert; hide them."
+        },
+        {
+          "name": "data-swipe-direction",
+          "description": "The direction the toast is being swiped in, and after a swipe that closed it, the one it left in. Absent otherwise."
+        },
+        {
+          "name": "data-swiping",
+          "description": "Present while the toast is being dragged."
+        },
+        {
+          "name": "data-type",
+          "description": "The `type` the toast was added with, such as `success` or `loading`."
+        }
+      ],
+      "cssVariables": [
+        {
+          "name": "--toast-index",
+          "description": "The toast's position among those that aren't closing, newest first, from 0. A closing toast keeps its place in the whole list."
+        },
+        {
+          "name": "--toast-offset-y",
+          "description": "The heights of the toasts in front of it added up, in px: where it sits when the stack is spread out."
+        },
+        {
+          "name": "--toast-height",
+          "description": "The toast's own height, in px, measured as if no `height` were set on it."
+        },
+        {
+          "name": "--toast-swipe-movement-x",
+          "description": "How far the toast has been dragged sideways, in px. Back to `0px` when a short swipe snaps back."
+        },
+        {
+          "name": "--toast-swipe-movement-y",
+          "description": "How far the toast has been dragged up or down, in px."
+        }
+      ]
+    },
+    {
+      "name": "ToastContent",
+      "element": "div",
+      "description": "Holds a toast's text and buttons, so they can be hidden on the toasts behind the front one while the stack is collapsed.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-behind",
+          "description": "Present on every toast but the newest."
+        },
+        {
+          "name": "data-expanded",
+          "description": "Present while the stack is expanded."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ToastTitle",
+      "element": "h2",
+      "description": "A heading that names the toast: its children, or else the `title` the toast was added with. Renders nothing when it has neither. The toast's `aria-labelledby` points at it.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-type",
+          "description": "The `type` the toast was added with."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ToastDescription",
+      "element": "p",
+      "description": "A paragraph that describes the toast: its children, or else the `description` it was added with. Renders nothing when it has neither. The toast's `aria-describedby` points at it.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-type",
+          "description": "The `type` the toast was added with."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ToastAction",
+      "element": "button",
+      "description": "A button for the toast's action. It takes the toast's `actionProps`, with their `children` as its label, and then its own props. Renders nothing without a label.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-type",
+          "description": "The `type` the toast was added with."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ToastClose",
+      "element": "button",
+      "description": "A button that closes the toast. It is hidden from assistive technology while the stack is collapsed, unless it has focus.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-type",
+          "description": "The `type` the toast was added with."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

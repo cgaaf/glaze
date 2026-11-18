@@ -1,0 +1,24 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { NumberFieldRoot, NumberFieldGroup, NumberFieldInput, NumberFieldIncrement, NumberFieldDecrement, NumberFieldScrubArea, NumberFieldScrubAreaCursor } from "../../src/glaze/number-field.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <NumberFieldRoot defaultValue={100} min={0}>
+      <NumberFieldScrubArea>
+        <label class="text-sm font-medium" for="number-field-hero">Amount</label>
+        <NumberFieldScrubAreaCursor>
+          <Icon name="chevrons-up-down" />
+        </NumberFieldScrubAreaCursor>
+      </NumberFieldScrubArea>
+      <NumberFieldGroup>
+        <NumberFieldDecrement>
+          <Icon name="minus" />
+        </NumberFieldDecrement>
+        <NumberFieldInput id="number-field-hero" />
+        <NumberFieldIncrement>
+          <Icon name="plus" />
+        </NumberFieldIncrement>
+      </NumberFieldGroup>
+    </NumberFieldRoot>
+  </div>
+}

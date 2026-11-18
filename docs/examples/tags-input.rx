@@ -1,0 +1,35 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { TagsInputRoot, TagsInputControl, TagsInputTag, TagsInputTagText, TagsInputTagRemove, TagsInputInput, TagsInputClear } from "../../src/glaze/tags-input.rx"
+import { tagsInput } from "../../src/bisque/tags-input/tags-input.rx"
+import { FieldRoot, FieldLabel, FieldDescription } from "../../src/glaze/field.rx"
+
+// A tag per value, read from the `tagsInput` context.
+component Tags() {
+  c = use tagsInput
+  {for tag in c.tags {
+    <TagsInputTag index={tag.index}>
+      <TagsInputTagText />
+      <TagsInputTagRemove>
+        <Icon name="x" />
+      </TagsInputTagRemove>
+    </TagsInputTag>
+  }}
+}
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <FieldRoot>
+      <FieldLabel>Topics</FieldLabel>
+      <TagsInputRoot defaultValue={["gardening", "bread"]}>
+        <TagsInputControl>
+          <Tags />
+          <TagsInputInput placeholder="Add a topic" />
+          <TagsInputClear aria-label="Remove all topics">
+            <Icon name="x" />
+          </TagsInputClear>
+        </TagsInputControl>
+      </TagsInputRoot>
+      <FieldDescription>Press Enter or type a comma after each.</FieldDescription>
+    </FieldRoot>
+  </div>
+}

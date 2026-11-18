@@ -1,0 +1,37 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { FieldRoot, FieldLabel } from "../../src/glaze/field.rx"
+import { SelectRoot, SelectTrigger, SelectValue, SelectIcon, SelectPopup, SelectItem, SelectItemText, SelectItemIndicator } from "../../src/glaze/select.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <FieldRoot>
+      <FieldLabel>Theme</FieldLabel>
+      <SelectRoot defaultValue="system">
+        <SelectTrigger>
+          <SelectValue placeholder="Choose a theme" />
+          <SelectIcon>
+            <Icon name="chevrons-up-down" />
+          </SelectIcon>
+        </SelectTrigger>
+        <SelectPopup sideOffset={6}>
+          <SelectItem value="system">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>System default</SelectItemText>
+          </SelectItem>
+          <SelectItem value="light">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Light</SelectItemText>
+          </SelectItem>
+          <SelectItem value="dark">
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>Dark</SelectItemText>
+          </SelectItem>
+          <SelectItem value="contrast" disabled>
+            <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
+            <SelectItemText>High contrast</SelectItemText>
+          </SelectItem>
+        </SelectPopup>
+      </SelectRoot>
+    </FieldRoot>
+  </div>
+}

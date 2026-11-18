@@ -1,0 +1,49 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { FileUploadRoot, FileUploadInput, FileUploadTrigger, FileUploadDropZone, FileUploadItem, FileUploadItemPreview, FileUploadItemRemove } from "../../src/glaze/file-upload.rx"
+import { fileUpload, fileSize } from "../../src/bisque/file-upload/file-upload.rx"
+import { FileRejection } from "../../src/bisque/internal/types.rx"
+
+fn reasonText(reason: string): string => reason == "too-large" ? "is over 5 MB" : reason == "wrong-type" ? "isn't an image" : reason == "too-many" ? "is one too many" : reason == "directory" ? "is a folder" : reason
+
+// The root's files, read from its context.
+component Files() {
+  c = use fileUpload
+  {if c.files.length > 0 {
+    <ul class="grid gap-1">
+      {for file in c.files {
+        <FileUploadItem file={file}>
+          <FileUploadItemPreview />
+          <span class="truncate">{file.name}</span>
+          <span class="ms-auto text-xs text-muted-foreground">{fileSize(file.size)}</span>
+          <FileUploadItemRemove>
+            <Icon name="x" />
+          </FileUploadItemRemove>
+        </FileUploadItem>
+      }}
+    </ul>
+  }}
+}
+
+export default component Example() {
+  source problems: string[] := []
+  action refuse(rejections: FileRejection[]) {
+    problems := rejections.map((r) => `${r.file.name} ${reasonText(r.reasons[0])}`)
+  }
+  <div class="grid max-w-full gap-2">
+    <FileUploadRoot name="photos" multiple accept="image/*" maxFiles={4} maxFileSize={5000000} onFilesReject={refuse} onFilesChange={() => { problems := [] }}>
+      <FileUploadDropZone>
+        <Icon name="upload" />
+        <span class="font-medium">Drop images here, or</span>
+        <FileUploadTrigger>Choose images</FileUploadTrigger>
+        <FileUploadInput aria-label="Images" tabindex="-1" />
+        <span class="text-xs text-muted-foreground">Up to 4 images, 5 MB each</span>
+      </FileUploadDropZone>
+      <Files />
+    </FileUploadRoot>
+    {if problems.length > 0 {
+      <ul class="text-sm text-destructive" role="status">
+        {for problem in problems { <li>{problem}</li> }}
+      </ul>
+    }}
+  </div>
+}

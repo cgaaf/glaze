@@ -1,0 +1,23 @@
+import { PreviewCardRoot, PreviewCardTrigger, PreviewCardPopup, PreviewCardArrow } from "../../src/glaze/preview-card.rx"
+
+// The root renders nothing, so it wraps the paragraph: the card is a block and can't sit inside a <p>.
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <PreviewCardRoot>
+      <p class="text-sm text-muted-foreground">
+        The beds along the south wall use{" "}
+        <PreviewCardTrigger href="#companion-planting">companion planting</PreviewCardTrigger>
+        {" "}to keep pests down without sprays.
+      </p>
+      <PreviewCardPopup sideOffset={10}>
+        <PreviewCardArrow />
+        <div class="mb-3 h-12 rounded-control bg-muted" />
+        <p class="mb-1 text-sm font-semibold">Companion planting</p>
+        <p class="text-sm text-muted-foreground">
+          Growing plants side by side so that each helps the other: marigolds among tomatoes, beans climbing maize,
+          chives under roses.
+        </p>
+      </PreviewCardPopup>
+    </PreviewCardRoot>
+  </div>
+}

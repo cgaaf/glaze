@@ -1,0 +1,13 @@
+import { FieldRoot, FieldLabel, FieldDescription, FieldError } from "../../src/glaze/field.rx"
+import { Input } from "../../src/glaze/input.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <FieldRoot name="email">
+      <FieldLabel>Email</FieldLabel>
+      <Input type="email" required placeholder="you@example.com" />
+      <FieldDescription>We send the receipt here.</FieldDescription>
+      <FieldError />
+    </FieldRoot>
+  </div>
+}

@@ -1,0 +1,283 @@
+{
+  "family": "time-field",
+  "parts": [
+    {
+      "name": "TimeFieldRoot",
+      "element": "div",
+      "description": "Holds the field's time and shares it with the parts inside it: a `role=\"group\"`, named by its `aria-label`, `aria-labelledby` or an enclosing FieldLabel. With a `name`, or inside a FieldRoot, it also renders a hidden `<input type=\"time\">` that submits the value and whose native `min`, `max` and `required` checks Field reads.",
+      "props": [
+        {
+          "name": "value",
+          "type": "PlainTime | null",
+          "default": null,
+          "required": false,
+          "description": "The time, a `Temporal.PlainTime`. Pass it with `onValueChange` to control the field; `null` is controlled and empty, and leaving it out (or `undefined`) lets the field hold its own value. A value set from outside replaces a partial edit. It may be read from an answer that is loading or guessed over; one that fails is left to the app's `errored` region."
+        },
+        {
+          "name": "defaultValue",
+          "type": "PlainTime",
+          "default": null,
+          "required": false,
+          "description": "The time at first, when the field isn't controlled. A form reset puts it back."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: PlainTime | undefined) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the time whenever every segment is filled, and with `undefined` when a complete time becomes incomplete. It is called in a change of its own, so it may save or write something a loading question reads without holding the field."
+        },
+        {
+          "name": "min",
+          "type": "PlainTime",
+          "default": null,
+          "required": false,
+          "description": "The earliest valid time. An earlier one is kept, not clamped: the field is invalid and the hidden input reports `rangeUnderflow`."
+        },
+        {
+          "name": "max",
+          "type": "PlainTime",
+          "default": null,
+          "required": false,
+          "description": "The latest valid time. A later one is kept, not clamped: the field is invalid and the hidden input reports `rangeOverflow`."
+        },
+        {
+          "name": "locale",
+          "type": "string | string[]",
+          "default": "the browser's",
+          "required": false,
+          "description": "The locale whose segment order, separators, digits and segment names the field uses, with its day period names and hour cycle."
+        },
+        {
+          "name": "granularity",
+          "type": "TimeGranularity",
+          "default": "\"minute\"",
+          "required": false,
+          "description": "The smallest segment: `\"hour\"`, `\"minute\"` or `\"second\"`. Finer units of the value are 0."
+        },
+        {
+          "name": "hourCycle",
+          "type": "12 | 24",
+          "default": null,
+          "required": false,
+          "description": "`12` or `24` overrides the locale's hour cycle."
+        },
+        {
+          "name": "placeholderValue",
+          "type": "PlainTime",
+          "default": "midnight",
+          "required": false,
+          "description": "The time an empty segment starts from when it is stepped with the arrow keys."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the field can't be focused or changed. Also true inside a disabled FieldRoot. A field disabled while a segment has focus gives focus back to that segment when it is enabled again."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the segments can be focused but not changed. `readOnly={pending? setting}` locks the field while a save is out without losing focus."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether a time is needed for the form to be valid."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The name the hidden input submits the value under (`13:45`, or `13:45:00` with `granularity=\"second\"`); nothing is submitted while the field is incomplete. Taken from an enclosing FieldRoot when not given."
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The id of a `<form>` the hidden input belongs to, when the field isn't inside it."
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Marks the field invalid from outside: each segment gets `aria-invalid` and `data-invalid`, as from an invalid FieldRoot. For a composition that keeps the Field to itself (a picker). Given, it wins over the Field's state; a time outside `min`/`max` is invalid either way."
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Space-separated ids of what describes the field (a description, an error), given to each segment as `aria-describedby`, as an enclosing FieldRoot's would be. Given, it wins over the Field's."
+        },
+        {
+          "name": "emptyText",
+          "type": "string",
+          "default": "\"Empty\"",
+          "required": false,
+          "description": "What an empty segment's `aria-valuetext` says, in the app's language."
+        },
+        {
+          "name": "incompleteMessage",
+          "type": "string",
+          "default": "\"Enter a complete time.\"",
+          "required": false,
+          "description": "The validation message while some segments are filled and others not."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the field is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while one of the field's segments has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the time is outside `min`/`max`, when `invalid` is given true, or (without `invalid`) when the FieldRoot around it is invalid: missing, partly filled, or failing `validate`."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the field is required."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once a segment has been focused and the field left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimeFieldInput",
+      "element": "div",
+      "description": "The box holding the segments. A press on its empty space, or on a separator, focuses the first empty segment, or the last when all are filled.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the field is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while one of the field's segments has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the time is outside `min`/`max`, when `invalid` is given true, or (without `invalid`) when the FieldRoot around it is invalid: missing, partly filled, or failing `validate`."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the field is required."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once a segment has been focused and the field left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimeFieldSegment",
+      "element": "span",
+      "description": "One entry of the context's `segments`, rendered with `for segment in c.segments` in a component inside the root. An editable segment is a contenteditable `role=\"spinbutton\"` with its value, range and name; a separator is an `aria-hidden` span. It renders `segment.text` as its content.",
+      "props": [
+        {
+          "name": "segment",
+          "type": "KeyedSegment",
+          "default": null,
+          "required": true,
+          "description": "The entry it renders. Keyed by kind (separators by position), so a segment's element stays the same as its value changes and keeps focus."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the field is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while one of the field's segments has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the time is outside `min`/`max`, when `invalid` is given true, or (without `invalid`) when the FieldRoot around it is invalid: missing, partly filled, or failing `validate`."
+        },
+        {
+          "name": "data-placeholder",
+          "description": "Present on an editable segment while it is empty (it then shows dashes)."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the field is required."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once a segment has been focused and the field left."
+        },
+        {
+          "name": "data-type",
+          "description": "The segment's kind: `hour`, `minute`, `second` or `dayPeriod`, or `literal` for a separator."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

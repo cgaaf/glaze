@@ -1,0 +1,48 @@
+{
+  "family": "menubar",
+  "parts": [
+    {
+      "name": "MenubarRoot",
+      "element": "div",
+      "description": "The bar, with the `menubar` role. The `MenuRoot`s inside it become one composite: their triggers are its items, one Tab stop moved through with the arrow keys, and at most one of their menus is open.",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Whether the bar runs `horizontal`ly (ArrowLeft and ArrowRight move along it, ArrowDown opens a menu) or `vertical`ly (ArrowUp and ArrowDown move, ArrowRight opens, and menus open to the right)."
+        },
+        {
+          "name": "loopFocus",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the arrow keys wrap around at the ends of the bar."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disables every menu in the bar."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the bar is disabled."
+        },
+        {
+          "name": "data-has-submenu-open",
+          "description": "Present while one of the bar's menus is open."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The bar's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

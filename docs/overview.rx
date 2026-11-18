@@ -1,0 +1,27 @@
+import { Button } from "../src/glaze/button.rx"
+import { SwitchRoot, SwitchThumb } from "../src/glaze/switch.rx"
+import { FieldRoot, FieldLabel } from "../src/glaze/field.rx"
+import { Input } from "../src/glaze/input.rx"
+import { Icon } from "../src/glaze/icon.rx"
+
+export default component Preferences() {
+  source title := "Studio notes"
+  source alerts := true
+  source saved := false
+  <div class="settings-example">
+    <div class="settings-symbol"><Icon name="sliders-horizontal" /></div>
+    <h3>Workspace settings</h3>
+    <FieldRoot>
+      <FieldLabel>Workspace name</FieldLabel>
+      <Input value={title} onInput={(e) => { title := e.currentTarget.value; saved := false }} />
+    </FieldRoot>
+    <label class="switch-line">Email notifications
+      <SwitchRoot checked={alerts} onCheckedChange={(next) => { alerts := next; saved := false }}><SwitchThumb /></SwitchRoot>
+    </label>
+    <Button disabled={title.trim() == ""} onClick={() => { saved := true }}>
+      {if saved { <Icon name="check" /> }}
+      {saved ? "Changes saved" : "Save changes"}
+    </Button>
+    <span class="sr-only" role="status">{saved ? "Preview settings saved" : ""}</span>
+  </div>
+}

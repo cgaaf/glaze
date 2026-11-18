@@ -1,0 +1,125 @@
+{
+  "family": "pagination",
+  "parts": [
+    {
+      "name": "PaginationRoot",
+      "element": "nav",
+      "description": "A `<nav>` labelled \"Pagination\" that holds the current page and works out which pages and ellipses to show. Its context gives `page`, `pageCount`, `items` (the entries to render, each with a stable `key`) and `setPage`; render the items from a component inside it.",
+      "props": [
+        {
+          "name": "page",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "The current page, from 1. Pass it with `onPageChange` to control the page, or read it from the URL for link-based pagination. It is clamped to the pages there are."
+        },
+        {
+          "name": "defaultPage",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "The page shown first, when the page isn't controlled."
+        },
+        {
+          "name": "onPageChange",
+          "type": "(page: number) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new page when an item, Previous or Next button is pressed, in a change of its own: it may be an action that fetches the page without holding the control. Links don't call it; following them changes the page."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "The number of items being paged through. With `pageSize` it gives the number of pages. Ignored when `pageCount` is given."
+        },
+        {
+          "name": "pageSize",
+          "type": "number",
+          "default": "10",
+          "required": false,
+          "description": "Items per page, with `count`."
+        },
+        {
+          "name": "pageCount",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "The number of pages, when it is known directly."
+        },
+        {
+          "name": "siblingCount",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Pages shown on each side of the current one."
+        },
+        {
+          "name": "boundaryCount",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Pages always shown at the start and at the end."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "PaginationItem",
+      "element": "button",
+      "description": "A button that goes to one page. It is labelled \"Page N\" for assistive technology; pass your own `aria-label` to translate it. For a link, spread `paginationItem(use pagination, { value, href })` on an `<a>`.",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": null,
+          "required": true,
+          "description": "The page it goes to: an entry's `value` from the root's `items`."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-current",
+          "description": "Present on the current page, beside `aria-current=\"page\"`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "PaginationEllipsis",
+      "element": "span",
+      "description": "A `<span>` that stands for the pages an ellipsis entry skips. It is `aria-hidden`: the page numbers on either side already say that pages are skipped.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "PaginationPrevious",
+      "element": "button",
+      "description": "A button that goes to the previous page, disabled on the first. For a link, spread `paginationPrevious(use pagination, { href })` on an `<a>`: disabled, it has no `href`, `role=\"link\"` and `aria-disabled=\"true\"`.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present on the first page, or when there are no pages."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "PaginationNext",
+      "element": "button",
+      "description": "A button that goes to the next page, disabled on the last. For a link, spread `paginationNext(use pagination, { href })` on an `<a>`: disabled, it has no `href`, `role=\"link\"` and `aria-disabled=\"true\"`.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present on the last page, or when there are no pages."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

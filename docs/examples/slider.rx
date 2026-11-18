@@ -1,0 +1,21 @@
+import { FieldRoot, FieldLabel } from "../../src/glaze/field.rx"
+import { SliderRoot, SliderValue, SliderControl, SliderTrack, SliderIndicator, SliderThumb } from "../../src/glaze/slider.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <FieldRoot>
+      <SliderRoot defaultValue={40}>
+        <div class="mb-2 flex items-center justify-between gap-2">
+          <FieldLabel>Volume</FieldLabel>
+          <SliderValue />
+        </div>
+        <SliderControl>
+          <SliderTrack>
+            <SliderIndicator />
+            <SliderThumb />
+          </SliderTrack>
+        </SliderControl>
+      </SliderRoot>
+    </FieldRoot>
+  </div>
+}

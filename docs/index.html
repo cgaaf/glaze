@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-glaze-theme="celadon">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Glaze component documentation, live examples and themes for ReactiveScript."
+    />
+    <title>Glaze · Component library</title>
+    <script>
+      try {
+        for (const [key, values] of Object.entries({
+          Theme: ["porcelain", "celadon", "terracotta", "cobalt"],
+          Mode: ["system", "light", "dark"],
+        })) {
+          const value = localStorage.getItem("glaze" + key);
+          if (values.includes(value)) document.documentElement.dataset["glaze" + key] = value;
+        }
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar">
+      <a class="brand" href="?" aria-label="Glaze home"
+        ><span class="mark"><i></i><i></i><i></i></span>Glaze</a
+      >
+      <span class="doc-label">Documentation</span>
+      <div class="top-actions">
+        <a class="install-link" href="?page=installation"
+          >Installation <span data-glaze="icon" data-icon="arrow-up-right" aria-hidden="true"></span
+        ></a>
+        <button id="theme-trigger" popovertarget="appearance">
+          <span data-glaze="icon" data-icon="sliders-horizontal" aria-hidden="true"></span>Theme
+        </button>
+        <button
+          class="mobile-menu"
+          aria-controls="sidebar"
+          aria-expanded="false"
+          aria-label="Open navigation"
+        >
+          <span data-glaze="icon" data-icon="menu" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+    <div id="appearance" popover>
+      <h2>Appearance</h2>
+      <label for="palette">Palette</label
+      ><select id="palette"></select>
+      <label for="mode">Color mode</label
+      ><select id="mode">
+        <option value="system">System</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+    <div class="frame">
+      <aside id="sidebar">
+        <label class="finder"
+          ><span data-glaze="icon" data-icon="search" aria-hidden="true"></span
+          ><input
+            type="search"
+            id="search"
+            aria-label="Find a component"
+            placeholder="Find a component…"
+          /><kbd>/</kbd></label
+        >
+        <nav aria-label="Documentation" id="navigation"></nav>
+      </aside>
+      <main id="main" tabindex="-1"></main>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

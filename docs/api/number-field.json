@@ -1,0 +1,512 @@
+{
+  "family": "number-field",
+  "parts": [
+    {
+      "name": "NumberFieldRoot",
+      "element": "div",
+      "description": "Holds the number field's value and shares it with the parts inside it. With a `name`, or inside a FieldRoot, it also renders a hidden `<input type=\"number\">` that holds the plain value for the form.",
+      "props": [
+        {
+          "name": "value",
+          "type": "number | null",
+          "default": null,
+          "required": false,
+          "description": "The value: a number, or `null` for an empty input. Pass it with `onValueChange` to control the number field. Or pass it with only `onValueCommitted`: the field then shows each step and what is typed by itself, and shows `value` again as soon as the owner's `onValueCommitted` has run: the owner's guess, or its old value until it writes the new one. It may be read from an answer that is loading or guessed over; one that fails is left to the app's `errored` region."
+        },
+        {
+          "name": "defaultValue",
+          "type": "number | null",
+          "default": null,
+          "required": false,
+          "description": "The value at first, when it isn't controlled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number | null, details: NumberFieldChangeDetails) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the value changes: as typed text parses, on each step, while a stepper is held or the scrub area is dragged. Receives the value and details whose `reason` is `input-change`, `input-clear`, `input-blur`, `keyboard`, `increment-press`, `decrement-press`, `wheel` or `scrub`. It is called in a change of its own, after the one that updated the field, so it may write something a loading question reads without holding the field or overwriting what is typed."
+        },
+        {
+          "name": "onValueCommitted",
+          "type": "(value: number | null, details: NumberFieldChangeDetails) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when a change is final: on blur after typing; on each key, wheel turn and stepper click; and on release after holding a stepper or scrubbing. Receives the value and the `reason`. It is called in a change of its own, so it may be an action that saves: the field is never held by it, and steps on from what it shows while the save is out."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "The smallest value. Steps stop at it, typed values are clamped to it, and Home goes to it. Without it there is no lower bound."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "The largest value. Steps stop at it, typed values are clamped to it, and End goes to it. Without it there is no upper bound."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "How far the arrow keys, the steppers and each scrub step move the value."
+        },
+        {
+          "name": "smallStep",
+          "type": "number",
+          "default": "0.1",
+          "required": false,
+          "description": "The step taken with Alt held."
+        },
+        {
+          "name": "largeStep",
+          "type": "number",
+          "default": "10",
+          "required": false,
+          "description": "The step taken with Shift held."
+        },
+        {
+          "name": "snapOnStep",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Round a step to a multiple of `step` from `min` (or from 0)."
+        },
+        {
+          "name": "allowOutOfRange",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Let typed values outside `min` and `max` stand. Steps still clamp."
+        },
+        {
+          "name": "allowWheelScrub",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Turning the wheel over the input steps the value while the input has focus."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the number field can't be changed or focused. Also true inside a disabled FieldRoot. A field disabled while its input has focus (`disabled={pending? setting}`) gives focus back to the input when it is enabled again, if focus hasn't moved elsewhere."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the value can be focused and read but not changed. `readOnly={pending? setting}` locks the field while a save is out without losing focus."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether a value is needed for the form to be valid."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The name the hidden input submits the value under. Taken from an enclosing FieldRoot when not given."
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The id of a `<form>` the hidden input belongs to, when the number field isn't inside it."
+        },
+        {
+          "name": "format",
+          "type": "Intl.NumberFormatOptions",
+          "default": null,
+          "required": false,
+          "description": "`Intl.NumberFormat` options: how the input shows the value and reads what is typed."
+        },
+        {
+          "name": "locale",
+          "type": "string | string[]",
+          "default": null,
+          "required": false,
+          "description": "The locale used for formatting and parsing. Defaults to the browser's."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the number field is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Inside a FieldRoot: present while the input has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the number field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the number field is required."
+        },
+        {
+          "name": "data-scrubbing",
+          "description": "Present while the scrub area is being dragged."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "NumberFieldGroup",
+      "element": "div",
+      "description": "Groups the input and the steppers (`role=\"group\"`), for drawing them as one control.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the number field is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Inside a FieldRoot: present while the input has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the number field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the number field is required."
+        },
+        {
+          "name": "data-scrubbing",
+          "description": "Present while the scrub area is being dragged."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "NumberFieldInput",
+      "element": "input",
+      "description": "The text input (`inputmode=\"numeric\"`) that shows the value formatted and reads typed text. Arrow Up and Down step (Shift: large step, Alt: small step), Home and End go to `min` and `max` when set, and blur clamps and formats what was typed. Give it an `id` for a `<label for>`; the steppers' `aria-controls` follow it.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the number field is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Inside a FieldRoot: present while the input has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the number field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the number field is required."
+        },
+        {
+          "name": "data-scrubbing",
+          "description": "Present while the scrub area is being dragged."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "NumberFieldIncrement",
+      "element": "button",
+      "description": "A button that increases the value by a step, and repeats while held. Named \u201cIncrease\u201d, left out of the tab order, and disabled at `max`. A mouse press keeps focus in the input. Accepts `disabled` to disable it on its own.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the button is disabled: by its own prop, by the number field, or because the value is at `max`."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Inside a FieldRoot: present while the input has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the number field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the number field is required."
+        },
+        {
+          "name": "data-scrubbing",
+          "description": "Present while the scrub area is being dragged."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "NumberFieldDecrement",
+      "element": "button",
+      "description": "A button that decreases the value by a step, and repeats while held. Named \u201cDecrease\u201d, left out of the tab order, and disabled at `min`. A mouse press keeps focus in the input. Accepts `disabled` to disable it on its own.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the button is disabled: by its own prop, by the number field, or because the value is at `min`."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Inside a FieldRoot: present while the input has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the number field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the number field is required."
+        },
+        {
+          "name": "data-scrubbing",
+          "description": "Present while the scrub area is being dragged."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "NumberFieldScrubArea",
+      "element": "span",
+      "description": "An area to press and drag to change the value: right (or up, vertically) increases it. A mouse's pointer is locked while it scrubs, and NumberFieldScrubAreaCursor is drawn instead. Put the label inside it.",
+      "props": [
+        {
+          "name": "direction",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "The axis the pointer moves along to scrub."
+        },
+        {
+          "name": "pixelSensitivity",
+          "type": "number",
+          "default": "2",
+          "required": false,
+          "description": "How many pixels of movement make one step."
+        },
+        {
+          "name": "teleportDistance",
+          "type": "number",
+          "default": "the viewport's edges",
+          "required": false,
+          "description": "How far, in pixels, the virtual cursor may go from the area before it wraps to the other side."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-direction",
+          "description": "The scrub axis: `horizontal` or `vertical`."
+        },
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the number field is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Inside a FieldRoot: present while the input has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the number field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the number field is required."
+        },
+        {
+          "name": "data-scrubbing",
+          "description": "Present while the scrub area is being dragged."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "NumberFieldScrubAreaCursor",
+      "element": "span",
+      "description": "The cursor drawn while a mouse scrubs, in place of the locked real one. It is rendered into the document's body, `position: fixed` at the virtual pointer, only while scrubbing; give it a size and an icon. A stylesheet rule nested under a class around the number field won't reach it.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-direction",
+          "description": "The scrub axis: `horizontal` or `vertical`."
+        },
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the number field is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Inside a FieldRoot: present while the input has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the number field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the number field is required."
+        },
+        {
+          "name": "data-scrubbing",
+          "description": "Present while the scrub area is being dragged."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

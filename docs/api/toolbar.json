@@ -1,0 +1,175 @@
+{
+  "family": "toolbar",
+  "parts": [
+    {
+      "name": "ToolbarRoot",
+      "element": "div",
+      "description": "The toolbar: a `<div>` with the `toolbar` role. It is one Tab stop; the arrow keys along its orientation move between its items, and Tab comes back to the item focused last.",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disables every item. Buttons and inputs stay focusable unless they set `focusableWhenDisabled={false}`."
+        },
+        {
+          "name": "orientation",
+          "type": "ToolbarOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Whether the items run `horizontal`ly (ArrowLeft and ArrowRight move between them) or `vertical`ly (ArrowUp and ArrowDown)."
+        },
+        {
+          "name": "loopFocus",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the arrow keys wrap around at the ends."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the toolbar is disabled."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The toolbar's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ToolbarButton",
+      "element": "button",
+      "description": "A `<button>` that is an item of the toolbar.",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A disabled button does nothing when pressed, and its `onClick` isn't called. It is also disabled when its group or the toolbar is."
+        },
+        {
+          "name": "focusableWhenDisabled",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the button stays focusable while disabled, so the arrow keys still reach it. It then gets `aria-disabled` instead of the `disabled` attribute."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the button is disabled."
+        },
+        {
+          "name": "data-focusable",
+          "description": "Present when the button stays focusable while disabled."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The toolbar's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ToolbarLink",
+      "element": "a",
+      "description": "An `<a>` that is an item of the toolbar. A link can't be disabled.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-orientation",
+          "description": "The toolbar's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ToolbarInput",
+      "element": "input",
+      "description": "An `<input>` that is an item of the toolbar. The arrow keys move its caret, and move to the next item only from the end of the text (or the previous one from its start); Home and End stay with the input.",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A disabled input takes no typing. It is also disabled when its group or the toolbar is."
+        },
+        {
+          "name": "focusableWhenDisabled",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the input stays focusable while disabled. It then gets `aria-disabled` instead of the `disabled` attribute."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the input is disabled."
+        },
+        {
+          "name": "data-focusable",
+          "description": "Present when the input stays focusable while disabled."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The toolbar's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ToolbarGroup",
+      "element": "div",
+      "description": "A `<div>` with the `group` role around related items. Name it with `aria-label`.",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disables every item in the group."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the group is disabled."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The toolbar's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ToolbarSeparator",
+      "element": "div",
+      "description": "A `<div>` with the `separator` role that runs across the toolbar: vertical in a horizontal toolbar, horizontal in a vertical one.",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "SeparatorOrientation",
+          "default": null,
+          "required": false,
+          "description": "The separator's own orientation, when it shouldn't run across the toolbar."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-orientation",
+          "description": "The separator's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

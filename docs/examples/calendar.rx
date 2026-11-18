@@ -1,0 +1,17 @@
+import { CalendarRoot, CalendarPreviousMonth, CalendarMonthLabel, CalendarNextMonth, CalendarGrid, CalendarGridHeader, CalendarGridBody } from "../../src/glaze/calendar.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <CalendarRoot aria-label="Appointment">
+      <div class="mb-2 flex items-center justify-between gap-2">
+        <CalendarPreviousMonth />
+        <CalendarMonthLabel />
+        <CalendarNextMonth />
+      </div>
+      <CalendarGrid>
+        <CalendarGridHeader format="narrow" />
+        <CalendarGridBody />
+      </CalendarGrid>
+    </CalendarRoot>
+  </div>
+}

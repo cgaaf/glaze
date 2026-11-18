@@ -1,0 +1,239 @@
+{
+  "family": "otp-field",
+  "parts": [
+    {
+      "name": "OTPFieldRoot",
+      "element": "div",
+      "description": "Holds the code and shares it with the slots inside it, as a group (`role=\"group\"`). It also renders a visually hidden text input that holds the whole code for the form, with the code's `name`, `pattern` and `required`.",
+      "props": [
+        {
+          "name": "length",
+          "type": "number",
+          "default": null,
+          "required": true,
+          "description": "The number of slots. Render this many OTPFieldInput parts."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The code. Pass it with `onValueChange` to control the field. Focus moves on to the next slot once the new value shows, so an owner that doesn't take a change leaves focus where it was. It may be read from an answer that is loading or guessed over; one that fails is left to the app's `errored` region."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "The code at first, when it isn't controlled; also what a form reset puts back."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string, details: OTPFieldChangeDetails) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the code changes. Receives the code and details whose `reason` is `input-change` (typing, or a fill), `input-clear` (typing that emptied a slot, or a form reset back to empty), `input-paste` or `keyboard` (Backspace and Delete). It is called in a change of its own, so it may save or write something a loading question reads without holding the field."
+        },
+        {
+          "name": "onValueComplete",
+          "type": "(value: string, details: OTPFieldEntryDetails) => void",
+          "default": null,
+          "required": false,
+          "description": "When the last empty slot is filled by typing, a fill or a paste, or a whole code is pasted over a complete one. Called after `onValueChange`, once the value has changed (for a controlled value, once its owner took it)."
+        },
+        {
+          "name": "onValueInvalid",
+          "type": "(value: string, details: OTPFieldEntryDetails) => void",
+          "default": null,
+          "required": false,
+          "description": "Typed or pasted text had characters the field dropped (outside the validation type, or past the last slot). `value` is the text as entered."
+        },
+        {
+          "name": "validationType",
+          "type": "OTPFieldValidationType",
+          "default": "\"numeric\"",
+          "required": false,
+          "description": "Which characters a slot takes. Default \"numeric\"."
+        },
+        {
+          "name": "normalizeValue",
+          "type": "(value: string) => string",
+          "default": null,
+          "required": false,
+          "description": "Rewrites entered text after whitespace and the validation type are applied (`(v) => v.toUpperCase()`); its result is filtered again and cut to `length`. It runs more than once on one edit, so it must give the same result when run on its own output."
+        },
+        {
+          "name": "autoComplete",
+          "type": "string",
+          "default": "\"one-time-code\"",
+          "required": false,
+          "description": "The first slot's and the hidden input's `autocomplete`. Default \"one-time-code\"."
+        },
+        {
+          "name": "inputMode",
+          "type": "OTPFieldInputMode",
+          "default": "\"numeric\" for digits, \"text\" for letters",
+          "required": false,
+          "description": "The slots' `inputmode`."
+        },
+        {
+          "name": "mask",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Shows each character as a dot (`type=\"password\"` on the slots)."
+        },
+        {
+          "name": "autoSubmit",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Submits the form (as its submit button would) when the code is complete."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the slots can't be changed or focused. Also true inside a disabled FieldRoot. A field disabled while a slot has focus (`disabled={pending? check}`) gives focus back to a slot when it is enabled again, if focus hasn't moved elsewhere."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the slots can be focused and moved between but not changed. `readOnly={pending? check}` keeps the code as it is while it is checked, without losing focus."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the code is needed for the form to be valid: every slot, and the hidden input, is then required."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "With a name (or inside a named FieldRoot), the code is submitted with the form under it."
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The id of the form the code belongs to, when it isn't inside it."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The first slot's id, which a `<label for>` names; the others are `${id}-2`, `${id}-3`\u2026"
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-complete",
+          "description": "Present when every slot is filled."
+        },
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the code has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the field is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present when at least one slot is filled."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while a slot has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the field is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the field is required."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once focus has left the slots at least once."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "OTPFieldInput",
+      "element": "input",
+      "description": "One character's slot: a native text input. Typing fills it and moves to the next; Backspace empties it (or the slot before, from an empty one) and moves back; Delete takes its character out; the arrow keys, Home and End move between slots, and Ctrl or Cmd with an arrow goes to the first slot or the first empty one. A paste or several characters at once are spread from it. Takes every attribute of an `<input>`; a `type` given here wins over `mask`, and an `aria-label` is kept on every slot but the first.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-complete",
+          "description": "Present when every slot is filled."
+        },
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present once the code has changed."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present when this slot holds a character."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while any slot of the field has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once focus has left the slots at least once."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "OTPFieldSeparator",
+      "element": "div",
+      "description": "A separator between groups of slots (`role=\"separator\"`). It carries no behaviour.",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "SeparatorOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "The separator's `aria-orientation` and `data-orientation`."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-orientation",
+          "description": "The orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

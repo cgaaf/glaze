@@ -1,0 +1,49 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { FieldRoot, FieldLabel } from "../../src/glaze/field.rx"
+import { ComboboxRoot, ComboboxInput, ComboboxTrigger, ComboboxClear, ComboboxPopup, ComboboxEmpty, ComboboxList, ComboboxItem, ComboboxItemIndicator } from "../../src/glaze/combobox.rx"
+
+// One option, with its check mark. A component of your own keeps the list short to write.
+component Fruit(props: { value: string; label: string }) {
+  <ComboboxItem value={props.value} label={props.label}>
+    <ComboboxItemIndicator>
+      <Icon name="check" />
+    </ComboboxItemIndicator>
+    <span class="text-sm">{props.label}</span>
+  </ComboboxItem>
+}
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <FieldRoot>
+      <FieldLabel>Fruit</FieldLabel>
+      <ComboboxRoot>
+        <div class="flex items-center gap-1">
+          <ComboboxInput placeholder="e.g. Apple" />
+          <div class="flex items-center justify-end gap-2">
+            <ComboboxClear aria-label="Clear">
+              <Icon name="x" />
+            </ComboboxClear>
+            <ComboboxTrigger aria-label="Show fruits">
+              <Icon name="chevron-down" />
+            </ComboboxTrigger>
+          </div>
+        </div>
+        <ComboboxPopup sideOffset={6}>
+          <ComboboxEmpty>No fruit found.</ComboboxEmpty>
+          <ComboboxList>
+            <Fruit value="apple" label="Apple" />
+            <Fruit value="apricot" label="Apricot" />
+            <Fruit value="banana" label="Banana" />
+            <Fruit value="blackberry" label="Blackberry" />
+            <Fruit value="cherry" label="Cherry" />
+            <Fruit value="fig" label="Fig" />
+            <Fruit value="grape" label="Grape" />
+            <Fruit value="lemon" label="Lemon" />
+            <Fruit value="mango" label="Mango" />
+            <Fruit value="pear" label="Pear" />
+          </ComboboxList>
+        </ComboboxPopup>
+      </ComboboxRoot>
+    </FieldRoot>
+  </div>
+}

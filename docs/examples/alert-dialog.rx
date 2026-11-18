@@ -1,0 +1,17 @@
+import { AlertDialogRoot, AlertDialogTrigger, AlertDialogPopup, AlertDialogTitle, AlertDialogDescription, AlertDialogClose } from "../../src/glaze/alert-dialog.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <AlertDialogRoot>
+      <AlertDialogTrigger>Discard draft</AlertDialogTrigger>
+      <AlertDialogPopup>
+        <AlertDialogTitle>Discard draft?</AlertDialogTitle>
+        <AlertDialogDescription>You can't undo this action. The draft and its attachments will be removed.</AlertDialogDescription>
+        <div class="flex items-center justify-end gap-2">
+          <AlertDialogClose>Cancel</AlertDialogClose>
+          <AlertDialogClose>Discard</AlertDialogClose>
+        </div>
+      </AlertDialogPopup>
+    </AlertDialogRoot>
+  </div>
+}

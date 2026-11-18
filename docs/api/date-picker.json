@@ -1,0 +1,306 @@
+{
+  "family": "date-picker",
+  "parts": [
+    {
+      "name": "DatePickerRoot",
+      "element": null,
+      "description": "Holds the picker's value and open state, and provides them, with the options given here once, to the field, the trigger, the popup and the calendar. It renders no element of its own, only the Popover underneath and, with a name or inside a FieldRoot, the hidden date input that submits the value and that a Field validates.",
+      "props": [
+        {
+          "name": "value",
+          "type": "PlainDate | null",
+          "default": null,
+          "required": false,
+          "description": "The date, a `Temporal.PlainDate`. Pass it with `onValueChange` to control the picker; `null` is a controlled picker with no date (`undefined` leaves it uncontrolled, so write `date ?? null`). A date set from outside replaces a partial edit. It may be read from an answer that is loading or guessed over; one that fails is left to the app's `errored` region."
+        },
+        {
+          "name": "defaultValue",
+          "type": "PlainDate",
+          "default": null,
+          "required": false,
+          "description": "The date at first, when the picker isn't controlled. A form reset puts it back."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: PlainDate | undefined) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with each date the field makes (each digit typed into a year too: 0002, 0020, 0202, 2026) or the calendar picks, and with undefined when the field is emptied or only partly filled. It is called in a change of its own, so it may be an action that saves."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the popup is open. Pass it with `onOpenChange` to control it: the browser's popover follows it, and an owner that keeps it true through Escape or a press outside has the popup shown again."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the popup is open at first, when it isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the popup opens or closes, by the trigger, Escape, a press outside, a pick or a controlled `open`."
+        },
+        {
+          "name": "min",
+          "type": "PlainDate",
+          "default": null,
+          "required": false,
+          "description": "The earliest valid date: earlier days can't be picked, and a typed one is kept and invalid."
+        },
+        {
+          "name": "max",
+          "type": "PlainDate",
+          "default": null,
+          "required": false,
+          "description": "The latest valid date: later days can't be picked, and a typed one is kept and invalid."
+        },
+        {
+          "name": "isDateUnavailable",
+          "type": "(date: PlainDate) => boolean",
+          "default": null,
+          "required": false,
+          "description": "Days that can't be picked (booked, closed). A typed one is kept and invalid."
+        },
+        {
+          "name": "locale",
+          "type": "string | string[]",
+          "default": "the browser's",
+          "required": false,
+          "description": "The locale of the field's segments and the calendar's names."
+        },
+        {
+          "name": "firstDayOfWeek",
+          "type": "number",
+          "default": "the locale's",
+          "required": false,
+          "description": "1 (Monday) to 7 (Sunday)."
+        },
+        {
+          "name": "placeholderValue",
+          "type": "PlainDate",
+          "default": "today",
+          "required": false,
+          "description": "What an empty segment starts from when stepped with the arrow keys."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disables the field's segments and the trigger, so the popup can't open, and the hidden input."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "The segments take focus but not edits, and the trigger is disabled, so the popup can't open."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "The hidden input is `required`: a date must be given for a form or a FieldRoot to be valid."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "With a name (or inside a named FieldRoot), a hidden date input submits the ISO date (`2026-11-17`); nothing while it is empty or incomplete."
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The id of the form the hidden input belongs to, when it isn't inside it."
+        },
+        {
+          "name": "closeOnSelect",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether picking a day closes the popup."
+        },
+        {
+          "name": "incompleteMessage",
+          "type": "string",
+          "default": "\"Enter a complete date.\"",
+          "required": false,
+          "description": "The hidden input's validation message while the field is partly filled."
+        },
+        {
+          "name": "unavailableMessage",
+          "type": "string",
+          "default": "\"This date is unavailable.\"",
+          "required": false,
+          "description": "The hidden input's validation message for a date `isDateUnavailable` refuses."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "DatePickerGroup",
+      "element": "div",
+      "description": "The date field and the trigger in one `role=\"group\"`: the Date Field's root, given the picker's value and options. Put a DateFieldInput with its DateFieldSegments and a DatePickerTrigger inside. Name it with a FieldLabel, `aria-label` or `aria-labelledby`; the segments, the trigger, the popup and the calendar are named by the same label. It is the anchor the popup is placed against (`anchor-name`).",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Present once the field's value has changed."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the picker is disabled."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present when the field has a value."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while a segment has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present while the date is outside min/max, unavailable or partly typed, or the Field is invalid."
+        },
+        {
+          "name": "data-touched",
+          "description": "Present once the field has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Present when the field is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "DatePickerTrigger",
+      "element": "button",
+      "description": "The button that opens and closes the popup: the native `popovertarget`. It is named \"Calendar\" and the picker's label (pass `aria-label` to translate \"Calendar\"), has `aria-haspopup=\"dialog\"`, and is disabled while the picker is disabled or read-only. Picking a day puts focus back on it.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-popup-open",
+          "description": "Present on the trigger while its popup is open."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "DatePickerPopup",
+      "element": "div",
+      "description": "The native `popover` holding the calendar, with `role=\"dialog\"`, named by the picker's label. It is placed under the group with CSS anchor positioning, and the browser flips it when it doesn't fit. Style it with `:popover-open` and `@starting-style`.",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Which side of the group it sits on; the browser flips it when it doesn't fit."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "default": "\"start\"",
+          "required": false,
+          "description": "Which edge of the group it lines up with."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The gap between the group and the popup, in pixels."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Moves the popup along the group's edge, in pixels, when `align` isn't \"center\"."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-side",
+          "description": "Which side of its anchor the popup is on: the one asked for, then the one the browser placed it on."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "DatePickerCalendar",
+      "element": "div",
+      "description": "The Calendar's root, given the picker's value and options. Put the Calendar's own parts inside (CalendarGrid, CalendarGridBody, CalendarPreviousMonth\u2026). Opening the popup focuses the chosen day, else today; picking a day closes the popup and focuses the trigger, unless the root's `closeOnSelect` is false. The calendar submits nothing and isn't a Field's control: the picker is. It takes the Calendar's display props.",
+      "props": [
+        {
+          "name": "numberOfMonths",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "How many months are shown side by side, each in a CalendarGrid with its `offset`."
+        },
+        {
+          "name": "fixedWeeks",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Always six rows of days, so the grid's height doesn't change from month to month."
+        },
+        {
+          "name": "today",
+          "type": "PlainDate",
+          "default": null,
+          "required": false,
+          "description": "The day marked as today. Default: today in `timeZone`."
+        },
+        {
+          "name": "timeZone",
+          "type": "string",
+          "default": "the system's",
+          "required": false,
+          "description": "The time zone in which \"today\" is read."
+        },
+        {
+          "name": "showWeekNumbers",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "CalendarGridHeader and CalendarGridBody add a first column of ISO week numbers."
+        },
+        {
+          "name": "weekNumberLabel",
+          "type": "string",
+          "default": "\"Week\"",
+          "required": false,
+          "description": "The week number column's name, and the start of each week number's accessible name."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the picker is disabled."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the picker is read-only."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

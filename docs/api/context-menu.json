@@ -1,0 +1,403 @@
+{
+  "family": "context-menu",
+  "parts": [
+    {
+      "name": "ContextMenuRoot",
+      "element": null,
+      "description": "Holds the context menu's open state and shares it with the parts inside it. It is a `MenuRoot`. Renders no element.",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the menu is open. Pass it with `onOpenChange` to control the menu."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the menu is open at first, when it isn't controlled. Default: false."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new state after the browser or a part opened or closed the menu. It is called in a change of its own, after the menu's: a request it starts, or a handler that is itself an action, doesn't hold the menu."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A disabled context menu doesn't open, and the browser's own menu shows instead."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuTrigger",
+      "element": "div",
+      "description": "The area that opens the menu: on a right-click at the pointer, on a long press at the finger, and on the context-menu key or Shift+F10 below the focused element inside it. It holds the empty, fixed-position element the popup is anchored to. The area isn't focusable itself.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the context menu is disabled."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the menu is open."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuPopup",
+      "element": "div",
+      "description": "The menu: a `MenuPopup`, an element with `popover=\"auto\"` and the `menu` role, placed below and to the right of the point it opened at. A submenu's popup is also a `ContextMenuPopup`, declared inside its parent's.",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "default": "\"bottom\"; \"right\" for a submenu and in a vertical menubar",
+          "required": false,
+          "description": "Which side of the point the popup sits on. The browser flips it when it doesn't fit."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "default": "\"start\"",
+          "required": false,
+          "description": "Which way from the point the popup extends, along the side."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The gap between the point and the popup, in pixels."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "How far the popup is moved along the side from its `align` position, in pixels."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-side",
+          "description": "Which side of the point the popup is on: the `side` asked for, then the side the browser placed it on once open."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuItem",
+      "element": "div",
+      "description": "An action in the menu: a `MenuItem`. Choosing it runs its `onClick` and, by default, closes the menu.",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A disabled item can't be chosen, and the arrow keys skip it. Default: false."
+        },
+        {
+          "name": "closeOnClick",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether choosing the item closes the menu and every menu it is nested in. Default: true."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the item is disabled."
+        },
+        {
+          "name": "data-highlighted",
+          "description": "Present while the item has the highlight."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuLinkItem",
+      "element": "a",
+      "description": "A menu item that is a link: a `MenuLinkItem`. Enter follows it.",
+      "props": [
+        {
+          "name": "closeOnClick",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether following the link closes the menu. Default: false."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-highlighted",
+          "description": "Present while the item has the highlight."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuCheckboxItem",
+      "element": "div",
+      "description": "An item that toggles a setting on and off: a `MenuCheckboxItem`. Choosing it leaves the menu open by default.",
+      "props": [
+        {
+          "name": "checked",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the item is checked. Pass it with `onCheckedChange` to control it."
+        },
+        {
+          "name": "defaultChecked",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the item is checked at first, when it isn't controlled. Default: false."
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new state when the item is chosen. It is called in a change of its own, after the item's: a request it starts, or a handler that is itself an action, doesn't hold the menu."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A disabled item can't be chosen, and the arrow keys skip it. Default: false."
+        },
+        {
+          "name": "closeOnClick",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether choosing the item closes the menu. Default: false."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-checked",
+          "description": "Present when the item is checked."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the item is disabled."
+        },
+        {
+          "name": "data-highlighted",
+          "description": "Present while the item has the highlight."
+        },
+        {
+          "name": "data-unchecked",
+          "description": "Present when the item is not checked."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuRadioGroup",
+      "element": "div",
+      "description": "Groups radio items and holds which one is chosen: a `MenuRadioGroup`.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The value of the chosen item. Pass it with `onValueChange` to control the group."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The value chosen at first, when the group isn't controlled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the item's value when a radio item is chosen. It is called in a change of its own, after the group's: a request it starts, or a handler that is itself an action, doesn't hold the menu."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuRadioItem",
+      "element": "div",
+      "description": "An item that chooses one value of its radio group: a `MenuRadioItem`. Choosing it leaves the menu open by default.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The value the item stands for in its group."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A disabled item can't be chosen, and the arrow keys skip it. Default: false."
+        },
+        {
+          "name": "closeOnClick",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether choosing the item closes the menu. Default: false."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-checked",
+          "description": "Present when the item is the group's chosen one."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the item is disabled."
+        },
+        {
+          "name": "data-highlighted",
+          "description": "Present while the item has the highlight."
+        },
+        {
+          "name": "data-unchecked",
+          "description": "Present when another item, or none, is chosen."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuGroup",
+      "element": "div",
+      "description": "Groups related items: a `MenuGroup`. A `ContextMenuGroupLabel` inside it names the group.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuGroupLabel",
+      "element": "div",
+      "description": "A label for its group: a `MenuGroupLabel`, which the group's `aria-labelledby` points at.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuSeparator",
+      "element": "div",
+      "description": "A line between items or groups, with the `separator` role: a `MenuSeparator`.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuSubmenuRoot",
+      "element": null,
+      "description": "A menu inside the context menu: a `MenuSubmenuRoot`. It holds a `ContextMenuSubmenuTrigger` and the submenu's own `ContextMenuPopup`. Renders no element.",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the submenu is open. Pass it with `onOpenChange` to control it."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the submenu is open at first, when it isn't controlled. Default: false."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new state when the submenu opens or closes. It is called in a change of its own, after the submenu's: a request it starts, or a handler that is itself an action, doesn't hold the submenu."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A disabled submenu doesn't open. Default: false."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "ContextMenuSubmenuTrigger",
+      "element": "button",
+      "description": "The item that opens the submenu: a `MenuSubmenuTrigger`. It opens on hover, on a press, and on ArrowRight, Enter and Space.",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A disabled trigger doesn't open its submenu. Default: false."
+        },
+        {
+          "name": "openOnHover",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether resting the pointer on the trigger opens the submenu. Default: true."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": "How long the pointer rests on the trigger before the submenu opens, in milliseconds. Default: 100."
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "How long after the pointer leaves, other than towards the submenu, before it closes, in milliseconds. Default: 0."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the trigger is disabled."
+        },
+        {
+          "name": "data-highlighted",
+          "description": "Present while the trigger has the highlight."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the submenu is open."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

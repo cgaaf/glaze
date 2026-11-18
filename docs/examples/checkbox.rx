@@ -1,0 +1,15 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { CheckboxRoot, CheckboxIndicator } from "../../src/glaze/checkbox.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <label class="inline-flex items-center gap-2 text-sm font-medium">
+      <CheckboxRoot name="notifications" defaultChecked>
+        <CheckboxIndicator>
+          <Icon name="check" />
+        </CheckboxIndicator>
+      </CheckboxRoot>
+      Enable notifications
+    </label>
+  </div>
+}

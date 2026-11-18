@@ -1,0 +1,64 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { MenubarRoot } from "../../src/glaze/menubar.rx"
+import { MenuRoot, MenuTrigger, MenuPopup, MenuItem, MenuCheckboxItem, MenuSeparator, MenuSubmenuRoot, MenuSubmenuTrigger } from "../../src/glaze/menu.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <MenubarRoot aria-label="Editor">
+      <MenuRoot>
+        <MenuTrigger>File</MenuTrigger>
+        <MenuPopup sideOffset={6}>
+          <MenuItem>New file<span class="ms-auto text-xs text-muted-foreground">Ctrl N</span></MenuItem>
+          <MenuItem>Open…<span class="ms-auto text-xs text-muted-foreground">Ctrl O</span></MenuItem>
+          <MenuSubmenuRoot>
+            <MenuSubmenuTrigger>
+              Open recent
+              <Icon name="chevron-right" />
+            </MenuSubmenuTrigger>
+            <MenuPopup alignOffset={-5}>
+              <MenuItem>field-notes.md</MenuItem>
+              <MenuItem>budget-2027.csv</MenuItem>
+              <MenuItem>garden-plan.txt</MenuItem>
+            </MenuPopup>
+          </MenuSubmenuRoot>
+          <MenuSeparator />
+          <MenuItem>Save<span class="ms-auto text-xs text-muted-foreground">Ctrl S</span></MenuItem>
+          <MenuItem>Save as…</MenuItem>
+        </MenuPopup>
+      </MenuRoot>
+      <MenuRoot>
+        <MenuTrigger>Edit</MenuTrigger>
+        <MenuPopup sideOffset={6}>
+          <MenuItem>Undo<span class="ms-auto text-xs text-muted-foreground">Ctrl Z</span></MenuItem>
+          <MenuItem disabled>Redo<span class="ms-auto text-xs text-muted-foreground">Ctrl Y</span></MenuItem>
+          <MenuSeparator />
+          <MenuItem>Cut<span class="ms-auto text-xs text-muted-foreground">Ctrl X</span></MenuItem>
+          <MenuItem>Copy<span class="ms-auto text-xs text-muted-foreground">Ctrl C</span></MenuItem>
+          <MenuItem>Paste<span class="ms-auto text-xs text-muted-foreground">Ctrl V</span></MenuItem>
+        </MenuPopup>
+      </MenuRoot>
+      <MenuRoot>
+        <MenuTrigger>View</MenuTrigger>
+        <MenuPopup sideOffset={6}>
+          <MenuCheckboxItem class="group" defaultChecked>
+            Sidebar
+            <Icon name="check" class="ms-auto invisible group-aria-checked:visible" />
+          </MenuCheckboxItem>
+          <MenuCheckboxItem class="group">
+            Status bar
+            <Icon name="check" class="ms-auto invisible group-aria-checked:visible" />
+          </MenuCheckboxItem>
+          <MenuSeparator />
+          <MenuItem>Zoom in</MenuItem>
+          <MenuItem>Zoom out</MenuItem>
+        </MenuPopup>
+      </MenuRoot>
+      <MenuRoot disabled>
+        <MenuTrigger>Help</MenuTrigger>
+        <MenuPopup sideOffset={6}>
+          <MenuItem>Documentation</MenuItem>
+        </MenuPopup>
+      </MenuRoot>
+    </MenubarRoot>
+  </div>
+}

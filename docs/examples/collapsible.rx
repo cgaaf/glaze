@@ -1,0 +1,20 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { CollapsibleRoot, CollapsibleTrigger, CollapsiblePanel } from "../../src/glaze/collapsible.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <CollapsibleRoot>
+      <CollapsibleTrigger>
+        <Icon name="chevron-right" />
+        Recovery keys
+      </CollapsibleTrigger>
+      <CollapsiblePanel>
+        <ul class="pb-3 text-sm">
+          <li>alder-7341-quartz</li>
+          <li>birch-0926-slate</li>
+          <li>cedar-5518-amber</li>
+        </ul>
+      </CollapsiblePanel>
+    </CollapsibleRoot>
+  </div>
+}

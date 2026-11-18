@@ -1,0 +1,11 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { Toggle } from "../../src/glaze/toggle.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <Toggle aria-label="Favourite">
+      <Icon name="heart" />
+      
+    </Toggle>
+  </div>
+}

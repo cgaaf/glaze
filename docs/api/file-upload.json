@@ -1,0 +1,193 @@
+{
+  "family": "file-upload",
+  "parts": [
+    {
+      "name": "FileUploadRoot",
+      "element": "div",
+      "description": "Holds the list of chosen files, applies the rules to every file however it arrives (picked or dropped), and keeps the native input holding exactly that list. Renders a `<div>`.",
+      "props": [
+        {
+          "name": "files",
+          "type": "File[]",
+          "default": null,
+          "required": false,
+          "description": "The chosen files. Pass it with `onFilesChange` to hold the list yourself. Without it the list starts empty: files have no default, and a form reset empties the input."
+        },
+        {
+          "name": "onFilesChange",
+          "type": "(files: File[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the whole new list after a pick, a drop, a removal, or a form reset that emptied it. Called in a change of its own, so it may start an upload (an action that awaits) without holding the list."
+        },
+        {
+          "name": "onFilesReject",
+          "type": "(rejections: FileRejection[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the files a pick or drop brought that weren't taken, each as `{ file, reasons }`. Reasons are `\"wrong-type\"`, `\"too-large\"`, `\"too-small\"`, `\"too-many\"`, `\"directory\"` (a dropped folder), or what `validate` returned."
+        },
+        {
+          "name": "accept",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The types to take, as the input's `accept`: extensions (`\".pdf\"`), MIME types (`\"image/png\"`) and `\"image/*\"`, comma-separated. The picker offers only these; dropped files, which the browser doesn't check, are checked against it."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Lets the person choose several files at once, and adds each pick or drop to the list. Without it, a new file replaces the one chosen."
+        },
+        {
+          "name": "maxFiles",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "With `multiple`, the most files the list holds. Files past it are refused as `\"too-many\"`."
+        },
+        {
+          "name": "maxFileSize",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "The largest file taken, in bytes. Larger ones are refused as `\"too-large\"`."
+        },
+        {
+          "name": "minFileSize",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "The smallest file taken, in bytes. Smaller ones are refused as `\"too-small\"`."
+        },
+        {
+          "name": "validate",
+          "type": "(file: File) => FileValidateResult",
+          "default": null,
+          "required": false,
+          "description": "A check of your own, run on each file after the built-in ones. Return a reason (or several) to refuse the file; nothing, `\"\"` or `[]` to take it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disables the input, the trigger and the remove buttons natively, and the drop zone stops taking drops. A FieldRoot's `disabled` does the same."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Sets the input's native `required`: the form, or the field, isn't valid until a file is chosen."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "the FieldRoot's name",
+          "required": false,
+          "description": "The name the files submit under: a native form posts them as `multipart/form-data` (give the form `enctype=\"multipart/form-data\"`), and a Form's values carry the list under it."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the root is disabled."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "FileUploadInput",
+      "element": "input",
+      "description": "The native `<input type=\"file\">`: it opens the picker and is what a form submits. It takes `accept`, `multiple`, `name` and `required` from the root, and `capture` or `webkitdirectory` directly. Use it as the visible control, styled with `::file-selector-button`, or hide it visually beside a FileUploadTrigger with `tabindex=\"-1\"`. Don't hide it with `display: none` or `hidden`: a required input hidden that way stops the submit, but the browser can't focus it to say why. Inside a FieldRoot it is the field's control.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Inside a FieldRoot: present while the list differs from the one it started with."
+        },
+        {
+          "name": "data-filled",
+          "description": "Inside a FieldRoot: present while a file is chosen."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Inside a FieldRoot: present when the field is invalid."
+        },
+        {
+          "name": "data-touched",
+          "description": "Inside a FieldRoot: present once the input has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Inside a FieldRoot: present when the field has been validated and is valid."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "FileUploadTrigger",
+      "element": "button",
+      "description": "A `<button type=\"button\">` that opens the picker by clicking the input during its own press. Natively disabled with the root; disabled while it had focus, it takes focus back when enabled again.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "FileUploadDropZone",
+      "element": "div",
+      "description": "An area files can be dropped on, as a `<div>`. Only a drag that carries files is the zone's: text and links dragged over it are left to the page. It takes the drop itself, so the browser doesn't open the file, and the files go through the root's rules. It has no role and isn't focusable: put a FileUploadTrigger in it or beside it for everyone who doesn't drag.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the root is disabled. A disabled zone doesn't take drops."
+        },
+        {
+          "name": "data-dragging",
+          "description": "Present while files are dragged over the zone. It stays on while the drag crosses the zone's children."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present while dragging, when the drag can already be seen to be refused: more files than the list has room for, or a MIME type that `accept` rules out. During a drag the page gets each file's MIME type but no name or size (measured in Chromium), so an extension in `accept`, or a size limit, is only applied on drop."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "FileUploadItem",
+      "element": "li",
+      "description": "One chosen file, as an `<li>`. Render one for each of the root's `files`, in a list of your own. It provides the file to the parts inside it as the `fileUploadItem` context (`file`, `name`, `size`, `type`).",
+      "props": [
+        {
+          "name": "file",
+          "type": "File",
+          "default": null,
+          "required": true,
+          "description": "The file this item stands for: one of the root's `files`."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "FileUploadItemRemove",
+      "element": "button",
+      "description": "A `<button type=\"button\">` that removes its item's file from the list and the input. Labelled \"Remove <file name>\" unless given an `aria-label`. If it had focus, focus moves to the next item's remove button, else the previous one's, else the trigger or the input.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "FileUploadItemPreview",
+      "element": "img",
+      "description": "An `<img>` of its item's file when the file is an image, from an object URL that is revoked when the item leaves. Renders nothing for other files. Its `alt` is `\"\"` unless given one, since the file's name is beside it.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    }
+  ]
+}

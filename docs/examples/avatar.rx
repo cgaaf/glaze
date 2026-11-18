@@ -1,0 +1,17 @@
+import { AvatarRoot, AvatarImage, AvatarFallback } from "../../src/glaze/avatar.rx"
+
+export default component Example() {
+  <div class="flex items-center gap-2">
+    <AvatarRoot>
+      <AvatarImage alt="Sam Rivera" width="48" height="48" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' fill='%236b8fb5'/><circle cx='24' cy='19' r='9' fill='%23dfe8f2'/><path d='M7 48c1.5-10 8-15.5 17-15.5S39.5 38 41 48z' fill='%23dfe8f2'/></svg>" />
+      <AvatarFallback>SR</AvatarFallback>
+    </AvatarRoot>
+    <AvatarRoot>
+      <AvatarFallback>JM</AvatarFallback>
+    </AvatarRoot>
+    <AvatarRoot>
+      <AvatarImage alt="Lee Park" width="48" height="48" src="data:image/png;base64,AAAA" />
+      <AvatarFallback>LP</AvatarFallback>
+    </AvatarRoot>
+  </div>
+}

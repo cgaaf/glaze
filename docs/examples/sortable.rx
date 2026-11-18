@@ -1,0 +1,18 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { SortableRoot, SortableItem, SortableHandle } from "../../src/glaze/sortable.rx"
+
+export default component Example() {
+  source order: string[] := ["Water the plants", "Book the venue", "Reply to the survey", "Order paper", "Back up the laptop"]
+  <div class="grid max-w-full gap-2">
+    <SortableRoot aria-label="Errands" value={order} onValueChange={(next) => { order := next }}>
+      {for task in order {
+        <SortableItem id={task}>
+          <SortableHandle aria-label={`Move ${task}`}>
+            <Icon name="grip-vertical" />
+          </SortableHandle>
+          <span class="text-sm text-muted-foreground">{task}</span>
+        </SortableItem>
+      }}
+    </SortableRoot>
+  </div>
+}

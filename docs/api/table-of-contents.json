@@ -1,0 +1,88 @@
+{
+  "family": "table-of-contents",
+  "parts": [
+    {
+      "name": "TableOfContentsRoot",
+      "element": "nav",
+      "description": "A `<nav>` that follows which section of the document is being read and marks the link to it. The sections are the targets of the fragment links inside it. Label it with `aria-label`.",
+      "props": [
+        {
+          "name": "activeId",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The id of the section to mark. Pass it with `onActiveChange` to decide which link is marked yourself."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(id: string | undefined) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the id of the new active section when the scroll position names another one or a link is clicked; `undefined` before the first heading reaches the line."
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "How far below the top of the scroll container a heading counts as reached, in px: the height of a sticky header. Keep the headings' `scroll-margin-top` no larger."
+        },
+        {
+          "name": "container",
+          "type": "HTMLElement",
+          "default": "the viewport",
+          "required": false,
+          "description": "The element that scrolls the sections. Without it, the page's own scroll is followed."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "TableOfContentsLink",
+      "element": "a",
+      "description": "A fragment link to one section. It carries `aria-current=\"location\"` while its section is active; clicking it makes it active at once.",
+      "props": [
+        {
+          "name": "href",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "`#` and the id of the section's heading: `\"#install\"`."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-active",
+          "description": "Present while the link's section is active."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TableOfContentsIndicator",
+      "element": "span",
+      "description": "A decorative element that follows the active link, placed with CSS variables measured against the root. Place it inside the root and give the root `position: relative`. It is rendered only while a link is active.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": [
+        {
+          "name": "--active-link-top",
+          "description": "The active link's top edge, from the root's padding box."
+        },
+        {
+          "name": "--active-link-left",
+          "description": "The active link's left edge, from the root's padding box."
+        },
+        {
+          "name": "--active-link-width",
+          "description": "The active link's width."
+        },
+        {
+          "name": "--active-link-height",
+          "description": "The active link's height."
+        }
+      ]
+    }
+  ]
+}

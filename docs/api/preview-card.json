@@ -1,0 +1,118 @@
+{
+  "family": "preview-card",
+  "parts": [
+    {
+      "name": "PreviewCardRoot",
+      "element": null,
+      "description": "Holds the card's open state and shares it with the link and the card. Renders no element, so it can wrap the paragraph the link is in.",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the card is open. Pass it with `onOpenChange` to control it."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the card is open at first, when it isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new state when hover, focus, Escape or a press outside opens or closes the card. It is called in a change of its own, after the card's: a request it starts (a preview that loads on open), or a handler that is itself an action, doesn't hold the card."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "PreviewCardTrigger",
+      "element": "a",
+      "description": "The link the card previews. It opens the card on hover and on keyboard focus, after the delay.",
+      "props": [
+        {
+          "name": "delay",
+          "type": "number",
+          "default": "600",
+          "required": false,
+          "description": "How long the pointer rests on the link, or focus stays on it, before the card opens, in milliseconds."
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "default": "300",
+          "required": false,
+          "description": "How long after the pointer leaves the link and the card before the card closes, in milliseconds."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-popup-open",
+          "description": "Present while the card is open."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "PreviewCardPopup",
+      "element": "div",
+      "description": "The card: an element with `popover=\"manual\"`, placed against the link with CSS anchor positioning. It takes no role. Style it with `:popover-open` and `@starting-style`.",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Which side of the link the card sits on. The browser flips it when it doesn't fit."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "default": "\"center\"",
+          "required": false,
+          "description": "Which edge of the link the card lines up with, along the side."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The gap between the link and the card, in pixels."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "How far the card is moved along the link's edge from its `align` position, in pixels."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-side",
+          "description": "Which side of the link the card is on: the `side` asked for, then the side the browser placed it on once open."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "PreviewCardArrow",
+      "element": "div",
+      "description": "An element placed on the card's edge that faces the link, centred on the link. It follows the card when the browser flips it. Give it a shape in CSS and turn it per `data-side`.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-side",
+          "description": "Which side of the link the card is on. Absent until the card first opens; a close keeps the last side."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

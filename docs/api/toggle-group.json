@@ -1,0 +1,76 @@
+{
+  "family": "toggle-group",
+  "parts": [
+    {
+      "name": "ToggleGroup",
+      "element": "div",
+      "description": "A `<div>` with the `group` role that holds which of its toggles are pressed. It is one Tab stop: the arrow keys, Home and End move between its toggles. Inside a toolbar the toolbar owns the keyboard instead.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "The values of the pressed toggles. Pass it with `onValueChange` to control the group. It may be read from an answer that is loading or guessed over; one that fails is left to the app's `errored` region."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "The values pressed at first, when the group isn't controlled. None by default."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new array of pressed values when a toggle is pressed or released, in a change of its own: it may be an action that saves without holding the group."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether several toggles can be pressed at once. Without it, pressing one releases the other."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disables every toggle in the group. The group is also disabled inside a disabled toolbar or toolbar group."
+        },
+        {
+          "name": "orientation",
+          "type": "ToggleGroupOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Which arrow keys move between the toggles: ArrowLeft and ArrowRight when `horizontal`, ArrowUp and ArrowDown when `vertical`."
+        },
+        {
+          "name": "loopFocus",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the arrow keys wrap around at the ends."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the group is disabled."
+        },
+        {
+          "name": "data-multiple",
+          "description": "Present when several toggles can be pressed at once."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The group's orientation: `horizontal` or `vertical`."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

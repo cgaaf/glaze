@@ -1,0 +1,158 @@
+{
+  "family": "accordion",
+  "parts": [
+    {
+      "name": "AccordionRoot",
+      "element": "div",
+      "description": "Holds which items are open and shares it with the items inside it.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "The values of the open items. Pass it with `onValueChange` to control the accordion."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "The values of the items open at first, when it isn't controlled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new list of open values when a trigger asks to open or close an item, and after the browser opened one by itself for find-in-page. A controlled accordion follows `value`. It is called in a change of its own, after the component's: a handler that starts a request, writes what a loading question reads, or is an action that awaits, never holds the component."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether several items can be open at once. Without it, opening an item closes the open one, which animates out."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether every item is disabled."
+        },
+        {
+          "name": "orientation",
+          "type": "AccordionOrientation",
+          "default": "\"vertical\"",
+          "required": false,
+          "description": "Which arrow keys move focus between triggers: Up and Down when `vertical`, Left and Right when `horizontal`."
+        },
+        {
+          "name": "loopFocus",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the arrow keys wrap from the last trigger to the first and back."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the accordion is disabled."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The accordion's orientation: `vertical` or `horizontal`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "AccordionItem",
+      "element": "details",
+      "description": "One item: a `<details>` element holding a trigger and a panel. Style it with `[open]`.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": "a generated id",
+          "required": false,
+          "description": "Identifies the item in the root's `value`. Without it the item gets a generated value."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the item is disabled: its trigger ignores presses and keys, leaves the tab order and is skipped by the arrow keys. Find-in-page still opens it."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the item is asked to open or close, before the root's `onValueChange`. It is called in a change of its own, after the component's: a handler that starts a request, writes what a loading question reads, or is an action that awaits, never holds the component."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the item, or the whole accordion, is disabled."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The accordion's orientation: `vertical` or `horizontal`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "AccordionTrigger",
+      "element": "summary",
+      "description": "The `<summary>` that opens and closes its item. It must be the item's first child; put a heading inside it rather than around it. A press asks the root rather than toggling the element, so a controlled `value` decides.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the item, or the whole accordion, is disabled."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The accordion's orientation: `vertical` or `horizontal`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "AccordionPanel",
+      "element": "div",
+      "description": "The item's content, hidden by the browser while the item is closed. It has the `region` role and is labelled by its trigger. Its measured size is written to CSS variables for animating its height.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the item, or the whole accordion, is disabled."
+        },
+        {
+          "name": "data-ending-style",
+          "description": "Present while the panel animates out. The item stays open until the panel's transitions and animations finish."
+        },
+        {
+          "name": "data-orientation",
+          "description": "The accordion's orientation: `vertical` or `horizontal`."
+        }
+      ],
+      "cssVariables": [
+        {
+          "name": "--accordion-panel-height",
+          "description": "The panel's content height: in px while it opens and closes, `auto` once it is open."
+        },
+        {
+          "name": "--accordion-panel-width",
+          "description": "The panel's content width: in px while it opens and closes, `auto` once it is open."
+        }
+      ]
+    }
+  ]
+}

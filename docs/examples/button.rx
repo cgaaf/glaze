@@ -1,0 +1,11 @@
+import { Button } from "../../src/glaze/button.rx"
+
+export default component Example() {
+  source count := 0
+  <div class="flex flex-wrap items-center gap-2">
+    <Button onClick={() => { count := count + 1 }}>Like</Button>
+    <Button variant="outline" onClick={() => { count := 0 }}>Reset</Button>
+    <Button variant="secondary" disabled>Archived</Button>
+    <output class="text-xs text-muted-foreground">{count} {count == 1 ? "like" : "likes"}</output>
+  </div>
+}

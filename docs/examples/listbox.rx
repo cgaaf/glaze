@@ -1,0 +1,33 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { FieldRoot, FieldLabel } from "../../src/glaze/field.rx"
+import { ListboxRoot, ListboxItem, ListboxItemText, ListboxItemIndicator } from "../../src/glaze/listbox.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <FieldRoot>
+      <FieldLabel>Delivery</FieldLabel>
+      <ListboxRoot defaultValue="standard">
+        <ListboxItem value="standard">
+          <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
+          <ListboxItemText>Standard</ListboxItemText>
+          <span class="ms-auto text-xs text-muted-foreground">3–5 days</span>
+        </ListboxItem>
+        <ListboxItem value="express">
+          <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
+          <ListboxItemText>Express</ListboxItemText>
+          <span class="ms-auto text-xs text-muted-foreground">1–2 days</span>
+        </ListboxItem>
+        <ListboxItem value="pickup">
+          <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
+          <ListboxItemText>Pick up in store</ListboxItemText>
+          <span class="ms-auto text-xs text-muted-foreground">Today</span>
+        </ListboxItem>
+        <ListboxItem value="drone" disabled>
+          <ListboxItemIndicator><Icon name="check" /></ListboxItemIndicator>
+          <ListboxItemText>Drone</ListboxItemText>
+          <span class="ms-auto text-xs text-muted-foreground">Unavailable</span>
+        </ListboxItem>
+      </ListboxRoot>
+    </FieldRoot>
+  </div>
+}

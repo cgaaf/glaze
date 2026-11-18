@@ -1,0 +1,23 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { CheckboxGroup } from "../../src/glaze/checkbox-group.rx"
+import { CheckboxRoot, CheckboxIndicator } from "../../src/glaze/checkbox.rx"
+import { FieldRoot, FieldLabel } from "../../src/glaze/field.rx"
+
+component Check() {
+  <CheckboxIndicator>
+    <Icon name="check" />
+  </CheckboxIndicator>
+}
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <FieldRoot name="toppings">
+      <FieldLabel>Toppings</FieldLabel>
+      <CheckboxGroup defaultValue={["basil"]}>
+        <label class="flex items-center gap-2 text-sm"><CheckboxRoot name="toppings" value="basil"><Check /></CheckboxRoot>Basil</label>
+        <label class="flex items-center gap-2 text-sm"><CheckboxRoot name="toppings" value="mushrooms"><Check /></CheckboxRoot>Mushrooms</label>
+        <label class="flex items-center gap-2 text-sm"><CheckboxRoot name="toppings" value="olives"><Check /></CheckboxRoot>Olives</label>
+      </CheckboxGroup>
+    </FieldRoot>
+  </div>
+}

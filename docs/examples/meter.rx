@@ -1,0 +1,13 @@
+import { MeterRoot, MeterLabel, MeterValue, MeterTrack, MeterIndicator } from "../../src/glaze/meter.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <MeterRoot value={64}>
+      <MeterLabel>Storage used</MeterLabel>
+      <MeterValue />
+      <MeterTrack>
+        <MeterIndicator />
+      </MeterTrack>
+    </MeterRoot>
+  </div>
+}

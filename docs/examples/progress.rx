@@ -1,0 +1,13 @@
+import { ProgressRoot, ProgressLabel, ProgressValue, ProgressTrack, ProgressIndicator } from "../../src/glaze/progress.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <ProgressRoot value={62}>
+      <ProgressLabel>Uploading 3 files</ProgressLabel>
+      <ProgressValue />
+      <ProgressTrack>
+        <ProgressIndicator />
+      </ProgressTrack>
+    </ProgressRoot>
+  </div>
+}

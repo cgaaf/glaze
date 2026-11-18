@@ -1,0 +1,82 @@
+{
+  "family": "avatar",
+  "parts": [
+    {
+      "name": "AvatarRoot",
+      "element": "span",
+      "description": "Holds the picture's loading status and shares it with the image and fallback inside it. Size and shape the avatar on this element. Avatars in a list that comes from a server can be removed by a new answer at any time.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "AvatarImage",
+      "element": "img",
+      "description": "The picture. Its source is loaded off-screen first, and the `<img>` is added only once it has loaded, so a broken image never shows.",
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The picture's URL. Without `src` or `srcset` the fallback shows."
+        },
+        {
+          "name": "srcset",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Candidate sources for the picture, as on an `<img>`."
+        },
+        {
+          "name": "crossorigin",
+          "type": "\"anonymous\" | \"use-credentials\" | \"\"",
+          "default": null,
+          "required": false,
+          "description": "The CORS mode for loading the picture, as on an `<img>`."
+        },
+        {
+          "name": "referrerpolicy",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The referrer policy for loading the picture, as on an `<img>`."
+        },
+        {
+          "name": "onLoadingStatusChange",
+          "type": "(status: ImageLoadingStatus) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with `\"loading\"`, then `\"loaded\"` or `\"error\"`, each time the source is loaded. It is called from an effect, after the status has changed on screen."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-ending-style",
+          "description": "Present while the `<img>` animates out because a new source started loading. It is removed when its transitions end."
+        },
+        {
+          "name": "data-starting-style",
+          "description": "Present for the first frame after the `<img>` appears: style the state it animates in from."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "AvatarFallback",
+      "element": "span",
+      "description": "Shown while the picture hasn't loaded: while it loads, when it fails, and when there is none. Usually initials or an icon.",
+      "props": [
+        {
+          "name": "delay",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "How long to wait before showing the fallback, in ms, so a picture that loads quickly doesn't flash it first."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    }
+  ]
+}

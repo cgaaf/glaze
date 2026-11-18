@@ -1,0 +1,24 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { MenuRoot, MenuTrigger, MenuPopup, MenuArrow, MenuItem, MenuSeparator } from "../../src/glaze/menu.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <MenuRoot>
+      <MenuTrigger>
+        Document
+        <Icon name="chevron-down" />
+      </MenuTrigger>
+      <MenuPopup sideOffset={10}>
+        <MenuArrow />
+        <MenuItem>New version</MenuItem>
+        <MenuItem>Duplicate</MenuItem>
+        <MenuItem>Rename…</MenuItem>
+        <MenuSeparator />
+        <MenuItem>Download</MenuItem>
+        <MenuItem disabled>Publish to web</MenuItem>
+        <MenuSeparator />
+        <MenuItem>Move to trash</MenuItem>
+      </MenuPopup>
+    </MenuRoot>
+  </div>
+}

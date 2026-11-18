@@ -1,0 +1,31 @@
+import { TabsRoot, TabsList, TabsTab, TabsPanel, TabsIndicator } from "../../src/glaze/tabs.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <TabsRoot>
+      <TabsList aria-label="Project">
+        <TabsTab value="overview">Overview</TabsTab>
+        <TabsTab value="activity">Activity</TabsTab>
+        <TabsTab value="settings">Settings</TabsTab>
+        <TabsTab value="billing" disabled>Billing</TabsTab>
+        <TabsIndicator />
+      </TabsList>
+      <TabsPanel value="overview">
+        <h3 class="font-semibold">Northwind roadmap</h3>
+        <p class="text-sm text-muted-foreground">Twelve open tasks across three milestones. The next one is due on Friday.</p>
+      </TabsPanel>
+      <TabsPanel value="activity">
+        <h3 class="font-semibold">Recent activity</h3>
+        <p class="text-sm text-muted-foreground">Four tasks were closed this week, and two new ones were added to the backlog.</p>
+      </TabsPanel>
+      <TabsPanel value="settings">
+        <h3 class="font-semibold">Settings</h3>
+        <p class="text-sm text-muted-foreground">Rename the project, change who can see it, or archive it.</p>
+      </TabsPanel>
+      <TabsPanel value="billing">
+        <h3 class="font-semibold">Billing</h3>
+        <p class="text-sm text-muted-foreground">Billing is managed by the workspace owner.</p>
+      </TabsPanel>
+    </TabsRoot>
+  </div>
+}

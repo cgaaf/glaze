@@ -1,0 +1,26 @@
+import { SplitterRoot, SplitterPanel, SplitterHandle } from "../../src/glaze/splitter.rx"
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <SplitterRoot>
+      <SplitterPanel id="files" defaultSize={25} minSize={15} maxSize={40}>
+        <p class="font-semibold">Files</p>
+        <ul class="grid gap-1">
+          <li>index.html</li>
+          <li>styles.css</li>
+          <li>notes.md</li>
+        </ul>
+      </SplitterPanel>
+      <SplitterHandle aria-label="Resize files" />
+      <SplitterPanel id="editor" minSize={30}>
+        <p class="font-semibold">notes.md</p>
+        <p class="text-sm text-muted-foreground">Drag a bar, or focus it and press the arrow keys, Home or End.</p>
+      </SplitterPanel>
+      <SplitterHandle aria-label="Resize preview" />
+      <SplitterPanel id="preview" defaultSize={30} minSize={20}>
+        <p class="font-semibold">Preview</p>
+        <p class="text-sm text-muted-foreground">A double-click on a bar puts the sizes back.</p>
+      </SplitterPanel>
+    </SplitterRoot>
+  </div>
+}

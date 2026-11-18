@@ -1,0 +1,206 @@
+{
+  "accordion": {
+    "name": "Accordion",
+    "description": "A set of collapsible panels with headings."
+  },
+  "alert-dialog": {
+    "name": "Alert Dialog",
+    "description": "A dialog that interrupts to ask for a decision."
+  },
+  "autocomplete": {
+    "name": "Autocomplete",
+    "description": "A text input that suggests what to type."
+  },
+  "avatar": {
+    "name": "Avatar",
+    "description": "A picture of a user, with a fallback while it loads or when it fails."
+  },
+  "button": {
+    "name": "Button",
+    "description": "A button that can stay focusable while disabled, or be another element."
+  },
+  "calendar": {
+    "name": "Calendar",
+    "description": "A month grid for choosing a day, or a range of days."
+  },
+  "checkbox-group": {
+    "name": "Checkbox Group",
+    "description": "A set of checkboxes that share one value: the list of the checked ones."
+  },
+  "checkbox": {
+    "name": "Checkbox",
+    "description": "A native checkbox that can be styled whole, with an optional indicator."
+  },
+  "collapsible": {
+    "name": "Collapsible",
+    "description": "A panel that its trigger shows and hides."
+  },
+  "combobox": {
+    "name": "Combobox",
+    "description": "An input that filters a list of options to choose from."
+  },
+  "context-menu": {
+    "name": "Context Menu",
+    "description": "A menu that opens at the pointer on a right-click or a long press."
+  },
+  "date-field": {
+    "name": "Date Field",
+    "description": "A date typed or stepped one segment at a time, in the locale's order."
+  },
+  "date-picker": {
+    "name": "Date Picker",
+    "description": "A date field with a calendar in a popup, behind one value."
+  },
+  "date-range-picker": {
+    "name": "Date Range Picker",
+    "description": "Two date fields with a range calendar in a popup, behind one range."
+  },
+  "dialog": {
+    "name": "Dialog",
+    "description": "A popup that opens on top of the entire page."
+  },
+  "drawer": {
+    "name": "Drawer",
+    "description": "A panel that slides in from an edge of the screen and can be swiped away."
+  },
+  "field": {
+    "name": "Field",
+    "description": "Labels a control, describes it, validates it and shows its errors."
+  },
+  "fieldset": {
+    "name": "Fieldset",
+    "description": "A native fieldset that groups fields under a legend and disables them together."
+  },
+  "file-upload": {
+    "name": "File Upload",
+    "description": "Choosing files through the browser's picker or by dropping them, with a list of what was chosen."
+  },
+  "form": {
+    "name": "Form",
+    "description": "A native form that validates its fields, waits for the server and shows the errors it returns."
+  },
+  "input": {
+    "name": "Input",
+    "description": "A native text input that works with Field."
+  },
+  "listbox": {
+    "name": "Listbox",
+    "description": "An always-visible list of options to select one or several from."
+  },
+  "menu": {
+    "name": "Menu",
+    "description": "A list of actions in a popup, opened from a button and driven from the keyboard."
+  },
+  "menubar": {
+    "name": "Menubar",
+    "description": "A row of menus, as at the top of a desktop application."
+  },
+  "meter": {
+    "name": "Meter",
+    "description": "A measurement within a known range, such as disk usage or a battery level."
+  },
+  "navigation-menu": {
+    "name": "Navigation Menu",
+    "description": "A site's main links, with panels of more links that open from it."
+  },
+  "number-field": {
+    "name": "Number Field",
+    "description": "A text input for numbers, with buttons and a scrub area to step the value."
+  },
+  "otp-field": {
+    "name": "OTP Field",
+    "description": "A one-time code entered one character per slot."
+  },
+  "pagination": {
+    "name": "Pagination",
+    "description": "Previous and next, numbered pages and ellipses, for moving through a long list."
+  },
+  "popover": {
+    "name": "Popover",
+    "description": "An accessible popup anchored to a button."
+  },
+  "preview-card": {
+    "name": "Preview Card",
+    "description": "A card that previews what a link points to while the link is hovered or focused."
+  },
+  "progress": {
+    "name": "Progress",
+    "description": "Shows how far a task that takes a while has got."
+  },
+  "radio": {
+    "name": "Radio",
+    "description": "A set of native radios of which one is checked."
+  },
+  "scroll-area": {
+    "name": "Scroll Area",
+    "description": "A native scroll container with scrollbars you draw yourself."
+  },
+  "select": {
+    "name": "Select",
+    "description": "A button that opens a list of options to choose a value from."
+  },
+  "separator": {
+    "name": "Separator",
+    "description": "A line that divides content, horizontally or vertically."
+  },
+  "slider": {
+    "name": "Slider",
+    "description": "A range input with any number of thumbs that you can style."
+  },
+  "sortable": {
+    "name": "Sortable",
+    "description": "A list whose items can be reordered by drag and drop, with the pointer or the keyboard."
+  },
+  "splitter": {
+    "name": "Splitter",
+    "description": "Panels separated by bars that resize them, with a pointer or the keyboard."
+  },
+  "switch": {
+    "name": "Switch",
+    "description": "A native checkbox with the switch role, for a setting that is on or off."
+  },
+  "table-of-contents": {
+    "name": "Table of Contents",
+    "description": "A list of links to a document's sections that marks the one being read."
+  },
+  "tabs": {
+    "name": "Tabs",
+    "description": "A set of panels on the same page, one shown at a time."
+  },
+  "tags-input": {
+    "name": "Tags Input",
+    "description": "A text input that turns what is typed into a list of removable tags."
+  },
+  "time-field": {
+    "name": "Time Field",
+    "description": "A time of day typed or stepped one segment at a time, in the locale's hour cycle."
+  },
+  "time-picker": {
+    "name": "Time Picker",
+    "description": "A time field with a popup of hours, minutes and AM/PM to choose from."
+  },
+  "time-range-picker": {
+    "name": "Time Range Picker",
+    "description": "A start and an end time, each with its own picker, in one group."
+  },
+  "toast": {
+    "name": "Toast",
+    "description": "Short messages that appear without taking focus and go away by themselves."
+  },
+  "toggle-group": {
+    "name": "Toggle Group",
+    "description": "A set of toggles that share one state."
+  },
+  "toggle": {
+    "name": "Toggle",
+    "description": "A button that is either pressed or not."
+  },
+  "toolbar": {
+    "name": "Toolbar",
+    "description": "A row of buttons and controls that is one stop for the Tab key."
+  },
+  "tooltip": {
+    "name": "Tooltip",
+    "description": "A short label that appears when a button is hovered or focused."
+  }
+}

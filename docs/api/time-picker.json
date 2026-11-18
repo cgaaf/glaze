@@ -1,0 +1,404 @@
+{
+  "family": "time-picker",
+  "parts": [
+    {
+      "name": "TimePickerRoot",
+      "element": null,
+      "description": "Holds the picker's time and open state and shares them, with `min`, `max`, `locale`, `granularity`, the steps and the rest, with the parts inside it. Renders no element.",
+      "props": [
+        {
+          "name": "value",
+          "type": "PlainTime | null",
+          "default": null,
+          "required": false,
+          "description": "The time, a `Temporal.PlainTime`. Pass it with `onValueChange` to control the picker; `null` is controlled and empty, and leaving it out (or `undefined`) lets the picker hold its own value. It may be read from an answer that is loading or guessed over; one that fails is left to the app's `errored` region."
+        },
+        {
+          "name": "defaultValue",
+          "type": "PlainTime",
+          "default": null,
+          "required": false,
+          "description": "The time at first, when the picker isn't controlled. A form reset puts it back."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: PlainTime | undefined) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the time for each choice in the popup and each complete time typed in the field, and with `undefined` when the field becomes incomplete. It is called in a change of its own, so it may save without holding the picker."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the popup is open. Pass it with `onOpenChange` to control it. Escape and a press outside can't be refused: a popup kept open is shown again."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the popup is open at first, when it isn't controlled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called after the popup opens or closes, in a change of its own."
+        },
+        {
+          "name": "min",
+          "type": "PlainTime",
+          "default": null,
+          "required": false,
+          "description": "The earliest valid time. Options before it are disabled, a choice is clamped to it, and an earlier time typed in the field marks it invalid (`rangeUnderflow`)."
+        },
+        {
+          "name": "max",
+          "type": "PlainTime",
+          "default": null,
+          "required": false,
+          "description": "The latest valid time. Options after it are disabled, a choice is clamped to it, and a later time typed in the field marks it invalid (`rangeOverflow`)."
+        },
+        {
+          "name": "locale",
+          "type": "string | string[]",
+          "default": "the browser's",
+          "required": false,
+          "description": "The locale of the field's segments and the options' text: digits, day period names and hour cycle."
+        },
+        {
+          "name": "granularity",
+          "type": "TimeGranularity",
+          "default": "\"minute\"",
+          "required": false,
+          "description": "The smallest unit: `\"hour\"`, `\"minute\"` or `\"second\"`. TimePickerSeconds renders only at `\"second\"`, TimePickerMinutes not at `\"hour\"`."
+        },
+        {
+          "name": "hourCycle",
+          "type": "12 | 24",
+          "default": null,
+          "required": false,
+          "description": "`12` or `24` overrides the locale's hour cycle; TimePickerDayPeriod renders only in 12-hour time."
+        },
+        {
+          "name": "minuteStep",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Minutes between the minute column's options. It shapes the list, not the value: a time typed off the step is valid and selects no minute."
+        },
+        {
+          "name": "secondStep",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Seconds between the second column's options."
+        },
+        {
+          "name": "placeholderValue",
+          "type": "PlainTime",
+          "default": "the time the popup opened at (for the field: midnight)",
+          "required": false,
+          "description": "What a choice in a column starts from while there is no value (and what an empty segment steps from). Without it, a choice starts from the time the popup opened at."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the picker can't be changed: the field is disabled and the trigger is a disabled button. Also true inside a disabled FieldRoot."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the field can be focused but not changed. The trigger is disabled, so the popup doesn't open."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether a time is needed for the form to be valid."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The name the field's hidden input submits the time under (`13:45`, or `13:45:00` with `granularity=\"second\"`). Taken from an enclosing FieldRoot when not given."
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The id of a `<form>` the hidden input belongs to, when the picker isn't inside it."
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "For a composition that keeps the Field to itself (Time Range Picker): marks the field and every segment invalid. Given, it wins over an enclosing FieldRoot's state; a time outside `min`/`max` is invalid either way."
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "For a composition: the ids each segment's `aria-describedby` gets (a Field's description and error). Given, it wins over an enclosing FieldRoot's."
+        },
+        {
+          "name": "onIncompleteChange",
+          "type": "(incomplete: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "For a composition: called with whether the field is partly filled, whenever that changes."
+        }
+      ],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "TimePickerField",
+      "element": "div",
+      "description": "The field: a TimeFieldRoot given the picker's value, bounds, locale, name and state, so it is a `role=\"group\"` named by its `aria-label`, `aria-labelledby` or an enclosing FieldLabel. Inside it go Time Field's own parts (TimeFieldInput and a TimeFieldSegment per entry of `use timeField`'s `segments`) and usually the trigger. Its hidden `<input type=\"time\">` is the only one the picker submits.",
+      "props": [
+        {
+          "name": "emptyText",
+          "type": "string",
+          "default": "\"Empty\"",
+          "required": false,
+          "description": "What an empty segment's `aria-valuetext` says, in the app's language."
+        },
+        {
+          "name": "incompleteMessage",
+          "type": "string",
+          "default": "\"Enter a complete time.\"",
+          "required": false,
+          "description": "The validation message while some segments are filled and others not."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the picker is disabled."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while one of the field's segments has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the time is outside `min`/`max`, or the FieldRoot around it is invalid."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the picker is read-only."
+        },
+        {
+          "name": "data-required",
+          "description": "Present when the picker is required."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimePickerTrigger",
+      "element": "button",
+      "description": "The button that opens and closes the popup, through the browser's `popovertarget`. `aria-haspopup=\"dialog\"`; named \"Choose time\" unless given `aria-label`. Disabled while the picker is disabled or read-only.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the picker is disabled."
+        },
+        {
+          "name": "data-popup-open",
+          "description": "Present while the popup is open."
+        },
+        {
+          "name": "data-readonly",
+          "description": "Present when the picker is read-only."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimePickerPopup",
+      "element": "div",
+      "description": "The popup: a `popover=\"auto\"` element placed against the trigger with CSS anchor positioning, `role=\"dialog\"`, named \"Choose time\" unless given `aria-label` or `aria-labelledby`. It closes on Escape, a press outside, Enter on an option, and focus leaving it. Style it with `:popover-open` and `@starting-style`, not a `display` rule.",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Which side of the trigger it sits on; the browser flips it when it doesn't fit."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "default": "\"end\", under a trigger at the field's end",
+          "required": false,
+          "description": "Which edge of the trigger it lines up with."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Gap between trigger and popup, in pixels."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Shift along the trigger's edge, in pixels."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-side",
+          "description": "The side of the trigger the popup is on, after any flip."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimePickerHours",
+      "element": null,
+      "description": "The hours column, a listbox: 0\u201323, or in 12-hour time the 12 hours of the value's day period. Opening scrolls it to the selected hour and focuses it. Its options are `role=\"option\"` elements with `data-selected` and `data-disabled`, styled through the column. Named \"Hours\" unless given `aria-label`.",
+      "props": [
+        {
+          "name": "gridColumns",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Number of options per row in a CSS grid. Arrow keys move within the grid and Tab moves between units."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the picker is disabled."
+        },
+        {
+          "name": "data-unit",
+          "description": "`hour`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimePickerMinutes",
+      "element": null,
+      "description": "The minutes column, a listbox of the minutes every `minuteStep`. Renders nothing with `granularity=\"hour\"`. Named \"Minutes\" unless given `aria-label`.",
+      "props": [
+        {
+          "name": "gridColumns",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Number of options per row in a CSS grid. Arrow keys move within the grid and Tab moves between units."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the picker is disabled."
+        },
+        {
+          "name": "data-unit",
+          "description": "`minute`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimePickerSeconds",
+      "element": null,
+      "description": "The seconds column, a listbox of the seconds every `secondStep`. Renders nothing unless `granularity=\"second\"`. Named \"Seconds\" unless given `aria-label`.",
+      "props": [
+        {
+          "name": "gridColumns",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Number of options per row in a CSS grid. Arrow keys move within the grid and Tab moves between units."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the picker is disabled."
+        },
+        {
+          "name": "data-unit",
+          "description": "`second`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimePickerDayPeriod",
+      "element": null,
+      "description": "The AM/PM column, in the locale's words. Renders nothing in 24-hour time. Choosing one keeps the hour on the clock face (9:30 AM becomes 9:30 PM). Named \"AM/PM\" unless given `aria-label`.",
+      "props": [
+        {
+          "name": "gridColumns",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Number of options per row in a CSS grid. Arrow keys move within the grid and Tab moves between units."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the picker is disabled."
+        },
+        {
+          "name": "data-unit",
+          "description": "`dayPeriod`."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "TimePickerOptions",
+      "element": "div",
+      "description": "The other popup design: one listbox of whole times every `interval` minutes from midnight (09:00, 09:30 \u2026), those outside `min` and `max` disabled. Any choice (a click, Enter or Space) sets the whole time and closes the popup. Named \"Times\" unless given `aria-label`.",
+      "props": [
+        {
+          "name": "interval",
+          "type": "number",
+          "default": "30",
+          "required": false,
+          "description": "Minutes between the options."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-disabled",
+          "description": "Present when the picker is disabled."
+        },
+        {
+          "name": "data-orientation",
+          "description": "`vertical`."
+        },
+        {
+          "name": "data-target",
+          "description": "The option it opens on when none is selected: the one nearest the time it starts from."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

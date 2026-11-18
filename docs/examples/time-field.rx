@@ -1,0 +1,19 @@
+import { TimeFieldRoot, TimeFieldInput, TimeFieldSegment } from "../../src/glaze/time-field.rx"
+import { timeField } from "../../src/bisque/time-field/time-field.rx"
+import { parseTime } from "../../src/bisque/internal/date.js"
+
+component Segments() {
+  c = use timeField
+  {for segment in c.segments {
+    <TimeFieldSegment segment={segment} />
+  }}
+}
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <span class="text-sm font-medium" id="time-field-hero-label">Start time</span>
+    <TimeFieldRoot aria-labelledby="time-field-hero-label" defaultValue={parseTime("09:30")}>
+      <TimeFieldInput><Segments /></TimeFieldInput>
+    </TimeFieldRoot>
+  </div>
+}

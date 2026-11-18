@@ -1,0 +1,270 @@
+{
+  "family": "field",
+  "parts": [
+    {
+      "name": "FieldRoot",
+      "element": "div",
+      "description": "Groups a control with its label, description and error. It tracks the control\u2019s state, validates it and writes that state as `data-*` attributes on every part.",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The field\u2019s name: the key of its value in a Form\u2019s values and of its entry in a Form\u2019s `errors`. The control takes it as its `name` when it has none."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disables the field and its control. A disabled field isn\u2019t validated."
+        },
+        {
+          "name": "validate",
+          "type": "(value: unknown, formValues: FormValues) => ValidateResult",
+          "default": null,
+          "required": false,
+          "description": "Custom validation, run after the control\u2019s native constraints pass. Receives the value and the values of the form\u2019s named fields; returns a message or a list of messages when invalid, and `null`, `\"\"` or nothing when valid."
+        },
+        {
+          "name": "validationMode",
+          "type": "FormValidationMode",
+          "default": "the Form's, else \"onBlur\"",
+          "required": false,
+          "description": "When the field validates: `\"onSubmit\"` (when its Form is submitted, then on every change), `\"onBlur\"` or `\"onChange\"`. Whatever the mode, the browser checking the input (a native submit, its `invalid` event) validates it."
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Marks the field invalid whatever its value, for a decision made elsewhere."
+        },
+        {
+          "name": "dirty",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Controls the dirty state, instead of comparing the value with the first one."
+        },
+        {
+          "name": "touched",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Controls the touched state, instead of tracking focus."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Present while the value differs from the one the control started with."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the field is disabled, by its own prop or by a disabled Fieldset."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present while the field has a value: not empty, not unchecked, not an empty list."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while the control has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the field is invalid: it failed validation, has `invalid` set, or has an error from its Form."
+        },
+        {
+          "name": "data-touched",
+          "description": "Present once the control has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Present when the field has been validated and passed."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "FieldLabel",
+      "element": "label",
+      "description": "A native `<label>` whose `for` names the field\u2019s control, so a press on it focuses or toggles the control. A group control (radio or checkbox group) is labelled by it through `aria-labelledby`.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Present while the value differs from the one the control started with."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the field is disabled, by its own prop or by a disabled Fieldset."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present while the field has a value: not empty, not unchecked, not an empty list."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while the control has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the field is invalid: it failed validation, has `invalid` set, or has an error from its Form."
+        },
+        {
+          "name": "data-touched",
+          "description": "Present once the control has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Present when the field has been validated and passed."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "FieldDescription",
+      "element": "p",
+      "description": "A paragraph that describes the control. The control\u2019s `aria-describedby` lists it.",
+      "props": [],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Present while the value differs from the one the control started with."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the field is disabled, by its own prop or by a disabled Fieldset."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present while the field has a value: not empty, not unchecked, not an empty list."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while the control has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the field is invalid: it failed validation, has `invalid` set, or has an error from its Form."
+        },
+        {
+          "name": "data-touched",
+          "description": "Present once the control has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Present when the field has been validated and passed."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "FieldError",
+      "element": "div",
+      "description": "Shown while the field is invalid. Without children it shows the error: the browser\u2019s message for a native constraint, or what `validate` returned, several as a list. With children it shows them instead. While it shows, the control\u2019s `aria-describedby` lists it.",
+      "props": [
+        {
+          "name": "match",
+          "type": "boolean | ValidityKey",
+          "default": null,
+          "required": false,
+          "description": "Shows the error only for one failure, named by a `ValidityState` key such as `\"valueMissing\"` or `\"patternMismatch\"` (`\"customError\"` for `validate`). `true` shows it always."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Present while the value differs from the one the control started with."
+        },
+        {
+          "name": "data-disabled",
+          "description": "Present when the field is disabled, by its own prop or by a disabled Fieldset."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present while the field has a value: not empty, not unchecked, not an empty list."
+        },
+        {
+          "name": "data-focused",
+          "description": "Present while the control has focus."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the field is invalid: it failed validation, has `invalid` set, or has an error from its Form."
+        },
+        {
+          "name": "data-touched",
+          "description": "Present once the control has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Present when the field has been validated and passed."
+        }
+      ],
+      "cssVariables": []
+    },
+    {
+      "name": "FieldValidity",
+      "element": null,
+      "description": "Renders no element. Provides the field\u2019s validity to its children as the `fieldValidity` context: the `ValidityState` flags with `valid` (null until validated), `errors`, `error`, `value` and `initialValue`.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
+      "name": "FieldControl",
+      "element": "input",
+      "description": "A native `<input>` that is the field\u2019s control. The same as Input; any `type` works.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The input\u2019s value. Pass it with `onValueChange` to control the input."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The value at first, when the input isn\u2019t controlled. The first value is also the input\u2019s `value` attribute: what a form reset puts back."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the new value on every input, and once when a form reset changes an uncontrolled input."
+        }
+      ],
+      "dataAttributes": [
+        {
+          "name": "data-dirty",
+          "description": "Present while the value differs from the one the control started with."
+        },
+        {
+          "name": "data-filled",
+          "description": "Present while the field has a value: not empty, not unchecked, not an empty list."
+        },
+        {
+          "name": "data-invalid",
+          "description": "Present when the field is invalid: it failed validation, has `invalid` set, or has an error from its Form."
+        },
+        {
+          "name": "data-touched",
+          "description": "Present once the control has been focused and left."
+        },
+        {
+          "name": "data-valid",
+          "description": "Present when the field has been validated and passed."
+        }
+      ],
+      "cssVariables": []
+    }
+  ]
+}

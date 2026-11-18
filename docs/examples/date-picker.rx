@@ -1,0 +1,45 @@
+import { Icon } from "../../src/glaze/icon.rx"
+import { DatePickerRoot, DatePickerGroup, DatePickerTrigger, DatePickerPopup, DatePickerCalendar } from "../../src/glaze/date-picker.rx"
+import { DateFieldInput, DateFieldSegment } from "../../src/glaze/date-field.rx"
+import { dateField } from "../../src/bisque/date-field/date-field.rx"
+import { CalendarPreviousMonth, CalendarMonthLabel, CalendarNextMonth, CalendarGrid, CalendarGridHeader, CalendarGridBody } from "../../src/glaze/calendar.rx"
+
+// The segments come from the field's context, so they are rendered by a component inside the field.
+component Segments() {
+  c = use dateField
+  {for segment in c.segments {
+    <DateFieldSegment segment={segment} />
+  }}
+}
+
+component CalendarIcon() {
+  <Icon name="calendar" />
+}
+
+// The calendar's header and grid, inside the picker's calendar.
+component Month() {
+  <div class="mb-2 flex items-center justify-between gap-2">
+    <CalendarPreviousMonth />
+    <CalendarMonthLabel />
+    <CalendarNextMonth />
+  </div>
+  <CalendarGrid>
+    <CalendarGridHeader format="narrow" />
+    <CalendarGridBody />
+  </CalendarGrid>
+}
+
+export default component Example() {
+  <div class="grid max-w-full gap-2">
+    <span class="text-sm font-medium" id="date-picker-hero-label">Delivery date</span>
+    <DatePickerRoot>
+      <DatePickerGroup aria-labelledby="date-picker-hero-label">
+        <DateFieldInput><Segments /></DateFieldInput>
+        <DatePickerTrigger><CalendarIcon /></DatePickerTrigger>
+      </DatePickerGroup>
+      <DatePickerPopup>
+        <DatePickerCalendar><Month /></DatePickerCalendar>
+      </DatePickerPopup>
+    </DatePickerRoot>
+  </div>
+}
