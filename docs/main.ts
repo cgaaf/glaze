@@ -33,13 +33,15 @@ type Part = {
   cssVariables: Attribute[];
 };
 const programs = import.meta.glob<Program>("./examples/**/*.rx");
-const sources = import.meta.glob<string>("./examples/**/*.rx", {
-  query: "?source",
+// Each file a page shows, as the HTML the build highlighted it to (vite.config.ts).
+type Highlighted = { default: string; helpers: string[] };
+const sources = import.meta.glob<Highlighted>("./examples/**/*.rx", { query: "?highlighted" });
+const helperSources = import.meta.glob<string>("./lib/*.js", {
+  query: "?highlighted",
   import: "default",
 });
-const helperSources = import.meta.glob<string>("./lib/*.js", { query: "?raw", import: "default" });
 const declarations = import.meta.glob<string>("./lib/*.d.rx", {
-  query: "?source",
+  query: "?highlighted",
   import: "default",
 });
 const references = import.meta.glob<{ parts: Part[] }>("./api/*.json", { import: "default" });
@@ -155,25 +157,22 @@ async function loadExample(family: string, example?: Example) {
     ? `<h2 id="${id}" data-page-section>${escape(title)}</h2><p class="example-description">${inline(example.description)}</p>`
     : "";
   // One example that fails to compile or load shouldn't take the rest of the page with it.
-  const [program, raw] = await Promise.all([
+  const [program, source] = await Promise.all([
     programs[file]().catch((error: unknown) => {
       console.error(error);
       return undefined;
     }),
     sources[file](),
   ]);
-  const source = raw
-    .replaceAll(/"(?:\.\.\/)+src\//g, '"./ui/')
-    .replaceAll(/"(?:\.\.\/)+lib\//g, '"./');
   const helpers = await Promise.all(
-    Array.from(source.matchAll(/from "\.\/([\w-]+)\.js"/g), async ([, helper]) => {
+    source.helpers.map(async (helper) => {
       const [js, rx] = await Promise.all([
         helperSources["./lib/" + helper + ".js"](),
         declarations["./lib/" + helper + ".d.rx"](),
       ]);
       return [
-        { label: helper + ".js", text: js },
-        { label: helper + ".d.rx", text: rx },
+        { label: helper + ".js", html: js },
+        { label: helper + ".d.rx", html: rx },
       ];
     }),
   );
@@ -183,7 +182,7 @@ async function loadExample(family: string, example?: Example) {
   const html = `<section class="doc-example">
     ${introduction}
     <div class="example-stage">${stageTitle}${stage}</div>
-    ${codeFiles([{ label: name + ".rx", text: source }, ...helpers.flat()], "source")}
+    ${codeFiles([{ label: name + ".rx", html: source.default }, ...helpers.flat()], "source")}
   </section>`;
   return { program, html };
 }

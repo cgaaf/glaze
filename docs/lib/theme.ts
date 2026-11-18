@@ -1,4 +1,3 @@
-import { highlight } from "./highlight";
 import { readTheme, resetTokens, setTheme, themes } from "./theme-state.js";
 export { themes };
 type Palette = keyof typeof themes;
@@ -23,6 +22,16 @@ function themeCss() {
  */
 export function setupTheme() {
   const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+  // The theme's CSS is only known here, so it is the one block the build can't highlight. The highlighter is
+  // fetched when a page has that block, which shows plain until it arrives.
+  let highlight: typeof import("./highlight").highlight | undefined;
+  function showCss() {
+    const css = themeCss();
+    document.querySelectorAll("[data-theme-css] code").forEach((el) => {
+      if (highlight) el.innerHTML = highlight(css, "css");
+      else el.textContent = css;
+    });
+  }
   function update() {
     const choices = readTheme();
     const current = themes[choices.theme as Palette] ?? themes.celadon;
@@ -40,9 +49,7 @@ export function setupTheme() {
       const dark = choices.mode === "dark" || (choices.mode === "system" && systemDark.matches);
       el.textContent = (dark ? current.dark : current.light).toUpperCase();
     });
-    document.querySelectorAll("[data-theme-css] code").forEach((el) => {
-      el.innerHTML = highlight(themeCss(), "css");
-    });
+    showCss();
   }
   document.addEventListener("glaze-theme-change", update);
   systemDark.addEventListener("change", update);
@@ -51,4 +58,10 @@ export function setupTheme() {
   });
   document.querySelector("[data-design-reset]")?.addEventListener("click", resetTokens);
   update();
+  if (document.querySelector("[data-theme-css]"))
+    void import("./highlight").then((module) => {
+      highlight = module.highlight;
+      // The theme as it is now, which may have changed while the highlighter was on its way.
+      showCss();
+    });
 }

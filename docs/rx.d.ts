@@ -5,7 +5,10 @@ declare module "*.rx" {
   export default program;
 }
 
-declare module "*.rx?source" {
-  const source: string;
-  export default source;
+declare module "*?highlighted" {
+  /** The file highlighted as HTML (vite.config.ts). */
+  const html: string;
+  export default html;
+  /** The docs/lib modules the file imports: `wait` for `./wait.js`. */
+  export const helpers: string[];
 }

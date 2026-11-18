@@ -1,0 +1,3 @@
+pnpm add /path/to/glaze-ui-0.1.0.tgz @reactivescript/runtime solid-js @solidjs/web
+pnpm add -D vite @solidjs/vite-plugin @reactivescript/compiler @reactivescript/language-server tailwindcss @tailwindcss/vite
+pnpm exec glaze copy src/ui

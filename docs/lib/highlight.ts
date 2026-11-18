@@ -1,12 +1,14 @@
 // Syntax highlighting for the docs' code blocks, with ReactiveScript's own TextMate grammar (rx.tmLanguage.json,
-// vendored from the VS Code extension) run by Shiki. It is synchronous, so a block is highlighted as it is rendered.
+// vendored from the VS Code extension) run by Shiki. The build does this (vite.config.ts, `?highlighted`), so a
+// page is sent a file's HTML and not Shiki and its grammars. A page must not import this module: theme.ts loads
+// it on demand for the one block whose text is only known in the browser.
 import { createHighlighterCoreSync } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import type { LanguageRegistration, ThemeRegistration } from "shiki/core";
 import tsx from "shiki/langs/tsx.mjs";
 import css from "shiki/langs/css.mjs";
 import shellscript from "shiki/langs/shellscript.mjs";
-import rxGrammar from "./rx.tmLanguage.json";
+import rxGrammar from "./rx.tmLanguage.json" with { type: "json" };
 
 const escape = (text: string) =>
   text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -55,12 +57,12 @@ const highlighter = createHighlighterCoreSync({
   langs: [tsx, css, shellscript, rx],
 });
 
-/** The language a file's label names: `button.rx`, `wait.d.rx`, `app.css`, `Terminal`. */
-export function languageOf(label: string) {
-  if (label.endsWith(".rx")) return "rx";
-  if (label.endsWith(".css")) return "css";
-  if (/\.[cm]?[jt]sx?$/.test(label) || label === "HTML") return "tsx";
-  if (label === "Terminal") return "shellscript";
+/** The language a file's name says it is in: `button.rx`, `wait.d.rx`, `app.css`, `install.sh`, `page.html`. */
+export function languageOf(name: string) {
+  if (name.endsWith(".rx")) return "rx";
+  if (name.endsWith(".css")) return "css";
+  if (/\.([cm]?[jt]sx?|html)$/.test(name)) return "tsx";
+  if (name.endsWith(".sh")) return "shellscript";
   return "text";
 }
 

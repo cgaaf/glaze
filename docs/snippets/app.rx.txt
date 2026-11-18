@@ -1,0 +1,5 @@
+import { Button } from "./ui/glaze/button.rx"
+
+export default component App() {
+  <Button variant="outline">Hello, Glaze</Button>
+}

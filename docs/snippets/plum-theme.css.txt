@@ -1,0 +1,6 @@
+[data-glaze-theme="plum"] {
+  --primary: light-dark(#6a365e, #e0afd2);
+  --primary-foreground: light-dark(white, #32172d);
+  --ring: var(--primary);
+  --radius: 0.65rem;
+}

@@ -1,6 +1,11 @@
 import catalog from "../catalog.json";
 import { themes } from "./theme";
-import { highlight, languageOf } from "./highlight";
+import installCommands from "../snippets/install.sh.txt?highlighted";
+import viteConfig from "../snippets/vite.config.ts.txt?highlighted";
+import appStylesheet from "../snippets/app.css.txt?highlighted";
+import appComponent from "../snippets/app.rx.txt?highlighted";
+import themeAttribute from "../snippets/theme-attribute.html.txt?highlighted";
+import plumTheme from "../snippets/plum-theme.css.txt?highlighted";
 export const families: Record<string, { name: string; description: string }> = catalog;
 export const groups: Record<string, string[]> = {
   "Inputs & forms":
@@ -33,7 +38,8 @@ export function icon(name: string) {
 export function heading(section: string, title: string, description: string) {
   return `<div class="breadcrumb"><a href="?">Docs</a>${icon("chevron-right")}${escape(section)}</div><h1>${escape(title)}</h1><p class="lede">${escape(description)}</p>`;
 }
-type CodeFile = { label: string; text: string };
+/** A file to show: its name and its text as highlighted HTML (the build's `?highlighted`). */
+type CodeFile = { label: string; html: string };
 let blocks = 0;
 /** One or more files behind a shared header: tabs when there are several, and one copy button for the file shown. */
 export function codeFiles(files: CodeFile[], className = "") {
@@ -50,13 +56,13 @@ export function codeFiles(files: CodeFile[], className = "") {
   const panels = files
     .map(
       (file, index) =>
-        `<pre id="${id}-panel-${index}" data-label="${escape(file.label)}"${files.length > 1 ? ` role="tabpanel" aria-labelledby="${id}-tab-${index}"` : ""}${index ? " hidden" : ""}><code translate="no">${highlight(file.text.trimEnd(), languageOf(file.label))}</code></pre>`,
+        `<pre id="${id}-panel-${index}" data-label="${escape(file.label)}"${files.length > 1 ? ` role="tabpanel" aria-labelledby="${id}-tab-${index}"` : ""}${index ? " hidden" : ""}><code translate="no">${file.html}</code></pre>`,
     )
     .join("");
   return `<div class="code-block ${className}"><div class="code-head">${name}<button class="code-copy" data-copy aria-label="Copy ${escape(files[0].label)}" title="Copy">${icon("copy")}${icon("check")}</button><span class="visually-hidden" role="status"></span></div><div class="code-body">${panels}</div><button class="code-expand" aria-expanded="false" hidden><span></span>${icon("chevron-down")}</button></div>`;
 }
-export function codeBlock(text: string, label: string, className = "") {
-  return codeFiles([{ label, text }], className);
+export function codeBlock(html: string, label: string, className = "") {
+  return codeFiles([{ label, html }], className);
 }
 export function directory() {
   return `<section class="directory" id="components"><h2>Components</h2><div class="family-index">${Object.entries(
@@ -102,22 +108,13 @@ export function installation() {
       "Add the component source to a ReactiveScript app and load the Glaze stylesheet once.",
     ) +
     `<article class="guide"><h2>Install the package</h2><p>From the Glaze checkout, create a package tarball with <code translate="no">pnpm pack</code>. In your application, install that file along with the runtime and build tools.</p>` +
-    codeBlock(
-      "pnpm add /path/to/glaze-ui-0.1.0.tgz @reactivescript/runtime solid-js @solidjs/web\npnpm add -D vite @solidjs/vite-plugin @reactivescript/compiler @reactivescript/language-server tailwindcss @tailwindcss/vite\npnpm exec glaze copy src/ui",
-      "Terminal",
-    ) +
+    codeBlock(installCommands, "Terminal") +
     `<h2>Configure Vite</h2>` +
-    codeBlock(
-      'import { defineConfig } from "vite"\nimport solid from "@solidjs/vite-plugin"\nimport tailwind from "@tailwindcss/vite"\n\nexport default defineConfig({ plugins: [tailwind(), solid()] })',
-      "vite.config.ts",
-    ) +
+    codeBlock(viteConfig, "vite.config.ts") +
     `<p>Import your stylesheet from the app entry. In the tsconfig used by <code translate="no">rx-tsc</code>, exclude <code translate="no">**/*.d.rx</code>. Date and time components use the browser’s Temporal API. The docs load <code translate="no">temporal-polyfill/full/global</code> on browsers that need it.</p>` +
-    codeBlock('@import "tailwindcss";\n@import "glaze-ui/styles.css";', "app.css") +
+    codeBlock(appStylesheet, "app.css") +
     `<h2>Use a component</h2>` +
-    codeBlock(
-      'import { Button } from "./ui/glaze/button.rx"\n\nexport default component App() {\n  <Button variant="outline">Hello, Glaze</Button>\n}',
-      "src/app.rx",
-    ) +
+    codeBlock(appComponent, "src/app.rx") +
     `<p>Both Glaze and Bisque live in <code translate="no">src/ui</code> so relative ReactiveScript imports resolve. To upgrade, copy a new version to a fresh directory and merge your changes.</p></article>`
   );
 }
@@ -136,12 +133,9 @@ export function theming() {
           `<button data-pick="${id}" class="palette-choice sample-${id}"><i></i>${v.name}</button>`,
       )
       .join("")}</div>` +
-    codeBlock('<html data-glaze-theme="celadon" data-glaze-mode="dark">', "HTML") +
+    codeBlock(themeAttribute, "HTML") +
     `<h2>Define your own theme</h2><p>Apply a theme attribute to the page or a containing element. Define both appearances with CSS <code translate="no">light-dark()</code>. Radius and font are inherited by the components.</p>` +
-    codeBlock(
-      '[data-glaze-theme="plum"] {\n  --primary: light-dark(#6a365e, #e0afd2);\n  --primary-foreground: light-dark(white, #32172d);\n  --ring: var(--primary);\n  --radius: 0.65rem;\n}',
-      "app.css",
-    ) +
+    codeBlock(plumTheme, "app.css") +
     `<h2>Semantic tokens</h2><dl class="tokens">${Object.entries({
       "--background, --foreground": "Page surface and body text.",
       "--card, --border, --input": "Control surfaces, dividers, and input borders.",
