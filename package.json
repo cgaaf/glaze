@@ -1,0 +1,60 @@
+{
+  "name": "glaze-ui",
+  "version": "0.1.0",
+  "description": "Themeable ReactiveScript components built on Bisque and Tailwind CSS.",
+  "license": "MIT",
+  "bin": {
+    "glaze": "./bin/glaze.mjs"
+  },
+  "files": [
+    "bin",
+    "src/glaze",
+    "styles",
+    "LICENSE"
+  ],
+  "type": "module",
+  "exports": {
+    "./styles.css": "./styles/index.css"
+  },
+  "scripts": {
+    "prepare:source": "bisque copy src/bisque",
+    "docs": "pnpm prepare:source && vite",
+    "build:docs": "pnpm prepare:source && vite build",
+    "typecheck": "pnpm prepare:source && rx-tsc --noEmit -p tsconfig.rx.json && tsrs --noEmit",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint --deny-warnings",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm build:docs"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "5.3.0",
+    "bisque-ui": "github:cgaaf/bisque#80c4415775968a2a2b97b3c404b15e6a75e66dc3",
+    "lucide-static": "1.74.0"
+  },
+  "devDependencies": {
+    "@reactivescript/compiler": "0.3.1",
+    "@reactivescript/language-server": "0.3.1",
+    "@reactivescript/runtime": "0.3.1",
+    "@shadcn/lint": "0.2.5",
+    "@solidjs/signals": "2.0.0",
+    "@solidjs/vite-plugin": "3.0.1",
+    "@solidjs/web": "2.0.0",
+    "@tailwindcss/vite": "4.3.5",
+    "@types/node": "26.6.6",
+    "oxfmt": "0.79.0",
+    "oxlint": "1.94.0",
+    "playwright": "1.65.1",
+    "solid-js": "2.0.0",
+    "tailwindcss": "4.3.5",
+    "temporal-polyfill": "1.0.8",
+    "tsrs": "0.25.0-ts7.1.0-beta",
+    "vite": "8.3.8"
+  },
+  "peerDependencies": {
+    "@reactivescript/runtime": "^0.3.1",
+    "@solidjs/web": "^2.0.0-rc.21",
+    "solid-js": "^2.0.0-rc.21",
+    "tailwindcss": "^4.3.5"
+  },
+  "packageManager": "pnpm@12.18.0"
+}
