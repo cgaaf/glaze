@@ -45,7 +45,7 @@ export default component App() {
 
 Exclude `**/*.d.rx` in the tsconfig read by `rx-tsc`. Use the Glaze family module for component parts. For headless contexts, types, and behavior functions, import from the adjacent Bisque tree. Date and time families use `Temporal`. The docs conditionally load `temporal-polyfill/full/global` on browsers that need it.
 
-For Combobox and Autocomplete, place the input, clear button, and optional trigger directly inside `InputGroup` from `./ui/glaze/input-group.rx`. It reserves space for the actions inside the field and keeps the popup aligned as the clear button appears. The docs include a complete example for each.
+For Combobox and Autocomplete, place the input and its optional trigger or clear button directly inside `InputGroup` from `./ui/glaze/input-group.rx`. It reserves space for the actions inside the field and keeps the popup aligned with the field. The docs include a complete example for each.
 
 ## Themes
 

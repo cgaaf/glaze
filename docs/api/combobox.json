@@ -174,7 +174,7 @@
     {
       "name": "InputGroup",
       "element": "div",
-      "description": "Import from `./ui/glaze/input-group.rx`. Place the input, clear button, and optional trigger directly inside this group. It keeps the actions inside the field and aligns the popup with the full input width.",
+      "description": "Import from `./ui/glaze/input-group.rx`. Place the input and its optional trigger or clear button directly inside this group. It keeps the actions inside the field and aligns the popup with the full input width.",
       "props": [],
       "dataAttributes": [],
       "cssVariables": []
@@ -231,7 +231,7 @@
     {
       "name": "ComboboxTrigger",
       "element": "button",
-      "description": "A button beside the input that opens and closes the popup and leaves focus in the input. It isn't a Tab stop. Give it an `aria-label`.",
+      "description": "A primary mouse press opens the popup and focuses the input. Release outside the trigger to cancel the opening. A completed tap or virtual click toggles it. The trigger isn't a Tab stop. Give it an `aria-label`.",
       "props": [],
       "dataAttributes": [
         {
