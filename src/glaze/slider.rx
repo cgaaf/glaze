@@ -8,7 +8,10 @@ import {
 } from "../bisque/slider/slider.rx"
 
 export component SliderRoot(props: Parameters<typeof BaseSliderRoot>[0]) {
-  <BaseSliderRoot {...props} data-glaze="slider-root">{props.children}</BaseSliderRoot>
+  // Keep fallible controlled values separate from the spread of element attributes.
+  { value, disabled, children, ...rest } = props
+  attributes = rest catch (error) => ({})
+  <BaseSliderRoot {...attributes} value={props.value} disabled={props.disabled} data-glaze="slider-root">{props.children}</BaseSliderRoot>
 }
 
 export component SliderControl(props: Parameters<typeof BaseSliderControl>[0]) {

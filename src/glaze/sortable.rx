@@ -6,11 +6,17 @@ import {
 } from "../bisque/sortable/sortable.rx"
 
 export component SortableGroup(props: Parameters<typeof BaseSortableGroup>[0]) {
-  <BaseSortableGroup {...props} data-glaze="sortable-group">{props.children}</BaseSortableGroup>
+  // Keep fallible controlled values separate from the spread of element attributes.
+  { value, disabled, children, ...rest } = props
+  attributes = rest catch (error) => ({})
+  <BaseSortableGroup {...attributes} value={props.value} disabled={props.disabled} data-glaze="sortable-group">{props.children}</BaseSortableGroup>
 }
 
 export component SortableRoot(props: Parameters<typeof BaseSortableRoot>[0]) {
-  <BaseSortableRoot {...props} data-glaze="sortable-root">{props.children}</BaseSortableRoot>
+  // Keep fallible controlled values separate from the spread of element attributes.
+  { value, disabled, children, ...rest } = props
+  attributes = rest catch (error) => ({})
+  <BaseSortableRoot {...attributes} value={props.value} disabled={props.disabled} data-glaze="sortable-root">{props.children}</BaseSortableRoot>
 }
 
 export component SortableItem(props: Parameters<typeof BaseSortableItem>[0]) {

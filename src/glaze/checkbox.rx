@@ -4,8 +4,11 @@ import {
 } from "../bisque/checkbox/checkbox.rx"
 
 export component CheckboxRoot(props: Parameters<typeof BaseCheckboxRoot>[0]) {
+  // Keep fallible controlled values separate from the spread of element attributes.
+  { checked, disabled, indeterminate, children, ...rest } = props
+  attributes = rest catch (error) => ({})
   <span data-glaze="checkbox-shell">
-    <BaseCheckboxRoot {...props} data-glaze="checkbox-root">{props.children}</BaseCheckboxRoot>
+    <BaseCheckboxRoot {...attributes} checked={props.checked} disabled={props.disabled} indeterminate={props.indeterminate} data-glaze="checkbox-root">{props.children}</BaseCheckboxRoot>
   </span>
 }
 

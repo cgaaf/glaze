@@ -5,7 +5,10 @@ import {
 } from "../bisque/radio/radio.rx"
 
 export component RadioGroup(props: Parameters<typeof BaseRadioGroup>[0]) {
-  <BaseRadioGroup {...props} data-glaze="radio-group">{props.children}</BaseRadioGroup>
+  // Keep fallible controlled values separate from the spread of element attributes.
+  { value, disabled, children, ...rest } = props
+  attributes = rest catch (error) => ({})
+  <BaseRadioGroup {...attributes} value={props.value} disabled={props.disabled} data-glaze="radio-group">{props.children}</BaseRadioGroup>
 }
 
 export component RadioRoot(props: Parameters<typeof BaseRadioRoot>[0]) {

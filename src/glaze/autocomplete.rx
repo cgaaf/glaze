@@ -16,7 +16,23 @@ import {
 } from "../bisque/autocomplete/autocomplete.rx"
 
 export component AutocompleteRoot(props: Parameters<typeof BaseAutocompleteRoot>[0]) {
-  <BaseAutocompleteRoot {...props}>{props.children}</BaseAutocompleteRoot>
+  <BaseAutocompleteRoot
+    value={props.value}
+    defaultValue={props.defaultValue}
+    onValueChange={props.onValueChange}
+    mode={props.mode}
+    open={props.open}
+    defaultOpen={props.defaultOpen}
+    onOpenChange={props.onOpenChange}
+    filter={props.filter}
+    autoHighlight={props.autoHighlight}
+    loop={props.loop}
+    openOnInputClick={props.openOnInputClick}
+    disabled={props.disabled}
+    readOnly={props.readOnly}
+    required={props.required}
+    loading={props.loading}
+  >{props.children}</BaseAutocompleteRoot>
 }
 
 export component AutocompleteInput(props: Parameters<typeof BaseAutocompleteInput>[0]) {

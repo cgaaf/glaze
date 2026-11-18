@@ -35,7 +35,7 @@
 [data-glaze="calendar-grid"] button[data-today] {
   @apply underline underline-offset-4;
 }
-[data-glaze="calendar-grid"] button[data-in-range] {
+[data-glaze="calendar-grid"] button:is([data-range-middle], [data-range-preview]) {
   @apply bg-muted;
 }
 [data-glaze="calendar-grid"] button:is([data-selected], [data-range-start], [data-range-end]) {

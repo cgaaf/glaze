@@ -20,7 +20,8 @@ export component ScrollAreaContent(props: Parameters<typeof BaseScrollAreaConten
 }
 
 export component ScrollAreaScrollbar(props: Parameters<typeof BaseScrollAreaScrollbar>[0]) {
-  <BaseScrollAreaScrollbar {...props} data-glaze="scroll-area-scrollbar">{props.children}</BaseScrollAreaScrollbar>
+  // Measuring the persistent track avoids a second observer mount while WebKit delivers its first resize.
+  <BaseScrollAreaScrollbar {...props} keepMounted={props.keepMounted ?? true} data-glaze="scroll-area-scrollbar">{props.children}</BaseScrollAreaScrollbar>
 }
 
 export component ScrollAreaThumb(props: Parameters<typeof BaseScrollAreaThumb>[0]) {

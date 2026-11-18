@@ -115,3 +115,12 @@
   translate: 0 var(--active-link-top);
   transition: translate 180ms;
 }
+
+[data-glaze="scroll-area-scrollbar"][data-orientation="vertical"]:not([data-has-overflow-y]),
+[data-glaze="scroll-area-scrollbar"][data-orientation="horizontal"]:not([data-has-overflow-x]) {
+  visibility: hidden;
+  pointer-events: none;
+}
+[data-glaze="progress-root"][data-indeterminate] [data-glaze="progress-indicator"] {
+  height: 100%;
+}

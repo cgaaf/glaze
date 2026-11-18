@@ -208,3 +208,19 @@
 [data-glaze="sortable-handle"] {
   @apply grid size-7 cursor-grab place-items-center rounded-control text-muted-foreground active:cursor-grabbing;
 }
+[data-glaze="sortable-item"] {
+  translate: var(--sortable-x, 0px) var(--sortable-y, 0px);
+  &[data-shifted],
+  &[data-dragging="keyboard"] {
+    transition: translate 180ms ease-out;
+  }
+  &[data-dragging] {
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--glaze-shadow);
+  }
+}
+[data-glaze="sortable-root"][data-drop-target] {
+  outline: 1px dashed var(--ring);
+  outline-offset: 3px;
+}

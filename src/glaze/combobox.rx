@@ -21,11 +21,61 @@ import {
 } from "../bisque/combobox/combobox.rx"
 
 export component InputListRoot(props: Parameters<typeof BaseInputListRoot>[0]) {
-  <BaseInputListRoot {...props}>{props.children}</BaseInputListRoot>
+  <BaseInputListRoot
+    kind={props.kind}
+    mode={props.mode}
+    value={props.value}
+    defaultValue={props.defaultValue}
+    onValueChange={props.onValueChange}
+    multiple={props.multiple}
+    values={props.values}
+    defaultValues={props.defaultValues}
+    onValuesChange={props.onValuesChange}
+    inputValue={props.inputValue}
+    defaultInputValue={props.defaultInputValue}
+    onInputValueChange={props.onInputValueChange}
+    open={props.open}
+    defaultOpen={props.defaultOpen}
+    onOpenChange={props.onOpenChange}
+    filter={props.filter}
+    autoHighlight={props.autoHighlight}
+    loop={props.loop}
+    openOnInputClick={props.openOnInputClick}
+    disabled={props.disabled}
+    readOnly={props.readOnly}
+    required={props.required}
+    name={props.name}
+    items={props.items}
+    loading={props.loading}
+  >{props.children}</BaseInputListRoot>
 }
 
 export component ComboboxRoot(props: Parameters<typeof BaseComboboxRoot>[0]) {
-  <BaseComboboxRoot {...props}>{props.children}</BaseComboboxRoot>
+  <BaseComboboxRoot
+    value={props.value}
+    defaultValue={props.defaultValue}
+    onValueChange={props.onValueChange}
+    multiple={props.multiple}
+    values={props.values}
+    defaultValues={props.defaultValues}
+    onValuesChange={props.onValuesChange}
+    inputValue={props.inputValue}
+    defaultInputValue={props.defaultInputValue}
+    onInputValueChange={props.onInputValueChange}
+    open={props.open}
+    defaultOpen={props.defaultOpen}
+    onOpenChange={props.onOpenChange}
+    filter={props.filter}
+    autoHighlight={props.autoHighlight}
+    loop={props.loop}
+    openOnInputClick={props.openOnInputClick}
+    disabled={props.disabled}
+    readOnly={props.readOnly}
+    required={props.required}
+    name={props.name}
+    items={props.items}
+    loading={props.loading}
+  >{props.children}</BaseComboboxRoot>
 }
 
 export component ComboboxInput(props: Parameters<typeof BaseComboboxInput>[0]) {

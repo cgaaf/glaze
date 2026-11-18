@@ -4,8 +4,11 @@ import {
 } from "../bisque/switch/switch.rx"
 
 export component SwitchRoot(props: Parameters<typeof BaseSwitchRoot>[0]) {
+  // Keep fallible controlled values separate from the spread of element attributes.
+  { checked, disabled, children, ...rest } = props
+  attributes = rest catch (error) => ({})
   <span data-glaze="switch-shell">
-    <BaseSwitchRoot {...props} data-glaze="switch-root">{props.children}</BaseSwitchRoot>
+    <BaseSwitchRoot {...attributes} checked={props.checked} disabled={props.disabled} data-glaze="switch-root">{props.children}</BaseSwitchRoot>
   </span>
 }
 

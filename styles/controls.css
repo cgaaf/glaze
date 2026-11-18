@@ -294,3 +294,22 @@
 :is([data-glaze="toggle-group"], [data-glaze="toolbar-root"])[data-orientation="vertical"] {
   @apply flex-col;
 }
+@media (forced-colors: active) {
+  [data-glaze="checkbox-root"],
+  [data-glaze="radio-root"],
+  [data-glaze="switch-root"] {
+    appearance: auto;
+    accent-color: auto;
+  }
+  [data-glaze="switch-thumb"],
+  [data-glaze="checkbox-indicator"],
+  [data-glaze="radio-indicator"],
+  [data-glaze="switch-root"]::before,
+  [data-glaze="checkbox-root"]::before,
+  [data-glaze="radio-root"]::before {
+    display: none;
+  }
+  [data-glaze="icon"] {
+    forced-color-adjust: none;
+  }
+}
