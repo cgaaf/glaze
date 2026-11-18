@@ -11,5 +11,3 @@ minimumReleaseAgeExclude:
   - "@solidjs/web@2.0.0"
   - lucide-static@1.74.0
   - solid-js@2.0.0
-patchedDependencies:
-  bisque-ui@0.0.0: patches/bisque-combobox-trigger.patch
