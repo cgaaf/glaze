@@ -5,8 +5,7 @@ import {
 
 export component SwitchRoot(props: Parameters<typeof BaseSwitchRoot>[0]) {
   // Keep fallible controlled values separate from the spread of element attributes.
-  { checked, disabled, children, ...rest } = props
-  attributes = rest catch (error) => ({})
+  attributes = props catch (error) => ({})
   <span data-glaze="switch-shell">
     <BaseSwitchRoot {...attributes} checked={props.checked} disabled={props.disabled} data-glaze="switch-root">{props.children}</BaseSwitchRoot>
   </span>

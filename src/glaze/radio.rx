@@ -6,8 +6,7 @@ import {
 
 export component RadioGroup(props: Parameters<typeof BaseRadioGroup>[0]) {
   // Keep fallible controlled values separate from the spread of element attributes.
-  { value, disabled, children, ...rest } = props
-  attributes = rest catch (error) => ({})
+  attributes = props catch (error) => ({})
   <BaseRadioGroup {...attributes} value={props.value} disabled={props.disabled} data-glaze="radio-group">{props.children}</BaseRadioGroup>
 }
 

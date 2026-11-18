@@ -7,15 +7,13 @@ import {
 
 export component SortableGroup(props: Parameters<typeof BaseSortableGroup>[0]) {
   // Keep fallible controlled values separate from the spread of element attributes.
-  { value, disabled, children, ...rest } = props
-  attributes = rest catch (error) => ({})
+  attributes = props catch (error) => ({})
   <BaseSortableGroup {...attributes} value={props.value} disabled={props.disabled} data-glaze="sortable-group">{props.children}</BaseSortableGroup>
 }
 
 export component SortableRoot(props: Parameters<typeof BaseSortableRoot>[0]) {
   // Keep fallible controlled values separate from the spread of element attributes.
-  { value, disabled, children, ...rest } = props
-  attributes = rest catch (error) => ({})
+  attributes = props catch (error) => ({})
   <BaseSortableRoot {...attributes} value={props.value} disabled={props.disabled} data-glaze="sortable-root">{props.children}</BaseSortableRoot>
 }
 

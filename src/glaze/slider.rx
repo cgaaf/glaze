@@ -9,8 +9,7 @@ import {
 
 export component SliderRoot(props: Parameters<typeof BaseSliderRoot>[0]) {
   // Keep fallible controlled values separate from the spread of element attributes.
-  { value, disabled, children, ...rest } = props
-  attributes = rest catch (error) => ({})
+  attributes = props catch (error) => ({})
   <BaseSliderRoot {...attributes} value={props.value} disabled={props.disabled} data-glaze="slider-root">{props.children}</BaseSliderRoot>
 }
 

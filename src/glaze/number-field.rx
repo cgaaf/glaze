@@ -10,8 +10,7 @@ import {
 
 export component NumberFieldRoot(props: Parameters<typeof BaseNumberFieldRoot>[0]) {
   // Keep fallible controlled values separate from the spread of element attributes.
-  { value, disabled, readOnly, children, ...rest } = props
-  attributes = rest catch (error) => ({})
+  attributes = props catch (error) => ({})
   <BaseNumberFieldRoot {...attributes} value={props.value} disabled={props.disabled} readOnly={props.readOnly} data-glaze="number-field-root">{props.children}</BaseNumberFieldRoot>
 }
 
