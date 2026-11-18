@@ -1,5 +1,6 @@
-// Use the renderless TimePickerRoot from ../bisque/time-picker/time-picker.rx.
 import {
+  TimePickerRoot as BaseTimePickerRoot,
+  TimePickerRootProps,
   TimePickerField as BaseTimePickerField,
   TimePickerTrigger as BaseTimePickerTrigger,
   TimePickerPopup as BaseTimePickerPopup,
@@ -9,6 +10,34 @@ import {
   TimePickerDayPeriod as BaseTimePickerDayPeriod,
   TimePickerOptions as BaseTimePickerOptions,
 } from "../bisque/time-picker/time-picker.rx"
+
+// Explicit props let ReactiveScript trace the required timePicker context across this provider.
+export component TimePickerRoot(props: TimePickerRootProps) {
+  <BaseTimePickerRoot
+    value={props.value}
+    defaultValue={props.defaultValue}
+    onValueChange={props.onValueChange}
+    open={props.open}
+    defaultOpen={props.defaultOpen}
+    onOpenChange={props.onOpenChange}
+    min={props.min}
+    max={props.max}
+    locale={props.locale}
+    granularity={props.granularity}
+    hourCycle={props.hourCycle}
+    minuteStep={props.minuteStep}
+    secondStep={props.secondStep}
+    placeholderValue={props.placeholderValue}
+    disabled={props.disabled}
+    readOnly={props.readOnly}
+    required={props.required}
+    name={props.name}
+    form={props.form}
+    invalid={props.invalid}
+    describedBy={props.describedBy}
+    onIncompleteChange={props.onIncompleteChange}
+  >{props.children}</BaseTimePickerRoot>
+}
 
 export component TimePickerField(props: Parameters<typeof BaseTimePickerField>[0]) {
   <BaseTimePickerField {...props} data-glaze="time-picker-field">{props.children}</BaseTimePickerField>

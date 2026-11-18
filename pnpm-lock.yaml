@@ -169,12 +169,6 @@ importers:
       '@fontsource-variable/geist':
         specifier: 5.3.0
         version: 5.3.0
-      bisque-ui:
-        specifier: github:cgaaf/bisque#80c4415775968a2a2b97b3c404b15e6a75e66dc3
-        version: https://codeload.github.com/cgaaf/bisque/tar.gz/80c4415775968a2a2b97b3c404b15e6a75e66dc3(@reactivescript/runtime@0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0))(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
-      lucide-static:
-        specifier: 1.74.0
-        version: 1.74.0
     devDependencies:
       '@reactivescript/compiler':
         specifier: 0.3.1
@@ -203,6 +197,12 @@ importers:
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
+      bisque-ui:
+        specifier: github:cgaaf/bisque#80c4415775968a2a2b97b3c404b15e6a75e66dc3
+        version: https://codeload.github.com/cgaaf/bisque/tar.gz/80c4415775968a2a2b97b3c404b15e6a75e66dc3(@reactivescript/runtime@0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0))(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+      lucide-static:
+        specifier: 1.74.0
+        version: 1.74.0
       oxfmt:
         specifier: 0.79.0
         version: 0.79.0
