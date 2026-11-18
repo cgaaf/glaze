@@ -99,6 +99,40 @@ try {
   await page.waitForFunction(() =>
     document.querySelector('[data-glaze="sortable-item"]')?.textContent?.includes("Book the venue"),
   );
+  await visit("?component=combobox");
+  const fruit = page.getByRole("combobox", { name: "Fruit" });
+  const fruitMenu = page.locator('[data-glaze="combobox-popup"]');
+  await page.getByRole("button", { name: "Show fruits" }).click();
+  await fruitMenu.locator('[role="option"]').first().waitFor();
+  const inputBox = await fruit.boundingBox();
+  const menuBox = await fruitMenu.boundingBox();
+  assert.ok(Math.abs(inputBox.x - menuBox.x) < 1 && Math.abs(inputBox.width - menuBox.width) < 1);
+  assert.equal(await fruitMenu.getByRole("status").evaluate((el) => el.offsetHeight), 0);
+  await fruit.fill("apri");
+  const clear = page.getByRole("button", { name: "Clear fruit" });
+  const chevronBox = await page.getByRole("button", { name: "Show fruits" }).boundingBox();
+  const clearBox = await clear.boundingBox();
+  assert.ok(clearBox.x >= inputBox.x && clearBox.x + clearBox.width <= chevronBox.x + 1);
+  assert.ok(chevronBox.x + chevronBox.width <= inputBox.x + inputBox.width);
+  await fruit.press("ArrowDown");
+  await fruit.press("Enter");
+  assert.equal(await fruit.inputValue(), "Apricot");
+  await fruitMenu.waitFor({ state: "hidden" });
+  await fruit.fill("no matching fruit");
+  await fruitMenu.getByText("No fruit found.").waitFor();
+  await clear.click();
+  assert.equal(await fruit.inputValue(), "");
+  await fruit.press("Escape");
+  await fruitMenu.waitFor({ state: "hidden" });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await fruit.press("ArrowDown");
+  await fruitMenu.waitFor();
+  assert.equal(
+    await fruitMenu.evaluate((el) => parseFloat(getComputedStyle(el).transitionDuration)),
+    0,
+  );
+  await fruit.press("Escape");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await visit("?component=select");
   await page.locator('[data-glaze="select-trigger"]').click();
   await page.getByRole("option", { name: "Dark", exact: true }).click();
