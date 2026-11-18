@@ -1,0 +1,6 @@
+import { DivProps } from "../bisque/internal/types.rx"
+
+// Keep the input full width: Bisque anchors the popup to its border box.
+export component InputGroup({ children, ...rest }: DivProps) {
+  <div {...rest} data-glaze="input-group">{children}</div>
+}

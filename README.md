@@ -45,6 +45,8 @@ export default component App() {
 
 Exclude `**/*.d.rx` in the tsconfig read by `rx-tsc`. Use the Glaze family module for component parts. For headless contexts, types, and behavior functions, import from the adjacent Bisque tree. Date and time families use `Temporal`. The docs conditionally load `temporal-polyfill/full/global` on browsers that need it.
 
+For Combobox and Autocomplete, place the input, clear button, and optional trigger directly inside `InputGroup` from `./ui/glaze/input-group.rx`. It reserves space for the actions inside the field and keeps the popup aligned as the clear button appears. The docs include a complete example for each.
+
 ## Themes
 
 The library defaults to Porcelain and the system color scheme. Select a preset using `data-glaze-theme="celadon"`, `"terracotta"`, `"cobalt"` or `"porcelain"`. Set `data-glaze-mode="light"` or `"dark"` to choose an explicit appearance. The attributes can live on the document or on a section.

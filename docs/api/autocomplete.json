@@ -116,6 +116,14 @@
       "cssVariables": []
     },
     {
+      "name": "InputGroup",
+      "element": "div",
+      "description": "Import from `./ui/glaze/input-group.rx`. Place the input, clear button, and optional trigger directly inside this group. It keeps the actions inside the field and aligns the popup with the full input width.",
+      "props": [],
+      "dataAttributes": [],
+      "cssVariables": []
+    },
+    {
       "name": "AutocompleteInput",
       "element": "input",
       "description": "The text input, with `role=\"combobox\"`. Its text is the value: give it a `name` to submit it with a form. Typing opens the popup; the arrow keys move the highlight while focus stays here; Enter chooses the highlighted suggestion.",
@@ -281,9 +289,9 @@
         {
           "name": "sideOffset",
           "type": "number",
-          "default": "0",
+          "default": "6",
           "required": false,
-          "description": "Gap between input and popup, in pixels. Default: 0."
+          "description": "Gap between input and popup, in pixels."
         },
         {
           "name": "alignOffset",

@@ -95,7 +95,7 @@ export component ComboboxValue(props: Parameters<typeof BaseComboboxValue>[0]) {
 }
 
 export component ComboboxPopup(props: Parameters<typeof BaseComboboxPopup>[0]) {
-  <BaseComboboxPopup {...props} data-glaze="combobox-popup">{props.children}</BaseComboboxPopup>
+  <BaseComboboxPopup {...props} sideOffset={props.sideOffset ?? 6} data-glaze="combobox-popup">{props.children}</BaseComboboxPopup>
 }
 
 export component ComboboxList(props: Parameters<typeof BaseComboboxList>[0]) {

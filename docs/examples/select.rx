@@ -13,7 +13,7 @@ export default component Example() {
             <Icon name="chevrons-up-down" />
           </SelectIcon>
         </SelectTrigger>
-        <SelectPopup sideOffset={6}>
+        <SelectPopup>
           <SelectItem value="system">
             <SelectItemIndicator><Icon name="check" /></SelectItemIndicator>
             <SelectItemText>System default</SelectItemText>

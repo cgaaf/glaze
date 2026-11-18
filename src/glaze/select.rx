@@ -30,7 +30,7 @@ export component SelectIcon(props: Parameters<typeof BaseSelectIcon>[0]) {
 }
 
 export component SelectPopup(props: Parameters<typeof BaseSelectPopup>[0]) {
-  <BaseSelectPopup {...props} data-glaze="select-popup">{props.children}</BaseSelectPopup>
+  <BaseSelectPopup {...props} sideOffset={props.sideOffset ?? 6} data-glaze="select-popup">{props.children}</BaseSelectPopup>
 }
 
 export component SelectItem(props: Parameters<typeof BaseSelectItem>[0]) {

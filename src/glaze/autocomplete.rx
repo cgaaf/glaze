@@ -52,7 +52,7 @@ export component AutocompleteValue(props: Parameters<typeof BaseAutocompleteValu
 }
 
 export component AutocompletePopup(props: Parameters<typeof BaseAutocompletePopup>[0]) {
-  <BaseAutocompletePopup {...props} data-glaze="autocomplete-popup">{props.children}</BaseAutocompletePopup>
+  <BaseAutocompletePopup {...props} sideOffset={props.sideOffset ?? 6} data-glaze="autocomplete-popup">{props.children}</BaseAutocompletePopup>
 }
 
 export component AutocompleteList(props: Parameters<typeof BaseAutocompleteList>[0]) {

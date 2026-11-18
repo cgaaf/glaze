@@ -20,9 +20,11 @@ body {
 ::selection {
   background: color-mix(in oklab, var(--primary) 22%, var(--card));
 }
-:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 3px;
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
 }
 button,
 select {

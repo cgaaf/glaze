@@ -1,4 +1,4 @@
-import { Icon } from "../../src/glaze/icon.rx"
+import { InputGroup } from "../../src/glaze/input-group.rx"
 import { FieldRoot, FieldLabel } from "../../src/glaze/field.rx"
 import { AutocompleteRoot, AutocompleteInput, AutocompleteClear, AutocompletePopup, AutocompleteEmpty, AutocompleteList, AutocompleteItem } from "../../src/glaze/autocomplete.rx"
 
@@ -7,13 +7,11 @@ export default component Example() {
     <FieldRoot>
       <FieldLabel>Search tags</FieldLabel>
       <AutocompleteRoot>
-        <div class="flex items-center gap-1">
+        <InputGroup>
           <AutocompleteInput placeholder="e.g. feature" />
-          <AutocompleteClear aria-label="Clear">
-            <Icon name="x" />
-          </AutocompleteClear>
-        </div>
-        <AutocompletePopup sideOffset={6}>
+          <AutocompleteClear aria-label="Clear search" />
+        </InputGroup>
+        <AutocompletePopup>
           <AutocompleteEmpty>No matching tags.</AutocompleteEmpty>
           <AutocompleteList>
             <AutocompleteItem value="feature">feature</AutocompleteItem>

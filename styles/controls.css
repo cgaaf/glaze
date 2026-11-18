@@ -107,6 +107,64 @@
     @apply text-muted-foreground;
   }
 }
+/* The input owns the border, focus ring and popup anchor. Both trailing actions
+   share its grid cell, so adding the clear button never changes the anchor. */
+[data-glaze="input-group"] {
+  display: grid;
+  grid-template: "control" auto / minmax(0, 1fr);
+  inline-size: 17rem;
+  max-inline-size: 100%;
+  align-items: center;
+  --action-size: 1.75rem;
+  --action-inset: 0.3rem;
+
+  > :is([data-glaze="combobox-input"], [data-glaze="autocomplete-input"]) {
+    grid-area: control;
+    @apply h-10 w-full;
+  }
+  &:has(> button:not([hidden])) > input {
+    padding-inline-end: calc(var(--action-inset) + var(--action-size) + 0.25rem);
+  }
+  &:has(> button:not([hidden]) ~ button:not([hidden])) > input {
+    padding-inline-end: calc(var(--action-inset) + 2 * var(--action-size) + 0.25rem);
+  }
+  > button {
+    grid-area: control;
+    position: relative;
+    justify-self: end;
+    inline-size: var(--action-size);
+    block-size: var(--action-size);
+    margin-inline-end: var(--action-inset);
+    @apply text-sm;
+  }
+  > button:has(~ button:not([hidden])) {
+    margin-inline-end: calc(var(--action-inset) + var(--action-size));
+  }
+  > input:focus-visible {
+    border-color: var(--ring);
+    outline: 2px solid color-mix(in oklab, var(--ring) 42%, transparent);
+    outline-offset: 0;
+  }
+  > input[aria-invalid="true"]:focus-visible {
+    border-color: var(--destructive);
+  }
+}
+:is([data-glaze="combobox-trigger"], [data-glaze="autocomplete-trigger"]) {
+  &::after,
+  > [data-icon="chevron-down"] {
+    transition: rotate 140ms ease-out;
+  }
+  &[aria-expanded="true"]::after,
+  &[aria-expanded="true"] > [data-icon="chevron-down"] {
+    rotate: 180deg;
+  }
+}
+@media (forced-colors: active) {
+  [data-glaze="input-group"] > input:focus-visible {
+    outline-color: Highlight;
+  }
+}
+
 :is([data-glaze="form"], [data-glaze="fieldset-root"], [data-glaze="file-upload-root"]) {
   @apply grid min-w-0 gap-4;
 }

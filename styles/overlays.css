@@ -119,15 +119,44 @@
     rotate: -45deg;
   }
 }
+/* Move a few pixels from the anchor. The settled box stays at native size and
+   reduced-motion users get the same placement without an animated interval. */
 [data-glaze][popover]:not([data-glaze="toast-viewport"]) {
+  --enter-x: 0px;
+  --enter-y: -3px;
+  &[data-side="top"] {
+    --enter-y: 3px;
+  }
+  &[data-side="left"] {
+    --enter-x: 3px;
+    --enter-y: 0px;
+  }
+  &[data-side="right"] {
+    --enter-x: -3px;
+    --enter-y: 0px;
+  }
+  opacity: 0;
+  translate: var(--enter-x) var(--enter-y);
   transition:
-    opacity 140ms,
-    display 140ms allow-discrete,
-    overlay 140ms allow-discrete;
-}
-@starting-style {
-  [data-glaze]:popover-open {
-    opacity: 0;
+    opacity 90ms ease-in,
+    translate 90ms ease-in;
+  /* Keeping display without the top layer loses the native anchor on exit. */
+  @supports (overlay: auto) {
+    transition-property: opacity, translate, display, overlay;
+    transition-behavior: normal, normal, allow-discrete, allow-discrete;
+  }
+  &:not(:popover-open) {
+    pointer-events: none;
+  }
+  &:popover-open {
+    opacity: 1;
+    translate: 0 0;
+    transition-duration: 140ms;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+    @starting-style {
+      opacity: 0;
+      translate: var(--enter-x) var(--enter-y);
+    }
   }
 }
 [data-glaze="toast-viewport"] {
