@@ -1,0 +1,296 @@
+[data-glaze] {
+  font-family: var(--glaze-font);
+  accent-color: var(--primary);
+}
+[data-glaze]:focus-visible,
+[data-glaze="slider-thumb"]:has(:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+[data-glaze]:is(:disabled, [data-disabled], [aria-disabled="true"]) {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+[data-glaze][hidden] {
+  display: none;
+}
+[data-glaze]:is([aria-invalid="true"], [data-invalid]):is(input, textarea, [role="group"]) {
+  border-color: var(--destructive);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-glaze],
+  [data-glaze]::before,
+  [data-glaze]::after,
+  [data-glaze]::backdrop {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+
+:is(
+  [data-glaze="button"],
+  [data-glaze="dialog-trigger"],
+  [data-glaze="alert-dialog-trigger"],
+  [data-glaze="drawer-trigger"],
+  [data-glaze="popover-trigger"],
+  [data-glaze="menu-trigger"],
+  [data-glaze="file-upload-trigger"],
+  [data-glaze="dialog-close"],
+  [data-glaze="alert-dialog-close"],
+  [data-glaze="drawer-close"],
+  [data-glaze="popover-close"],
+  [data-glaze="toast-action"],
+  [data-glaze="select-trigger"],
+  [data-glaze="collapsible-trigger"],
+  [data-glaze="toggle"],
+  [data-glaze="toolbar-button"],
+  [data-glaze="toolbar-link"],
+  [data-glaze="tooltip-trigger"],
+  [data-glaze="pagination-next"],
+  [data-glaze="pagination-previous"],
+  [data-glaze="pagination-item"]
+) {
+  @apply inline-flex min-h-9 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control border border-border bg-card px-3 text-sm font-medium text-foreground transition-colors;
+  cursor: pointer;
+  &:hover:not(:disabled, [data-disabled]) {
+    @apply bg-muted;
+  }
+}
+[data-glaze="button"] {
+  &[data-variant="default"] {
+    @apply border-transparent bg-primary text-primary-foreground;
+  }
+  &[data-variant="secondary"] {
+    @apply border-transparent bg-muted;
+  }
+  &[data-variant="ghost"],
+  &[data-variant="link"] {
+    @apply border-transparent bg-transparent;
+  }
+  &[data-variant="link"] {
+    @apply text-primary underline-offset-4 hover:underline;
+  }
+  &[data-variant="destructive"] {
+    @apply border-transparent bg-destructive;
+    color: light-dark(white, #2b1010);
+  }
+  &:is([data-variant="default"], [data-variant="destructive"]):hover:not(
+      :disabled,
+      [data-disabled]
+    ) {
+    background: color-mix(in oklab, var(--primary) 88%, var(--background));
+  }
+  &[data-variant="destructive"]:hover:not(:disabled, [data-disabled]) {
+    background: color-mix(in oklab, var(--destructive) 90%, var(--foreground));
+  }
+  &[data-size="sm"] {
+    @apply min-h-7 px-2.5 text-xs;
+  }
+  &[data-size="lg"] {
+    @apply min-h-11 px-5;
+  }
+  &[data-size="icon"] {
+    @apply size-9 p-0;
+  }
+}
+:is(
+  [data-glaze="input"],
+  [data-glaze="field-control"],
+  [data-glaze="toolbar-input"],
+  [data-glaze="select-trigger"],
+  [data-glaze="autocomplete-input"],
+  [data-glaze="combobox-input"],
+  [data-glaze="number-field-input"]
+) {
+  @apply min-h-9 min-w-0 rounded-control border border-input bg-card px-3 py-1.5 text-sm text-foreground;
+  &::placeholder {
+    @apply text-muted-foreground;
+  }
+}
+:is([data-glaze="form"], [data-glaze="fieldset-root"], [data-glaze="file-upload-root"]) {
+  @apply grid min-w-0 gap-4;
+}
+:is(
+  [data-glaze="field-root"],
+  [data-glaze="radio-group"],
+  [data-glaze="checkbox-group"],
+  [data-glaze="number-field-root"]
+) {
+  @apply grid min-w-0 gap-2;
+}
+:is(
+  [data-glaze="field-label"],
+  [data-glaze="fieldset-legend"],
+  [data-glaze="meter-label"],
+  [data-glaze="progress-label"],
+  [data-glaze="number-field-scrub-area"]
+) {
+  @apply text-sm font-medium text-foreground;
+}
+[data-glaze="fieldset-legend"] {
+  @apply mb-3;
+}
+:is([data-glaze="field-description"], [data-glaze="field-error"]) {
+  @apply text-sm text-muted-foreground;
+}
+[data-glaze="field-error"] {
+  @apply text-destructive;
+}
+
+:is([data-glaze="switch-shell"], [data-glaze="checkbox-shell"], [data-glaze="radio-shell"]) {
+  @apply relative inline-grid shrink-0 place-items-center align-middle;
+}
+:is([data-glaze="switch-root"], [data-glaze="checkbox-root"], [data-glaze="radio-root"]) {
+  @apply col-start-1 row-start-1 m-0 grid cursor-pointer appearance-none place-items-center border border-input bg-card;
+}
+:is(
+  [data-glaze="switch-thumb"],
+  [data-glaze="checkbox-indicator"],
+  [data-glaze="radio-indicator"]
+) {
+  @apply pointer-events-none col-start-1 row-start-1;
+}
+[data-glaze="switch-root"] {
+  @apply h-5 w-9 rounded-full border-transparent;
+  background: var(--input);
+  transition: background-color 150ms;
+}
+:is([data-glaze="switch-root"], [data-glaze="checkbox-root"], [data-glaze="radio-root"]):is(
+  :checked,
+  :indeterminate
+) {
+  @apply border-primary bg-primary;
+}
+[data-glaze="switch-thumb"],
+[data-glaze="switch-root"]:not(:has(+ [data-glaze="switch-thumb"]))::before {
+  content: "";
+  @apply size-4 rounded-full;
+  background: var(--card);
+  translate: -0.48rem 0;
+  transition: translate 150ms;
+}
+[data-glaze="switch-root"]:checked + [data-glaze="switch-thumb"],
+[data-glaze="switch-root"]:checked::before {
+  translate: 0.48rem 0;
+}
+:is([data-glaze="checkbox-root"], [data-glaze="radio-root"]) {
+  @apply size-4;
+  border-radius: min(var(--radius), 0.3rem);
+}
+:is([data-glaze="checkbox-indicator"], [data-glaze="radio-indicator"]) {
+  @apply grid place-items-center text-primary-foreground;
+}
+[data-glaze="checkbox-indicator"] svg {
+  @apply size-3;
+}
+[data-glaze="checkbox-root"]:not(:checked, :indeterminate) + [data-glaze="checkbox-indicator"],
+[data-glaze="radio-root"]:not(:checked) + [data-glaze="radio-indicator"] {
+  visibility: hidden;
+}
+[data-glaze="checkbox-root"]:checked:not(
+    :has(+ [data-glaze="checkbox-indicator"]:not(:empty))
+  )::before {
+  content: "";
+  @apply size-3 bg-primary-foreground;
+  mask: url("./icons/check.svg") center/contain no-repeat;
+}
+[data-glaze="checkbox-root"]:indeterminate::before {
+  content: "";
+  @apply h-0.5 w-2 bg-primary-foreground;
+}
+[data-glaze="checkbox-root"]:indeterminate + [data-glaze="checkbox-indicator"] {
+  visibility: hidden;
+}
+[data-glaze="radio-root"] {
+  @apply rounded-full;
+}
+[data-glaze="radio-root"]:checked::before {
+  content: "";
+  @apply size-1.5 rounded-full bg-primary-foreground;
+}
+[data-glaze="number-field-group"] {
+  @apply inline-flex w-fit items-center overflow-clip rounded-control border border-input bg-card;
+}
+[data-glaze="number-field-input"] {
+  @apply w-16 border-0 text-center tabular-nums;
+}
+:is(
+  [data-glaze="number-field-increment"],
+  [data-glaze="number-field-decrement"],
+  [data-glaze="combobox-trigger"],
+  [data-glaze="combobox-clear"],
+  [data-glaze="autocomplete-trigger"],
+  [data-glaze="autocomplete-clear"],
+  [data-glaze="tags-input-clear"],
+  [data-glaze="file-upload-item-remove"],
+  [data-glaze="toast-close"],
+  [data-glaze="combobox-chip-remove"],
+  [data-glaze="tags-input-tag-remove"]
+) {
+  @apply inline-grid size-8 shrink-0 cursor-pointer place-items-center rounded-control text-muted-foreground hover:bg-muted hover:text-foreground;
+}
+[data-glaze="number-field-scrub-area"] {
+  cursor: ew-resize;
+}
+[data-glaze="number-field-scrub-area-cursor"] {
+  pointer-events: none;
+}
+
+:is([data-glaze="tags-input-control"], [data-glaze="combobox-chips"]) {
+  @apply flex min-h-10 flex-wrap items-center gap-1 rounded-control border border-input bg-card p-1;
+}
+:is([data-glaze="tags-input-tag"], [data-glaze="combobox-chip"]) {
+  @apply inline-flex items-center gap-1 rounded-control bg-muted ps-2 pe-1 text-xs font-medium;
+}
+:is([data-glaze="tags-input-tag-remove"], [data-glaze="combobox-chip-remove"]) {
+  @apply size-5;
+}
+[data-glaze="tags-input-input"] {
+  @apply min-w-20 flex-1 px-2 text-sm;
+}
+[data-glaze="tags-input-tag-text"] {
+  @apply truncate;
+}
+[data-glaze="file-upload-drop-zone"] {
+  @apply grid place-items-center gap-2 rounded-panel border border-dashed border-input bg-card px-5 py-7 text-sm;
+}
+[data-glaze="file-upload-drop-zone"][data-dragging],
+[data-glaze="file-upload-drop-zone"][data-dragging-over] {
+  @apply border-primary bg-muted;
+}
+[data-glaze="file-upload-input"] {
+  @apply sr-only;
+}
+[data-glaze="file-upload-drop-zone"]:focus-within {
+  outline: 2px solid var(--ring);
+}
+[data-glaze="file-upload-item"] {
+  @apply flex items-center gap-2 rounded-control border border-border p-2 text-sm;
+}
+[data-glaze="file-upload-item-preview"] {
+  @apply size-9 rounded-control object-cover;
+}
+[data-glaze="toggle"][aria-pressed="true"],
+[data-glaze="pagination-item"][aria-current] {
+  @apply border-transparent bg-primary text-primary-foreground;
+}
+:is(
+  [data-glaze="toggle-group"],
+  [data-glaze="toolbar-root"],
+  [data-glaze="toolbar-group"],
+  [data-glaze="menubar-root"],
+  [data-glaze="navigation-menu-list"],
+  [data-glaze="pagination-root"]
+) {
+  @apply inline-flex max-w-full flex-wrap items-center gap-1;
+}
+:is([data-glaze="toggle-group"], [data-glaze="toolbar-root"], [data-glaze="menubar-root"]) {
+  @apply rounded-panel border border-border bg-card p-1;
+}
+:is([data-glaze="toggle-group"], [data-glaze="toolbar-root"], [data-glaze="menubar-root"])
+  :is(button, a) {
+  @apply border-transparent;
+}
+:is([data-glaze="toggle-group"], [data-glaze="toolbar-root"])[data-orientation="vertical"] {
+  @apply flex-col;
+}

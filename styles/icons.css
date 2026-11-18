@@ -1,0 +1,353 @@
+[data-glaze="icon"] {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  background: currentColor;
+  mask: var(--glaze-icon) center/contain no-repeat;
+}
+[data-glaze="icon"][data-icon="check"] {
+  --glaze-icon: url("./icons/check.svg");
+}
+[data-glaze="icon"][data-icon="minus"] {
+  --glaze-icon: url("./icons/minus.svg");
+}
+[data-glaze="icon"][data-icon="plus"] {
+  --glaze-icon: url("./icons/plus.svg");
+}
+[data-glaze="icon"][data-icon="x"] {
+  --glaze-icon: url("./icons/x.svg");
+}
+[data-glaze="icon"][data-icon="chevron-down"] {
+  --glaze-icon: url("./icons/chevron-down.svg");
+}
+[data-glaze="icon"][data-icon="chevron-left"] {
+  --glaze-icon: url("./icons/chevron-left.svg");
+}
+[data-glaze="icon"][data-icon="chevron-right"] {
+  --glaze-icon: url("./icons/chevron-right.svg");
+}
+[data-glaze="icon"][data-icon="chevrons-up-down"] {
+  --glaze-icon: url("./icons/chevrons-up-down.svg");
+}
+[data-glaze="icon"][data-icon="calendar"] {
+  --glaze-icon: url("./icons/calendar.svg");
+}
+[data-glaze="icon"][data-icon="clock"] {
+  --glaze-icon: url("./icons/clock.svg");
+}
+[data-glaze="icon"][data-icon="grip-vertical"] {
+  --glaze-icon: url("./icons/grip-vertical.svg");
+}
+[data-glaze="icon"][data-icon="bold"] {
+  --glaze-icon: url("./icons/bold.svg");
+}
+[data-glaze="icon"][data-icon="italic"] {
+  --glaze-icon: url("./icons/italic.svg");
+}
+[data-glaze="icon"][data-icon="underline"] {
+  --glaze-icon: url("./icons/underline.svg");
+}
+[data-glaze="icon"][data-icon="align-left"] {
+  --glaze-icon: url("./icons/align-left.svg");
+}
+[data-glaze="icon"][data-icon="align-center"] {
+  --glaze-icon: url("./icons/align-center.svg");
+}
+[data-glaze="icon"][data-icon="align-right"] {
+  --glaze-icon: url("./icons/align-right.svg");
+}
+[data-glaze="icon"][data-icon="heart"] {
+  --glaze-icon: url("./icons/heart.svg");
+}
+[data-glaze="icon"][data-icon="image"] {
+  --glaze-icon: url("./icons/image.svg");
+}
+[data-glaze="icon"][data-icon="upload"] {
+  --glaze-icon: url("./icons/upload.svg");
+}
+[data-glaze="icon"][data-icon="file"] {
+  --glaze-icon: url("./icons/file.svg");
+}
+[data-glaze="icon"][data-icon="settings"] {
+  --glaze-icon: url("./icons/settings.svg");
+}
+[data-glaze="icon"][data-icon="arrow-up-right"] {
+  --glaze-icon: url("./icons/arrow-up-right.svg");
+}
+[data-glaze="icon"][data-icon="arrow-right"] {
+  --glaze-icon: url("./icons/arrow-right.svg");
+}
+[data-glaze="icon"][data-icon="layers-3"] {
+  --glaze-icon: url("./icons/layers-3.svg");
+}
+[data-glaze="icon"][data-icon="palette"] {
+  --glaze-icon: url("./icons/palette.svg");
+}
+[data-glaze="icon"][data-icon="book-open"] {
+  --glaze-icon: url("./icons/book-open.svg");
+}
+[data-glaze="icon"][data-icon="search"] {
+  --glaze-icon: url("./icons/search.svg");
+}
+[data-glaze="icon"][data-icon="menu"] {
+  --glaze-icon: url("./icons/menu.svg");
+}
+[data-glaze="icon"][data-icon="sun"] {
+  --glaze-icon: url("./icons/sun.svg");
+}
+[data-glaze="icon"][data-icon="moon"] {
+  --glaze-icon: url("./icons/moon.svg");
+}
+[data-glaze="icon"][data-icon="monitor"] {
+  --glaze-icon: url("./icons/monitor.svg");
+}
+[data-glaze="icon"][data-icon="sliders-horizontal"] {
+  --glaze-icon: url("./icons/sliders-horizontal.svg");
+}
+[data-glaze="icon"][data-icon="copy"] {
+  --glaze-icon: url("./icons/copy.svg");
+}
+[data-glaze="icon"][data-icon="panels-top-left"] {
+  --glaze-icon: url("./icons/panels-top-left.svg");
+}
+[data-glaze="icon"][data-icon="code-xml"] {
+  --glaze-icon: url("./icons/code-xml.svg");
+}
+[data-glaze="icon"][data-icon="circle-dot"] {
+  --glaze-icon: url("./icons/circle-dot.svg");
+}
+[data-glaze="icon"][data-icon="swatch-book"] {
+  --glaze-icon: url("./icons/swatch-book.svg");
+}
+[data-glaze="icon"][data-icon="command"] {
+  --glaze-icon: url("./icons/command.svg");
+}
+[data-glaze="icon"][data-icon="component"] {
+  --glaze-icon: url("./icons/component.svg");
+}
+[data-glaze="icon"][data-icon="download"] {
+  --glaze-icon: url("./icons/download.svg");
+}
+[data-glaze="icon"][data-icon="keyboard"] {
+  --glaze-icon: url("./icons/keyboard.svg");
+}
+[data-glaze="icon"][data-icon="square-mouse-pointer"] {
+  --glaze-icon: url("./icons/square-mouse-pointer.svg");
+}
+[data-glaze="icon"][data-icon="toggle-right"] {
+  --glaze-icon: url("./icons/toggle-right.svg");
+}
+[data-glaze="icon"][data-icon="panel-left"] {
+  --glaze-icon: url("./icons/panel-left.svg");
+}
+[data-glaze="icon"][data-icon="list-filter"] {
+  --glaze-icon: url("./icons/list-filter.svg");
+}
+[data-glaze="icon"][data-icon="circle-help"] {
+  --glaze-icon: url("./icons/circle-help.svg");
+}
+[data-glaze="icon"][data-icon="eye"] {
+  --glaze-icon: url("./icons/eye.svg");
+}
+[data-glaze="icon"][data-icon="package"] {
+  --glaze-icon: url("./icons/package.svg");
+}
+[data-glaze="icon"][data-icon="box"] {
+  --glaze-icon: url("./icons/box.svg");
+}
+[data-glaze="select-icon"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/chevrons-up-down.svg") center/contain no-repeat;
+}
+[data-glaze="navigation-menu-icon"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/chevron-down.svg") center/contain no-repeat;
+}
+[data-glaze="menu-submenu-trigger"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/chevron-right.svg") center/contain no-repeat;
+}
+[data-glaze="context-menu-submenu-trigger"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/chevron-right.svg") center/contain no-repeat;
+}
+[data-glaze="select-item-indicator"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/check.svg") center/contain no-repeat;
+}
+[data-glaze="listbox-item-indicator"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/check.svg") center/contain no-repeat;
+}
+[data-glaze="combobox-item-indicator"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/check.svg") center/contain no-repeat;
+}
+[data-glaze="calendar-next-month"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/chevron-right.svg") center/contain no-repeat;
+}
+[data-glaze="calendar-previous-month"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/chevron-left.svg") center/contain no-repeat;
+}
+[data-glaze="combobox-trigger"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/chevron-down.svg") center/contain no-repeat;
+}
+[data-glaze="autocomplete-trigger"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/chevron-down.svg") center/contain no-repeat;
+}
+[data-glaze="number-field-increment"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/plus.svg") center/contain no-repeat;
+}
+[data-glaze="number-field-decrement"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/minus.svg") center/contain no-repeat;
+}
+[data-glaze="date-picker-trigger"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/calendar.svg") center/contain no-repeat;
+}
+[data-glaze="date-range-picker-trigger"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/calendar.svg") center/contain no-repeat;
+}
+[data-glaze="time-picker-trigger"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/clock.svg") center/contain no-repeat;
+}
+[data-glaze="sortable-handle"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/grip-vertical.svg") center/contain no-repeat;
+}
+[data-glaze="toast-close"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/x.svg") center/contain no-repeat;
+}
+[data-glaze="combobox-clear"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/x.svg") center/contain no-repeat;
+}
+[data-glaze="autocomplete-clear"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/x.svg") center/contain no-repeat;
+}
+[data-glaze="tags-input-tag-remove"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/x.svg") center/contain no-repeat;
+}
+[data-glaze="tags-input-clear"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/x.svg") center/contain no-repeat;
+}
+[data-glaze="combobox-chip-remove"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/x.svg") center/contain no-repeat;
+}
+[data-glaze="file-upload-item-remove"]:empty::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  mask: url("./icons/x.svg") center/contain no-repeat;
+}
+[data-glaze="icon"][data-icon="bell"] {
+  --glaze-icon: url("./icons/bell.svg");
+}

@@ -23,7 +23,7 @@
     "typecheck": "pnpm prepare:source && rx-tsc --noEmit -p tsconfig.rx.json && tsrs --noEmit",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "lint": "oxlint --deny-warnings",
+    "lint": "oxlint --deny-warnings && node scripts/lint-design.mjs",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm build:docs"
   },
   "dependencies": {

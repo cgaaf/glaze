@@ -1,0 +1,6 @@
+export type IconName =  "bell" | "check" | "minus" | "plus" | "x" | "chevron-down" | "chevron-left" | "chevron-right" | "chevrons-up-down" | "calendar" | "clock" | "grip-vertical" | "bold" | "italic" | "underline" | "align-left" | "align-center" | "align-right" | "heart" | "image" | "upload" | "file" | "settings" | "arrow-up-right" | "arrow-right" | "layers-3" | "palette" | "book-open" | "search" | "menu" | "sun" | "moon" | "monitor" | "sliders-horizontal" | "copy" | "panels-top-left" | "code-xml" | "circle-dot" | "swatch-book" | "command" | "component" | "download" | "keyboard" | "square-mouse-pointer" | "toggle-right" | "panel-left" | "list-filter" | "circle-help" | "eye" | "package" | "box"
+
+// Decorative by design. Give an icon-only control its accessible name.
+export component Icon(props: { name: IconName; class?: string }) {
+  <span data-glaze="icon" data-icon={props.name} class={props.class} aria-hidden="true" />
+}

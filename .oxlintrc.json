@@ -1,1 +1,5 @@
-{ "ignorePatterns": ["src/bisque/**", "dist/**"] }
+{
+  "ignorePatterns": ["src/bisque/**", "dist/**"],
+  "jsPlugins": ["@shadcn/lint"],
+  "rules": { "shadcn/no-arbitrary-values": "error", "shadcn/no-raw-colors": "error" }
+}

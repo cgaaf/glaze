@@ -1,0 +1,118 @@
+:is([data-glaze="calendar-root"], [data-glaze="range-calendar-root"]) {
+  @apply w-fit max-w-full rounded-panel border border-border bg-card p-3 text-foreground;
+}
+[data-glaze="calendar-month-label"] {
+  @apply text-sm font-semibold;
+}
+:is(
+  [data-glaze="calendar-previous-month"],
+  [data-glaze="calendar-next-month"],
+  [data-glaze="calendar-month-select"],
+  [data-glaze="calendar-year-select"],
+  [data-glaze="date-picker-trigger"],
+  [data-glaze="date-range-picker-trigger"],
+  [data-glaze="time-picker-trigger"]
+) {
+  @apply inline-grid min-h-8 min-w-8 cursor-pointer place-items-center rounded-control text-sm hover:bg-muted;
+}
+[data-glaze="calendar-grid"] {
+  @apply w-full border-collapse text-center text-sm tabular-nums;
+}
+[data-glaze="calendar-grid"] th,
+[data-glaze="calendar-week-number"] {
+  @apply h-8 text-xs font-medium text-muted-foreground;
+}
+[data-glaze="calendar-grid"] td {
+  padding: 1px;
+}
+[data-glaze="calendar-grid"] button,
+[data-glaze="calendar-day"] {
+  @apply size-8 cursor-pointer rounded-control hover:bg-muted;
+}
+[data-glaze="calendar-grid"] button[data-outside-month] {
+  @apply text-muted-foreground;
+}
+[data-glaze="calendar-grid"] button[data-today] {
+  @apply underline underline-offset-4;
+}
+[data-glaze="calendar-grid"] button[data-in-range] {
+  @apply bg-muted;
+}
+[data-glaze="calendar-grid"] button:is([data-selected], [data-range-start], [data-range-end]) {
+  @apply bg-primary text-primary-foreground;
+}
+[data-glaze="calendar-grid"] button:disabled {
+  @apply opacity-45;
+}
+:is(
+  [data-glaze="date-field-input"],
+  [data-glaze="time-field-input"],
+  [data-glaze="date-picker-group"],
+  [data-glaze="date-range-picker-group"],
+  [data-glaze="time-picker-field"]
+) {
+  @apply inline-flex min-h-9 w-fit max-w-full flex-wrap items-center rounded-control border border-input bg-card px-2 text-sm tabular-nums;
+}
+:is(
+    [data-glaze="date-picker-group"],
+    [data-glaze="date-range-picker-group"],
+    [data-glaze="time-picker-field"]
+  )
+  :is([data-glaze="date-field-input"], [data-glaze="time-field-input"]) {
+  @apply border-0 bg-transparent px-0;
+}
+:is([data-glaze="date-field-segment"], [data-glaze="time-field-segment"]) {
+  @apply rounded-sm px-0.5;
+}
+:is([data-glaze="date-field-segment"], [data-glaze="time-field-segment"])[data-type="literal"] {
+  @apply px-0 text-muted-foreground;
+}
+:is([data-glaze="date-field-segment"], [data-glaze="time-field-segment"]):focus {
+  @apply bg-primary text-primary-foreground outline-none;
+}
+:is([data-glaze="date-field-segment"], [data-glaze="time-field-segment"])[data-placeholder]:not(
+    :focus
+  ) {
+  @apply text-muted-foreground;
+}
+:is([data-glaze="date-range-picker-separator"], [data-glaze="time-range-picker-separator"]) {
+  @apply px-1 text-muted-foreground;
+}
+:is([data-glaze="time-range-picker-root"], [data-glaze="date-range-picker-group"]) {
+  @apply flex flex-wrap items-center gap-1;
+}
+:is(
+  [data-glaze="time-picker-popup"],
+  [data-glaze="date-picker-popup"],
+  [data-glaze="date-range-picker-popup"]
+) {
+  @apply p-3;
+  max-width: calc(100vw - 1rem);
+}
+:is(
+  [data-glaze="time-picker-hours"],
+  [data-glaze="time-picker-minutes"],
+  [data-glaze="time-picker-seconds"],
+  [data-glaze="time-picker-options"],
+  [data-glaze="time-picker-day-period"]
+) {
+  @apply grid max-h-56 gap-0.5 overflow-auto text-sm tabular-nums;
+}
+[data-glaze][data-time-grid-columns] {
+  grid-template-columns: repeat(attr(data-time-grid-columns type(<integer>), 1), minmax(0, 1fr));
+}
+[data-glaze="time-picker-popup"] [role="option"] {
+  @apply min-w-8 cursor-pointer rounded-control px-1 py-1 text-center hover:bg-muted;
+}
+[data-glaze="time-picker-popup"] [role="option"][data-selected] {
+  @apply bg-primary text-primary-foreground;
+}
+[data-glaze="otp-field-root"] {
+  @apply flex items-center gap-1;
+}
+[data-glaze="otp-field-input"] {
+  @apply size-9 rounded-control border border-input bg-card text-center font-medium tabular-nums;
+}
+[data-glaze="otp-field-separator"] {
+  @apply mx-1 h-px w-2 bg-input;
+}
