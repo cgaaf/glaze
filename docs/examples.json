@@ -54,6 +54,21 @@
   ],
   "button": [
     {
+      "id": "variants",
+      "title": "Choosing an emphasis and a tone",
+      "description": "Press each variant, loudest to quietest. The second row keeps the same emphasis in the destructive tone. Tab through it to see the focus ring take the tone’s color."
+    },
+    {
+      "id": "destructive",
+      "title": "Removing things at the right volume",
+      "description": "Remove a member with the ghost icon button, revoke every invite with the outline button, or leave the team. Restore puts everything back."
+    },
+    {
+      "id": "sizes",
+      "title": "Sizing an action to its place",
+      "description": "Compare the four heights. Each has an icon-only square of the same height, so a labeled action and an icon action line up."
+    },
+    {
       "id": "loading",
       "title": "Keeping focus while saving",
       "description": "Activate Save draft with the keyboard. The button keeps focus and ignores additional presses until the save finishes."
@@ -549,6 +564,28 @@
       "id": "field",
       "title": "Labelling related settings",
       "description": "Activate the backup switch by its label. Each setting has a description, and the second field disables its switch."
+    }
+  ],
+  "table": [
+    {
+      "id": "filters",
+      "title": "Filtering by column",
+      "description": "Type in a column's filter to keep the rows that match. Filters combine, and Clear filters empties every input."
+    },
+    {
+      "id": "columns",
+      "title": "Resizing and pinning columns",
+      "description": "Drag a header's edge to resize its column, or focus the edge and use the arrow keys. Pin a column with its pin button, then scroll the table sideways."
+    },
+    {
+      "id": "grouped",
+      "title": "Grouping rows with totals",
+      "description": "Choose what to group by. Each group's row counts its tasks and adds up their hours; open a group to see its rows."
+    },
+    {
+      "id": "server",
+      "title": "Sorting and paging on a server",
+      "description": "Sort a column or change the page. The header and the pager respond at once, and the rows dim until the server answers."
     }
   ],
   "table-of-contents": [

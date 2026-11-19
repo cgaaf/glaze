@@ -52,7 +52,17 @@ try {
   await page.getByRole("radio", { name: "Satin" }).click();
   assert.equal(await page.locator("html").getAttribute("data-glaze-finish"), "satin");
   assert.ok((await header.evaluate(alpha)) < 255);
-  assert.match(await header.evaluate((el) => getComputedStyle(el).backdropFilter), /blur\(14px\)/);
+  assert.match(
+    await header.evaluate((el) => getComputedStyle(el).backdropFilter),
+    /blur\(13\.2px\)/,
+  );
+  // Translucency is a dial of its own over the finish: none is solid, and the choice is kept.
+  const translucency = page.getByRole("slider", { name: "Translucency" });
+  await translucency.fill("0");
+  assert.equal(await header.evaluate(alpha), 255);
+  await translucency.fill("0.8");
+  assert.ok((await header.evaluate(alpha)) < 255);
+  assert.equal(await page.evaluate(() => localStorage.getItem("glazeTranslucency")), "0.8");
   const themeCss = await page.locator("[data-theme-css] code").textContent();
   // The build's minifier may drop a leading zero.
   for (const line of [
@@ -60,7 +70,7 @@ try {
     /--glaze-font: ui-serif/,
     /--spacing: 0?\.22rem;/,
     /--accent: light-dark\(/,
-    /--glass-opacity: 0?\.64;/,
+    /--translucency: 0?\.8;/,
   ])
     assert.match(themeCss, line);
   await page.reload();
@@ -88,6 +98,7 @@ try {
   }
   await page.getByRole("button", { name: "Reset tokens" }).click();
   assert.equal(await page.locator("html").getAttribute("data-glaze-finish"), null);
+  assert.equal(await page.evaluate(() => localStorage.getItem("glazeTranslucency")), null);
   assert.equal(await save.evaluate((el) => getComputedStyle(el).borderRadius), "7.2px");
   assert.equal(await page.evaluate(() => localStorage.getItem("glazeRadius")), null);
   await page.getByRole("button", { name: "Theme", exact: true }).click();
@@ -333,6 +344,35 @@ try {
   assert.match(
     await page.locator('[data-glaze="sortable-item"]').first().innerText(),
     /Water the plants/,
+  );
+  // Table: TanStack Table's state on Solid's signals. A sort shows in the header and the rows, a selection in
+  // the select-all box, and a page in the pager.
+  await visit("?component=table");
+  const orderCells = () =>
+    demo
+      .locator("tbody tr td:nth-child(2)")
+      .evaluateAll((cells) => cells.map((c) => c.textContent));
+  assert.deepEqual(await orderCells(), ["K-1060", "K-1061", "K-1059", "K-1058", "K-1057"]);
+  await demo.getByRole("button", { name: "Total", exact: true }).click();
+  assert.equal(
+    await demo.getByRole("columnheader", { name: "Total" }).getAttribute("aria-sort"),
+    "descending",
+  );
+  assert.deepEqual(await orderCells(), ["K-1047", "K-1055", "K-1044", "K-1060", "K-1058"]);
+  await demo.getByRole("checkbox", { name: "Select order K-1047" }).click();
+  assert.equal(
+    await demo
+      .getByRole("checkbox", { name: "Select all orders on this page" })
+      .evaluate((box) => box.indeterminate),
+    true,
+  );
+  await demo.getByRole("button", { name: "Next page" }).click();
+  assert.equal((await orderCells())[0], "K-1051");
+  await demo.getByRole("searchbox", { name: "Search orders" }).fill("lark");
+  await page.waitForFunction(
+    () => document.querySelectorAll("#demo tbody tr").length === 3,
+    undefined,
+    { timeout: 5000 },
   );
   await visit("?component=pagination");
   await demo.getByRole("link", { name: "Page 7", exact: true }).click();

@@ -157,3 +157,33 @@
 [data-glaze="progress-root"][data-indeterminate] [data-glaze="progress-indicator"] {
   height: 100%;
 }
+
+:is([data-glaze="progress-indicator"], [data-glaze="meter-indicator"]) {
+  transition: width 300ms;
+}
+/* Reduced motion slows the indeterminate bar instead of stopping it, so it never reads as 35% done. */
+@media (prefers-reduced-motion: reduce) {
+  [data-glaze="progress-root"][data-indeterminate] [data-glaze="progress-indicator"] {
+    animation-duration: 3s !important;
+  }
+}
+[data-glaze="slider-root"][data-dragging]
+  :is([data-glaze="slider-control"], [data-glaze="slider-thumb"]) {
+  cursor: grabbing;
+}
+/* The viewport fills a root that clips, so its focus ring is drawn inside. */
+[data-glaze="scroll-area-viewport"]:focus-visible {
+  outline-offset: -2px;
+}
+/* A collapsed panel can reach 0. */
+[data-glaze="splitter-panel"][data-collapsed] {
+  padding: 0;
+  overflow: hidden;
+}
+[data-glaze="splitter-root"][data-dragging] {
+  user-select: none;
+  cursor: col-resize;
+  &[data-orientation="vertical"] {
+    cursor: row-resize;
+  }
+}

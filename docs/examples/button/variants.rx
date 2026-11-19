@@ -1,0 +1,29 @@
+import { Button } from "../../../src/glaze/button.rx"
+
+// Loudest to quietest. The destructive row draws each emphasis in the destructive color.
+export default component ButtonVariants() {
+  source pressed := "Nothing yet"
+  <div class="grid min-w-0 gap-4">
+    <div class="grid gap-2">
+      <span class="text-xs font-medium text-muted-foreground">Default tone</span>
+      <div class="flex flex-wrap items-center gap-2">
+        <Button onClick={() => { pressed := "Default" }}>Default</Button>
+        <Button variant="secondary" onClick={() => { pressed := "Secondary" }}>Secondary</Button>
+        <Button variant="outline" onClick={() => { pressed := "Outline" }}>Outline</Button>
+        <Button variant="ghost" onClick={() => { pressed := "Ghost" }}>Ghost</Button>
+        <Button variant="link" onClick={() => { pressed := "Link" }}>Link</Button>
+      </div>
+    </div>
+    <div class="grid gap-2">
+      <span class="text-xs font-medium text-muted-foreground">Destructive tone</span>
+      <div class="flex flex-wrap items-center gap-2">
+        <Button variant="destructive" onClick={() => { pressed := "Destructive" }}>Destructive</Button>
+        <Button variant="secondary" tone="destructive" onClick={() => { pressed := "Secondary, destructive" }}>Secondary</Button>
+        <Button variant="outline" tone="destructive" onClick={() => { pressed := "Outline, destructive" }}>Outline</Button>
+        <Button variant="ghost" tone="destructive" onClick={() => { pressed := "Ghost, destructive" }}>Ghost</Button>
+        <Button variant="link" tone="destructive" onClick={() => { pressed := "Link, destructive" }}>Link</Button>
+      </div>
+    </div>
+    <output class="text-sm text-muted-foreground">Last pressed: {pressed}</output>
+  </div>
+}

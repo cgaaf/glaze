@@ -1,0 +1,71 @@
+import { createTable } from "../../../src/bisque/internal/table.js"
+import { TableRoot, TableColumnHeader, TableColumnResizer, TableRow, TableCell } from "../../../src/glaze/table.rx"
+import { Button } from "../../../src/glaze/button.rx"
+import { Icon } from "../../../src/glaze/icon.rx"
+
+export default component TableColumns() {
+  firings = [
+    { id: "f1", kiln: "Front kiln", program: "Bisque 04", clay: "Stoneware", cone: "04", peak: 1060, hours: 9.5, pieces: 42 },
+    { id: "f2", kiln: "Front kiln", program: "Glaze 6", clay: "Stoneware", cone: "6", peak: 1222, hours: 11, pieces: 38 },
+    { id: "f3", kiln: "Gas kiln", program: "Reduction 10", clay: "Porcelain", cone: "10", peak: 1285, hours: 14.5, pieces: 26 },
+    { id: "f4", kiln: "Test kiln", program: "Glaze tests", clay: "Porcelain", cone: "6", peak: 1222, hours: 7, pieces: 12 },
+    { id: "f5", kiln: "Gas kiln", program: "Soda firing", clay: "Stoneware", cone: "10", peak: 1290, hours: 16, pieces: 31 },
+    { id: "f6", kiln: "Raku kiln", program: "Raku", clay: "Raku body", cone: "06", peak: 1000, hours: 1.5, pieces: 9 },
+  ]
+  columns = [
+    { accessorKey: "kiln", header: "Kiln", size: 150, minSize: 110, maxSize: 280 },
+    { accessorKey: "program", header: "Program", size: 150, minSize: 100 },
+    { accessorKey: "clay", header: "Clay", size: 130, minSize: 90 },
+    { accessorKey: "cone", header: "Cone", size: 100, minSize: 80 },
+    { accessorKey: "peak", header: "Peak °C", size: 120, minSize: 90 },
+    { accessorKey: "hours", header: "Hours", size: 110, minSize: 80 },
+    { accessorKey: "pieces", header: "Pieces", size: 110, minSize: 80 },
+  ]
+  table = createTable({
+    data: firings,
+    columns: columns,
+    getRowId: row => row.id,
+    // Sizes follow the drag. "onEnd", the default, applies them when it ends.
+    columnResizeMode: "onChange",
+    initialState: { columnPinning: { start: ["kiln"], end: [] } },
+  })
+  ids = table.getRowModel().rows.map(row => row.id)
+
+  <div class="grid w-full max-w-xl justify-items-start gap-3">
+    <TableRoot layout="fixed" aria-label="Firings">
+      <thead>
+        <tr>
+          {for header in table.getFlatHeaders() {
+            <TableColumnHeader header={header}>
+              <span class="flex items-center justify-between gap-1">
+                <span class="truncate">{header.column.columnDef.header}</span>
+                <Button
+                  variant="ghost"
+                  size="icon-xs"
+                  class={header.column.getIsPinned() == "start" ? "text-primary" : "text-muted-foreground"}
+                  aria-pressed={header.column.getIsPinned() == "start" ? "true" : "false"}
+                  aria-label={`Pin ${header.column.columnDef.header}`}
+                  onClick={() => { header.column.pin(header.column.getIsPinned() == "start" ? false : "start") }}
+                >
+                  <Icon name="pin" />
+                </Button>
+              </span>
+              <TableColumnResizer header={header} aria-label={`Resize ${header.column.columnDef.header}`} />
+            </TableColumnHeader>
+          }}
+        </tr>
+      </thead>
+      <tbody>
+        {for id in ids {
+          row = table.getRow(id)
+          <TableRow row={row}>
+            {for cell in row.getVisibleCells() {
+              <TableCell cell={cell}>{cell.getValue()}</TableCell>
+            }}
+          </TableRow>
+        }}
+      </tbody>
+    </TableRoot>
+    <Button variant="outline" size="sm" onClick={() => { table.resetColumnSizing(); table.resetColumnPinning() }}>Reset columns</Button>
+  </div>
+}

@@ -1,0 +1,87 @@
+import { createTable } from "../../../src/bisque/internal/table.js"
+import { TableRoot, TableColumnHeader, TableSortTrigger, TableRow, TableCell, TableExpandTrigger } from "../../../src/glaze/table.rx"
+import { SegmentedControlRoot, SegmentedControlItem } from "../../../src/glaze/segmented-control.rx"
+import { Button } from "../../../src/glaze/button.rx"
+
+export default component TableGrouped() {
+  tasks = [
+    { id: "t1", title: "Mix celadon batch", area: "Glaze room", priority: "High", hours: 6 },
+    { id: "t2", title: "Sieve wood ash", area: "Glaze room", priority: "Low", hours: 2 },
+    { id: "t3", title: "Test tiles, cone 6", area: "Glaze room", priority: "Medium", hours: 12 },
+    { id: "t4", title: "Load the gas kiln", area: "Kiln yard", priority: "High", hours: 9 },
+    { id: "t5", title: "Replace thermocouple", area: "Kiln yard", priority: "High", hours: 4 },
+    { id: "t6", title: "Wash kiln shelves", area: "Kiln yard", priority: "Medium", hours: 7 },
+    { id: "t7", title: "Reclaim trimmings", area: "Clay store", priority: "Medium", hours: 5 },
+    { id: "t8", title: "Wedge porcelain", area: "Clay store", priority: "Low", hours: 3 },
+  ]
+  // `aggregationFn` is what a group's row shows in the column: how many tasks, and their hours added up.
+  columns = [
+    { accessorKey: "area", header: "Area" },
+    { accessorKey: "priority", header: "Priority" },
+    { accessorKey: "title", header: "Task", aggregationFn: "count", enableGrouping: false },
+    { accessorKey: "hours", header: "Hours", aggregationFn: "sum", enableGrouping: false },
+  ]
+  table = createTable({
+    data: tasks,
+    columns: columns,
+    getRowId: row => row.id,
+    initialState: { grouping: ["area"], expanded: { "area:Glaze room": true } },
+  })
+  ids = table.getRowModel().rows.map(row => row.id)
+  grouping = table.store.state.grouping.join(",")
+
+  // In a group's row, the grouped column's cell names the group (`getIsGrouped`) and gets the button for the
+  // rows under it; a column with an `aggregationFn` holds the group's aggregate (`getIsAggregated`). Under a
+  // group, the grouped column's cell is a placeholder and stays empty.
+  action groupBy(value: string | null) {
+    table.setGrouping(value == null || value == "none" ? [] : value.split(","))
+  }
+
+  <div class="grid w-full max-w-2xl gap-3">
+    <div class="flex flex-wrap items-center gap-3 text-sm">
+      <span class="text-muted-foreground" id="table-group-by">Group by</span>
+      <SegmentedControlRoot aria-labelledby="table-group-by" value={grouping == "" ? "none" : grouping} onValueChange={groupBy}>
+        <SegmentedControlItem value="area">Area</SegmentedControlItem>
+        <SegmentedControlItem value="priority">Priority</SegmentedControlItem>
+        <SegmentedControlItem value="area,priority">Both</SegmentedControlItem>
+        <SegmentedControlItem value="none">Nothing</SegmentedControlItem>
+      </SegmentedControlRoot>
+      <Button class="ms-auto" variant="ghost" size="sm" disabled={grouping == ""} onClick={() => { table.toggleAllRowsExpanded() }}>
+        {table.getIsAllRowsExpanded() ? "Collapse all" : "Expand all"}
+      </Button>
+    </div>
+    <TableRoot aria-label="Studio tasks">
+      <thead>
+        <tr>
+          {for header in table.getFlatHeaders() {
+            <TableColumnHeader header={header} class={header.column.id == "hours" ? "text-end" : ""}>
+              <TableSortTrigger column={header.column}>{header.column.columnDef.header}</TableSortTrigger>
+            </TableColumnHeader>
+          }}
+        </tr>
+      </thead>
+      <tbody>
+        {for id in ids {
+          row = table.getRow(id)
+          <TableRow row={row}>
+            {for cell in row.getVisibleCells() {
+              <TableCell cell={cell} class={cell.column.id == "hours" ? "text-end" : ""}>
+                {if cell.getIsGrouped() {
+                  <TableExpandTrigger row={row}>{cell.getValue()}</TableExpandTrigger>
+                } else if cell.getIsAggregated() {
+                  {if cell.column.id == "title" {
+                    <span class="font-normal text-muted-foreground">{`${cell.getValue()} tasks`}</span>
+                  } else if cell.column.id == "hours" {
+                    {cell.getValue()}
+                  }}
+                } else if !cell.getIsPlaceholder() {
+                  {cell.getValue() ?? ""}
+                }}
+              </TableCell>
+            }}
+          </TableRow>
+        }}
+      </tbody>
+    </TableRoot>
+  </div>
+}

@@ -163,6 +163,10 @@
     "name": "Switch",
     "description": "A native checkbox with the switch role, for a setting that is on or off."
   },
+  "table": {
+    "name": "Table",
+    "description": "A data table on a native table element: sorting, filtering, selection, paging, column sizing and grouping, with TanStack Table keeping the state."
+  },
   "table-of-contents": {
     "name": "Table of Contents",
     "description": "A list of links to a document's sections that marks the one being read."

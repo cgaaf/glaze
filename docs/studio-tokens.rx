@@ -1,6 +1,6 @@
 import { SegmentedControlRoot, SegmentedControlItem } from "../src/glaze/segmented-control.rx"
 import { SliderRoot, SliderControl, SliderTrack, SliderIndicator, SliderThumb } from "../src/glaze/slider.rx"
-import { createThemeChoices, setTheme, setRadius, tokenOptions } from "./lib/theme-state.js"
+import { createThemeChoices, setTheme, setRadius, setTranslucency, tokenOptions } from "./lib/theme-state.js"
 
 // The theme studio's token controls. They follow the theme live, so the header's theme menu and these stay in step.
 export default component StudioTokens() {
@@ -15,6 +15,18 @@ export default component StudioTokens() {
       <SegmentedControlRoot aria-labelledby="studio-finish" value={choices.finish} onValueChange={(next) => { setTheme("Finish", next) }}>
         {for entry in finishes { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
       </SegmentedControlRoot>
+    </div>
+    <div class="token-control">
+      <span id="studio-translucency">Translucency</span>
+      <output>{choices.translucencyLabel}</output>
+      <SliderRoot value={choices.translucency} min={0} max={1} step={0.05} onValueChange={(next) => { setTranslucency(next) }}>
+        <SliderControl>
+          <SliderTrack>
+            <SliderIndicator />
+            <SliderThumb aria-labelledby="studio-translucency" />
+          </SliderTrack>
+        </SliderControl>
+      </SliderRoot>
     </div>
     <div class="token-control">
       <span id="studio-radius">Radius</span>

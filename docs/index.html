@@ -50,6 +50,10 @@
             if (radius && +radius >= 0 && +radius <= 1)
               root.style.setProperty("--radius", +radius + "rem");
             else root.style.removeProperty("--radius");
+            const translucency = localStorage.getItem("glazeTranslucency");
+            if (translucency && +translucency >= 0 && +translucency <= 1)
+              root.style.setProperty("--translucency", String(+translucency));
+            else root.style.removeProperty("--translucency");
           } catch {}
         };
         restore();

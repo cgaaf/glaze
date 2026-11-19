@@ -17,8 +17,8 @@ export component FileUploadInput(props: Parameters<typeof BaseFileUploadInput>[0
   <BaseFileUploadInput {...props} data-glaze="file-upload-input" />
 }
 
-export component FileUploadTrigger({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseFileUploadTrigger>[0] & ButtonStyle) {
-  <BaseFileUploadTrigger {...rest} data-glaze="file-upload-trigger" data-variant={variant} data-size={size}>{children}</BaseFileUploadTrigger>
+export component FileUploadTrigger({ variant = "outline", tone = "default", size = "default", children, ...rest }: Parameters<typeof BaseFileUploadTrigger>[0] & ButtonStyle) {
+  <BaseFileUploadTrigger {...rest} data-glaze="file-upload-trigger" data-variant={variant} data-tone={tone} data-size={size}>{children}</BaseFileUploadTrigger>
 }
 
 export component FileUploadDropZone(props: Parameters<typeof BaseFileUploadDropZone>[0]) {

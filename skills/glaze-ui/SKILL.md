@@ -30,6 +30,7 @@ ReactiveScript 0.3: trust the copied source over memory.
 | `SegmentedControlRoot`, `SegmentedControlItem`                       | `segmented-control.rx`            | A radio group drawn as a segmented track. It picks a value; to switch panels, use Tabs.  |
 | `DialogFooter`, `AlertDialogFooter`, `DrawerFooter`, `PopoverFooter` | In each family's file             | The row of actions that ends a popup.                                                    |
 | `Textarea`                                                           | `input.rx`                        | A multi-line text field that grows with its content.                                     |
+| `TableRoot`                                                          | `table.rx`                        | The `<table>` in a frame that scrolls sideways. See [Table](#table).                     |
 | `ThinkingOrb`, `ThinkingStatus`                                      | `thinking-orb.rx`                 | A dot-sphere busy indicator for an assistant, and a pill with the orb and a status line. |
 | `VoiceRing`                                                          | `voice-ring.rx`                   | A ring of light that follows a voice level. See [AI and voice](#ai-and-voice).           |
 | `VoiceGlow`                                                          | `voice-glow.rx`                   | A surface whose bottom edge lights up with a voice level.                                |
@@ -110,19 +111,23 @@ One scale, the `ButtonStyle` type in `button.rx`, is shared by `Button` and ever
 
 - `variant`: `"default"` (filled with the primary color), `"secondary"` (muted fill), `"outline"` (bordered),
   `"ghost"` (no border or fill), `"destructive"` (filled with the destructive color), `"link"` (underlined text).
-- `size`: `"default"` (2.25rem tall), `"sm"` (1.75rem), `"lg"` (2.75rem), `"icon"` (a 2.25rem square).
+- `tone`: `"default"` or `"destructive"`. A destructive tone keeps the variant's emphasis and draws it, and its
+  focus ring, in the destructive color: `<Button variant="ghost" tone="destructive">` for a quiet removal.
+  `variant="destructive"` is the filled form, the same as `tone="destructive"` on the default variant.
+- `size`: `"xs"` (1.5rem tall), `"sm"` (1.75rem), `"default"` (2.25rem), `"lg"` (2.75rem), and an icon-only
+  square at each height: `"icon-xs"`, `"icon-sm"`, `"icon"`, `"icon-lg"`.
 
-| Part                                                                     | Takes             | Default variant |
-| ------------------------------------------------------------------------ | ----------------- | --------------- |
-| `Button`                                                                 | `variant`, `size` | `default`       |
-| `DialogTrigger`, `AlertDialogTrigger`, `DrawerTrigger`, `PopoverTrigger` | `variant`, `size` | `outline`       |
-| `DialogClose`, `AlertDialogClose`, `DrawerClose`, `PopoverClose`         | `variant`, `size` | `outline`       |
-| `MenuTrigger`, `FileUploadTrigger`, `ToastAction`                        | `variant`, `size` | `outline`       |
-| `MenuItem`, `ContextMenuItem`                                            | `variant` only    | none            |
+| Part                                                                     | Takes                     | Default variant |
+| ------------------------------------------------------------------------ | ------------------------- | --------------- |
+| `Button`                                                                 | `variant`, `tone`, `size` | `default`       |
+| `DialogTrigger`, `AlertDialogTrigger`, `DrawerTrigger`, `PopoverTrigger` | `variant`, `tone`, `size` | `outline`       |
+| `DialogClose`, `AlertDialogClose`, `DrawerClose`, `PopoverClose`         | `variant`, `tone`, `size` | `outline`       |
+| `MenuTrigger`, `FileUploadTrigger`, `ToastAction`                        | `variant`, `tone`, `size` | `outline`       |
+| `MenuItem`, `ContextMenuItem`                                            | `variant` only            | none            |
 
 - `MenuItem` and `ContextMenuItem` take only `"default"` or `"destructive"`, to mark an item that deletes or
   discards something.
-- No other part takes `variant` or `size`. `SelectTrigger`, `ComboboxTrigger`, `TabsTab` and the rest have one
+- No other part takes `variant`, `tone` or `size`. `SelectTrigger`, `ComboboxTrigger`, `TabsTab` and the rest have one
   look; don't pass them a variant.
 - Give a view one `default` action and put it last in the footer. Use `ghost` for Cancel and `destructive` to
   confirm a deletion.
@@ -187,6 +192,59 @@ export default component Assistant() {
 - All three take their colors from the theme. Don't set colors on them except through `class="text-primary"`
   with `tone="mono"`, or the `--glow-1`, `--glow-2` and `--glow-3` tokens.
 
+## Table
+
+Table is the one family that needs another package, and `glaze copy` leaves it out of an app that doesn't have
+it: `pnpm add @tanstack/table-core`, then copy to a new directory. Its state is TanStack Table 9's headless
+core; `createTable` from `<copy>/bisque/internal/table.js` makes the table object, and TanStack Table's docs are
+the reference for its options and methods.
+
+```rx
+import { createTable } from "./ui/bisque/internal/table.js"
+import { TableRoot, TableColumnHeader, TableSortTrigger, TableRow, TableCell } from "./ui/glaze/table.rx"
+
+export component People(props: { people: Person[] }) {
+  columns = [{ accessorKey: "name", header: "Name" }, { accessorKey: "team", header: "Team" }]
+  table = createTable({ data: props.people, columns: columns, getRowId: row => row.id })
+  ids = table.getRowModel().rows.map(row => row.id)
+  <TableRoot aria-label="People">
+    <thead>
+      <tr>
+        {for header in table.getFlatHeaders() {
+          <TableColumnHeader header={header}>
+            <TableSortTrigger column={header.column}>{header.column.columnDef.header}</TableSortTrigger>
+          </TableColumnHeader>
+        }}
+      </tr>
+    </thead>
+    <tbody>
+      {for id in ids {
+        row = table.getRow(id)
+        <TableRow row={row}>
+          {for cell in row.getVisibleCells() {
+            <TableCell cell={cell}>{cell.getValue()}</TableCell>
+          }}
+        </TableRow>
+      }}
+    </tbody>
+  </TableRoot>
+}
+```
+
+- There is no context: each part takes the row, column, header or cell it is about as a prop. `<thead>`,
+  `<tbody>` and `<tr>` are plain elements, styled inside `TableRoot`.
+- Loop over row ids, as above, not over the row objects, so a row keeps its element when the data changes.
+- Column definitions hold values, never markup: branch on `cell.column.id` for a cell with markup of its own.
+- An `on…Change` option receives the new value, never an updater function. Hold controlled state in a `source`.
+- Never put a table, row, column or cell in a `source` or a keyed equation (`x key id = …`).
+- `TableSortTrigger` draws its own arrow and `TableExpandTrigger` its own chevron. `TableSelectRow`,
+  `TableSelectAll` and `TableColumnToggle` are Glaze checkboxes, the filters are Glaze inputs, and
+  `TablePagination` is a Glaze `PaginationRoot`: put Pagination's parts inside it.
+- For resizing, pass `layout="fixed"` to `TableRoot` and put a `TableColumnResizer` in each header. A pinned
+  column sticks by itself; pinning state needs both sides, `columnPinning: { start: ["name"], end: [] }`.
+- The examples are `node_modules/glaze-ui/docs/examples/table.rx` and the files in
+  `node_modules/glaze-ui/docs/examples/table/`.
+
 ## Theme tokens
 
 Colors and radii are CSS variables, defined in `node_modules/glaze-ui/styles/theme.css`. Each color is a
@@ -217,8 +275,11 @@ Colors and radii are CSS variables, defined in `node_modules/glaze-ui/styles/the
   with a soft wash and sheen) or `"gloss"` (controls and panels are see-through too). Appearance follows the
   system; force it with `data-glaze-mode="light"` or `"dark"`. Each attribute can sit on the document or on a
   section.
-- A finish is six numbers: `--tint-strength`, `--glass-opacity`, `--glass-blur`, `--surface-opacity`, `--wash`
-  and `--sheen`. Set them on `:root` in place of a preset to tune one.
+- A finish is four numbers: `--tint-strength`, `--translucency`, `--wash` and `--sheen`. Set them on `:root`
+  in place of a preset to tune one. `--translucency`, from 0 to 1, is how see-through the surfaces are (matte
+  0, satin 0.6, gloss 1) and works with any finish: for "matte, but with glassy menus" set
+  `:root { --translucency: 0.3 }`. Don't set `--glass-opacity` or `--glass-blur` unless the dial can't make
+  the mix; they follow it.
 - Give your own floating surface (a sticky header, a command bar) the `glass` utility and a border, and put
   `wash` on the element that holds the page's background color. Don't write `backdrop-blur-*` or a gradient
   yourself: they ignore the finish.

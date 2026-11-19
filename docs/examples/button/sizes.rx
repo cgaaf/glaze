@@ -1,0 +1,26 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { Icon } from "../../../src/glaze/icon.rx"
+
+// Each height has an icon-only square of the same height, so the two line up in a row.
+export default component ButtonSizes() {
+  source edits := 0
+  <div class="grid min-w-0 gap-3">
+    <div class="flex flex-wrap items-center gap-2">
+      <Button size="xs" variant="outline" onClick={() => { edits := edits + 1 }}>Extra small</Button>
+      <Button size="icon-xs" variant="outline" aria-label="Edit, extra small" onClick={() => { edits := edits + 1 }}><Icon name="pencil" /></Button>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <Button size="sm" variant="outline" onClick={() => { edits := edits + 1 }}>Small</Button>
+      <Button size="icon-sm" variant="outline" aria-label="Edit, small" onClick={() => { edits := edits + 1 }}><Icon name="pencil" /></Button>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <Button variant="outline" onClick={() => { edits := edits + 1 }}>Default</Button>
+      <Button size="icon" variant="outline" aria-label="Edit" onClick={() => { edits := edits + 1 }}><Icon name="pencil" /></Button>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <Button size="lg" variant="outline" onClick={() => { edits := edits + 1 }}>Large</Button>
+      <Button size="icon-lg" variant="outline" aria-label="Edit, large" onClick={() => { edits := edits + 1 }}><Icon name="pencil" /></Button>
+    </div>
+    <output class="text-sm text-muted-foreground">Pressed {edits} {edits == 1 ? "time" : "times"}</output>
+  </div>
+}

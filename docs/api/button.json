@@ -13,8 +13,14 @@
           "description": "The visual emphasis of the action."
         },
         {
+          "name": "tone",
+          "type": "\"default\" | \"destructive\"",
+          "default": "default",
+          "description": "The color of the action. `destructive` keeps the variant’s emphasis and draws it in the destructive color, for actions that delete or discard. `variant=\"destructive\"` is the filled form."
+        },
+        {
           "name": "size",
-          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "type": "\"default\" | \"xs\" | \"sm\" | \"lg\" | \"icon\" | \"icon-xs\" | \"icon-sm\" | \"icon-lg\"",
           "default": "default",
           "description": "The height and padding of the button. Give icon-only buttons an accessible name."
         },

@@ -1,10 +1,14 @@
 /* A preset: <html data-glaze-theme="raku" data-glaze-finish="satin"> */
 
-/* Or your own finish, between matte and satin. */
+/* Or your own: matte's quiet color with a little glass. */
+:root {
+  --translucency: 0.3;
+}
+
+/* All four numbers, between matte and satin. */
 :root {
   --tint-strength: 6;
-  --glass-opacity: 0.8;
-  --glass-blur: 10px;
+  --translucency: 0.4;
   --wash: 0.3;
   --sheen: 0.06;
 }

@@ -1,0 +1,61 @@
+import { createTable } from "../../../src/bisque/internal/table.js"
+import { TableRoot, TableColumnHeader, TableSortTrigger, TableColumnFilter, TableRow, TableCell } from "../../../src/glaze/table.rx"
+import { Button } from "../../../src/glaze/button.rx"
+
+export default component TableFilters() {
+  glazes = [
+    { id: "g1", name: "Celadon", base: "Feldspar", cone: "10", surface: "Glossy" },
+    { id: "g2", name: "Tenmoku", base: "Feldspar", cone: "10", surface: "Glossy" },
+    { id: "g3", name: "Shino", base: "Nepheline syenite", cone: "10", surface: "Satin" },
+    { id: "g4", name: "Oatmeal", base: "Dolomite", cone: "6", surface: "Matte" },
+    { id: "g5", name: "Floating blue", base: "Gerstley borate", cone: "6", surface: "Glossy" },
+    { id: "g6", name: "Ash green", base: "Wood ash", cone: "10", surface: "Satin" },
+    { id: "g7", name: "Chalk white", base: "Dolomite", cone: "6", surface: "Matte" },
+  ]
+  // A filter keeps the rows whose value contains what is typed. `equalsString` wants the whole value instead.
+  columns = [
+    { accessorKey: "name", header: "Glaze" },
+    { accessorKey: "base", header: "Base" },
+    { accessorKey: "cone", header: "Cone", filterFn: "equalsString" },
+    { accessorKey: "surface", header: "Surface" },
+  ]
+  table = createTable({ data: glazes, columns: columns, getRowId: row => row.id })
+  ids = table.getRowModel().rows.map(row => row.id)
+  filtered = table.store.state.columnFilters.length
+
+  <div class="grid w-full max-w-2xl gap-3">
+    <TableRoot aria-label="Glaze recipes">
+      <thead>
+        <tr>
+          {for header in table.getFlatHeaders() {
+            <TableColumnHeader header={header}>
+              <TableSortTrigger column={header.column}>{header.column.columnDef.header}</TableSortTrigger>
+            </TableColumnHeader>
+          }}
+        </tr>
+        <tr>
+          {for column in table.getVisibleLeafColumns() {
+            <td class="bg-muted/30"><TableColumnFilter column={column} placeholder="Filter…" aria-label={`Filter by ${column.columnDef.header}`} /></td>
+          }}
+        </tr>
+      </thead>
+      <tbody>
+        {for id in ids {
+          row = table.getRow(id)
+          <TableRow row={row}>
+            {for cell in row.getVisibleCells() {
+              <TableCell cell={cell}>{cell.getValue()}</TableCell>
+            }}
+          </TableRow>
+        }}
+        {if ids.length == 0 {
+          <tr><td class="h-24 text-center text-muted-foreground" colspan="4">No glaze matches these filters.</td></tr>
+        }}
+      </tbody>
+    </TableRoot>
+    <div class="flex items-center gap-3 text-sm">
+      <output class="me-auto text-muted-foreground">{`${ids.length} of ${glazes.length} glazes`}</output>
+      <Button variant="ghost" size="sm" disabled={filtered == 0} onClick={() => { table.resetColumnFilters() }}>Clear filters</Button>
+    </div>
+  </div>
+}

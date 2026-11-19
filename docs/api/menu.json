@@ -51,8 +51,15 @@
           "description": "The visual emphasis of the action, on the same scale as Button."
         },
         {
+          "name": "tone",
+          "type": "\"default\" | \"destructive\"",
+          "default": "default",
+          "required": false,
+          "description": "The color of the action. `destructive` keeps the variant’s emphasis and draws it in the destructive color, for actions that delete or discard. `variant=\"destructive\"` is the filled form."
+        },
+        {
           "name": "size",
-          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "type": "\"default\" | \"xs\" | \"sm\" | \"lg\" | \"icon\" | \"icon-xs\" | \"icon-sm\" | \"icon-lg\"",
           "default": "default",
           "required": false,
           "description": "The height and padding of the button, on the same scale as Button."

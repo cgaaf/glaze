@@ -1,8 +1,9 @@
-export type ThemeChoices = { theme: string; mode: string; radius: number; finish: string; font: string; shadow: string; density: string }
+export type ThemeChoices = { theme: string; mode: string; radius: number; finish: string; translucency: number; translucencyLabel: string; font: string; shadow: string; density: string }
 export type ThemeOption = { value: string; label: string }
 export pure fn createThemeChoices(): ref ThemeChoices
 export fn setTheme(key: "Theme" | "Mode" | "Finish" | "Font" | "Shadow" | "Density", value: string): void
 export fn setRadius(value: number | number[]): void
+export fn setTranslucency(value: number | number[]): void
 export fn resetTokens(): void
 export type PaletteOption = { value: string; label: string; swatch: string }
 export pure fn paletteOptions(): PaletteOption[]

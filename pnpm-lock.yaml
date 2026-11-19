@@ -194,12 +194,15 @@ importers:
       '@tailwindcss/vite':
         specifier: 4.3.5
         version: 4.3.5(vite@8.3.8(@types/node@26.6.6)(jiti@2.7.0))
+      '@tanstack/table-core':
+        specifier: 9.3.1
+        version: 9.3.1
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
       bisque-ui:
-        specifier: github:cgaaf/bisque#0a4e220db886aefd8df12b9c98c710300dc8ee9b
-        version: https://codeload.github.com/cgaaf/bisque/tar.gz/0a4e220db886aefd8df12b9c98c710300dc8ee9b(@reactivescript/runtime@0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0))(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+        specifier: link:../bisque
+        version: link:../bisque
       lucide-static:
         specifier: 1.74.0
         version: 1.74.0
@@ -1020,6 +1023,13 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
 
+  '@tanstack/store@0.11.2':
+    resolution: {integrity: sha512-sJ4mjol8uQsHV0gOJzzjwXfh2Fwm+Sz0+8deqiTm4jGbMdjzNSW+xZCFm0kUa870uhd8yi+DpKnZb5Kc4apa0Q==}
+
+  '@tanstack/table-core@9.3.1':
+    resolution: {integrity: sha512-zQvlxSNi2qGM3L4jh85Z6hqMfdIR5qOfD9KHOU32nuKFJGN0RlJ7UvV1lsPb1fPVhpFYI0VP3jJGxLdLDpTKjQ==}
+    engines: {node: '>=20'}
+
   '@tsrs/darwin-arm64@0.25.0-ts7.1.0-beta':
     resolution: {integrity: sha512-+pYoQ+AqpdUolO4kJBQlQmwxJOoc5INuusw/2AZnR4frfnyVGza+gEn0br8Z0LOk7nklQuILuMKH93BU3hpHvA==}
     engines: {node: '>=16.20.0'}
@@ -1122,15 +1132,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  bisque-ui@https://codeload.github.com/cgaaf/bisque/tar.gz/0a4e220db886aefd8df12b9c98c710300dc8ee9b:
-    resolution: {gitHosted: true, integrity: sha512-sa6305BPspfJQqp08/ssoN9rnz+LfiJZQiJ9cmtvm+znogUa9q/Rs7mZaNdMqWCVoU7rMDJ4n6piJ+d4d8AFTg==, tarball: https://codeload.github.com/cgaaf/bisque/tar.gz/0a4e220db886aefd8df12b9c98c710300dc8ee9b}
-    version: 0.0.0
-    hasBin: true
-    peerDependencies:
-      '@reactivescript/runtime': ^0.3.1
-      '@solidjs/web': ^2.0.0-rc.21
-      solid-js: ^2.0.0-rc.21
 
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -2115,6 +2116,12 @@ snapshots:
       tailwindcss: 4.3.5
       vite: 8.3.8(@types/node@26.6.6)(jiti@2.7.0)
 
+  '@tanstack/store@0.11.2': {}
+
+  '@tanstack/table-core@9.3.1':
+    dependencies:
+      '@tanstack/store': 0.11.2
+
   '@tsrs/darwin-arm64@0.25.0-ts7.1.0-beta':
     optional: true
 
@@ -2199,12 +2206,6 @@ snapshots:
       vscode-uri: 3.2.0
     optionalDependencies:
       typescript: 6.0.3
-
-  bisque-ui@https://codeload.github.com/cgaaf/bisque/tar.gz/0a4e220db886aefd8df12b9c98c710300dc8ee9b(@reactivescript/runtime@0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0))(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0):
-    dependencies:
-      '@reactivescript/runtime': 0.3.1(@solidjs/signals@2.0.0)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
-      '@solidjs/web': 2.0.0(solid-js@2.0.0)
-      solid-js: 2.0.0
 
   ccount@2.0.1: {}
 

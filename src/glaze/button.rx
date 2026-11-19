@@ -1,13 +1,17 @@
 import { Button as BaseButton } from "../bisque/button/button.rx"
 
-// The emphasis and size shared by Button and every part that renders a button: triggers, close buttons, toast actions.
+// The emphasis, tone and size shared by Button and every part that renders a button: triggers, close buttons,
+// toast actions. `variant` is how loud the action is; `tone` is what it does. `tone="destructive"` keeps the
+// variant's emphasis and draws it in the destructive color, so an action that deletes can be quiet too.
+// `variant="destructive"` is the filled form, the same as `variant="default" tone="destructive"`.
 export type ButtonStyle = {
   variant?: "default" | "secondary" | "outline" | "ghost" | "destructive" | "link"
-  size?: "default" | "sm" | "lg" | "icon"
+  tone?: "default" | "destructive"
+  size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
 }
 
 export type ButtonProps = Parameters<typeof BaseButton>[0] & ButtonStyle
 
-export component Button({ variant = "default", size = "default", children, ...rest }: ButtonProps) {
-  <BaseButton {...rest} data-glaze="button" data-variant={variant} data-size={size}>{children}</BaseButton>
+export component Button({ variant = "default", tone = "default", size = "default", children, ...rest }: ButtonProps) {
+  <BaseButton {...rest} data-glaze="button" data-variant={variant} data-tone={tone} data-size={size}>{children}</BaseButton>
 }

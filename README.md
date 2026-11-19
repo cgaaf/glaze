@@ -1,6 +1,6 @@
 # Glaze
 
-Glaze is a styled component library for ReactiveScript. It adds Tailwind CSS styles, semantic theme tokens, Geist and Lucide icons to all 51 Bisque component families. Bisque supplies keyboard interaction, form behavior, accessibility attributes and native popup positioning. Glaze also draws three families of its own for AI and voice interfaces: a thinking orb, a voice ring and a voice glow.
+Glaze is a styled component library for ReactiveScript. It adds Tailwind CSS styles, semantic theme tokens, Geist and Lucide icons to all 52 Bisque component families. Bisque supplies keyboard interaction, form behavior, accessibility attributes and native popup positioning. Glaze also draws three families of its own for AI and voice interfaces: a thinking orb, a voice ring and a voice glow.
 
 ## Documentation
 
@@ -45,6 +45,14 @@ export default component App() {
 
 Exclude `**/*.d.rx` in the tsconfig read by `rx-tsc`. Use the Glaze family module for component parts. For headless contexts, types, and behavior functions, import from the adjacent Bisque tree. Date and time families use `Temporal`. The docs conditionally load `temporal-polyfill/full/global` on browsers that need it.
 
+Table is the one family that needs another package, [TanStack Table](https://tanstack.com/table)'s core. Install it before copying, because `glaze copy` leaves Table out of an app that doesn't have it.
+
+```sh
+pnpm add @tanstack/table-core
+```
+
+`createTable` from `./ui/bisque/internal/table.js` makes the table, and you write `<thead>`, `<tbody>` and `<tr>` inside `TableRoot`. The docs' Table page has examples for sorting, selection, pagination, resizing, pinning, grouping and a server that sorts and pages.
+
 For Combobox and Autocomplete, place the input and its optional trigger or clear button directly inside `InputGroup` from `./ui/glaze/input-group.rx`. It reserves space for the actions inside the field and keeps the popup aligned with the field. The docs include a complete example for each.
 
 ## Agent skill
@@ -59,16 +67,17 @@ Choose `glaze-ui`. pnpm records the approval under `permissions` in `pnpm-worksp
 
 ## Design rules
 
-Every part keeps its Bisque name, so `DialogTrigger` in Bisque is `DialogTrigger` in Glaze. Glaze adds only what a styled library needs: `Icon`, `InputGroup`, `SegmentedControl`, `Textarea`, the footer parts `DialogFooter`, `AlertDialogFooter`, `DrawerFooter` and `PopoverFooter`, and the AI and voice parts `ThinkingOrb`, `ThinkingStatus`, `VoiceRing` and `VoiceGlow`. The same few rules apply to every family.
+Every part keeps its Bisque name, so `DialogTrigger` in Bisque is `DialogTrigger` in Glaze. Glaze adds only what a styled library needs: `Icon`, `InputGroup`, `SegmentedControl`, `Textarea`, `TableRoot`, the footer parts `DialogFooter`, `AlertDialogFooter`, `DrawerFooter` and `PopoverFooter`, and the AI and voice parts `ThinkingOrb`, `ThinkingStatus`, `VoiceRing` and `VoiceGlow`. The same few rules apply to every family.
 
-- **Actions.** `Button` and every part that renders a button (dialog, alert dialog, drawer and popover triggers and close buttons, `MenuTrigger`, `FileUploadTrigger`, `ToastAction`) take the same `variant` and `size`. Triggers and close buttons default to `outline`. Give a view one `default` action and put it last in the footer. Use `ghost` for Cancel and `destructive` to confirm a deletion. `MenuItem` and `ContextMenuItem` take `variant="destructive"` too.
-- **Size and shape.** Controls are 2.25rem tall, 1.75rem at `size="sm"`. Controls use `--radius` and surfaces use a slightly larger radius derived from it.
+- **Actions.** `Button` and every part that renders a button (dialog, alert dialog, drawer and popover triggers and close buttons, `MenuTrigger`, `FileUploadTrigger`, `ToastAction`) take the same `variant`, `tone` and `size`. Triggers and close buttons default to `outline`. Give a view one `default` action and put it last in the footer. Use `ghost` for Cancel and `destructive` to confirm a deletion. For a quieter removal, keep the variant and add `tone="destructive"`: `<Button variant="ghost" tone="destructive">`. `MenuItem` and `ContextMenuItem` take `variant="destructive"` too.
+- **Size and shape.** Controls are 2.25rem tall: 1.5rem at `size="xs"`, 1.75rem at `size="sm"` and 2.75rem at `size="lg"`, each with an icon-only square (`icon-xs`, `icon-sm`, `icon`, `icon-lg`). Controls use `--radius` and surfaces use a slightly larger radius derived from it.
 - **Spacing.** Leave 0.5rem between a label and its control, 1rem between fields, and 1.25rem above a footer.
 - **Focus.** Text fields draw a solid 2px `--ring` outline over their border, so they keep their footprint. Everything else gets a 2px `--ring` outline, 2px away.
 - **Motion.** A dialog scales up slightly and sharpens as it opens while the page behind blurs and dims lightly. A drawer slides in from its edge. Anchored popups move a few pixels from their anchor. Under `prefers-reduced-motion` nothing moves.
 - **Surfaces.** What floats (dialogs, drawers, popovers, menus, toasts) is made of `--glass`. Controls and panels are filled with `--surface`. Both are the card color at an opacity the finish sets, so in matte they are solid.
 - **Color.** `--primary` marks the main action and what is selected. `--accent` is for status and secondary marks: a meter, today in a calendar. The three glow hues color the thinking orb, the voice ring and glow, and the wash.
 - **Disabled.** 55% opacity and a not-allowed cursor.
+- **Tables.** `TableRoot` is a `--surface` panel that scrolls sideways. Headers are muted and medium weight, a selected row is tinted with `--primary`, and a pinned column is filled with the solid `--card` in every finish so nothing shows through it.
 - **Scrollbars.** Any part that scrolls shows a thin scrollbar colored by `--scrollbar-thumb` and `--scrollbar-track`. Parts that show scrolling another way hide it: the scroll area draws its own, and time picker columns move with the arrow keys. Use the `scrollbar-thin` and `scrollbar-none` utilities on your own containers. The thumb gets stronger under `prefers-contrast: more`.
 
 ## Themes
@@ -97,18 +106,18 @@ Define a custom theme after importing the library. The same tokens drive compone
 }
 ```
 
-A finish is six numbers, so you can set your own in place of a preset.
+A finish is four numbers, so you can set your own in place of a preset.
 
 ```css
 :root {
   --tint-strength: 6; /* how far the neutrals lean toward the palette: 0 is grey */
-  --glass-opacity: 0.8; /* floating layers: 1 is solid */
-  --glass-blur: 10px;
-  --surface-opacity: 1; /* controls and panels */
+  --translucency: 0.4; /* how see-through the surfaces are: 0 is solid, 1 is gloss */
   --wash: 0.3; /* the page's ambient color */
   --sheen: 0.06; /* the highlight on the primary action */
 }
 ```
+
+`--translucency` works with any finish, so matte with a little glass is `:root { --translucency: 0.3 }`. It is one dial so the glass stays consistent: floating layers thin and blur together as it rises, and past 0.6 controls and panels start to show the page. For a mix the dial doesn't make, set `--glass-opacity`, `--glass-blur` or `--surface-opacity` directly.
 
 The neutrals, `--surface` and `--glass` are mixed from the palette and the finish. Set palette tokens on `:root` or an element with `data-glaze-theme`, and finish tokens on `:root` or an element with `data-glaze-finish`, so the mix is made again there. Use the `glass` utility on your own floating surfaces, such as a sticky header, and `wash` on the element that holds the page background. Under `prefers-reduced-transparency`, `prefers-contrast: more` or forced colors, every finish is solid, including numbers of your own.
 

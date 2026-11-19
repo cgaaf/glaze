@@ -1,0 +1,77 @@
+import { createTable } from "../../../src/bisque/internal/table.js"
+import { TableRoot, TableColumnHeader, TableSortTrigger, TableRow, TableCell, TablePagination } from "../../../src/glaze/table.rx"
+import { PaginationPrevious, PaginationNext } from "../../../src/glaze/pagination.rx"
+import { Icon } from "../../../src/glaze/icon.rx"
+import { loadOrders } from "../../lib/orders-server.js"
+
+type Sort = { id: string; desc: boolean }
+type Paging = { pageIndex: number; pageSize: number }
+
+export default component TableServer() {
+  // The app holds the state, and the request is a question of it.
+  source sorting: Sort[] := []
+  source paging: Paging := { pageIndex: 0, pageSize: 5 }
+  sort = sorting.length == 0 ? "" : `${sorting[0].desc ? "-" : ""}${sorting[0].id}`
+  page = (await loadOrders(sort, paging.pageIndex, paging.pageSize) -> { rows: [], total: 0 }) catch (e) => ({ rows: [], total: 0 })
+
+  action setSorting(next: Sort[]) { sorting := next }
+  action setPaging(next: Paging) { paging := next }
+
+  columns = [
+    { accessorKey: "id", header: "Order" },
+    { accessorKey: "customer", header: "Customer" },
+    { accessorKey: "total", header: "Total" },
+  ]
+  table = createTable({
+    data: page.rows,
+    columns: columns,
+    getRowId: row => row.id,
+    // `manual…` turns the table's own sorting and paging off. It doesn't fetch anything.
+    manualSorting: true,
+    manualPagination: true,
+    rowCount: page.total,
+    state: { sorting: sorting, pagination: paging },
+    onSortingChange: setSorting,
+    onPaginationChange: setPaging,
+  })
+  ids = table.getRowModel().rows.map(row => row.id)
+  // The rows dim while the next answer is on its way; the header and the pager have already moved.
+  waiting = pending? page
+  current = table.store.state.pagination.pageIndex + 1
+
+  <div class="grid w-full max-w-lg gap-3">
+    <TableRoot aria-label="Orders from the server" aria-busy={waiting ? "true" : "false"} class={waiting ? "opacity-60 transition-opacity" : "transition-opacity"}>
+      <thead>
+        <tr>
+          {for header in table.getFlatHeaders() {
+            <TableColumnHeader header={header} class={header.column.id == "total" ? "text-end" : ""}>
+              <TableSortTrigger column={header.column}>{header.column.columnDef.header}</TableSortTrigger>
+            </TableColumnHeader>
+          }}
+        </tr>
+      </thead>
+      <tbody>
+        {for id in ids {
+          row = table.getRow(id)
+          <TableRow row={row}>
+            {for cell in row.getVisibleCells() {
+              <TableCell cell={cell} class={cell.column.id == "total" ? "text-end" : ""}>
+                {cell.column.id == "total" ? `$${cell.getValue().toFixed(2)}` : cell.getValue()}
+              </TableCell>
+            }}
+          </TableRow>
+        }}
+        {if ids.length == 0 {
+          <tr><td class="h-24 text-center text-muted-foreground" colspan="3">Loading orders…</td></tr>
+        }}
+      </tbody>
+    </TableRoot>
+    <div class="flex items-center gap-3 text-sm">
+      <output class="me-auto text-muted-foreground">{`Page ${current} of ${table.getPageCount()}`}</output>
+      <TablePagination table={table} aria-label="Pages of server orders">
+        <PaginationPrevious aria-label="Previous page"><Icon name="chevron-left" /></PaginationPrevious>
+        <PaginationNext aria-label="Next page"><Icon name="chevron-right" /></PaginationNext>
+      </TablePagination>
+    </div>
+  </div>
+}

@@ -51,12 +51,16 @@ function changed() {
 
 /** The choices as the page holds them now. */
 export function readTheme() {
-  const radius = parseFloat(getComputedStyle(root).getPropertyValue("--radius"));
+  const style = getComputedStyle(root);
+  const radius = parseFloat(style.getPropertyValue("--radius"));
+  const translucency = parseFloat(style.getPropertyValue("--translucency"));
   return {
     theme: root.dataset.glazeTheme ?? "celadon",
     mode: root.dataset.glazeMode ?? "system",
     radius: Number.isFinite(radius) ? radius : 0.6,
     finish: root.dataset.glazeFinish ?? fallback("Finish"),
+    translucency: Number.isFinite(translucency) ? translucency : 0,
+    translucencyLabel: Math.round((Number.isFinite(translucency) ? translucency : 0) * 100) + "%",
     font: root.dataset.glazeFont ?? fallback("Font"),
     shadow: root.dataset.glazeShadow ?? fallback("Shadow"),
     density: root.dataset.glazeDensity ?? fallback("Density"),
@@ -74,6 +78,11 @@ export function createThemeChoices() {
 
 /** Sets the palette ("Theme"), "Mode" or a design token. A token's default removes its attribute. */
 export function setTheme(key, value) {
+  // A finish sets its own translucency, so choosing one drops an adjustment made to the last.
+  if (key === "Finish") {
+    root.style.removeProperty("--translucency");
+    save("Translucency", undefined);
+  }
   const standard = key in design && value === fallback(key);
   if (standard) delete root.dataset["glaze" + key];
   else root.dataset["glaze" + key] = value;
@@ -89,10 +98,20 @@ export function setRadius(value) {
   changed();
 }
 
-/** Puts radius, finish, font, elevation and density back to the library defaults. Palette and mode stay. */
+/** Sets how see-through the surfaces are, from 0 to 1, over what the finish chose. */
+export function setTranslucency(value) {
+  const amount = Math.round((Array.isArray(value) ? value[0] : value) * 20) / 20;
+  root.style.setProperty("--translucency", String(amount));
+  save("Translucency", String(amount));
+  changed();
+}
+
+/** Puts radius, finish, translucency, font, elevation and density back to the library defaults. Palette and mode stay. */
 export function resetTokens() {
   root.style.removeProperty("--radius");
   save("Radius", undefined);
+  root.style.removeProperty("--translucency");
+  save("Translucency", undefined);
   for (const key of Object.keys(design)) {
     delete root.dataset["glaze" + key];
     save(key, undefined);

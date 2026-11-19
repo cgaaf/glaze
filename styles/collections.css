@@ -25,7 +25,28 @@
 }
 :is([data-glaze="accordion-panel"], [data-glaze="collapsible-panel"]) {
   @apply overflow-hidden text-sm text-muted-foreground;
-  transition: opacity 180ms ease;
+  transition:
+    height 200ms ease,
+    opacity 200ms ease;
+}
+/* Bisque writes the measured height to the panel's variable: px while it moves, `auto` once open. Opening
+   starts from 0, which Safari reads from the closed rule and Chrome from @starting-style. Closing goes to 0
+   under [data-ending-style], and the <details> stays open until the transition ends. */
+:is(
+  [data-glaze="accordion-item"]:not([open]) > [data-glaze="accordion-panel"],
+  [data-glaze="collapsible-root"]:not([open]) > [data-glaze="collapsible-panel"]
+) {
+  height: 0;
+  opacity: 0;
+}
+@starting-style {
+  :is(
+    [data-glaze="accordion-item"][open] > [data-glaze="accordion-panel"],
+    [data-glaze="collapsible-root"][open] > [data-glaze="collapsible-panel"]
+  ) {
+    height: 0;
+    opacity: 0;
+  }
 }
 [data-glaze="accordion-panel"] {
   height: var(--accordion-panel-height);
@@ -39,6 +60,7 @@
   height: var(--collapsible-panel-height);
 }
 :is([data-glaze="accordion-panel"], [data-glaze="collapsible-panel"])[data-ending-style] {
+  height: 0;
   opacity: 0;
 }
 
@@ -263,17 +285,19 @@
 /* The indicator is the raised pill itself, sliding between tabs. With one present the active tab
    drops its own fill so the tab is marked once. */
 [data-glaze="tabs-indicator"] {
-  @apply pointer-events-none absolute inset-y-1 left-0 rounded-control bg-card shadow-xs;
+  @apply pointer-events-none absolute top-0 left-0 rounded-control bg-card shadow-xs;
+  /* The active tab's box, so the pill stays on it when the tabs wrap onto more than one row. */
   width: var(--active-tab-width);
-  translate: var(--active-tab-left) 0;
+  height: var(--active-tab-height);
+  translate: var(--active-tab-left) var(--active-tab-top);
   transition:
     translate 160ms,
-    width 160ms;
+    width 160ms,
+    height 160ms;
 }
 [data-glaze="tabs-list"][data-orientation="vertical"] [data-glaze="tabs-indicator"] {
   inset: 0 0.25rem auto;
   width: auto;
-  height: var(--active-tab-height);
   translate: 0 var(--active-tab-top);
 }
 [data-glaze="tabs-list"]:has([data-glaze="tabs-indicator"]) [data-glaze="tabs-tab"][data-active] {
@@ -327,4 +351,202 @@
 [data-glaze="sortable-root"][data-drop-target] {
   outline: 1px dashed var(--ring);
   outline-offset: 3px;
+}
+
+/* The navigation menu's chevron turns while its content is open. */
+[data-glaze="navigation-menu-icon"] {
+  transition: rotate 150ms;
+  &[data-popup-open] {
+    rotate: 180deg;
+  }
+}
+/* Arrows sit across the popup's edge, so a popup that has one can't clip it. */
+[data-glaze="navigation-menu-content"],
+:is([data-glaze="menu-popup"], [data-glaze="context-menu-popup"]):has(> [data-glaze="menu-arrow"]) {
+  overflow: visible;
+}
+[data-glaze="context-menu-trigger"][data-popup-open] {
+  @apply bg-muted;
+}
+/* Stale results dim while a new search is pending. */
+:is([data-glaze="combobox-item"], [data-glaze="autocomplete-item"]) {
+  transition: opacity 120ms;
+}
+:is([data-glaze="combobox-popup"], [data-glaze="autocomplete-popup"])[data-loading]
+  :is([data-glaze="combobox-item"], [data-glaze="autocomplete-item"]) {
+  opacity: 0.55;
+}
+[data-glaze="avatar-image"] {
+  transition: opacity 200ms;
+  &:is([data-starting-style], [data-ending-style]) {
+    opacity: 0;
+  }
+}
+/* An item that is its own handle. */
+[data-glaze="sortable-item"][data-bisque-sortable-handle] {
+  cursor: grab;
+  &[data-dragging] {
+    cursor: grabbing;
+  }
+}
+
+/* Table. The frame is the panel: it scrolls sideways, and the table inside has no outer border of its own.
+   Borders are drawn per cell (`border-separate`), which a sticky cell needs to keep its own. */
+[data-glaze="table-frame"] {
+  @apply max-w-full overflow-x-auto rounded-panel border border-border bg-surface;
+}
+[data-glaze="table-root"] {
+  @apply w-full border-separate border-spacing-0 text-sm text-foreground;
+  font-variant-numeric: tabular-nums;
+}
+/* Fixed layout: a column is exactly the size the table holds for it, which resizing needs. The table is as
+   wide as its columns; the frame scrolls the rest. */
+[data-glaze="table-root"][data-layout="fixed"] {
+  @apply w-max table-fixed;
+  min-inline-size: 100%;
+  & :is([data-glaze="table-column-header"], [data-glaze="table-cell"]) {
+    @apply overflow-hidden text-ellipsis;
+    inline-size: var(--column-size);
+  }
+}
+[data-glaze="table-root"] :is(th, td) {
+  @apply border-b border-border px-3 text-start align-middle whitespace-nowrap;
+}
+[data-glaze="table-root"] th {
+  @apply relative h-10 font-medium text-muted-foreground;
+  background: color-mix(in oklab, var(--muted) 55%, transparent);
+}
+[data-glaze="table-root"] td {
+  @apply h-11 py-1.5;
+}
+[data-glaze="table-root"] > :last-child > tr:last-child > * {
+  @apply border-b-0;
+}
+/* A row's fill is a variable, so a pinned cell can repeat it (below). Later rules win: a hovered group row
+   takes the hover fill, and a selected row keeps its tint while hovered. */
+[data-glaze="table-root"] tbody tr {
+  --row-fill: transparent;
+  background: var(--row-fill);
+  transition: background-color 120ms;
+}
+/* A group's own row reads as a heading for the rows under it. */
+[data-glaze="table-root"] tbody tr[data-grouped] {
+  @apply font-medium;
+  --row-fill: color-mix(in oklab, var(--muted) 30%, transparent);
+}
+[data-glaze="table-root"] tbody tr:hover {
+  --row-fill: color-mix(in oklab, var(--muted) 45%, transparent);
+}
+/* Selection is the primary color, as everywhere; the checkbox carries the state for assistive technology. */
+[data-glaze="table-root"] tbody tr[data-selected] {
+  --row-fill: color-mix(in oklab, var(--primary) 9%, transparent);
+}
+/* Rows of a tree, and rows under a group, step in by their depth, in the theme's spacing unit. */
+[data-glaze="table-row"][data-depth="1"] > :first-child {
+  padding-inline-start: calc(var(--spacing) * 8);
+}
+[data-glaze="table-row"][data-depth="2"] > :first-child {
+  padding-inline-start: calc(var(--spacing) * 13);
+}
+[data-glaze="table-row"][data-depth="3"] > :first-child {
+  padding-inline-start: calc(var(--spacing) * 18);
+}
+/* A pinned column stays put while the rest scrolls under it, so it is opaque whatever the finish: `--surface`
+   is see-through in satin and gloss. It is the solid card, with its row's fill laid over it. */
+[data-glaze="table-root"] [data-pinned] {
+  position: sticky;
+  z-index: 1;
+  background:
+    linear-gradient(var(--row-fill, transparent), var(--row-fill, transparent)), var(--card);
+}
+[data-glaze="table-root"] th[data-pinned] {
+  --row-fill: color-mix(in oklab, var(--muted) 55%, transparent);
+}
+[data-glaze="table-root"] [data-pinned="start"] {
+  inset-inline-start: var(--column-start);
+  border-inline-end: 1px solid var(--border);
+}
+[data-glaze="table-root"] [data-pinned="end"] {
+  inset-inline-end: var(--column-end);
+  border-inline-start: 1px solid var(--border);
+}
+/* The sort trigger is the header's text as a quiet button, pulled out by its padding so the text lines up with
+   the cells below. */
+[data-glaze="table-sort-trigger"] {
+  @apply -mx-2 inline-flex h-8 items-center gap-1.5 rounded-control px-2 font-medium text-muted-foreground transition-colors;
+  cursor: pointer;
+  & > [data-glaze="icon"] {
+    @apply size-3.5 opacity-50;
+  }
+  &:hover:not(:disabled),
+  &[data-sorted] {
+    @apply text-foreground;
+  }
+  &:hover:not(:disabled) {
+    @apply bg-muted;
+  }
+  &[data-sorted] > [data-glaze="icon"] {
+    @apply opacity-100;
+  }
+  /* A column that can't be sorted has a plain heading: not dimmed, and no arrow. */
+  &:disabled {
+    opacity: 1;
+    cursor: default;
+    & > [data-glaze="icon"] {
+      display: none;
+    }
+  }
+}
+/* The resize handle: a strip on the header's end edge, wider than the line it draws so it is easy to grab. */
+[data-glaze="table-column-resizer"] {
+  @apply absolute inset-y-0 w-2.5 select-none;
+  inset-inline-end: 0;
+  cursor: col-resize;
+  outline-offset: -2px;
+  &::after {
+    content: "";
+    @apply absolute inset-y-2.5 w-px bg-border;
+    inset-inline-end: 0;
+    transition:
+      background-color 120ms,
+      inset-block 120ms;
+  }
+  &:is(:hover, :focus-visible, [data-resizing])::after {
+    @apply inset-y-0 w-0.5 bg-primary;
+  }
+  &[data-disabled] {
+    display: none;
+  }
+}
+[data-glaze="table-expand-trigger"] {
+  @apply -ms-1 inline-flex h-7 items-center gap-1.5 rounded-control px-1 font-medium transition-colors;
+  cursor: pointer;
+  & > [data-glaze="icon"] {
+    @apply size-4 text-muted-foreground;
+    transition: rotate 150ms;
+  }
+  &:dir(rtl) > [data-glaze="icon"] {
+    rotate: 180deg;
+  }
+  &[aria-expanded="true"] > [data-glaze="icon"] {
+    rotate: 90deg;
+  }
+  &:hover:not(:disabled) {
+    @apply bg-muted;
+  }
+  /* Nothing under the row: the label stays, in line with its siblings', without the chevron. */
+  &:disabled {
+    opacity: 1;
+    cursor: default;
+    & > [data-glaze="icon"] {
+      visibility: hidden;
+    }
+  }
+}
+[data-glaze="table-global-filter"] {
+  inline-size: 17rem;
+  max-inline-size: 100%;
+}
+[data-glaze="table-column-filter"] {
+  @apply min-h-8 w-full py-1 font-normal;
 }

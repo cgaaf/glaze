@@ -17,16 +17,10 @@ function themeCss() {
     "--glaze-font",
     "--glaze-shadow",
   ];
-  // A finish is six numbers. Matte is the library default, so only another finish is written out.
-  if (root.dataset.glazeFinish)
-    names.push(
-      "--tint-strength",
-      "--glass-opacity",
-      "--glass-blur",
-      "--surface-opacity",
-      "--wash",
-      "--sheen",
-    );
+  // A finish is four numbers. Matte is the library default, so they are written out only for another finish,
+  // or when the translucency was adjusted.
+  if (root.dataset.glazeFinish || root.style.getPropertyValue("--translucency"))
+    names.push("--tint-strength", "--translucency", "--wash", "--sheen");
   if (root.dataset.glazeDensity) names.push("--spacing");
   return `:root {\n${names.map((name) => `  ${name}: ${style.getPropertyValue(name).trim()};`).join("\n")}\n}`;
 }

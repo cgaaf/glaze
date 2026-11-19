@@ -1,0 +1,30 @@
+import { Button } from "../../../src/glaze/button.rx"
+import { Icon } from "../../../src/glaze/icon.rx"
+
+// Each removal is as loud as its reach: a ghost icon for one row, an outline for every invite, a soft fill for
+// leaving. Save the filled `variant="destructive"` for the confirmation of something that can't be undone.
+export default component TeamSettings() {
+  source members: string[] := ["Ada Park", "Ben Ortiz", "Cleo Sato"]
+  source invites := 4
+  source left := false
+  <div class="grid w-full max-w-sm gap-4">
+    <ul class="grid gap-1" aria-label="Members">
+      {for member in members {
+        <li class="flex items-center gap-2 rounded-control px-2 py-1 text-sm">
+          <span class="min-w-0 flex-1">{member}</span>
+          <Button variant="ghost" tone="destructive" size="icon-sm" aria-label={`Remove ${member}`} onClick={() => { members := members.filter((name) => name != member) }}>
+            <Icon name="trash-2" />
+          </Button>
+        </li>
+      }}
+    </ul>
+    <div class="flex flex-wrap items-center gap-2">
+      <Button variant="outline" tone="destructive" size="sm" disabled={invites == 0} onClick={() => { invites := 0 }}>Revoke {invites} {invites == 1 ? "invite" : "invites"}</Button>
+      <Button variant="secondary" tone="destructive" size="sm" disabled={left} onClick={() => { left := true }}>
+        <Icon name="log-out" /> {left ? "Left the team" : "Leave team"}
+      </Button>
+      <Button variant="link" size="sm" onClick={() => { members := ["Ada Park", "Ben Ortiz", "Cleo Sato"]; invites := 4; left := false }}>Restore</Button>
+    </div>
+    <output class="text-sm text-muted-foreground">{members.length} {members.length == 1 ? "member" : "members"}, {invites} pending</output>
+  </div>
+}

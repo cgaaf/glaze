@@ -22,9 +22,8 @@ export const groups: Record<string, string[]> = {
     "calendar date-field date-picker date-range-picker time-field time-picker time-range-picker".split(
       " ",
     ),
-  "Display & layout": "avatar meter progress scroll-area separator sortable splitter toast".split(
-    " ",
-  ),
+  "Display & layout":
+    "avatar meter progress scroll-area separator sortable splitter table toast".split(" "),
   "AI & voice": "thinking-orb voice-glow voice-ring".split(" "),
 };
 export function escape(text: string) {
@@ -136,7 +135,7 @@ export function theming() {
       )
       .join("")}</div>` +
     codeBlock(themeAttribute, "HTML") +
-    `<h2>Choose a finish</h2><p>The finish is a second choice, independent of the palette: how much color and glass the surfaces carry. <strong>Matte</strong>, the default, keeps every surface solid. <strong>Satin</strong> turns what floats (menus, popovers, dialogs, toasts) into glass you can see through, adds a soft wash of the palette behind the page and a light sheen on the primary action. <strong>Gloss</strong> lets controls and panels show the page too, and gives primary actions a glow. Under reduced transparency, increased contrast or forced colors, every finish is solid, including numbers of your own.</p><p>A finish is six numbers. Set <code translate="no">data-glaze-finish</code> for a preset, or set the numbers yourself. The <code translate="no">glass</code> utility gives your own floating surfaces the same treatment, and <code translate="no">wash</code> paints the ambient color on the element that holds the page background.</p>` +
+    `<h2>Choose a finish</h2><p>The finish is a second choice, independent of the palette: how much color and glass the surfaces carry. <strong>Matte</strong>, the default, keeps every surface solid. <strong>Satin</strong> turns what floats (menus, popovers, dialogs, toasts) into glass you can see through, adds a soft wash of the palette behind the page and a light sheen on the primary action. <strong>Gloss</strong> lets controls and panels show the page too, and gives primary actions a glow. Under reduced transparency, increased contrast or forced colors, every finish is solid, including numbers of your own.</p><p>A finish is four numbers. Set <code translate="no">data-glaze-finish</code> for a preset, or set the numbers yourself. One of them, <code translate="no">--translucency</code>, is a dial from 0 to 1 for how see-through the surfaces are, and works with any finish: matte with a little glass is <code translate="no">--translucency: 0.3</code>. The glass thins and blurs together as it rises, and past 0.6 controls and panels start to show the page. Try it with Translucency in the <a href="?#studio">theme studio</a>. The <code translate="no">glass</code> utility gives your own floating surfaces the same treatment, and <code translate="no">wash</code> paints the ambient color on the element that holds the page background.</p>` +
     codeBlock(finishAttribute, "app.css") +
     `<h2>Define your own theme</h2><p>Apply a theme attribute to the page or a containing element. Define both appearances with CSS <code translate="no">light-dark()</code>. A palette that sets only <code translate="no">--primary</code> works: the accent, the glow hues and the tint of the neutrals follow it until you set them. That holds for a rule on <code translate="no">data-glaze-theme</code>. A page with no theme attribute is Porcelain, so changing <code translate="no">--primary</code> on a bare <code translate="no">:root</code> keeps Porcelain's blue accent and glow: name your theme, or set those too.</p>` +
     codeBlock(plumTheme, "app.css") +
@@ -151,6 +150,8 @@ export function theming() {
       "--background, --foreground": "Page surface and body text.",
       "--card, --border, --input": "Solid surfaces, dividers, and input borders.",
       "--muted, --muted-foreground": "Secondary surfaces and supporting text.",
+      "--translucency":
+        "How see-through the surfaces are, from 0 to 1. Matte is 0, satin 0.6, gloss 1. The opacities and the blur below follow it.",
       "--surface, --surface-opacity":
         "What controls and panels are filled with: the card, as see-through as the finish says.",
       "--glass, --glass-opacity, --glass-blur":

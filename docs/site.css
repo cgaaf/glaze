@@ -53,9 +53,12 @@ body {
     outline-offset: 3px;
   }
 }
-button,
-select {
-  cursor: pointer;
+/* In the base layer, so the components' own cursors (disabled, unavailable, dragging) win. */
+@layer base {
+  button,
+  select {
+    cursor: pointer;
+  }
 }
 .skip {
   position: fixed;
@@ -943,7 +946,12 @@ pre {
   width: min(100%, 30rem);
 }
 .example-stage
-  .demo:has([data-glaze="progress-root"], [data-glaze="slider-root"], [data-glaze="meter-root"])
+  .demo:has(
+    [data-glaze="progress-root"],
+    [data-glaze="slider-root"],
+    [data-glaze="meter-root"],
+    [data-glaze="collapsible-root"]
+  )
   > * {
   width: min(100%, 18rem);
 }

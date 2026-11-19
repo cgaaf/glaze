@@ -18,6 +18,7 @@ const additions = {
   drawer: ["DrawerFooter"],
   popover: ["PopoverFooter"],
   input: ["Textarea"],
+  table: ["TableRoot"],
 };
 let count = 0;
 for (const file of families) {

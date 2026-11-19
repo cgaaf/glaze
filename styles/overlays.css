@@ -178,6 +178,10 @@
   }
   &::backdrop {
     opacity: calc(1 - var(--drawer-swipe-progress, 0));
+    transition-property: background-color, backdrop-filter, opacity, display, overlay;
+  }
+  &[data-swiping]::backdrop {
+    transition: none;
   }
 }
 :is([data-glaze="popover-popup"], [data-glaze="preview-card-popup"]) {
@@ -279,7 +283,9 @@
   height: var(--toast-frontmost-height, var(--toast-height));
   transition:
     transform 180ms ease,
-    opacity 160ms;
+    opacity 160ms,
+    height 150ms;
+  user-select: none;
   transform: translate(
       var(--toast-swipe-movement-x),
       calc(var(--toast-swipe-movement-y) - 0.45rem * var(--toast-index))
@@ -303,9 +309,76 @@
 [data-glaze="toast-content"] {
   @apply flex items-start justify-between gap-4 p-4;
 }
+[data-glaze="toast-content"] {
+  transition: opacity 250ms;
+}
 [data-glaze="toast-content"][data-behind]:not([data-expanded]) {
   opacity: 0;
 }
 [data-glaze="toast-description"]:not(:last-child) {
   @apply mb-0;
+}
+
+/* A toast rises in from below and leaves the same way, or onward in the direction it was swiped. */
+@starting-style {
+  [data-glaze="toast-root"],
+  [data-glaze="toast-root"][data-expanded] {
+    opacity: 0;
+    transform: translateY(150%);
+  }
+}
+[data-glaze="toast-root"][data-ending-style] {
+  transform: translateY(150%);
+  /* Keeps its place in the expanded stack, where it is while the pointer swipes it. */
+  &[data-swipe-direction="right"] {
+    transform: translate(
+      calc(var(--toast-swipe-movement-x) + 150%),
+      calc(var(--toast-swipe-movement-y) - var(--toast-offset-y) - 0.5rem * var(--toast-index))
+    );
+  }
+  &[data-swipe-direction="down"] {
+    transform: translate(var(--toast-swipe-movement-x), calc(var(--toast-swipe-movement-y) + 150%));
+  }
+}
+/* Covers the gap below each toast, so moving the pointer between expanded toasts keeps the stack open. */
+[data-glaze="toast-root"]::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: calc(0.5rem + 1px);
+}
+/* Moving between items, the new content comes in from the side the last one was on. */
+[data-glaze="navigation-menu-content"][popover]:popover-open {
+  &[data-activation-direction="left"] {
+    --enter-x: -1rem;
+    --enter-y: 0px;
+  }
+  &[data-activation-direction="right"] {
+    --enter-x: 1rem;
+    --enter-y: 0px;
+  }
+  &[data-activation-direction="up"] {
+    --enter-x: 0px;
+    --enter-y: -1rem;
+  }
+  &[data-activation-direction="down"] {
+    --enter-x: 0px;
+    --enter-y: 1rem;
+  }
+}
+[data-glaze="preview-card-trigger"][data-popup-open] {
+  @apply decoration-solid;
+}
+/* Closing waits for every animation inside the closing element, and an endless one never ends. */
+[data-ending-style]
+  :is(
+    [data-glaze="progress-indicator"],
+    [data-glaze="thinking-status-label"],
+    [data-glaze="voice-ring-loop"],
+    [data-glaze="voice-ring-halo"],
+    [data-glaze="voice-glow-light"]
+  ) {
+  animation: none;
 }

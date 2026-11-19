@@ -13,8 +13,8 @@ export component DialogRoot(props: Parameters<typeof BaseDialogRoot>[0]) {
   <BaseDialogRoot {...props}>{props.children}</BaseDialogRoot>
 }
 
-export component DialogTrigger({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseDialogTrigger>[0] & ButtonStyle) {
-  <BaseDialogTrigger {...rest} data-glaze="dialog-trigger" data-variant={variant} data-size={size}>{children}</BaseDialogTrigger>
+export component DialogTrigger({ variant = "outline", tone = "default", size = "default", children, ...rest }: Parameters<typeof BaseDialogTrigger>[0] & ButtonStyle) {
+  <BaseDialogTrigger {...rest} data-glaze="dialog-trigger" data-variant={variant} data-tone={tone} data-size={size}>{children}</BaseDialogTrigger>
 }
 
 export component DialogPopup(props: Parameters<typeof BaseDialogPopup>[0]) {
@@ -29,8 +29,8 @@ export component DialogDescription(props: Parameters<typeof BaseDialogDescriptio
   <BaseDialogDescription {...props} data-glaze="dialog-description">{props.children}</BaseDialogDescription>
 }
 
-export component DialogClose({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseDialogClose>[0] & ButtonStyle) {
-  <BaseDialogClose {...rest} data-glaze="dialog-close" data-variant={variant} data-size={size}>{children}</BaseDialogClose>
+export component DialogClose({ variant = "outline", tone = "default", size = "default", children, ...rest }: Parameters<typeof BaseDialogClose>[0] & ButtonStyle) {
+  <BaseDialogClose {...rest} data-glaze="dialog-close" data-variant={variant} data-tone={tone} data-size={size}>{children}</BaseDialogClose>
 }
 
 // A Glaze addition with no Bisque part: the row of actions that ends the popup. Put the primary action last.

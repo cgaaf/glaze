@@ -1,0 +1,138 @@
+import { createTable } from "../../src/bisque/internal/table.js"
+import { pagination } from "../../src/bisque/pagination/pagination.rx"
+import { TableRoot, TableColumnHeader, TableSortTrigger, TableRow, TableCell, TableSelectRow, TableSelectAll, TableGlobalFilter, TableColumnToggle, TablePagination } from "../../src/glaze/table.rx"
+import { PaginationItem, PaginationEllipsis, PaginationPrevious, PaginationNext } from "../../src/glaze/pagination.rx"
+import { SegmentedControlRoot, SegmentedControlItem } from "../../src/glaze/segmented-control.rx"
+import { Icon } from "../../src/glaze/icon.rx"
+
+// The page numbers, from the pagination context TablePagination provides.
+component Pages() {
+  c = use pagination
+  {for item in c.items {
+    {if item.type == "page" {
+      <PaginationItem value={item.value}>{item.value}</PaginationItem>
+    } else {
+      <PaginationEllipsis>…</PaginationEllipsis>
+    }}
+  }}
+}
+
+export default component Example() {
+  orders = [
+    { id: "K-1042", customer: "Larkspur Supply", status: "Shipped", placed: "2026-11-02", total: 482.5 },
+    { id: "K-1043", customer: "Quill & Co", status: "Glazing", placed: "2026-11-02", total: 96 },
+    { id: "K-1044", customer: "Northgate Café", status: "Delivered", placed: "2026-11-03", total: 1240 },
+    { id: "K-1045", customer: "Fennel Kitchen", status: "Cancelled", placed: "2026-11-03", total: 58.75 },
+    { id: "K-1046", customer: "Harbor Print", status: "Delivered", placed: "2026-11-04", total: 310.2 },
+    { id: "K-1047", customer: "Juniper Hotel", status: "Shipped", placed: "2026-11-05", total: 2150 },
+    { id: "K-1048", customer: "Larkspur Supply", status: "Glazing", placed: "2026-11-06", total: 74.9 },
+    { id: "K-1049", customer: "Tidewater Books", status: "Delivered", placed: "2026-11-06", total: 129 },
+    { id: "K-1050", customer: "Quill & Co", status: "Shipped", placed: "2026-11-08", total: 640 },
+    { id: "K-1051", customer: "Meadow Florist", status: "Delivered", placed: "2026-11-09", total: 890.4 },
+    { id: "K-1052", customer: "Northgate Café", status: "Glazing", placed: "2026-11-10", total: 415 },
+    { id: "K-1053", customer: "Orchard Foods", status: "Cancelled", placed: "2026-11-10", total: 220 },
+    { id: "K-1054", customer: "Harbor Print", status: "Shipped", placed: "2026-11-11", total: 67.3 },
+    { id: "K-1055", customer: "Juniper Hotel", status: "Delivered", placed: "2026-11-12", total: 1785 },
+    { id: "K-1056", customer: "Fennel Kitchen", status: "Glazing", placed: "2026-11-13", total: 142.6 },
+    { id: "K-1057", customer: "Tidewater Books", status: "Shipped", placed: "2026-11-14", total: 38 },
+    { id: "K-1058", customer: "Meadow Florist", status: "Glazing", placed: "2026-11-15", total: 905 },
+    { id: "K-1059", customer: "Orchard Foods", status: "Delivered", placed: "2026-11-16", total: 356.8 },
+    { id: "K-1060", customer: "Cobalt Bistro", status: "Shipped", placed: "2026-11-17", total: 1120 },
+    { id: "K-1061", customer: "Larkspur Supply", status: "Delivered", placed: "2026-11-17", total: 264.15 },
+  ]
+  // Column definitions hold values. A cell with markup of its own is a branch on the column's id, below.
+  columns = [
+    { id: "select", header: "", enableSorting: false, enableHiding: false, enableGlobalFilter: false },
+    { accessorKey: "id", header: "Order", enableHiding: false },
+    { accessorKey: "customer", header: "Customer" },
+    { accessorKey: "status", header: "Status" },
+    { accessorKey: "placed", header: "Placed", enableGlobalFilter: false },
+    { accessorKey: "total", header: "Total", enableGlobalFilter: false },
+  ]
+  table = createTable({
+    data: orders,
+    columns: columns,
+    getRowId: row => row.id,
+    initialState: { pagination: { pageIndex: 0, pageSize: 5 }, sorting: [{ id: "placed", desc: true }] },
+  })
+  // Ids, so a row keeps its element wherever sorting and paging put it.
+  ids = table.getRowModel().rows.map(row => row.id)
+  selected = table.getSelectedRowModel().rows.length
+  matching = table.getFilteredRowModel().rows.length
+  pageSize = table.store.state.pagination.pageSize
+  sizes = [5, 10, 20]
+
+  action setPageSize(value: string | null) {
+    let size = sizes.find(n => `${n}` == value)
+    if (size != undefined) { table.setPageSize(size) }
+  }
+
+  <div class="grid w-full max-w-3xl gap-3">
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+      <TableGlobalFilter table={table} placeholder="Search orders…" aria-label="Search orders" />
+      <fieldset class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+        <legend class="float-left me-4 text-muted-foreground">Columns</legend>
+        {for column in table.getAllLeafColumns().filter(column => column.getCanHide()) {
+          <label class="inline-flex items-center gap-2"><TableColumnToggle column={column} />{column.columnDef.header}</label>
+        }}
+      </fieldset>
+    </div>
+
+    <TableRoot aria-label="Orders">
+      <thead>
+        {for group in table.getHeaderGroups() {
+          <tr>
+            {for header in group.headers {
+              <TableColumnHeader header={header} class={header.column.id == "total" ? "text-end" : (header.column.id == "select" ? "w-10 pe-0" : "")}>
+                {if header.column.id == "select" {
+                  <TableSelectAll table={table} scope="page" aria-label="Select all orders on this page" />
+                } else {
+                  <TableSortTrigger column={header.column}>{header.column.columnDef.header}</TableSortTrigger>
+                }}
+              </TableColumnHeader>
+            }}
+          </tr>
+        }}
+      </thead>
+      <tbody>
+        {for id in ids {
+          row = table.getRow(id)
+          <TableRow row={row}>
+            {for cell in row.getVisibleCells() {
+              <TableCell cell={cell} class={cell.column.id == "total" ? "text-end" : (cell.column.id == "select" ? "w-10 pe-0" : "")}>
+                {if cell.column.id == "select" {
+                  <TableSelectRow row={row} aria-label={`Select order ${row.original.id}`} />
+                } else if cell.column.id == "status" {
+                  <span class={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${cell.getValue() == "Delivered" ? "bg-primary/10 text-primary" : (cell.getValue() == "Shipped" ? "bg-accent/15 text-accent" : (cell.getValue() == "Cancelled" ? "bg-destructive/10 text-destructive" : "bg-muted text-muted-foreground"))}`}>{cell.getValue()}</span>
+                } else if cell.column.id == "total" {
+                  {`$${cell.getValue().toFixed(2)}`}
+                } else if cell.column.id == "id" {
+                  <span class="font-medium">{cell.getValue()}</span>
+                } else {
+                  {cell.getValue()}
+                }}
+              </TableCell>
+            }}
+          </TableRow>
+        }}
+        {if ids.length == 0 {
+          <tr><td class="h-24 text-center text-muted-foreground" colspan={table.getVisibleLeafColumns().length}>No orders match the search.</td></tr>
+        }}
+      </tbody>
+    </TableRoot>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-3 text-sm">
+      <output class="me-auto text-muted-foreground">{selected > 0 ? `${selected} selected · ${matching} orders` : `${matching} orders`}</output>
+      <SegmentedControlRoot aria-label="Rows per page" value={`${pageSize}`} onValueChange={setPageSize}>
+        {for size in sizes {
+          <SegmentedControlItem value={`${size}`}>{size}</SegmentedControlItem>
+        }}
+      </SegmentedControlRoot>
+      <TablePagination table={table} aria-label="Pages of orders">
+        <PaginationPrevious aria-label="Previous page"><Icon name="chevron-left" /></PaginationPrevious>
+        <Pages />
+        <PaginationNext aria-label="Next page"><Icon name="chevron-right" /></PaginationNext>
+      </TablePagination>
+    </div>
+  </div>
+}

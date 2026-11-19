@@ -52,8 +52,9 @@
     "@solidjs/vite-plugin": "3.0.1",
     "@solidjs/web": "2.0.0",
     "@tailwindcss/vite": "4.3.5",
+    "@tanstack/table-core": "9.3.1",
     "@types/node": "26.6.6",
-    "bisque-ui": "github:cgaaf/bisque#0a4e220db886aefd8df12b9c98c710300dc8ee9b",
+    "bisque-ui": "link:../bisque",
     "lucide-static": "1.74.0",
     "oxfmt": "0.79.0",
     "oxlint": "1.94.0",
@@ -68,8 +69,14 @@
   "peerDependencies": {
     "@reactivescript/runtime": "^0.3.1",
     "@solidjs/web": "^2.0.0-rc.21",
+    "@tanstack/table-core": "^9.3.1",
     "solid-js": "^2.0.0-rc.21",
     "tailwindcss": "^4.3.5"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/table-core": {
+      "optional": true
+    }
   },
   "packageManager": "pnpm@12.18.0"
 }

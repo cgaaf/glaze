@@ -360,3 +360,18 @@
 [data-glaze="icon"][data-icon="square"] {
   --glaze-icon: url("./icons/square.svg");
 }
+[data-glaze="icon"][data-icon="trash-2"] {
+  --glaze-icon: url("./icons/trash-2.svg");
+}
+[data-glaze="icon"][data-icon="log-out"] {
+  --glaze-icon: url("./icons/log-out.svg");
+}
+[data-glaze="icon"][data-icon="pencil"] {
+  --glaze-icon: url("./icons/pencil.svg");
+}
+[data-glaze="icon"][data-icon="arrow-down"] {
+  --glaze-icon: url("./icons/arrow-down.svg");
+}
+[data-glaze="icon"][data-icon="pin"] {
+  --glaze-icon: url("./icons/pin.svg");
+}

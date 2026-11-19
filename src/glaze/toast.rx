@@ -34,8 +34,8 @@ export component ToastDescription(props: Parameters<typeof BaseToastDescription>
   <BaseToastDescription {...props} data-glaze="toast-description">{props.children}</BaseToastDescription>
 }
 
-export component ToastAction({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseToastAction>[0] & ButtonStyle) {
-  <BaseToastAction {...rest} data-glaze="toast-action" data-variant={variant} data-size={size}>{children}</BaseToastAction>
+export component ToastAction({ variant = "outline", tone = "default", size = "default", children, ...rest }: Parameters<typeof BaseToastAction>[0] & ButtonStyle) {
+  <BaseToastAction {...rest} data-glaze="toast-action" data-variant={variant} data-tone={tone} data-size={size}>{children}</BaseToastAction>
 }
 
 export component ToastClose(props: Parameters<typeof BaseToastClose>[0]) {

@@ -3,6 +3,8 @@ export type ThemeChoices = {
   mode: string;
   radius: number;
   finish: string;
+  translucency: number;
+  translucencyLabel: string;
   font: string;
   shadow: string;
   density: string;
@@ -26,6 +28,7 @@ export declare function readTheme(): ThemeChoices;
 export declare function createThemeChoices(): ThemeChoices;
 export declare function setTheme(key: ThemeKey, value: string): void;
 export declare function setRadius(value: number | number[]): void;
+export declare function setTranslucency(value: number | number[]): void;
 export declare function resetTokens(): void;
 export type PaletteOption = ThemeOption & { swatch: string };
 export declare function paletteOptions(): PaletteOption[];

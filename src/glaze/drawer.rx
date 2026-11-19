@@ -14,8 +14,8 @@ export component DrawerRoot(props: Parameters<typeof BaseDrawerRoot>[0]) {
   <BaseDrawerRoot {...props}>{props.children}</BaseDrawerRoot>
 }
 
-export component DrawerTrigger({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseDrawerTrigger>[0] & ButtonStyle) {
-  <BaseDrawerTrigger {...rest} data-glaze="drawer-trigger" data-variant={variant} data-size={size}>{children}</BaseDrawerTrigger>
+export component DrawerTrigger({ variant = "outline", tone = "default", size = "default", children, ...rest }: Parameters<typeof BaseDrawerTrigger>[0] & ButtonStyle) {
+  <BaseDrawerTrigger {...rest} data-glaze="drawer-trigger" data-variant={variant} data-tone={tone} data-size={size}>{children}</BaseDrawerTrigger>
 }
 
 export component DrawerPopup(props: Parameters<typeof BaseDrawerPopup>[0]) {
@@ -34,8 +34,8 @@ export component DrawerDescription(props: Parameters<typeof BaseDrawerDescriptio
   <BaseDrawerDescription {...props} data-glaze="drawer-description">{props.children}</BaseDrawerDescription>
 }
 
-export component DrawerClose({ variant = "outline", size = "default", children, ...rest }: Parameters<typeof BaseDrawerClose>[0] & ButtonStyle) {
-  <BaseDrawerClose {...rest} data-glaze="drawer-close" data-variant={variant} data-size={size}>{children}</BaseDrawerClose>
+export component DrawerClose({ variant = "outline", tone = "default", size = "default", children, ...rest }: Parameters<typeof BaseDrawerClose>[0] & ButtonStyle) {
+  <BaseDrawerClose {...rest} data-glaze="drawer-close" data-variant={variant} data-tone={tone} data-size={size}>{children}</BaseDrawerClose>
 }
 
 // A Glaze addition with no Bisque part: the row of actions that ends the popup. Put the primary action last.

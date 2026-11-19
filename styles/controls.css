@@ -56,7 +56,7 @@
 ) {
   @apply inline-flex min-h-9 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control border border-border bg-surface px-3 text-sm font-medium text-foreground transition-colors;
   cursor: pointer;
-  &:hover:not(:disabled, [data-disabled]) {
+  &:is(:hover, [data-popup-open]):not(:disabled, [data-disabled]) {
     @apply bg-muted;
   }
 }
@@ -79,7 +79,7 @@
   }
   &[data-variant="link"] {
     @apply text-primary underline-offset-4 hover:underline;
-    &:hover:not(:disabled, [data-disabled]) {
+    &:is(:hover, [data-popup-open]):not(:disabled, [data-disabled]) {
       @apply bg-transparent;
     }
   }
@@ -87,23 +87,82 @@
     @apply border-transparent bg-destructive;
     color: var(--destructive-foreground);
   }
-  &:is([data-variant="default"], [data-variant="destructive"]):hover:not(
+  &:is([data-variant="default"], [data-variant="destructive"]):is(:hover, [data-popup-open]):not(
       :disabled,
       [data-disabled]
     ) {
     background-color: color-mix(in oklab, var(--primary) 88%, var(--background));
   }
-  &[data-variant="destructive"]:hover:not(:disabled, [data-disabled]) {
+  &[data-variant="destructive"]:is(:hover, [data-popup-open]):not(:disabled, [data-disabled]) {
     background-color: color-mix(in oklab, var(--destructive) 90%, var(--foreground));
   }
+  /* A destructive tone keeps the variant's emphasis and swaps its color, so a quiet action can still warn. The
+     focus ring follows the tone. The filled form matches variant="destructive". */
+  &[data-tone="destructive"] {
+    --ring: var(--destructive);
+  }
+  &[data-tone="destructive"][data-variant="default"] {
+    @apply bg-destructive;
+    color: var(--destructive-foreground);
+    background-image: none;
+    box-shadow: none;
+    &:is(:hover, [data-popup-open]):not(:disabled, [data-disabled]) {
+      background-color: color-mix(in oklab, var(--destructive) 90%, var(--foreground));
+    }
+  }
+  &[data-tone="destructive"]:is(
+      [data-variant="secondary"],
+      [data-variant="outline"],
+      [data-variant="ghost"],
+      [data-variant="link"]
+    ) {
+    @apply text-destructive;
+  }
+  &[data-tone="destructive"][data-variant="secondary"] {
+    background-color: color-mix(in oklab, var(--destructive) 12%, var(--surface));
+    &:is(:hover, [data-popup-open]):not(:disabled, [data-disabled]) {
+      background-color: color-mix(in oklab, var(--destructive) 20%, var(--surface));
+    }
+  }
+  &[data-tone="destructive"][data-variant="outline"] {
+    border-color: color-mix(in oklab, var(--destructive) 45%, var(--border));
+  }
+  &[data-tone="destructive"][data-variant="outline"]:is(:hover, [data-popup-open]):not(
+      :disabled,
+      [data-disabled]
+    ) {
+    background-color: color-mix(in oklab, var(--destructive) 10%, var(--surface));
+  }
+  &[data-tone="destructive"][data-variant="ghost"]:is(:hover, [data-popup-open]):not(
+      :disabled,
+      [data-disabled]
+    ) {
+    background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+  }
+  /* Four heights, each with an icon-only square: xs 1.5rem, sm 1.75rem, default 2.25rem, lg 2.75rem. */
+  &[data-size="xs"] {
+    @apply min-h-6 gap-1 px-2 text-xs;
+  }
   &[data-size="sm"] {
-    @apply min-h-7 px-2.5 text-xs;
+    @apply min-h-7 gap-1.5 px-2.5 text-xs;
   }
   &[data-size="lg"] {
     @apply min-h-11 px-5;
   }
+  &:is([data-size="icon"], [data-size="icon-xs"], [data-size="icon-sm"], [data-size="icon-lg"]) {
+    @apply min-h-0 p-0;
+  }
   &[data-size="icon"] {
-    @apply size-9 p-0;
+    @apply size-9;
+  }
+  &[data-size="icon-xs"] {
+    @apply size-6 text-xs;
+  }
+  &[data-size="icon-sm"] {
+    @apply size-7;
+  }
+  &[data-size="icon-lg"] {
+    @apply size-11 text-base;
   }
 }
 :is(
@@ -114,7 +173,9 @@
   [data-glaze="select-trigger"],
   [data-glaze="autocomplete-input"],
   [data-glaze="combobox-input"],
-  [data-glaze="number-field-input"]
+  [data-glaze="number-field-input"],
+  [data-glaze="table-global-filter"],
+  [data-glaze="table-column-filter"]
 ) {
   @apply min-h-9 min-w-0 rounded-control border border-input bg-surface px-3 py-1.5 text-sm text-foreground;
   &::placeholder {
@@ -183,7 +244,9 @@
   [data-glaze="toolbar-input"],
   [data-glaze="autocomplete-input"],
   [data-glaze="combobox-input"],
-  [data-glaze="otp-field-input"]
+  [data-glaze="otp-field-input"],
+  [data-glaze="table-global-filter"],
+  [data-glaze="table-column-filter"]
 ):focus-visible,
 :is(
   [data-glaze="number-field-group"],
@@ -342,20 +405,52 @@
 [data-glaze="checkbox-indicator"] svg {
   @apply size-3;
 }
+/* The mark grows in and the fill fades, as in Bisque's demos. Every mark exists in both states so it can
+   animate: hidden ones are transparent and scaled down. */
+:is([data-glaze="checkbox-root"], [data-glaze="radio-root"]) {
+  transition:
+    background-color 120ms,
+    border-color 120ms;
+}
+:is([data-glaze="checkbox-indicator"], [data-glaze="radio-indicator"]) {
+  transition:
+    opacity 120ms,
+    scale 120ms,
+    visibility 120ms allow-discrete;
+}
 [data-glaze="checkbox-root"]:not(:checked, :indeterminate) + [data-glaze="checkbox-indicator"],
 [data-glaze="radio-root"]:not(:checked) + [data-glaze="radio-indicator"] {
   visibility: hidden;
+  opacity: 0;
+  scale: 0.6;
+}
+[data-glaze="checkbox-root"]:not(:has(+ [data-glaze="checkbox-indicator"]:not(:empty)))::before {
+  content: "";
+  @apply size-3 bg-primary-foreground;
+  mask: url("./icons/check.svg") center/contain no-repeat;
+  opacity: 0;
+  scale: 0.6;
+  transition:
+    opacity 120ms,
+    scale 120ms;
 }
 [data-glaze="checkbox-root"]:checked:not(
     :has(+ [data-glaze="checkbox-indicator"]:not(:empty))
   )::before {
-  content: "";
-  @apply size-3 bg-primary-foreground;
-  mask: url("./icons/check.svg") center/contain no-repeat;
+  opacity: 1;
+  scale: 1;
 }
 [data-glaze="checkbox-root"]:indeterminate::before {
   content: "";
   @apply h-0.5 w-2 bg-primary-foreground;
+}
+[data-glaze="checkbox-root"]:indeterminate:not(
+    :has(+ [data-glaze="checkbox-indicator"]:not(:empty))
+  )::before {
+  @apply h-0.5 w-2;
+  mask: none;
+  opacity: 1;
+  scale: 1;
 }
 [data-glaze="checkbox-root"]:indeterminate + [data-glaze="checkbox-indicator"] {
   visibility: hidden;
@@ -369,9 +464,14 @@ label:has(
 ) {
   @apply cursor-not-allowed text-muted-foreground;
 }
-[data-glaze="radio-root"]:checked::before {
+[data-glaze="radio-root"]::before {
   content: "";
   @apply size-1.5 rounded-full bg-primary-foreground;
+  scale: 0;
+  transition: scale 120ms;
+}
+[data-glaze="radio-root"]:checked::before {
+  scale: 1;
 }
 [data-glaze="number-field-group"] {
   @apply inline-flex w-fit items-center overflow-clip rounded-control border border-input bg-surface;
@@ -436,9 +536,18 @@ label:has(
 [data-glaze="file-upload-drop-zone"] {
   @apply grid place-items-center gap-2 rounded-panel border border-dashed border-input bg-surface px-5 py-7 text-sm;
 }
-[data-glaze="file-upload-drop-zone"][data-dragging],
-[data-glaze="file-upload-drop-zone"][data-dragging-over] {
+[data-glaze="file-upload-drop-zone"] {
+  transition:
+    border-color 120ms,
+    background-color 120ms;
+}
+[data-glaze="file-upload-drop-zone"][data-dragging] {
   @apply border-primary bg-muted;
+}
+/* A drag the zone will refuse: Bisque sets data-invalid only while it is over the zone. */
+[data-glaze="file-upload-drop-zone"][data-invalid] {
+  border-color: var(--destructive);
+  background-color: color-mix(in oklab, var(--destructive) 8%, var(--surface));
 }
 [data-glaze="file-upload-input"] {
   @apply sr-only;
@@ -456,6 +565,7 @@ label:has(
   }
   &::-webkit-progress-value {
     background: var(--primary);
+    transition: inline-size 200ms;
   }
   &::-moz-progress-bar {
     background: var(--primary);
@@ -514,4 +624,15 @@ label:has(
   [data-glaze="icon"] {
     forced-color-adjust: none;
   }
+}
+
+/* A highlighted tag (Backspace or ArrowLeft from the input) is the one the next Backspace removes. */
+[data-glaze="tags-input-tag"][data-highlighted] {
+  @apply bg-primary text-primary-foreground;
+}
+/* Controls whose invalid state sits on another element than the one with the border. */
+[data-glaze="select-trigger"]:is([aria-invalid="true"], [data-invalid]),
+[data-glaze="tags-input-control"]:has(input[aria-invalid="true"]),
+[data-glaze="field-root"][data-invalid] [data-glaze="file-upload-trigger"] {
+  border-color: var(--destructive);
 }

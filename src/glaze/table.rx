@@ -1,0 +1,102 @@
+import {
+  TableColumnHeader as BaseTableColumnHeader,
+  TableSortTrigger as BaseTableSortTrigger,
+  TableColumnResizer as BaseTableColumnResizer,
+  TableRow as BaseTableRow,
+  TableCell as BaseTableCell,
+  TableSelectRow as BaseTableSelectRow,
+  TableSelectAll as BaseTableSelectAll,
+  TableExpandTrigger as BaseTableExpandTrigger,
+  TableColumnFilter as BaseTableColumnFilter,
+  TableGlobalFilter as BaseTableGlobalFilter,
+  TableColumnToggle as BaseTableColumnToggle,
+  TablePagination as BaseTablePagination,
+} from "../bisque/table/table.rx"
+import { TableProps } from "../bisque/internal/types.rx"
+import { Icon } from "./icon.rx"
+
+// A data table. Bisque's Table has no root: the browser's `<table>` is the table, and `createTable` from
+// ../bisque/internal/table.js (TanStack Table's core) holds its state. Glaze adds the one part a styled table
+// needs, TableRoot, and styles the header, body and rows inside it by their elements, so you write plain
+// `<thead>`, `<tbody>` and `<tr>`.
+
+export type TableRootProps = {
+  // How columns get their widths. "auto": from their content, as a table does. "fixed": each column is the
+  // size the table holds for it, which is what resizing needs; the table is then as wide as its columns.
+  // Default: "auto".
+  layout?: "auto" | "fixed"
+} & TableProps
+
+// A Glaze addition with no Bisque part: the `<table>`, inside a frame that scrolls sideways when the table is
+// wider than its place. Attributes go to the `<table>`.
+export component TableRoot({ layout = "auto", children, ...rest }: TableRootProps) {
+  <div data-glaze="table-frame">
+    <table {...rest} data-glaze="table-root" data-layout={layout}>{children}</table>
+  </div>
+}
+
+export component TableColumnHeader(props: Parameters<typeof BaseTableColumnHeader>[0]) {
+  <BaseTableColumnHeader {...props} data-glaze="table-column-header">{props.children}</BaseTableColumnHeader>
+}
+
+// The arrow says how the column is sorted, and that it can be: it is drawn here, so a header needs only its text.
+export component TableSortTrigger(props: Parameters<typeof BaseTableSortTrigger>[0]) {
+  sorted = props.column.getIsSorted()
+  <BaseTableSortTrigger {...props} data-glaze="table-sort-trigger">
+    {props.children}
+    <Icon name={sorted == "asc" ? "arrow-up" : (sorted == "desc" ? "arrow-down" : "chevrons-up-down")} />
+  </BaseTableSortTrigger>
+}
+
+export component TableColumnResizer(props: Parameters<typeof BaseTableColumnResizer>[0]) {
+  <BaseTableColumnResizer {...props} data-glaze="table-column-resizer">{props.children}</BaseTableColumnResizer>
+}
+
+export component TableRow(props: Parameters<typeof BaseTableRow>[0]) {
+  <BaseTableRow {...props} data-glaze="table-row">{props.children}</BaseTableRow>
+}
+
+export component TableCell(props: Parameters<typeof BaseTableCell>[0]) {
+  <BaseTableCell {...props} data-glaze="table-cell">{props.children}</BaseTableCell>
+}
+
+// The three checkboxes are Glaze checkboxes: the same shell and box as CheckboxRoot.
+export component TableSelectRow(props: Parameters<typeof BaseTableSelectRow>[0]) {
+  <span data-glaze="checkbox-shell">
+    <BaseTableSelectRow {...props} data-glaze="checkbox-root">{props.children}</BaseTableSelectRow>
+  </span>
+}
+
+export component TableSelectAll(props: Parameters<typeof BaseTableSelectAll>[0]) {
+  <span data-glaze="checkbox-shell">
+    <BaseTableSelectAll {...props} data-glaze="checkbox-root">{props.children}</BaseTableSelectAll>
+  </span>
+}
+
+// The chevron turns when the row opens. A row with nothing under it keeps the chevron's space, so the labels
+// of a tree line up.
+export component TableExpandTrigger(props: Parameters<typeof BaseTableExpandTrigger>[0]) {
+  <BaseTableExpandTrigger {...props} data-glaze="table-expand-trigger">
+    <Icon name="chevron-right" />
+    {props.children}
+  </BaseTableExpandTrigger>
+}
+
+export component TableColumnFilter(props: Parameters<typeof BaseTableColumnFilter>[0]) {
+  <BaseTableColumnFilter {...props} data-glaze="table-column-filter">{props.children}</BaseTableColumnFilter>
+}
+
+export component TableGlobalFilter(props: Parameters<typeof BaseTableGlobalFilter>[0]) {
+  <BaseTableGlobalFilter {...props} data-glaze="table-global-filter">{props.children}</BaseTableGlobalFilter>
+}
+
+export component TableColumnToggle(props: Parameters<typeof BaseTableColumnToggle>[0]) {
+  <span data-glaze="checkbox-shell">
+    <BaseTableColumnToggle {...props} data-glaze="checkbox-root">{props.children}</BaseTableColumnToggle>
+  </span>
+}
+
+// A Glaze PaginationRoot whose page is the table's: put Pagination's parts inside it.
+export component TablePagination(props: Parameters<typeof BaseTablePagination>[0]) {
+  <BaseTablePagination {...props} data-glaze="pagination-root">{props.children}</BaseTablePagination>
+}

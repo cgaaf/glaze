@@ -25,6 +25,7 @@
  *
  *   Palette  `data-glaze-theme`   --primary, --accent and three glow hues.
  *   Finish   `data-glaze-finish`  how much color and glass the surfaces carry: matte, satin or gloss.
+ *                                 --translucency, from 0 to 1, adjusts the glass of any finish.
  *   Shape    on :root             --radius, --glaze-font, --glaze-shadow and Tailwind's --spacing.
  *
  * The neutrals (background, card, muted, border) and the glass are mixed from those, so a palette that sets
@@ -38,11 +39,10 @@
     --glaze-font: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
     --radius: 0.45rem;
     --glaze-shadow: 0 6px 24px -8px light-dark(#292e2930, #0009);
-    /* Matte, the default finish. */
+    /* Matte, the default finish. A finish is four numbers: how far the neutrals lean toward the palette, how
+       see-through the surfaces are, and the strength of the page's wash and of the primary action's sheen. */
     --tint-strength: 4;
-    --glass-opacity: 1;
-    --glass-blur: 0px;
-    --surface-opacity: 1;
+    --translucency: 0;
     --wash: 0;
     --sheen: 0;
     color-scheme: light dark;
@@ -50,27 +50,21 @@
   /* Glass only where something floats: popups, menus, toasts. A soft wash and a light sheen. */
   [data-glaze-finish="satin"] {
     --tint-strength: 8;
-    --glass-opacity: 0.64;
-    --glass-blur: 14px;
-    --surface-opacity: 1;
+    --translucency: 0.6;
     --wash: 0.6;
     --sheen: 0.1;
   }
   /* Controls and panels let the page through too, and primary actions glow. */
   [data-glaze-finish="gloss"] {
     --tint-strength: 12;
-    --glass-opacity: 0.4;
-    --glass-blur: 22px;
-    --surface-opacity: 0.5;
+    --translucency: 1;
     --wash: 1;
     --sheen: 0.18;
   }
   /* A section can go back to matte inside a page with another finish. */
   [data-glaze-finish="matte"] {
     --tint-strength: 4;
-    --glass-opacity: 1;
-    --glass-blur: 0px;
-    --surface-opacity: 1;
+    --translucency: 0;
     --wash: 0;
     --sheen: 0;
   }
@@ -195,6 +189,12 @@
       light-dark(#b5bbb6, #676e69)
     );
     --ring: var(--primary);
+    /* One dial, --translucency from 0 to 1, sets how see-through everything is, so the three numbers below
+       always agree: glass thins and blurs together, and controls start to let the page through past 0.6.
+       Set any of the three yourself for a mix the dial doesn't make. */
+    --glass-opacity: calc(1 - var(--translucency) * 0.6);
+    --glass-blur: calc(var(--translucency) * 22px);
+    --surface-opacity: calc(1 - clamp(0, var(--translucency) - 0.6, 0.4) * 1.25);
     /* What a control or a panel is filled with: the card, let through by the finish. */
     --surface: color-mix(in oklab, var(--card) calc(var(--surface-opacity) * 100%), transparent);
     /* What a floating layer is made of. The edge is a lit top rim that shows as the glass thins. */
@@ -217,7 +217,7 @@
   }
   /* Glass is a preference. Anyone who asks for less transparency or more contrast gets solid surfaces, in a
      preset finish or in numbers of your own: this sets what the finish is mixed into, not the numbers. */
-  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more), (forced-colors: active) {
+  @media (prefers-reduced-translucency: reduce), (prefers-contrast: more), (forced-colors: active) {
     :root,
     [data-glaze-theme],
     [data-glaze-finish] {
@@ -277,7 +277,7 @@
       transparent 70%
     );
   background-attachment: fixed;
-  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more), (forced-colors: active) {
+  @media (prefers-reduced-translucency: reduce), (prefers-contrast: more), (forced-colors: active) {
     background-image: none;
   }
 }

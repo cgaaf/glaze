@@ -5,7 +5,7 @@ import { ToggleGroup } from "../src/glaze/toggle-group.rx"
 import { Toggle } from "../src/glaze/toggle.rx"
 import { SegmentedControlRoot, SegmentedControlItem } from "../src/glaze/segmented-control.rx"
 import { SliderRoot, SliderControl, SliderTrack, SliderIndicator, SliderThumb } from "../src/glaze/slider.rx"
-import { createThemeChoices, setTheme, setRadius, resetTokens, paletteOptions, modeOptions, tokenOptions } from "./lib/theme-state.js"
+import { createThemeChoices, setTheme, setRadius, setTranslucency, resetTokens, paletteOptions, modeOptions, tokenOptions } from "./lib/theme-state.js"
 
 // The header's theme menu: the same choices as the overview's theme studio, saved the same way.
 export default component ThemeMenu() {
@@ -46,6 +46,20 @@ export default component ThemeMenu() {
         <SegmentedControlRoot aria-labelledby="theme-menu-finish" value={choices.finish} onValueChange={(next) => { setTheme("Finish", next) }}>
           {for entry in finishes { <SegmentedControlItem value={entry.value}>{entry.label}</SegmentedControlItem> }}
         </SegmentedControlRoot>
+      </section>
+      <section class="theme-menu-group">
+        <div class="theme-menu-row">
+          <span class="theme-menu-label" id="theme-menu-translucency">Translucency</span>
+          <output class="theme-menu-value">{choices.translucencyLabel}</output>
+        </div>
+        <SliderRoot value={choices.translucency} min={0} max={1} step={0.05} onValueChange={(next) => { setTranslucency(next) }}>
+          <SliderControl>
+            <SliderTrack>
+              <SliderIndicator />
+              <SliderThumb aria-labelledby="theme-menu-translucency" />
+            </SliderTrack>
+          </SliderControl>
+        </SliderRoot>
       </section>
       <section class="theme-menu-group">
         <span class="theme-menu-label" id="theme-menu-mode">Color mode</span>
